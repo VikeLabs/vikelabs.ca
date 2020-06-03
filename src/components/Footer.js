@@ -10,16 +10,24 @@ import vimeo from '../img/social/vimeo.svg'
 const Footer = class extends React.Component {
   render() {
     return (
-      <footer className="footer has-background-black has-text-white-ter">
+      <footer
+        // className="footer has-background-black has-text-white-ter" 
+        style={{ backgroundColor: "#FFF192" }}
+      >
         <div className="content has-text-centered">
           <img
             src={logo}
-            alt="Kaldi"
+            alt="VikeLabs"
             style={{ width: '14em', height: '10em' }}
           />
         </div>
-        <div className="content has-text-centered has-background-black has-text-white-ter">
-          <div className="container has-background-black has-text-white-ter">
+        <div
+          // className="content has-text-centered has-background-black has-text-white-ter"
+          style={{ backgroundColor: "#222B49" }}
+        >
+          <div
+            className="container has-text-white-ter"
+          >
             <div style={{ maxWidth: '100vw' }} className="columns">
               <div className="column is-4">
                 <section className="menu">
@@ -103,6 +111,11 @@ const Footer = class extends React.Component {
                     style={{ width: '1em', height: '1em' }}
                   />
                 </a>
+                <div>
+                  <br></br>
+                <p>VikeLabs is based at the University of Victora. We acknowledge with respect the Lekwungen peoples on whose traditional territory the University of Victoria stands, and the Songhees, Esquimalt and W̱SÁNEĆ peoples whose historical relationships with the land continue to this day.</p>
+                </div>
+                
               </div>
             </div>
           </div>

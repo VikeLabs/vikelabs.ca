@@ -1,70 +1,64 @@
 ---
 templateKey: index-page
-title: Great coffee with a conscience
+title: Build an app in 4 months.
 image: /img/home-jumbotron.jpg
-heading: Great coffee with a conscience
-subheading: Support sustainable farming while enjoying a cup
+heading: How does this work?
+subheading: VikeLabs is a team of UVic students who build apps to learn more about software development, product management, and design.
 mainpitch:
-  title: Why Kaldi
+  title: What is VikeLabs
   description: >
-    Kaldi is the coffee store for everyone who believes that great coffee
-    shouldn't just taste good, it should do good too. We source all of our beans
-    directly from small scale sustainable farmers and make sure part of the
-    profits are reinvested in their communities.
+    VikeLabs is a collective of students who learn to build, deploy, and test software quickly. We view UVic as a kind of laboratory for testing solutions to problems that exist within the UVic community. We limit ourselves to the UVic community because it's much easier to deploy and test solutions to users where we are in close proximity to them and their problems. This does not mean that the problem can't also exist in the broader world, in fact, we encourage you to look for problems that have a large overlap between the UVic population and the rest of the world.
 description: >-
-  Kaldi is the ultimate spot for coffee lovers who want to learn about their
-  java’s origin and support the farmers that grew it. We take coffee production,
-  roasting and brewing seriously and we’re glad to pass that knowledge to
-  anyone.
+   Each semester starts out with a call for ideas from our members. The VikeLabs executive team will then review new idea proposals to ensure they make sense to include under our umbrella. Each team member then has the opportunity to rank their preferred projects and state who they want to work with (so we don't break up people who joined together). The executive team, working with team leads, will then decide who goes on what team and why.
 intro:
   blurbs:
-    - image: /img/coffee.png
+    - image: /img/image06.png
       text: >
         We sell green and roasted coffee beans that are sourced directly from
         independent farmers and farm cooperatives. We’re proud to offer a
         variety of coffee beans grown with great care for the environment and
         local communities. Check our post or contact us directly for current
         availability.
-    - image: /img/coffee-gear.png
+    - image: /img/image04.png
       text: >
         We offer a small, but carefully curated selection of brewing gear and
         tools for every taste and experience level. No matter if you roast your
         own beans or just bought your first french press, you’ll find a gadget
         to fall in love with in our shop.
-    - image: /img/tutorials.png
-      text: >
-        Love a great cup of coffee, but never knew how to make one? Bought a
-        fancy new Chemex but have no clue how to use it? Don't worry, we’re here
-        to help. You can schedule a custom 1-on-1 consultation with our baristas
-        to learn anything you want to know about coffee roasting and brewing.
-        Email us or call the store for details.
-    - image: /img/meeting-space.png
-      text: >
-        We believe that good coffee has the power to bring people together.
-        That’s why we decided to turn a corner of our shop into a cozy meeting
-        space where you can hang out with fellow coffee lovers and learn about
-        coffee making techniques. All of the artwork on display there is for
-        sale. The full price you pay goes to the artist.
+    # - image: /img/image05.png
+    #   text: >
+    #     Love a great cup of coffee, but never knew how to make one? Bought a
+    #     fancy new Chemex but have no clue how to use it? Don't worry, we’re here
+    #     to help. You can schedule a custom 1-on-1 consultation with our baristas
+    #     to learn anything you want to know about coffee roasting and brewing.
+    #     Email us or call the store for details.
+    # - image: /img/meeting-space.png
+    #   text: >
+    #     We believe that good coffee has the power to bring people together.
+    #     That’s why we decided to turn a corner of our shop into a cozy meeting
+    #     space where you can hang out with fellow coffee lovers and learn about
+    #     coffee making techniques. All of the artwork on display there is for
+    #     sale. The full price you pay goes to the artist.
   heading: What we offer
   description: >
     Kaldi is the ultimate spot for coffee lovers who want to learn about their
     java’s origin and support the farmers that grew it. We take coffee
     production, roasting and brewing seriously and we’re glad to pass that
     knowledge to anyone. This is an edit via identity...
-main:
-  heading: Great coffee with no compromises
-  description: >
-    We hold our coffee to the highest standards from the shrub to the cup.
-    That’s why we’re meticulous and transparent about each step of the coffee’s
-    journey. We personally visit each farm to make sure the conditions are
-    optimal for the plants, farmers and the local environment.
-  image1:
-    alt: A close-up of a paper filter filled with ground coffee
-    image: /img/products-grid3.jpg
-  image2:
-    alt: A green cup of a coffee on a wooden table
-    image: /img/products-grid2.jpg
-  image3:
-    alt: Coffee beans
-    image: /img/products-grid1.jpg
+# main:
+#   heading: Great coffee with no compromises
+#   description: >
+#     We hold our coffee to the highest standards from the shrub to the cup.
+#     That’s why we’re meticulous and transparent about each step of the coffee’s
+#     journey. We personally visit each farm to make sure the conditions are
+#     optimal for the plants, farmers and the local environment.
+#   image1:
+#     alt: A close-up of a paper filter filled with ground coffee
+#     image: /img/products-grid3.jpg
+#   image2:
+#     alt: A green cup of a coffee on a wooden table
+#     image: /img/products-grid2.jpg
+#   image3:
+#     alt: Coffee beans
+#     image: /img/products-grid1.jpg
 ---
