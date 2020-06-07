@@ -12,26 +12,15 @@ description: >-
    Each semester starts out with a call for ideas from our members. The VikeLabs executive team will then review new idea proposals to ensure they make sense to include under our umbrella. Each team member then has the opportunity to rank their preferred projects and state who they want to work with (so we don't break up people who joined together). The executive team, working with team leads, will then decide who goes on what team and why.
 intro:
   blurbs:
-    - image: /img/image06.png
+    - image: /img/happy-bunch.png
       text: >
-        We sell green and roasted coffee beans that are sourced directly from
-        independent farmers and farm cooperatives. We’re proud to offer a
-        variety of coffee beans grown with great care for the environment and
-        local communities. Check our post or contact us directly for current
-        availability.
-    - image: /img/image04.png
+        Students work in teams to design, build and iterate on a software application that can be tested and validated by UVic students. Think of UVic as a laboratory for testing out products that people want to use (hence the name VikeLabs). 
+    - image: /img/happy-bunch2.png
       text: >
-        We offer a small, but carefully curated selection of brewing gear and
-        tools for every taste and experience level. No matter if you roast your
-        own beans or just bought your first french press, you’ll find a gadget
-        to fall in love with in our shop.
-    # - image: /img/image05.png
-    #   text: >
-    #     Love a great cup of coffee, but never knew how to make one? Bought a
-    #     fancy new Chemex but have no clue how to use it? Don't worry, we’re here
-    #     to help. You can schedule a custom 1-on-1 consultation with our baristas
-    #     to learn anything you want to know about coffee roasting and brewing.
-    #     Email us or call the store for details.
+        Universities are a phenomenal proving ground for many software products. Our close proximity to so many people with so many problems provides us with an opportunity to investigate and iterate on solutions quickly and inexpensively. Since we are students ourselves, we find it very natural to empathize with our target users. Once we've proved that we can effectively solve a problem for UVic students, teams are encouraged to think about how they can serve larger demographics.
+    - image: /img/image05.png
+      text: >
+        At the end of they day, if you want to build something, people are the only thing that matter: the people you're building for, and the people you're building with. Joining VikeLabs will give you access to a network of students and software industry professionals who are passionate about building things, so that if you decide to take the leap into building things that you want people to buy - whether at your own startup or an established company - you can tap into a group of people who you've worked with and can trust.
     # - image: /img/meeting-space.png
     #   text: >
     #     We believe that good coffee has the power to bring people together.
@@ -39,12 +28,12 @@ intro:
     #     space where you can hang out with fellow coffee lovers and learn about
     #     coffee making techniques. All of the artwork on display there is for
     #     sale. The full price you pay goes to the artist.
-  heading: What we offer
-  description: >
-    Kaldi is the ultimate spot for coffee lovers who want to learn about their
-    java’s origin and support the farmers that grew it. We take coffee
-    production, roasting and brewing seriously and we’re glad to pass that
-    knowledge to anyone. This is an edit via identity...
+  # heading: What we offer
+  # description: >
+  #   Kaldi is the ultimate spot for coffee lovers who want to learn about their
+  #   java’s origin and support the farmers that grew it. We take coffee
+  #   production, roasting and brewing seriously and we’re glad to pass that
+  #   knowledge to anyone. This is an edit via identity...
 # main:
 #   heading: Great coffee with no compromises
 #   description: >
