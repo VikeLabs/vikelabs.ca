@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import github from '../img/github-icon.svg'
+import { Github } from 'grommet-icons';
 import logo from '../img/logo.svg'
 
 const Navbar = class extends React.Component {
@@ -85,7 +85,7 @@ const Navbar = class extends React.Component {
                 rel="noopener noreferrer"
               >
                 <span className="icon">
-                  <img src={github} alt="Github" />
+                  <Github alt="Github" style={{fill: "black"}} />
                 </span>
               </a>
             </div>

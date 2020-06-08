@@ -2,10 +2,13 @@ import React from 'react'
 import { Link } from 'gatsby'
 
 import logo from '../img/logo.svg'
-import facebook from '../img/social/facebook.svg'
-import instagram from '../img/social/instagram.svg'
-import twitter from '../img/social/twitter.svg'
-import vimeo from '../img/social/vimeo.svg'
+import { LinkedinOption, Instagram, FacebookOption } from "grommet-icons";
+
+const iconStyle = {
+  fill: "black",
+  width: "1em",
+  height: "1em"
+}
 
 const Footer = class extends React.Component {
   render() {
@@ -59,17 +62,21 @@ const Footer = class extends React.Component {
               <div className="column is-4">
                 <div className="social">
                   <a title="facebook" href="https://www.facebook.com/Vikelabs">
-                    <img
-                      src={facebook}
+                    <FacebookOption
+                      style={iconStyle}
                       alt="Facebook"
-                      style={{ width: '1em', height: '1em' }}
                     />
                   </a>
                   <a title="instagram" href="https://instagram.com/vikelabs">
-                    <img
-                      src={instagram}
+                    <Instagram
+                      style={iconStyle}
                       alt="Instagram"
-                      style={{ width: '1em', height: '1em' }}
+                      />
+                  </a>
+                  <a title="linkedin" href="https://www.linkedin.com/company/vikelabs/">
+                    <LinkedinOption
+                      style={iconStyle}
+                      alt="Linkedin"
                     />
                   </a>
                 </div>
