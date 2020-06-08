@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: 'VikeLabs',
     description:
-      'This repo contains an example business website that is built with Gatsby, and Netlify CMS.It follows the JAMstack architecture by using Git as a single source of truth, and Netlify for continuous deployment, and CDN distribution.',
+      'VikeLabs is the only UVic club dedicated to giving Computer Science and Software Engineering students hands on experience in ideating, building, and launching web-based software products.',
   },
   plugins: [
     'gatsby-plugin-react-helmet',
