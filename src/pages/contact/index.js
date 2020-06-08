@@ -1,6 +1,7 @@
 import React from 'react'
 import { navigate } from 'gatsby-link'
 import Layout from '../../components/Layout'
+import { Slack } from 'grommet-icons';
 
 function encode(data) {
   return Object.keys(data)
@@ -40,9 +41,11 @@ export default class Index extends React.Component {
           <div className="container">
             <div className="content">
               <h1>Contact</h1>
+              <h2>UVic Students</h2>
               <p>
-                
+                If you have an active Netlink account, you can join our <a href="https://vikelabs.slack.com/signup">Slack!</a>
               </p>
+              <h2>Please contact us through our social media channels found in the footer below.</h2>
             </div>
           </div>
         </section>
