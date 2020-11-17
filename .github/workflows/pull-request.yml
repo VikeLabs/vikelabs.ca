@@ -25,12 +25,12 @@ jobs:
 
       # Lint Check
       - name: Run the lint check
-      - run: echo LINTER
+        run: echo LINTER
       
       # Format/Prettier Check
       - name: Run the formatting check
-      - run: npm run format
+        run: npm run format
 
       # Build Check
       - name: Run npm checks
-      - run: echo BUILDCHECK
+        run: echo BUILDCHECK
