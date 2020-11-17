@@ -67,6 +67,7 @@ module.exports = {
         ],
       },
     },
+    `gatsby-plugin-styled-components`,
     // TODO: properly setup
     // {
     //   resolve: 'gatsby-plugin-netlify-cms',
