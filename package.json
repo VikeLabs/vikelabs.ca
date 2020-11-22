@@ -43,11 +43,16 @@
     "start": "npm run develop",
     "build": "npm run clean && gatsby build",
     "develop": "npm run clean && gatsby develop",
-    "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"{gatsby-*.js,src/**/*.js}\"",
+    "format-write": "prettier --trailing-comma es5 --no-semi --single-quote --write \"{gatsby-*.js,src/**/*.js}\"",
+    "format-check": "prettier --trailing-comma es5 --no-semi --single-quote --check \"{gatsby-*.js,src/**/*.js}\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run format-check && npm run lint"
+    }
+  },
   "devDependencies": {
-    "husky": "^4.3.0",
     "prettier": "^2.0.5"
   }
 }

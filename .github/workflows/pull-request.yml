@@ -33,7 +33,7 @@ jobs:
       
       # Format/Prettier Check
       - name: Run the formatting check
-        run: npm run format
+        run: npm run format-check
 
       # Build Check
       - name: Run npm checks
