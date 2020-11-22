@@ -39,7 +39,3 @@ jobs:
       - name: Run npm checks
         run: echo BUILDCHECK
 
-      # Commit changes made by the lint and format check.
-      - name: Git Auto Commit - Format and Lint Changes
-        uses: stefanzweifel/git-auto-commit-action@v4.7.2
-
