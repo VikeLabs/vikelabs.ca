@@ -43,16 +43,11 @@
     "start": "npm run develop",
     "build": "npm run clean && gatsby build",
     "develop": "npm run clean && gatsby develop",
-    "format-write": "prettier --write \"{gatsby-*.js,src/**/*.js}\"",
-    "format-check": "prettier --check \"{gatsby-*.js,src/**/*.js}\"",
+    "format-write": "prettier --trailing-comma es5 --no-semi --single-quote --write \"{gatsby-*.js,src/**/*.js}\"",
+    "format-check": "prettier --trailing-comma es5 --no-semi --single-quote --check \"{gatsby-*.js,src/**/*.js}\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "prettier": {
-    "trailingComma": "es5",
-    "semi": false,
-    "singleQuote": true
-  },
   "devDependencies": {
-    "prettier": "^2.0.5"
+    "prettier": "^2.2.0"
   }
 }
