@@ -1,7 +1,35 @@
 {
-    "extends": ["airbnb", "prettier"],
-    "plugins": ["prettier"],
+    "env": {
+        "browser": true,
+        "es2020": true,
+        "node": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb",
+        "prettier",
+        "prettier/react"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "prettier"
+    ],
     "rules": {
-      "prettier/prettier": ["error"]
+        "prettier/prettier": [
+            "error",
+            {
+                "trailingComma": "es5",
+                "semi": false,
+                "singleQuote": true,
+                "endOfLine": "lf"
+            }
+        ]
     }
-  }
+}

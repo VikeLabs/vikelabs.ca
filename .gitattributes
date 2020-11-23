@@ -1,0 +1,2 @@
+# Ensures all line endings are lf (Windows will use "CRLF" which can mess up the linter).
+* text=auto eol=lf
