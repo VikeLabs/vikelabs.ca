@@ -3,7 +3,7 @@ name: Pull Request
 # Triggers on pull requests
 on:
   pull_request:
-    branches: [ $default-branch, 'ollewis-dest' ]
+    branches: [ $default-branch ]
 
 jobs:
   # PR Job
