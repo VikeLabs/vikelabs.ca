@@ -45,7 +45,8 @@
     "develop": "npm run clean && gatsby develop",
     "format-write": "prettier --write \"{gatsby-*.js,src/**/*.js}\"",
     "format-check": "prettier --check \"{gatsby-*.js,src/**/*.js}\"",
-    "lint": "eslint src",
+    "lint": "eslint --ext .js src gatsby-config.js gatsby-node.js",
+    "lint-fix": "eslint --fix --ext .js src gatsby-config.js gatsby-node.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "prettier": {
