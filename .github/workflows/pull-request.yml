@@ -26,12 +26,12 @@ jobs:
         run: npm install
 
       # Lint Check
-      - name: Run the lint check
-        run: npm run lint
+      #- name: Run the lint check
+      #  run: npm run lint
       
       # Format/Prettier Check
-      - name: Run the formatting check
-        run: npm run format-check
+      #- name: Run the formatting check
+      #  run: npm run format-check
 
       # Build Check
       - name: Run the build check
