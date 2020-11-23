@@ -49,11 +49,6 @@
     "lint-fix": "eslint --fix --ext .js src gatsby-config.js gatsby-node.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "prettier": {
-    "trailingComma": "es5",
-    "semi": false,
-    "singleQuote": true
-  },
   "devDependencies": {
     "eslint": "^7.14.0",
     "eslint-config-airbnb": "^18.2.1",
