@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import { Github } from 'grommet-icons';
+import { Github } from 'grommet-icons'
 import logo from '../img/logo.svg'
 
 const Navbar = class extends React.Component {
@@ -38,9 +38,9 @@ const Navbar = class extends React.Component {
         className="navbar is-transparent"
         role="navigation"
         aria-label="main-navigation"
-        style={{backgroundColor:"#FFF192"}}
+        style={{ backgroundColor: '#FFF192' }}
       >
-        <div className="container" >
+        <div className="container">
           <div className="navbar-brand">
             <Link to="/" className="navbar-item" title="Logo">
               <img src={logo} alt="VikeLabs" style={{ width: '230px' }} />
@@ -85,7 +85,7 @@ const Navbar = class extends React.Component {
                 rel="noopener noreferrer"
               >
                 <span className="icon">
-                  <Github alt="Github" style={{fill: "black"}} />
+                  <Github alt="Github" style={{ fill: 'black' }} />
                 </span>
               </a>
             </div>
