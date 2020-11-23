@@ -5,8 +5,8 @@ module.exports = {
       'VikeLabs is the only UVic club dedicated to giving Computer Science and Software Engineering students hands on experience in ideating, building, and launching web-based software products.',
   },
   plugins: [
+
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-sass',
     {
       // keep as first gatsby-source-filesystem plugin for gatsby image support
       resolve: 'gatsby-source-filesystem',
@@ -27,6 +27,14 @@ module.exports = {
       options: {
         path: `${__dirname}/src/img`,
         name: 'images',
+      },
+    },
+    {
+      resolve: `gatsby-plugin-typescript`,
+      options: {
+        isTSX: true, // defaults to false
+        jsxPragma: `React`, // defaults to "React"
+        allExtensions: true, // defaults to false
       },
     },
     'gatsby-plugin-sharp',
@@ -59,19 +67,14 @@ module.exports = {
         ],
       },
     },
-    {
-      resolve: 'gatsby-plugin-netlify-cms',
-      options: {
-        modulePath: `${__dirname}/src/cms/cms.js`,
-      },
-    },
-    {
-      resolve: 'gatsby-plugin-purgecss', // purges all unused/unreferenced css rules
-      options: {
-        develop: true, // Activates purging in npm run develop
-        purgeOnly: ['/all.sass'], // applies purging only on the bulma css file
-      },
-    }, // must be after other CSS plugins
-    'gatsby-plugin-netlify', // make sure to keep it last in the array
+    `gatsby-plugin-styled-components`,
+    // TODO: properly setup
+    // {
+    //   resolve: 'gatsby-plugin-netlify-cms',
+    //   options: {
+    //     modulePath: `${__dirname}/src/cms/cms.js`,
+    //   },
+    // },
+    // 'gatsby-plugin-netlify', // make sure to keep it last in the array
   ],
 }
