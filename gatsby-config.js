@@ -11,7 +11,18 @@ module.exports = {
     facebook: "vikelabs",
   },
   plugins: [
+    {
+      resolve: "gatsby-plugin-codegen",
+      options: {},
+    },
     "gatsby-plugin-react-helmet",
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/content/projects`,
+        name: `projects`,
+      },
+    },
     {
       // keep as first gatsby-source-filesystem plugin for gatsby image support
       resolve: "gatsby-source-filesystem",
