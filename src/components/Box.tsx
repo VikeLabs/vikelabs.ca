@@ -18,6 +18,8 @@ export const Box = styled.div<Props>`
   ${layout}
   ${flexbox}
   ${border}
+  box-sizing: border-box;
+  min-width: 0;
 `;
 
 export const Flex = styled(Box)`
