@@ -3,7 +3,7 @@ import { useStaticQuery, graphql } from "gatsby";
 import styled from "styled-components";
 import { GrFacebook, GrGithub, GrInstagram, GrLinkedin } from "react-icons/gr";
 import { FaDiscord } from "react-icons/fa";
-import { Box } from "./Box";
+import { Box, Flex } from "./Box";
 import { Text } from "./Text";
 import { Button } from "./Button";
 import { SubHeading } from "./Heading";
@@ -15,6 +15,24 @@ const IconContainer = styled.div`
 
 const ContactContainer = styled.footer``;
 
+const Wave = () => {
+  const [index, setIndex] = React.useState(0);
+  // TODO: shuffle/randomize order
+  const hands = ["👋", "👋🏻", "👋🏼", "👋🏽", "👋🏾", "👋🏿"];
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIndex((index + 1) % hands.length);
+    }, 2000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [index]);
+
+  return <span>{hands[index]}</span>;
+};
+
 export const Contact = () => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
@@ -25,6 +43,7 @@ export const Contact = () => {
           linkedin
           facebook
           instagram
+          discordInviteURL
         }
       }
     }
@@ -32,17 +51,20 @@ export const Contact = () => {
   return (
     <ContactContainer id="contact">
       <SubHeading>Contact Us</SubHeading>
-      <Box
-        display="flex"
+      <Flex
         flexDirection={{ sm: "column", md: "row" }}
         justifyContent="space-between"
       >
-        <Box>
+        <Box maxWidth="620px">
           <Text>
             Looking for your next great co-op? Have feedback about the website?
             Interested in sponsoring the club? Let us know!
           </Text>
-          <Box display="flex">
+          <Flex
+            flexDirection="row"
+            justifyContent={{ sm: "space-between", md: "flex-start" }}
+            my="4"
+          >
             <a
               href={`https://github.com/${data.site.siteMetadata.github || ""}`}
             >
@@ -80,13 +102,22 @@ export const Contact = () => {
                 <GrInstagram size="40px" />
               </IconContainer>
             </a>
-          </Box>
+          </Flex>
         </Box>
-        <Box display="flex" flexDirection="column">
-          <Button mb="3">Say hello!</Button>
-          <Button>Join Our Discord!</Button>
-        </Box>
-      </Box>
+        <Flex
+          flexDirection={{ sm: "row", md: "column" }}
+          justifyContent={{ sm: "space-between", md: "flex-start" }}
+        >
+          <a href={data.site.siteMetadata.discordInviteURL}>
+            <Button mb="3" minWidth="200">
+              Say hello! <Wave />
+            </Button>
+          </a>
+          <a href={data.site.siteMetadata.discordInviteURL || "#"}>
+            <Button minWidth="200px">Join Our Discord!</Button>
+          </a>
+        </Flex>
+      </Flex>
     </ContactContainer>
   );
 };
