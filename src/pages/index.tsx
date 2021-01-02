@@ -1,7 +1,7 @@
-import { Link } from "gatsby";
+import { Link, PageProps } from "gatsby";
 import React from "react";
 import styled from "styled-components";
-import { space, SpaceProps } from "styled-system";
+import { layout, LayoutProps, space, SpaceProps } from "styled-system";
 import { Box } from "../components/Box";
 import { Button } from "../components/Button";
 import { Contact } from "../components/Contact";
@@ -9,16 +9,22 @@ import { Heading, SubHeading } from "../components/Heading";
 import { Layout } from "../components/Layout";
 import { Text } from "../components/Text";
 
+const Image = styled.img<LayoutProps>`
+  ${layout}
+  border-radius: 10px;
+  margin: 10px;
+`;
+
 const Section = styled.section<SpaceProps>`
   ${space}
 `;
 
-const IndexPage = () => {
+const IndexPage = ({ data, location }: PageProps) => {
   return (
     <Layout>
       <Section mb="4">
         <Box display="flex" flexDirection={{ sm: "column", md: "row" }}>
-          <Box p="4">
+          <Box p="4" maxWidth="420px">
             <Heading>Design, Build & Do</Heading>
             <Text>
               VikeLabs is a team based club of UVic students who collaboratively
@@ -33,14 +39,20 @@ const IndexPage = () => {
             </Link>
           </Box>
           <Box>
-            <img width="670px" height="480px" />
+            <Image
+              width="100%"
+              height="auto"
+              maxWidth="670px"
+              maxHeight="480px"
+              src="https://picsum.photos/670/480"
+            />
           </Box>
         </Box>
       </Section>
       <Section mb="4">
         <Box display="flex" flexDirection="row-reverse" p="2">
           <Box>
-            <Box p="4">
+            <Box p="4" maxWidth="570px">
               <SubHeading>A little about VikeLabs</SubHeading>
               <Text>
                 VikeLabs is a collective of students who learn to build, deploy,
@@ -56,7 +68,13 @@ const IndexPage = () => {
             </Box>
           </Box>
           <Box>
-            <img width="480px" height="480px" />
+            <Image
+              width="100%"
+              height="auto"
+              maxWidth="480px"
+              maxHeight="480px"
+              src="https://picsum.photos/480/480"
+            />
           </Box>
         </Box>
       </Section>
@@ -76,14 +94,35 @@ const IndexPage = () => {
           </Box>
           <Box display="flex" justifyContent="space-between">
             {/* TODO: replace with actual images / non static sizes */}
-            <img width="370px" height="230px" />
-            <img width="370px" height="230px" />
-            <img width="370px" height="230px" />
+            <Image
+              width="100%"
+              height="auto"
+              maxWidth="370px"
+              maxHeight="230px"
+              src="https://picsum.photos/370/230?random=1"
+            />
+            <Image
+              width="100%"
+              height="auto"
+              maxWidth="370px"
+              maxHeight="230px"
+              src="https://picsum.photos/370/230?random=2"
+            />
+            <Image
+              width="100%"
+              height="auto"
+              maxWidth="370px"
+              maxHeight="230px"
+              src="https://picsum.photos/370/230?random=3"
+            />
           </Box>
         </Box>
       </Section>
-      <Contact />
+      <Section my="5">
+        <Contact />
+      </Section>
     </Layout>
   );
 };
+
 export default IndexPage;
