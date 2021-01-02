@@ -1,8 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import { ButtonStyleProps, space, SpaceProps } from "styled-system";
+import {
+  ButtonStyleProps,
+  layout,
+  LayoutProps,
+  space,
+  SpaceProps,
+} from "styled-system";
 
-export const Button = styled.button<ButtonStyleProps | SpaceProps>`
+export const Button = styled.button<
+  ButtonStyleProps | SpaceProps | LayoutProps
+>`
+  ${layout}
   ${space}
   background-color: black;
   font-family: ${(props) => props.theme.fontFamily};
