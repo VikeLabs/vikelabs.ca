@@ -3,6 +3,12 @@ module.exports = {
     title: "VikeLabs",
     description:
       "VikeLabs is the only UVic club dedicated to giving Computer Science and Software Engineering students hands on experience in ideating, building, and launching web-based software products.",
+    github: "VikeLabs",
+    linkedin: "vikelabs",
+    discord: "https://discord.com",
+    discordInviteURL: "",
+    instagram: "vikelabs",
+    facebook: "vikelabs",
   },
   plugins: [
     "gatsby-plugin-react-helmet",
