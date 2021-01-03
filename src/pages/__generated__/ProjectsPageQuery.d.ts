@@ -7,12 +7,17 @@
 // GraphQL query operation: ProjectsPageQuery
 // ====================================================
 
+export interface ProjectsPageQuery_allMarkdownRemark_nodes_fields {
+  slug: string | null;
+}
+
 export interface ProjectsPageQuery_allMarkdownRemark_nodes_frontmatter {
   title: string | null;
   description: string | null;
 }
 
 export interface ProjectsPageQuery_allMarkdownRemark_nodes {
+  fields: ProjectsPageQuery_allMarkdownRemark_nodes_fields | null;
   frontmatter: ProjectsPageQuery_allMarkdownRemark_nodes_frontmatter | null;
 }
 

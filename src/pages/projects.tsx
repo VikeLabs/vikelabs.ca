@@ -4,7 +4,7 @@ import { Text } from "../components/Text";
 import { Layout } from "../components/Layout";
 import { Box } from "../components/Box";
 import { Contact } from "../components/Contact";
-import { graphql, PageProps } from "gatsby";
+import { graphql, Link, PageProps } from "gatsby";
 import { ProjectsPageQuery } from "./__generated__/ProjectsPageQuery";
 import { Metadata } from "../components/Metadata";
 
@@ -13,9 +13,9 @@ export const pageQuery = graphql`
     allMarkdownRemark {
       nodes {
         # excerpt
-        # fields {
-        #   slug
-        # }
+        fields {
+          slug
+        }
         frontmatter {
           # date(formatString: "MMMM DD, YYYY")
           title
@@ -38,7 +38,9 @@ const ProjectsPage = ({ data }: ProjectsPageProps) => {
       />
       {projects.map((p) => (
         <section>
-          <Heading>{p.frontmatter?.title || ""}</Heading>
+          <Link to={`/projects${p.fields.slug}`}>
+            <Heading>{p.frontmatter?.title || ""}</Heading>
+          </Link>
           <Text>{p.frontmatter?.description || ""}</Text>
         </section>
       ))}
