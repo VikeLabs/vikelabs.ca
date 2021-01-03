@@ -38,7 +38,7 @@ const ProjectsPage = ({ data }: ProjectsPageProps) => {
       />
       {projects.map((p) => (
         <section>
-          <Link to={`/projects${p.fields.slug}`}>
+          <Link to={`/projects${p.fields?.slug || ""}`}>
             <Heading>{p.frontmatter?.title || ""}</Heading>
           </Link>
           <Text>{p.frontmatter?.description || ""}</Text>
