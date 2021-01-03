@@ -10,7 +10,7 @@ import { Metadata } from "../components/Metadata";
 
 export const pageQuery = graphql`
   query ProjectsPageQuery {
-    allMarkdownRemark {
+    allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/projects/" } }) {
       nodes {
         # excerpt
         fields {

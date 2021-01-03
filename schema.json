@@ -3700,6 +3700,16 @@
               "defaultValue": null
             },
             {
+              "name": "name",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringQueryOperatorInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
               "name": "description",
               "description": "",
               "type": {
@@ -8131,6 +8141,18 @@
               "deprecationReason": null
             },
             {
+              "name": "name",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "description",
               "description": null,
               "args": [],
@@ -10079,6 +10101,12 @@
             },
             {
               "name": "childMarkdownRemark___frontmatter___title",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "childMarkdownRemark___frontmatter___name",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -20648,6 +20676,12 @@
             },
             {
               "name": "frontmatter___title",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "frontmatter___name",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
