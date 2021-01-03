@@ -7,6 +7,7 @@ import { Button } from "../components/Button";
 import { Contact } from "../components/Contact";
 import { Heading, SubHeading } from "../components/Heading";
 import { Layout } from "../components/Layout";
+import { Metadata } from "../components/Metadata";
 import { Text } from "../components/Text";
 
 const Image = styled.img<LayoutProps>`
@@ -22,6 +23,7 @@ const Section = styled.section<SpaceProps>`
 const IndexPage = ({ data, location }: PageProps) => {
   return (
     <Layout>
+      <Metadata title="Home" description="Home" />
       <Section mb="4">
         <Box display="flex" flexDirection={{ sm: "column", md: "row" }}>
           <Box p="4" maxWidth="420px">

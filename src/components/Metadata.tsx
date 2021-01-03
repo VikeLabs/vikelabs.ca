@@ -1,21 +1,25 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { useStaticQuery, graphql } from "gatsby";
+import { GetMetadata } from "./__generated__/GetMetadata";
 
 type MetadataProps = {
   description?: string;
   lang?: string;
-  meta: object[];
+  meta?: React.DetailedHTMLProps<
+    React.MetaHTMLAttributes<HTMLMetaElement>,
+    HTMLMetaElement
+  >[];
   title: string;
 };
 
 export const Metadata = ({
-  description = "",
+  description,
   lang = "en",
   meta = [],
   title,
 }: MetadataProps) => {
-  const { site } = useStaticQuery(
+  const { site } = useStaticQuery<GetMetadata>(
     graphql`
       query GetMetadata {
         site {
@@ -28,8 +32,8 @@ export const Metadata = ({
     `
   );
 
-  const metaDescription = description || site.siteMetadata.description;
-  const defaultTitle: string = site.siteMetadata?.title;
+  const metaDescription = description || site?.siteMetadata?.description || "";
+  const defaultTitle = site?.siteMetadata?.title || "";
 
   return (
     <Helmet
@@ -37,41 +41,18 @@ export const Metadata = ({
         lang,
       }}
       title={title}
-      // titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
+      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : defaultTitle}
       meta={[
-        {
-          name: `description`,
-          content: metaDescription,
-        },
-        {
-          property: `og:title`,
-          content: title,
-        },
-        {
-          property: `og:description`,
-          content: metaDescription,
-        },
-        {
-          property: `og:type`,
-          content: `website`,
-        },
-        {
-          name: `twitter:card`,
-          content: `summary`,
-        },
-        {
-          name: `twitter:creator`,
-          content: site.siteMetadata?.social?.twitter || ``,
-        },
-        {
-          name: `twitter:title`,
-          content: title,
-        },
-        {
-          name: `twitter:description`,
-          content: metaDescription,
-        },
-      ].concat(meta)}
+        ...meta,
+        <meta name="description" content={metaDescription} />,
+        <meta property="og:title" content={title} />,
+        <meta property="og:description" content={metaDescription} />,
+        <meta property="og:type" content="website" />,
+        <meta name="twitter:card" content="summary" />,
+        <meta name="twitter:creator" content="" />,
+        <meta name="twitter:title" content={title} />,
+        <meta name="twitter:description" content={metaDescription} />,
+      ]}
     />
   );
 };

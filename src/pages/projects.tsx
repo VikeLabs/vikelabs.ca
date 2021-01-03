@@ -6,6 +6,7 @@ import { Box } from "../components/Box";
 import { Contact } from "../components/Contact";
 import { graphql, PageProps } from "gatsby";
 import { ProjectsPageQuery } from "./__generated__/ProjectsPageQuery";
+import { Metadata } from "../components/Metadata";
 
 export const pageQuery = graphql`
   query ProjectsPageQuery {
@@ -31,6 +32,10 @@ const ProjectsPage = ({ data }: ProjectsPageProps) => {
   const projects = data.allMarkdownRemark.nodes;
   return (
     <Layout>
+      <Metadata
+        title="Projects"
+        description="Projects VikeLabs is currently working on or have worked on in the past."
+      />
       {projects.map((p) => (
         <section>
           <Heading>{p.frontmatter?.title || ""}</Heading>
