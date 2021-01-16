@@ -1,7 +1,44 @@
+import React from "react";
+import { PageProps } from "gatsby";
+import styled, { ThemeProvider } from "styled-components";
+import { theme } from "../theme";
+import { Box } from "./Box";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
 
-import React from "react"
-import styled from 'styled-components'
-
-export const Layout = styled.div`
-    padding: 8px;
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
 `;
+
+const Main = styled.main`
+  margin: 0;
+  padding: 0;
+  max-width: 1440px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+const InnerMain = styled(Box)`
+  max-width: 1100px;
+  padding: 20px;
+`;
+
+type LayoutProps = {
+  children?: React.ReactNode;
+  location?: Extract<PageProps, "location">;
+};
+
+export const Layout = ({ children, location }: LayoutProps) => (
+  <ThemeProvider theme={theme}>
+    <Container>
+      <Main>
+        <Header />
+        <p>{location || ""}</p>
+        <InnerMain>{children}</InnerMain>
+        <Footer />
+      </Main>
+    </Container>
+  </ThemeProvider>
+);
