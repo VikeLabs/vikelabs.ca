@@ -19,13 +19,13 @@ module.exports = {
         name: "uploads",
       },
     },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/content/people`,
-        name: `people`,
-      },
-    },
+    // {
+    //   resolve: `gatsby-source-filesystem`,
+    //   options: {
+    //     path: `${__dirname}/content/people`,
+    //     name: `people`,
+    //   },
+    // },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
