@@ -6,7 +6,7 @@ module.exports = {
     github: "VikeLabs",
     linkedin: "vikelabs",
     discord: "https://discord.com",
-    discordInviteURL: "",
+    discordInviteURL: "https://discord.gg/AWcEfYKjff",
     instagram: "vikelabs",
     facebook: "vikelabs",
   },
