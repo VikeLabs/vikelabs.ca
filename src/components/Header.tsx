@@ -35,7 +35,7 @@ const NavLink = styled(Link)`
 `;
 
 export const Header = () => {
-  const pathname = typeof window !== undefined ? window.location.pathname : "";
+  // const pathname = typeof window !== undefined ? window.location.pathname : "";
 
   return (
     <HeaderContainer px="40px" py="20px">
