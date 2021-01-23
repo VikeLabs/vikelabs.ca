@@ -21,7 +21,6 @@ const FooterContainer = styled.footer<SpaceProps | LayoutProps | FlexboxProps>`
   ${layout}
   display: flex;
   padding: 0;
-  margin: 35px 0 35px 0;
 `;
 
 const StyledTitle = styled.span<TypographyProps>`
@@ -29,6 +28,16 @@ const StyledTitle = styled.span<TypographyProps>`
   font-size: 2em;
   font-weight: 300;
   ${typography}
+
+  a {
+    color: black;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: grey;
+    text-decoration: underline;
+  }
 `;
 
 const CopyrightText = styled.span`
@@ -46,7 +55,7 @@ const LogoWrapper = styled(Box)`
 
 export const Footer = () => {
   return (
-    <FooterContainer my="6" flexDirection={{ sm: "column", md: "row" }}>
+    <FooterContainer my="35px" flexDirection={{ sm: "column", md: "row" }}>
       {/* TODO: logo / title */}
       <LogoWrapper>
         <VikeLabs />
