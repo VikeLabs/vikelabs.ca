@@ -14,7 +14,7 @@ const Container = styled.div`
 const Main = styled.main`
   margin: 0;
   padding: 0;
-  max-width: 1440px;
+  max-width: 1080px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -22,7 +22,7 @@ const Main = styled.main`
 `;
 
 const InnerMain = styled(Box)`
-  max-width: 1100px;
+  max-width: 1060px;
   width: 100%;
   padding: 20px;
 `;
@@ -37,7 +37,7 @@ export const Layout = ({ children, location }: LayoutProps) => (
     <Container>
       <Main>
         <Header />
-        <p>{location || ""}</p>
+
         <InnerMain>{children}</InnerMain>
         <Footer />
       </Main>

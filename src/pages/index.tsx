@@ -25,8 +25,13 @@ const IndexPage = ({ data, location }: PageProps) => {
     <Layout>
       <Metadata title="Home" description="Home" />
       <Section mb="4">
-        <Box display="flex" flexDirection={{ sm: "column", md: "row" }}>
-          <Box py="4" maxWidth="420px">
+        <Box
+          display="flex"
+          flexDirection={{ sm: "column", md: "row" }}
+          alignItems="center"
+          // justifyItems="center"
+        >
+          <Box minWidth="420px">
             <Heading>Design, Build & Do</Heading>
             <Text>
               VikeLabs is a team based club of UVic students who collaboratively
@@ -40,7 +45,7 @@ const IndexPage = ({ data, location }: PageProps) => {
               <Button>Projects</Button>
             </Link>
           </Box>
-          <Box>
+          {/* <Box>
             <Image
               width="100%"
               height="auto"
@@ -48,13 +53,17 @@ const IndexPage = ({ data, location }: PageProps) => {
               maxHeight="480px"
               src="https://picsum.photos/670/480"
             />
-          </Box>
+          </Box> */}
         </Box>
       </Section>
       <Section mb="4">
-        <Box display="flex" flexDirection={{ sm: "column", md: "row-reverse" }}>
+        <Box
+          display="flex"
+          flexDirection={{ sm: "column", md: "row-reverse" }}
+          alignItems="center"
+        >
           <Box>
-            <Box py="4" maxWidth="570px">
+            <Box py="4" minWidth="570px">
               <SubHeading>A little about VikeLabs</SubHeading>
               <Text>
                 VikeLabs is a collective of students who learn to build, deploy,
@@ -69,7 +78,7 @@ const IndexPage = ({ data, location }: PageProps) => {
               </Text>
             </Box>
           </Box>
-          <Box>
+          {/* <Box>
             <Image
               width="100%"
               height="auto"
@@ -77,7 +86,7 @@ const IndexPage = ({ data, location }: PageProps) => {
               maxHeight="480px"
               src="https://picsum.photos/480/480"
             />
-          </Box>
+          </Box> */}
         </Box>
       </Section>
       <Section mb="4">
@@ -94,8 +103,8 @@ const IndexPage = ({ data, location }: PageProps) => {
               will then decide who goes on what team and why.
             </Text>
           </Box>
-          <Box display="flex" justifyContent="space-between">
-            {/* TODO: replace with actual images / non static sizes */}
+          {/* <Box display="flex" justifyContent="space-between">
+            TODO: replace with actual images / non static sizes
             <Image
               width="100%"
               height="auto"
@@ -117,7 +126,7 @@ const IndexPage = ({ data, location }: PageProps) => {
               maxHeight="230px"
               src="https://picsum.photos/370/230?random=3"
             />
-          </Box>
+          </Box> */}
         </Box>
       </Section>
       <Section my="5">

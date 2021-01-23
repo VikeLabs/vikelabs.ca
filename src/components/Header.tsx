@@ -38,7 +38,7 @@ export const Header = () => {
   const pathname = typeof window !== undefined ? window.location.pathname : "";
 
   return (
-    <HeaderContainer py="20px">
+    <HeaderContainer px="40px" py="20px">
       <Box>
         {/* <VikeLabsLogo color="green" /> */}
         <VikeLabs />
