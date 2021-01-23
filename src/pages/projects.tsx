@@ -38,12 +38,14 @@ const ProjectsPage = ({ data }: ProjectsPageProps) => {
       />
       {projects.map((p) => (
         <section>
-          <Link to={`/projects${p.fields?.slug || ""}`}>
-            <Heading>{p.frontmatter?.title || ""}</Heading>
-          </Link>
+          {/* TODO: enable links when pages are built */}
+          {/* <Link to={`/projects${p.fields?.slug || ""}`}> */}
+          <Heading>{p.frontmatter?.title || ""}</Heading>
+          {/* </Link> */}
           <Text>{p.frontmatter?.description || ""}</Text>
         </section>
       ))}
+      {/* TODO: add a separation line. */}
       <section>
         <Contact />
       </section>
