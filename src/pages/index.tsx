@@ -26,7 +26,7 @@ const IndexPage = ({ data, location }: PageProps) => {
       <Metadata title="Home" description="Home" />
       <Section mb="4">
         <Box display="flex" flexDirection={{ sm: "column", md: "row" }}>
-          <Box p="4" maxWidth="420px">
+          <Box py="4" maxWidth="420px">
             <Heading>Design, Build & Do</Heading>
             <Text>
               VikeLabs is a team based club of UVic students who collaboratively
@@ -52,9 +52,9 @@ const IndexPage = ({ data, location }: PageProps) => {
         </Box>
       </Section>
       <Section mb="4">
-        <Box display="flex" flexDirection="row-reverse" p="2">
+        <Box display="flex" flexDirection={{ sm: "column", md: "row-reverse" }}>
           <Box>
-            <Box p="4" maxWidth="570px">
+            <Box py="4" maxWidth="570px">
               <SubHeading>A little about VikeLabs</SubHeading>
               <Text>
                 VikeLabs is a collective of students who learn to build, deploy,

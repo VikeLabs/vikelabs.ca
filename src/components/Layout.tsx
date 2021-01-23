@@ -16,12 +16,14 @@ const Main = styled.main`
   padding: 0;
   max-width: 1440px;
   display: flex;
-  justify-content: center;
+  align-items: center;
   flex-direction: column;
+  width: 100%;
 `;
 
 const InnerMain = styled(Box)`
   max-width: 1100px;
+  width: 100%;
   padding: 20px;
 `;
 
