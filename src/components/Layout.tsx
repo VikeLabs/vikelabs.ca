@@ -24,7 +24,6 @@ const Main = styled.main`
 const InnerMain = styled(Box)`
   max-width: 1060px;
   width: 100%;
-  padding: 20px;
 `;
 
 type LayoutProps = {
