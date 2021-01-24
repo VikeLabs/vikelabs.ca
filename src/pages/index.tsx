@@ -32,7 +32,9 @@ const IndexPage = ({ data, location }: PageProps) => {
           // justifyItems="center"
         >
           <Box minWidth="420px">
-            <Heading>Design, Build & Do</Heading>
+            <Heading fontSize={{ sm: "2.5em", md: "3em", lg: "4em" }}>
+              Design, Build & Do
+            </Heading>
             <Text>
               VikeLabs is a team based club of UVic students who collaboratively
               build apps to learn more about software development, efficient
@@ -64,7 +66,9 @@ const IndexPage = ({ data, location }: PageProps) => {
         >
           <Box>
             <Box py="4" minWidth="570px">
-              <SubHeading>A little about VikeLabs</SubHeading>
+              <SubHeading fontSize={{ sm: "2em", md: "2.5em", lg: "3em" }}>
+                A little about VikeLabs
+              </SubHeading>
               <Text>
                 VikeLabs is a collective of students who learn to build, deploy,
                 and test software quickly. We view UVic as a kind of laboratory
@@ -91,7 +95,13 @@ const IndexPage = ({ data, location }: PageProps) => {
       </Section>
       <Section mb="4">
         <Box display="flex" justifyContent="center" flexDirection="column">
-          <SubHeading textAlign="center">How does this work?</SubHeading>
+          <SubHeading
+            textAlign="center"
+            fontSize={{ sm: "2em", md: "2.5em", lg: "3em" }}
+          >
+            How does this work?
+          </SubHeading>
+
           <Box>
             <Text textAlign="center">
               Each semester starts out with a call for ideas from our members.
