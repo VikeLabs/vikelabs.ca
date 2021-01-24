@@ -108,11 +108,11 @@ export const Contact = () => {
           flexDirection={{ sm: "row", md: "column" }}
           justifyContent={{ sm: "space-between", md: "flex-start" }}
         >
-          <a href={data.site.siteMetadata.discordInviteURL}>
+          {/* <a href={data.site.siteMetadata.discordInviteURL}>
             <Button mb="3" minWidth="200">
               Say hello! <Wave />
             </Button>
-          </a>
+          </a> */}
           <a href={data.site.siteMetadata.discordInviteURL || "#"}>
             <Button minWidth="200px">Join Our Discord!</Button>
           </a>
