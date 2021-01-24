@@ -1,5 +1,6 @@
 import React from "react";
 import { graphql, useStaticQuery } from "gatsby";
+
 import styled from "styled-components";
 import { Box } from "./Box";
 import { Text } from "./Text";
@@ -57,14 +58,14 @@ export const Footer = () => {
   return (
     <FooterContainer my="35px" flexDirection={{ sm: "column", md: "row" }}>
       {/* TODO: logo / title */}
-      <LogoWrapper>
+      {/* <LogoWrapper>
         <VikeLabs />
-      </LogoWrapper>
+      </LogoWrapper> */}
       {/* TODO: thin styling */}
       {/* TODO: make uvic into a hyperlink */}
-      <Box px="4" borderRight={{ md: "2px gray solid" }}>
+      <Box borderRight={{ md: "1px gray solid" }}>
         <Box maxWidth="620px">
-          <StyledTitle fontSize={{ sm: "1.5em", md: "1.5em", lg: "2em" }}>
+          <StyledTitle fontSize={{ sm: "1.5em", md: "1.5em", lg: "1.75em" }}>
             VikeLabs is based at the{" "}
             <a href="https://uvic.ca">University of Victoria.</a>
           </StyledTitle>
@@ -76,7 +77,7 @@ export const Footer = () => {
           </Text>
         </Box>
       </Box>
-      <Box p="4">
+      <Box p={{ sm: 0, md: "10px", lg: "10px" }}>
         {/* TODO: sitemap */}
         {/* TODO: copyright */}
         <CopyrightText>© {new Date().getFullYear()} VikeLabs</CopyrightText>
