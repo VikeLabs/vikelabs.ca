@@ -21,6 +21,7 @@ export const pageQuery = graphql`
           title
           description
         }
+        html
       }
     }
   }
@@ -40,7 +41,10 @@ const ProjectsPage = ({ data }: ProjectsPageProps) => {
         <section>
           {/* TODO: enable links when pages are built */}
           {/* <Link to={`/projects${p.fields?.slug || ""}`}> */}
-          <Heading>{p.frontmatter?.title || ""}</Heading>
+          <Heading fontSize={{ sm: "2em", md: "2.5em", lg: "3em" }}>
+            {p.frontmatter?.title || ""}
+          </Heading>
+
           {/* </Link> */}
           <Text>{p.frontmatter?.description || ""}</Text>
         </section>
