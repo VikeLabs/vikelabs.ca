@@ -13,8 +13,6 @@ const HeaderContainer = styled.header<SpaceProps | FlexboxProps>`
   width: 100%;
   justify-content: space-between;
   align-content: center;
-
-  border: 1px solid black;
 `;
 
 const Nav = styled.nav<FlexboxProps>`
@@ -51,7 +49,7 @@ export const Header = () => {
         {/* <VikeLabsLogo color="green" /> */}
         <VikeLabs />
       </Flex>
-      <Box border="solid 1px black" mt={{ sm: "20px", md: "0px", lg: "0px" }}>
+      <Box mt={{ sm: "20px", md: "0px", lg: "0px" }}>
         {/* TODO: menu */}
         <Nav justifyContent="flex-start">
           <NavLink to="/">Home</NavLink>
