@@ -19,6 +19,7 @@ export interface ProjectsPageQuery_allMarkdownRemark_nodes_frontmatter {
 export interface ProjectsPageQuery_allMarkdownRemark_nodes {
   fields: ProjectsPageQuery_allMarkdownRemark_nodes_fields | null;
   frontmatter: ProjectsPageQuery_allMarkdownRemark_nodes_frontmatter | null;
+  html: string | null;
 }
 
 export interface ProjectsPageQuery_allMarkdownRemark {
