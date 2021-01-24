@@ -25,3 +25,7 @@ export const Box = styled.div<Props>`
 export const Flex = styled(Box)`
   display: flex;
 `;
+
+export const Grid = styled(Box)`
+  display: grid;
+`;
