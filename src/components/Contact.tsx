@@ -72,11 +72,11 @@ export const Contact = () => {
                 <GrGithub size="40px" />
               </IconContainer>
             </a>
-            <a href={data.site.siteMetadata.discord || "#"}>
+            {/* <a href={data.site.siteMetadata.discord || "#"}>
               <IconContainer>
                 <FaDiscord size="40px" />
               </IconContainer>
-            </a>
+            </a> */}
             <a
               href={`https://ca.linkedin.com/company/${data.site.siteMetadata.linkedin}`}
             >
