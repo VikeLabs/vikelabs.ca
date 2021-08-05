@@ -3770,68 +3770,6 @@
                 "ofType": null
               },
               "defaultValue": null
-            },
-            {
-              "name": "repository",
-              "description": "",
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "StringQueryOperatorInput",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "team",
-              "description": "",
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "MarkdownRemarkFrontmatterTeamFilterInput",
-                "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "MarkdownRemarkFrontmatterTeamFilterInput",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "braiden",
-              "description": "",
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "MarkdownRemarkFrontmatterTeamBraidenFilterInput",
-                "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "MarkdownRemarkFrontmatterTeamBraidenFilterInput",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "name",
-              "description": "",
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "StringQueryOperatorInput",
-                "ofType": null
-              },
-              "defaultValue": null
             }
           ],
           "interfaces": null,
@@ -8358,76 +8296,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "repository",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "team",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "MarkdownRemarkFrontmatterTeam",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "MarkdownRemarkFrontmatterTeam",
-          "description": null,
-          "fields": [
-            {
-              "name": "braiden",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "MarkdownRemarkFrontmatterTeamBraiden",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "MarkdownRemarkFrontmatterTeamBraiden",
-          "description": null,
-          "fields": [
-            {
-              "name": "name",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -10445,12 +10313,6 @@
               "deprecationReason": null
             },
             {
-              "name": "childrenMarkdownRemark___frontmatter___repository",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "childrenMarkdownRemark___excerpt",
               "description": null,
               "isDeprecated": true,
@@ -10788,12 +10650,6 @@
             },
             {
               "name": "childMarkdownRemark___frontmatter___description",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "childMarkdownRemark___frontmatter___repository",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -21879,18 +21735,6 @@
             },
             {
               "name": "frontmatter___description",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "frontmatter___repository",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "frontmatter___team___braiden___name",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
