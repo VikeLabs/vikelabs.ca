@@ -5,6 +5,7 @@ import { theme } from "../theme";
 import { Box } from "./Box";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import "../global.css";
 
 const Container = styled.div`
   display: flex;
