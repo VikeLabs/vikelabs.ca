@@ -29,7 +29,6 @@ const IndexPage = ({ data, location }: PageProps) => {
           display="flex"
           flexDirection={{ sm: "column", md: "row" }}
           alignItems="center"
-          // justifyItems="center"
         >
           <Box minWidth="420px">
             <Heading fontSize={{ sm: "2.5em", md: "3em", lg: "4em" }}>
@@ -47,15 +46,15 @@ const IndexPage = ({ data, location }: PageProps) => {
               <Button>Projects</Button>
             </Link>
           </Box>
-          {/* <Box>
+          <Box>
             <Image
               width="100%"
               height="auto"
-              maxWidth="670px"
-              maxHeight="480px"
-              src="https://picsum.photos/670/480"
+              maxWidth="714px"
+              maxHeight="547px"
+              src="https://picsum.photos/714/547"
             />
-          </Box> */}
+          </Box>
         </Box>
       </Section>
       <Section mb="4">
@@ -66,7 +65,9 @@ const IndexPage = ({ data, location }: PageProps) => {
         >
           <Box>
             <Box py="4" minWidth="570px">
-              <SubHeading fontSize={{ sm: "2em", md: "2.5em", lg: "3em" }}>
+              <SubHeading 
+                fontSize={{ sm: "2em", md: "2.5em", lg: "3em" }}
+              >
                 A little about VikeLabs
               </SubHeading>
               <Text>
@@ -82,7 +83,7 @@ const IndexPage = ({ data, location }: PageProps) => {
               </Text>
             </Box>
           </Box>
-          {/* <Box>
+          <Box>
             <Image
               width="100%"
               height="auto"
@@ -90,7 +91,7 @@ const IndexPage = ({ data, location }: PageProps) => {
               maxHeight="480px"
               src="https://picsum.photos/480/480"
             />
-          </Box> */}
+          </Box>
         </Box>
       </Section>
       <Section mb="4">
@@ -113,8 +114,7 @@ const IndexPage = ({ data, location }: PageProps) => {
               will then decide who goes on what team and why.
             </Text>
           </Box>
-          {/* <Box display="flex" justifyContent="space-between">
-            TODO: replace with actual images / non static sizes
+          <Box display="flex" justifyContent="space-around">
             <Image
               width="100%"
               height="auto"
@@ -136,7 +136,7 @@ const IndexPage = ({ data, location }: PageProps) => {
               maxHeight="230px"
               src="https://picsum.photos/370/230?random=3"
             />
-          </Box> */}
+          </Box>
         </Box>
       </Section>
       <Section my="5">
