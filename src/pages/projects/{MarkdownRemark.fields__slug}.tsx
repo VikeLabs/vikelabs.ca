@@ -1,50 +1,60 @@
 import React from "react";
-import { graphql, PageProps } from "gatsby";
-import { Layout } from "../../components/Layout";
-import { ProjectBySlug } from "./__generated__/ProjectBySlug";
-import { Metadata } from "../../components/Metadata";
-import styled from "styled-components";
-import { Heading } from "../../components/Heading";
+import { graphql } from "gatsby";
+import { Heading, Text } from "@chakra-ui/layout";
+import { BaseLayout } from "../../layouts/base";
+import { Metadata } from "../../components/metadata";
+import { GitHubIcon } from "../../components/contact";
+import { IconButton } from "@chakra-ui/button";
 
-// This template is used to create the route /projects/{slug}
-// The slug (ie. vikelabs.ca/projects/passr) is created in gatsby-node.js
+// https://www.gatsbyjs.com/docs/reference/routing/file-system-route-api
 
-// Use Gatsby PageProps with the generated GraphQL type defs (from query below)
-type ProjectTemplateProps = PageProps<ProjectBySlug>;
-
-const Markdown = styled.div`
-  font-family: ${(props) => props.theme.fontFamily};
-  p,
-  li {
-    font-weight: 300;
-    font-style: normal;
-  }
-`;
-
-const ProjectTemplate = ({ data }: ProjectTemplateProps) => {
+const ProjectTemplate = ({ data }) => {
+  const { title } = data.markdownRemark.frontmatter;
   return (
-    <Layout>
-      {/* TODO: better metadata */}
-      <Metadata title={data.markdownRemark?.frontmatter?.title || ""} />
-      <Heading>{data.markdownRemark?.frontmatter?.title || ""}</Heading>
-      <Markdown
-        dangerouslySetInnerHTML={{ __html: data.markdownRemark?.html || "" }}
+    <BaseLayout>
+      <Metadata title={title} />
+      <Heading as="h1" size="4xl" fontFamily="Raleway" my="2">
+        {data.markdownRemark.frontmatter.title}
+      </Heading>
+      <IconButton
+        as="a"
+        aria-label="link to courseup github"
+        icon={GitHubIcon}
+        href={`https://github.com/${data.markdownRemark.frontmatter.github}`}
+        variant="unstyled"
       />
-    </Layout>
+      <Text>{data.markdownRemark?.frontmatter?.description || ""}</Text>
+      <Text dangerouslySetInnerHTML={{ __html: data.markdownRemark.html }} />
+    </BaseLayout>
   );
 };
 export default ProjectTemplate;
+
+// This is the funky stuff that makes Gatsby both great but wonderful.
+// Imagine the following query being run:
+// {
+//   allMarkdownRemark {
+//     nodes {
+//       fields {
+//         slug
+//       }
+//     }
+//   }
+// }
+
+// src/pages/projects/{MarkdownRemark.fields__slug}.tsx
 
 export const pageQuery = graphql`
   query ProjectBySlug($id: String!) {
     markdownRemark(id: { eq: $id }) {
       id
       excerpt(pruneLength: 160)
-      html
       frontmatter {
         title
         description
+        github
       }
+      html
     }
   }
 `;
