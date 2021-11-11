@@ -1,11 +1,12 @@
-const { createFilePath } = require(`gatsby-source-filesystem`);
+import { CreateNodeArgs } from "gatsby";
 
-exports.onCreateNode = ({ node, actions, getNode }) => {
+import { createFilePath } from "gatsby-source-filesystem";
+
+exports.onCreateNode = ({ node, actions, getNode }: CreateNodeArgs) => {
   const { createNodeField } = actions;
 
   if (node.internal.type === `MarkdownRemark`) {
     const value = createFilePath({ node, getNode });
-
     createNodeField({
       name: `slug`,
       node,
