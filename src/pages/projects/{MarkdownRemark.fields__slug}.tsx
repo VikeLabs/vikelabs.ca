@@ -1,6 +1,6 @@
 import React from "react";
 import { graphql } from "gatsby";
-import { Heading, Text } from "@chakra-ui/layout";
+import { Heading, Text, Container } from "@chakra-ui/layout";
 import { BaseLayout } from "../../layouts/base";
 import { Metadata } from "../../components/metadata";
 import { GitHubIcon } from "../../components/contact";
@@ -13,18 +13,20 @@ const ProjectTemplate = ({ data }) => {
   return (
     <BaseLayout>
       <Metadata title={title} />
-      <Heading as="h1" size="4xl" fontFamily="Raleway" my="2">
-        {data.markdownRemark.frontmatter.title}
-      </Heading>
-      <IconButton
-        as="a"
-        aria-label="link to courseup github"
-        icon={GitHubIcon}
-        href={`https://github.com/${data.markdownRemark.frontmatter.github}`}
-        variant="unstyled"
-      />
-      <Text>{data.markdownRemark?.frontmatter?.description || ""}</Text>
-      <Text dangerouslySetInnerHTML={{ __html: data.markdownRemark.html }} />
+      <Container maxW="container.xl">
+        <Heading as="h1" size="4xl" fontFamily="Raleway" my="2">
+          {data.markdownRemark.frontmatter.title}
+        </Heading>
+        <IconButton
+          as="a"
+          aria-label="link to courseup github"
+          icon={GitHubIcon}
+          href={`https://github.com/${data.markdownRemark.frontmatter.github}`}
+          variant="unstyled"
+        />
+        <Text>{data.markdownRemark?.frontmatter?.description || ""}</Text>
+        <Text dangerouslySetInnerHTML={{ __html: data.markdownRemark.html }} />
+      </Container>
     </BaseLayout>
   );
 };
