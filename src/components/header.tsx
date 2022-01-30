@@ -67,7 +67,9 @@ export const Header = () => {
     <Box as="header">
       <Container maxW="container.xl" my="2">
         <Flex align="center" justify="space-between">
-          <Logo />
+          <LinkBox as={Link} to="/">
+            <Logo />
+          </LinkBox>
           <Box display={["none", "block"]}>
             <MenuBar items={menuItems} />
           </Box>
