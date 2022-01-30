@@ -63,13 +63,13 @@ const config: GatsbyConfig = {
         path: `${__dirname}/src/pages`,
       },
     },
-    {
-      resolve: "gatsby-source-filesystem",
-      options: {
-        name: "images",
-        path: `${__dirname}/src/img`,
-      },
-    },
+    // {
+    //   resolve: "gatsby-source-filesystem",
+    //   options: {
+    //     name: "images",
+    //     path: `${__dirname}/src/img`,
+    //   },
+    // },
     {
       resolve: `gatsby-transformer-remark`,
       options: {
@@ -79,22 +79,6 @@ const config: GatsbyConfig = {
         gfm: true,
         // Plugins configs
         plugins: [],
-      },
-    },
-    {
-      resolve: `gatsby-plugin-google-fonts-v2`,
-      options: {
-        fonts: [
-          {
-            family: `Kanit`,
-            weights: [`300`, `500`],
-          },
-          {
-            // https://fonts.google.com/specimen/Raleway
-            family: `Raleway`,
-            weights: [`700`],
-          },
-        ],
       },
     },
     "gatsby-plugin-react-helmet",
