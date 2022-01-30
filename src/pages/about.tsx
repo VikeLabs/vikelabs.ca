@@ -5,9 +5,10 @@ import { Contact } from "../components/contact";
 import { Metadata } from "../components/metadata";
 import { BaseLayout } from "../layouts/base";
 import { graphql, useStaticQuery } from "gatsby";
+import { AboutPageQuery } from "../types/generated";
 
 const query = graphql`
-  query AboutPageQuery {
+  query AboutPage {
     markdownRemark(fields: { slug: { eq: "/about/" } }) {
       frontmatter {
         description
@@ -17,7 +18,7 @@ const query = graphql`
 `;
 
 export default function About() {
-  const data = useStaticQuery(query);
+  const data = useStaticQuery<AboutPageQuery>(query);
 
   return (
     <BaseLayout>
