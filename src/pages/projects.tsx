@@ -1,12 +1,18 @@
 import React from "react";
-import { Heading, SubHeading } from "../components/Heading";
-import { Text } from "../components/Text";
-import { Layout } from "../components/Layout";
-import { Box } from "../components/Box";
-import { Contact } from "../components/Contact";
-import { graphql, Link, PageProps } from "gatsby";
-import { ProjectsPageQuery } from "./__generated__/ProjectsPageQuery";
-import { Metadata } from "../components/Metadata";
+import {
+  Box,
+  Center,
+  Container,
+  Flex,
+  Heading,
+  Link,
+  LinkBox,
+  Text,
+} from "@chakra-ui/layout";
+import { graphql, Link as GLink } from "gatsby";
+import { Contact } from "../components/contact";
+import { BaseLayout } from "../layouts/base";
+import { Metadata } from "../components/metadata";
 
 export const pageQuery = graphql`
   query ProjectsPageQuery {
@@ -27,33 +33,39 @@ export const pageQuery = graphql`
   }
 `;
 
-type ProjectsPageProps = PageProps<ProjectsPageQuery>;
-
-const ProjectsPage = ({ data }: ProjectsPageProps) => {
+const ProjectsPage = ({ data }) => {
   const projects = data.allMarkdownRemark.nodes;
   return (
-    <Layout>
-      <Metadata
-        title="Projects"
-        description="Projects VikeLabs is currently working on or have worked on in the past."
-      />
-      {projects.map((p) => (
-        <section>
-          {/* TODO: enable links when pages are built */}
-          {/* <Link to={`/projects${p.fields?.slug || ""}`}> */}
-          <Heading fontSize={{ sm: "2em", md: "2.5em", lg: "3em" }}>
-            {p.frontmatter?.title || ""}
-          </Heading>
-
-          {/* </Link> */}
-          <Text>{p.frontmatter?.description || ""}</Text>
-        </section>
-      ))}
-      {/* TODO: add a separation line. */}
-      <section>
-        <Contact />
-      </section>
-    </Layout>
+    <BaseLayout>
+      <Metadata title="Projects" />
+      <Box py="10" bgGradient="linear(to-l, #9bd4d2, #92b8ff)">
+        <Container maxW="container.xl">
+          <Flex align="center" color="gray.700">
+            <Heading as="h1" size="4xl" fontFamily="Consolas">
+              Projects
+            </Heading>
+          </Flex>
+          <Text>
+            Projects are the heart and soul of VikeLabs. Here you'll find the
+            various projects our members are currently working on and previous
+            projects we've taken on.
+          </Text>
+        </Container>
+      </Box>
+      <Box py="10">
+        <Container maxW="container.xl">
+          {projects.map((p) => (
+            <Box as="section" my="8">
+              <Link as={GLink} to={`/projects${p.fields.slug}`} fontSize="4xl">
+                {p.frontmatter?.title || ""}
+              </Link>
+              <Text>{p.frontmatter?.description || ""}</Text>
+            </Box>
+          ))}
+          <Contact />
+        </Container>
+      </Box>
+    </BaseLayout>
   );
 };
 
