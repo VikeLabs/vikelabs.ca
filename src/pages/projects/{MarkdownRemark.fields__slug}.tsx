@@ -13,7 +13,12 @@ const ProjectTemplate = ({ data }) => {
   return (
     <BaseLayout>
       <Metadata title={title} />
-      <Container maxW="container.xl">
+      <Container 
+        maxW="container.xl"
+        paddingLeft="5rem"
+        paddingRight="5rem"
+        display="flexbox"
+        >
         <Heading as="h1" size="4xl" fontFamily="Raleway" my="2">
           {data.markdownRemark.frontmatter.title}
         </Heading>
