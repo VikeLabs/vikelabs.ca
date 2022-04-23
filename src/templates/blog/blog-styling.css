@@ -1,0 +1,8 @@
+.tt { /* tooltip */
+  padding: 3px 0 1px 0.5px;
+  border-bottom: 2px solid var(--color-link);
+}
+.tt:hover {
+  background-color: var(--color-tooltip);
+  cursor: pointer;
+}
