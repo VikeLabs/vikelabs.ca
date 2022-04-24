@@ -48,32 +48,19 @@ const About = () => {
 
   //const [windowSize, setWindowSize] = useState(1000);
 
-  function getNumExtraLineBreaks(content) {
-    let message = content.innerHTML;
-    let emptyLines = message.match(/(<br>)+/g);
-    if (emptyLines) {
-      return emptyLines.length;
-    }
-    return 0;
-  }
   function getNumLines(content) {    
     if (window !== undefined) {
-      let numEmptyLines = getNumExtraLineBreaks(content);
       let style = window.getComputedStyle(content, null);
-      let fontSize = parseFloat(style.getPropertyValue('font-size'));
-      let fontWidth = 0.64 * fontSize;
+      let fontWidth = 0.64 * parseFloat(style.getPropertyValue('font-size'));
       let width = parseFloat(style.getPropertyValue('width'));
       let numCharsInWidth = Math.ceil(width / fontWidth);
-      console.log(numCharsInWidth);
-      let rawHTMLStr = content.innerText;
-      let wordsArray = rawHTMLStr.split(/\s/g).filter( word => word);
-
+      let wordsArray = content.innerHTML.replace(/<br>/g, " \0 ").split(/\s/g);
       let charsInLine = 0;
       let numLines = 0;
       wordsArray.forEach(word => {
         let len = word.length + 1;
         let current = charsInLine + len;
-        if (current > numCharsInWidth) {
+        if (current > numCharsInWidth || word === "\0") {
           numLines++;
           charsInLine = len;
         }
@@ -81,7 +68,10 @@ const About = () => {
           charsInLine += len;
         }
       });
-      return numLines + numEmptyLines;
+      if (charsInLine > 0) {
+        numLines++;
+      }
+      return numLines;
     }
     return 0;
   }
