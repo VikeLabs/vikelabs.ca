@@ -17,6 +17,10 @@ export const COLORS = {
     light: '#CBD5E1',
     dark: '#737373',
   },
+  backgroundShadow: {
+    light: '#BACEDE',
+    dark: '#14151a',
+  },
   link: {
     light: '#7C3AED',
     dark: '#C4B5FD',
