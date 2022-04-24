@@ -27,6 +27,12 @@ const Opening = styled.h1`
   justify-content: start;
 `
 const DirectoryBar = styled.section`
+`
+const DirectoryBarSeperator = styled.div`
+  height: 0.5rem;
+  margin-top: -0.5rem;
+  margin-left: -${v.mdSpacing};
+  margin-right: -${v.mdSpacing};
   margin-bottom: 0.5rem;
   box-shadow: 0 0.25rem 0.125rem -0.125rem var(--color-backgroundShadow, ${COLORS.backgroundShadow.light});
 `
@@ -116,6 +122,7 @@ const About = () => {
       <TerminalContainer>
         <Opening>We are VikeLabs.</Opening>
         <DirectoryBar id="directoryBar"/>
+        <DirectoryBarSeperator/>
         <ContentBox>
           <LineNumbers id="lineNumbers"></LineNumbers>
           <Content id="content">
