@@ -12,7 +12,7 @@ const MagicScriptTag = () => {
       if (hasPreference) {
         return preferredColor;
       }
-      return 'light';
+      return 'dark';
     }
     const colorMode = getInitialColorMode();
     const root = document.documentElement;
@@ -39,6 +39,12 @@ const MagicScriptTag = () => {
       colorMode === 'light'
         ? '${COLORS.background2.light}'
         : '${COLORS.background2.dark}'
+    );
+    root.style.setProperty(
+      '--color-backgroundShadow',
+      colorMode === 'light'
+        ? '${COLORS.backgroundShadow.light}'
+        : '${COLORS.backgroundShadow.dark}'
     );
     root.style.setProperty(
       '--color-link',
