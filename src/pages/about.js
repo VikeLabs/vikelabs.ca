@@ -28,7 +28,7 @@ const Opening = styled.h1`
 `
 const DirectoryBar = styled.section`
   margin-bottom: 0.5rem;
-  box-shadow: 0 0.25rem 0.125rem -0.125rem black;
+  box-shadow: 0 0.25rem 0.125rem -0.125rem var(--color-backgroundShadow, ${COLORS.backgroundShadow.light});
 `
 const ContentBox = styled.section`
   display: flex;

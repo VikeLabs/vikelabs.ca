@@ -12,7 +12,7 @@ const MagicScriptTag = () => {
       if (hasPreference) {
         return preferredColor;
       }
-      return 'light';
+      return 'dark';
     }
     const colorMode = getInitialColorMode();
     const root = document.documentElement;
