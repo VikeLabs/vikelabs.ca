@@ -28,6 +28,7 @@ const ContentBox = styled.section`
 `
 const LineNumbers = styled.span`
   padding-right: 1.5rem;
+  color: var(--color-comment, ${COLORS.comment.light});
 `
 
 const Content = styled.span`
@@ -58,7 +59,7 @@ const About = () => {
       let charsInLine = 0;
       let numLines = 0;
       wordsArray.forEach(word => {
-        let len = word.length + 1;
+        let len = word.length + 1; // add one for the extra space between words that was removed when split was performed
         let current = charsInLine + len;
         if (current > numCharsInWidth || word === "\0") {
           numLines++;
@@ -76,45 +77,34 @@ const About = () => {
     return 0;
   }
 
+  function DoLineNumsHTML(numLines) {
+    let htmlStr = "";
+    for (let i = 1; i <= numLines; i++) {
+      htmlStr += (i + "<br>");
+    }
+    return htmlStr;
+  }
+
   useEffect(() => {
     let content = document.getElementById("content");
-    console.log(getNumLines(content));
+    let numLines = getNumLines(content);
+    let lineNums = document.getElementById("lineNumbers");
+    lineNums.innerHTML = DoLineNumsHTML(numLines);
   }, [])
+
   return (
     <Layout title="About">
       <Page>
         <Opening>
           <h1>We are VikeLabs.</h1>
         </Opening>
-        <ContentBox id="contentBox">
-          <LineNumbers id="lineNumbers">
-            1<br></br>
-            2<br></br>
-            3<br></br>
-            4<br></br>
-            5<br></br>
-            6<br></br>
-            7<br></br>
-            8<br></br>
-            9<br></br>
-            10<br></br>
-            11<br></br>
-            12<br></br>
-            13<br></br>
-            14<br></br>
-            15<br></br>
-            16<br></br>
-            17<br></br>
-            18<br></br>
-            19<br></br>
-          </LineNumbers>
+        <ContentBox>
+          <LineNumbers id="lineNumbers"></LineNumbers>
           <Content id="content">
             VikeLabs is a collective of students who learn to build, deploy, and test software quickly. We view UVic as a kind of laboratory for testing solutions to problems that exist within the UVic community. We limit ourselves to the UVic community because it's much easier to deploy and test solutions to users where we are in close proximity to them and their problems.
             <br></br>
             <br></br>
             We accept members from every faculty who have an interest in product design/research, software development, business, marketing, or product management.
-
-            
           </Content>
           </ContentBox>
         <Ending>
