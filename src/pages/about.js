@@ -3,7 +3,7 @@ import Layout from "../components/Layout/Layout"
 import styled from '@emotion/styled';
 import {COLORS, INITIAL_COLOR_MODE_CSS_PROP} from '../styles/globalstyles/theme';
 import {globalStyle} from '../styles/globalstyles/globalStyles';
-import { v } from '../styles/globalstyles/variables';
+import { v, maxq } from '../styles/globalstyles/variables';
 
 
 const WindowHeader = styled.div`
@@ -57,13 +57,30 @@ const Content = styled.textarea`
   overflow: hidden;
   line-height: 1.5rem;
   border: 1px solid var(--color-background, ${COLORS.background.light});
+  :focus {
+    outline: none;
+  }
 `
 const ContentMeta = styled.section`
-  
   margin-left: -${v.mdSpacing};
   margin-right: -${v.mdSpacing};
   background-color: red;
   height: 2rem;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  ${maxq[1]} {
+    display: none;
+  }
+`
+const CaretPosition = styled.span`
+  margin-right: 2em;
+`
+const SelectionCount = styled.span`
+
+`
+const WordCount = styled.span`
+  margin-right: 1em;
 `
 const Ending = styled.section`
   padding: 2.5rem;
@@ -81,6 +98,7 @@ const About = () => {
 
   if (typeof window !== "undefined") {
     window.addEventListener("resize", reportWindowWidth)
+    document.onselectionchange = onSelectionChange;
   }
   function reportWindowWidth() {
     setWindowSize(window.innerWidth);
@@ -88,6 +106,23 @@ const About = () => {
   function reportTextAreaChange() {
     let content = document.getElementById("content");
     setTextAreaHeight(content.scrollHeight);
+  }
+  function onSelectionChange() {
+    let context = document.getElementById("content");
+    let caretPosition = document.getElementById("caretPosition");
+    let selectionCount = document.getElementById("selectionCount");
+    let wordCount = document.getElementById("wordCount");
+
+    caretPosition.innerHTML = "Pos " + context.selectionStart;
+    if (context.selectionStart !== context.selectionEnd) {
+      selectionCount.innerHTML = "(" + (context.selectionEnd - context.selectionStart) + " selected)"
+      selectionCount.style.marginRight = "2em";
+    }
+    else {
+      selectionCount.innerHTML = "";
+      selectionCount.style.marginRight = "0";
+    }
+    wordCount.innerHTML = "Word Count: " + context.value.split(/\s/g).length;
   }
   function updateTextAreaBounds(context) {
     context.style.width = "100%"; // IMPORTANT: this line MUST be included otherwise width doesnt change when window resizes
@@ -120,13 +155,11 @@ const About = () => {
 
   useEffect(() => {
     updateTextArea();
-
-    //let context = document.getElementById("content");
-    //let start = context.selectionStart;
-    //let end = context.selectionEnd;
-
-
   }, [windowSize, textAreaHeight]);
+
+  useEffect(() => {
+    document.getElementById("wordCount").innerHTML = "Word Count: " + document.getElementById("content").value.split(/\s/g).length;
+  }, [])
 
   return (
     <Layout title="About">
@@ -140,7 +173,11 @@ const About = () => {
           <Content id="content" onChange={reportTextAreaChange} 
             defaultValue={`VikeLabs is a collective of students who learn to build, deploy, and test software quickly. We view UVic as a kind of laboratory for testing solutions to problems that exist within the UVic community. We limit ourselves to the UVic community because it's much easier to deploy and test solutions to users where we are in close proximity to them and their problems.\n\nWe accept members from every faculty who have an interest in product design/research, software development, business, marketing, or product management.`}></Content>
           </ContentBox>
-        <ContentMeta id="contentMeta"/>
+        <ContentMeta>
+          <CaretPosition id="caretPosition">Pos 0</CaretPosition>
+          <SelectionCount id="selectionCount"></SelectionCount>
+          <WordCount id="wordCount">Word Count: XXX</WordCount>
+        </ContentMeta>
         <Ending>
           <h2>Join us.</h2>
         </Ending>
