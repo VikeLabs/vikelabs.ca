@@ -27,14 +27,15 @@ const Opening = styled.h1`
   justify-content: start;
 `
 const DirectoryBar = styled.section`
+  color: var(--color-comment, ${COLORS.comment.light});
 `
 const DirectoryBarSeperator = styled.div`
-  height: 0.5rem;
-  margin-top: -0.5rem;
+  height: 0.35rem;
+  margin-top: 0.125rem;
   margin-left: -${v.mdSpacing};
   margin-right: -${v.mdSpacing};
-  margin-bottom: 0.5rem;
-  box-shadow: 0 0.25rem 0.125rem -0.125rem var(--color-backgroundShadow, ${COLORS.backgroundShadow.light});
+  margin-bottom: 0.125rem;
+  background: linear-gradient(var(--color-backgroundShadow, ${COLORS.backgroundShadow.light}), transparent);
 `
 const ContentBox = styled.section`
   display: flex;
@@ -105,7 +106,8 @@ const About = () => {
 
   useEffect(() => {
     const currentURL = window.location.href;
-    let dirStr = currentURL.replace(/(\/)+/g, " &#10095 "); // &#10095 := html code for large arrow (>)
+    let dirStr = currentURL.replace(/^.*:\/{2}(www\.)?(?=.*(\.(ca|com)))?/g, "")
+                           .replace(/(\/)+/g, " &#10095 "); // &#10095 := html code for large arrow (>)
     document.getElementById("directoryBar").innerHTML = dirStr;
   }, [])
 
