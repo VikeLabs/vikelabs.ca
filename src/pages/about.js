@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from "react"
 import Layout from "../components/Layout/Layout"
 import styled from '@emotion/styled';
-import {COLORS, INITIAL_COLOR_MODE_CSS_PROP} from '../styles/globalstyles/theme';
-import {globalStyle} from '../styles/globalstyles/globalStyles';
-import { v, maxq } from '../styles/globalstyles/variables';
+import {COLORS} from '../styles/globalstyles/theme';
+import {v, maxq} from '../styles/globalstyles/variables';
 
 
 const WindowHeader = styled.div`
@@ -156,7 +155,7 @@ const About = () => {
     const currentURL = window.location.href;
     let dirStr = currentURL.replace(/(^.*:\/{2})*(www\.)?/g, "") // remove 'http(s)://' and remove 'www.'
                            .replace(/\.(ca|com|net|org)(?=[^\w])/g, "") // remove '.ca', '.com', '.net', '.org'
-                           .replace(/(\/)+|\./g, " &#10095 "); // &#10095 := html code for large arrow (>)
+                           .replace(/((\/)+|\.)(?=.+)/g, " &#10095 "); // &#10095 := html code for large arrow (>)
     document.getElementById("directoryBar").innerHTML = dirStr;
   }, [])
 
