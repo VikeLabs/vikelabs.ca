@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from "react"
 import Layout from "../components/Layout/Layout"
 import styled from '@emotion/styled';
-import {COLORS, INITIAL_COLOR_MODE_CSS_PROP} from '../styles/globalstyles/theme';
-import {globalStyle} from '../styles/globalstyles/globalStyles';
-import { v } from '../styles/globalstyles/variables';
+import {COLORS} from '../styles/globalstyles/theme';
+import {v, maxq} from '../styles/globalstyles/variables';
 
 
 const WindowHeader = styled.div`
@@ -16,6 +15,7 @@ const WindowHeader = styled.div`
 const TerminalContainer = styled.div`
   background: var(--color-background, ${COLORS.background.light});
   padding: calc(${v.mdSpacing} / 1.5) ${v.mdSpacing} ${v.mdSpacing};
+  padding-bottom: 0;
   border-width: 0 3px 3px 3px;
   border-style: solid;
   border-color: var(--color-comment, ${COLORS.comment.light});
@@ -39,10 +39,14 @@ const DirectoryBarSeperator = styled.div`
 `
 const ContentBox = styled.section`
   display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
 `
 const LineNumbers = styled.span`
+  margin-top: 0.1rem;
   padding-right: 0.64rem;
-  width: 5%;
+  min-width: 5%;
   color: var(--color-comment, ${COLORS.comment.light});
   text-align: right;
   line-height: 1.5rem;
@@ -57,23 +61,32 @@ const Content = styled.textarea`
   overflow: hidden;
   line-height: 1.5rem;
   border: 1px solid var(--color-background, ${COLORS.background.light});
-`
-const ContentMeta = styled.section`
-  
-  margin-left: -${v.mdSpacing};
-  margin-right: -${v.mdSpacing};
-  background-color: red;
-  height: 2rem;
-`
-const Ending = styled.section`
-  padding: 2.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  h2{
-    margin-bottom: 0;
+  :focus {
+    outline: none;
   }
 `
+const ContentMeta = styled.section`
+  margin-left: -${v.mdSpacing};
+  margin-right: -${v.mdSpacing};
+  background-color: var(--color-comment, ${COLORS.comment.light});
+  height: 2rem;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  ${maxq[1]} {
+    display: none;
+  }
+`
+const CaretPosition = styled.span`
+  margin-right: 2em;
+`
+const SelectionCount = styled.span`
+  margin-right: 2em;
+`
+const WordCount = styled.span`
+  margin-right: 1em;
+`
+
 
 const About = () => {
   const [windowSize, setWindowSize] = useState(null);
@@ -81,18 +94,43 @@ const About = () => {
 
   if (typeof window !== "undefined") {
     window.addEventListener("resize", reportWindowWidth)
+    document.onselectionchange = onSelectionChange;
   }
   function reportWindowWidth() {
     setWindowSize(window.innerWidth);
   }
   function reportTextAreaChange() {
-    let content = document.getElementById("content");
-    setTextAreaHeight(content.scrollHeight);
+    let context = document.getElementById("content");
+    if (context) {
+      setTextAreaHeight(context.scrollHeight);
+    }
+  }
+  function onSelectionChange() {
+    let context = document.getElementById("content");
+    if (context) {
+      updateTextMeta(context);
+    }
+  }
+  function updateTextMeta(context) {
+    let selectionCount = document.getElementById("selectionCount");
+    document.getElementById("caretPosition").innerHTML = "Pos " + context.selectionStart;
+    if (context.selectionStart !== context.selectionEnd) {
+      selectionCount.innerHTML = "(" + (context.selectionEnd - context.selectionStart) + " selected)"
+      selectionCount.style.marginRight = "2em";
+    }
+    else {
+      selectionCount.innerHTML = "";
+      selectionCount.style.marginRight = "0";
+    }
+    document.getElementById("wordCount").innerHTML = "Word Count: " + context.value.split(/\s+/g).length;
   }
   function updateTextAreaBounds(context) {
     context.style.width = "100%"; // IMPORTANT: this line MUST be included otherwise width doesnt change when window resizes
     context.style.height = "0px"; // IMPORTANT: this line MUST be included otherwise height doesnt work when removing chars
     context.style.height = context.scrollHeight + "px";
+  }
+  function updateLineNumbers(context) {
+    document.getElementById("lineNumbers").innerHTML = getLineNumsHTML(getNumLinesTextArea(context));
   }
   function getNumLinesTextArea(context) {
     return Math.ceil(context.scrollHeight / (16 * 1.5));
@@ -104,29 +142,31 @@ const About = () => {
     }
     return htmlStr;
   }
-  // FUNCTION DOES NOT WORK IF THE DEBUG CONSOLE IS OPEN IN BROWSER
   function updateTextArea() {
     let context = document.getElementById("content");
-    updateTextAreaBounds(context);
-    document.getElementById("lineNumbers").innerHTML = getLineNumsHTML(getNumLinesTextArea(context));
+    if (context) {
+      updateTextAreaBounds(context);
+      updateLineNumbers(context);
+      updateTextMeta(context);
+    }
   }
 
   useEffect(() => {
     const currentURL = window.location.href;
-    let dirStr = currentURL.replace(/^.*:\/{2}(www\.)?(?=.*(\.(ca|com)))?/g, "")
-                           .replace(/(\/)+/g, " &#10095 "); // &#10095 := html code for large arrow (>)
+    let dirStr = currentURL.replace(/(^.*:\/{2})*(www\.)?/g, "") // remove 'http(s)://' and remove 'www.'
+                           .replace(/\.(ca|com|net|org)(?=[^\w])/g, "") // remove '.ca', '.com', '.net', '.org'
+                           .replace(/((\/)+|\.)(?=.+)/g, " &#10095 "); // &#10095 := html code for large arrow (>)
     document.getElementById("directoryBar").innerHTML = dirStr;
   }, [])
 
   useEffect(() => {
     updateTextArea();
-
-    //let context = document.getElementById("content");
-    //let start = context.selectionStart;
-    //let end = context.selectionEnd;
-
-
   }, [windowSize, textAreaHeight]);
+
+  useEffect(() => {
+    let context = document.getElementById("content");
+    updateTextMeta(context);
+  }, [])
 
   return (
     <Layout title="About">
@@ -137,13 +177,14 @@ const About = () => {
         <DirectoryBarSeperator/>
         <ContentBox>
           <LineNumbers id="lineNumbers"></LineNumbers>
-          <Content id="content" onChange={reportTextAreaChange} 
-            defaultValue={`VikeLabs is a collective of students who learn to build, deploy, and test software quickly. We view UVic as a kind of laboratory for testing solutions to problems that exist within the UVic community. We limit ourselves to the UVic community because it's much easier to deploy and test solutions to users where we are in close proximity to them and their problems.\n\nWe accept members from every faculty who have an interest in product design/research, software development, business, marketing, or product management.`}></Content>
+          <Content id="content" onInput={reportTextAreaChange} 
+            defaultValue={`VikeLabs is a collective of students who learn to build, deploy, and test software quickly. We view UVic as a kind of laboratory for testing solutions to problems that exist within the UVic community. We limit ourselves to the UVic community because it's much easier to deploy and test solutions to users where we are in close proximity to them and their problems.\n\nWe accept members from every faculty who have an interest in product design/research, software development, business, marketing, or product management.\n\nJoin Us.`}></Content>
           </ContentBox>
-        <ContentMeta id="contentMeta"/>
-        <Ending>
-          <h2>Join us.</h2>
-        </Ending>
+        <ContentMeta>
+          <CaretPosition id="caretPosition">Pos X</CaretPosition>
+          <SelectionCount id="selectionCount">(XX selected)</SelectionCount>
+          <WordCount id="wordCount">Word Count: XXX</WordCount>
+        </ContentMeta>
       </TerminalContainer>
     </Layout>
   )
