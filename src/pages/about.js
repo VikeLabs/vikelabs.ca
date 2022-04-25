@@ -45,15 +45,25 @@ const LineNumbers = styled.span`
   width: 5%;
   color: var(--color-comment, ${COLORS.comment.light});
   text-align: right;
+  line-height: 1.5rem;
 `
 const Content = styled.textarea`
   background: inherit;
   color: inherit;
   width: 100%;
-  height: 21px;
+  height: calc(line-height * font-size);
   font: inherit;
   resize: none;
   overflow: hidden;
+  line-height: 1.5rem;
+  border: 1px solid var(--color-background, ${COLORS.background.light});
+`
+const ContentMeta = styled.section`
+  
+  margin-left: -${v.mdSpacing};
+  margin-right: -${v.mdSpacing};
+  background-color: red;
+  height: 2rem;
 `
 const Ending = styled.section`
   padding: 2.5rem;
@@ -85,7 +95,7 @@ const About = () => {
     context.style.height = context.scrollHeight + "px";
   }
   function getNumLinesTextArea(context) {
-    return Math.ceil(context.scrollHeight / 21);
+    return Math.ceil(context.scrollHeight / (16 * 1.5));
   }
   function getLineNumsHTML(numLines) {
     let htmlStr = "";
@@ -110,6 +120,12 @@ const About = () => {
 
   useEffect(() => {
     updateTextArea();
+
+    //let context = document.getElementById("content");
+    //let start = context.selectionStart;
+    //let end = context.selectionEnd;
+
+
   }, [windowSize, textAreaHeight]);
 
   return (
@@ -124,6 +140,7 @@ const About = () => {
           <Content id="content" onChange={reportTextAreaChange} 
             defaultValue={`VikeLabs is a collective of students who learn to build, deploy, and test software quickly. We view UVic as a kind of laboratory for testing solutions to problems that exist within the UVic community. We limit ourselves to the UVic community because it's much easier to deploy and test solutions to users where we are in close proximity to them and their problems.\n\nWe accept members from every faculty who have an interest in product design/research, software development, business, marketing, or product management.`}></Content>
           </ContentBox>
+        <ContentMeta id="contentMeta"/>
         <Ending>
           <h2>Join us.</h2>
         </Ending>
