@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import Layout from "../components/Layout/Layout"
 import styled from '@emotion/styled';
-import {COLORS} from '../styles/globalstyles/theme';
+import {COLORS, INITIAL_COLOR_MODE_CSS_PROP} from '../styles/globalstyles/theme';
 import {globalStyle} from '../styles/globalstyles/globalStyles';
 import { v } from '../styles/globalstyles/variables';
 
@@ -42,10 +42,18 @@ const ContentBox = styled.section`
 `
 const LineNumbers = styled.span`
   padding-right: 0.64rem;
+  width: 5%;
   color: var(--color-comment, ${COLORS.comment.light});
+  text-align: right;
 `
-const Content = styled.span`
-
+const Content = styled.textarea`
+  background: inherit;
+  color: inherit;
+  width: 100%;
+  height: 21px;
+  font: inherit;
+  resize: none;
+  overflow: hidden;
 `
 const Ending = styled.section`
   padding: 2.5rem;
@@ -59,49 +67,38 @@ const Ending = styled.section`
 
 const About = () => {
   const [windowSize, setWindowSize] = useState(null);
+  const [textAreaHeight, setTextAreaHeight] = useState(null);
 
   if (typeof window !== "undefined") {
     window.addEventListener("resize", reportWindowWidth)
   }
-
   function reportWindowWidth() {
     setWindowSize(window.innerWidth);
   }
-
-  function getNumLines(content) {
-    if (typeof window !== "undefined") {
-      let style = window.getComputedStyle(content, null);
-      let fontWidth = 0.64 * parseFloat(style.getPropertyValue('font-size'));
-      let width = parseFloat(style.getPropertyValue('width'));
-      let numCharsInWidth = Math.ceil(width / fontWidth);
-      let wordsArray = content.innerHTML.replace(/<br>/g, " \0 ").split(/\s/g);
-      let charsInLine = 0;
-      let numLines = 0;
-      wordsArray.forEach(word => {
-        let len = word.length + 1; // add one for the extra space between words that was removed when split was performed
-        let current = charsInLine + len;
-        if (current > numCharsInWidth || word === "\0") {
-          numLines++;
-          charsInLine = len;
-        }
-        else {
-          charsInLine += len;
-        }
-      });
-      if (charsInLine > 0) {
-        numLines++;
-      }
-      return numLines;
-    }
-    return 0;
+  function reportTextAreaChange() {
+    let content = document.getElementById("content");
+    setTextAreaHeight(content.scrollHeight);
   }
-
-  function DoLineNumsHTML(numLines) {
+  function updateTextAreaBounds(context) {
+    context.style.width = "100%"; // IMPORTANT: this line MUST be included otherwise width doesnt change when window resizes
+    context.style.height = "0px"; // IMPORTANT: this line MUST be included otherwise height doesnt work when removing chars
+    context.style.height = context.scrollHeight + "px";
+  }
+  function getNumLinesTextArea(context) {
+    return Math.ceil(context.scrollHeight / 21);
+  }
+  function getLineNumsHTML(numLines) {
     let htmlStr = "";
     for (let i = 1; i <= numLines; i++) {
       htmlStr += (i + "<br>");
     }
     return htmlStr;
+  }
+  // FUNCTION DOES NOT WORK IF THE DEBUG CONSOLE IS OPEN IN BROWSER
+  function updateTextArea() {
+    let context = document.getElementById("content");
+    updateTextAreaBounds(context);
+    document.getElementById("lineNumbers").innerHTML = getLineNumsHTML(getNumLinesTextArea(context));
   }
 
   useEffect(() => {
@@ -112,11 +109,8 @@ const About = () => {
   }, [])
 
   useEffect(() => {
-    let content = document.getElementById("content");
-    let numLines = getNumLines(content);
-    let lineNums = document.getElementById("lineNumbers");
-    lineNums.innerHTML = DoLineNumsHTML(numLines);
-  }, [windowSize]);
+    updateTextArea();
+  }, [windowSize, textAreaHeight]);
 
   return (
     <Layout title="About">
@@ -127,12 +121,8 @@ const About = () => {
         <DirectoryBarSeperator/>
         <ContentBox>
           <LineNumbers id="lineNumbers"></LineNumbers>
-          <Content id="content">
-            VikeLabs is a collective of students who learn to build, deploy, and test software quickly. We view UVic as a kind of laboratory for testing solutions to problems that exist within the UVic community. We limit ourselves to the UVic community because it's much easier to deploy and test solutions to users where we are in close proximity to them and their problems.
-            <br></br>
-            <br></br>
-            We accept members from every faculty who have an interest in product design/research, software development, business, marketing, or product management.
-          </Content>
+          <Content id="content" onChange={reportTextAreaChange} 
+            defaultValue={`VikeLabs is a collective of students who learn to build, deploy, and test software quickly. We view UVic as a kind of laboratory for testing solutions to problems that exist within the UVic community. We limit ourselves to the UVic community because it's much easier to deploy and test solutions to users where we are in close proximity to them and their problems.\n\nWe accept members from every faculty who have an interest in product design/research, software development, business, marketing, or product management.`}></Content>
           </ContentBox>
         <Ending>
           <h2>Join us.</h2>
