@@ -6,7 +6,7 @@ export const COLORS = {
     dark: '#f8f8f2',
   },
   primary: {
-    light: '#7C3AED',
+    light: '#104c91',
     dark: '#7C3AED',
   },
   background: {
@@ -22,11 +22,11 @@ export const COLORS = {
     dark: '#1e2029',
   },
   link: {
-    light: '#7C3AED',
+    light: '#104c91',
     dark: '#C4B5FD',
   },
   linkHover: {
-    light: '#fff',
+    light: '#104c91',
     dark: 'rgb(45,45,45)',
   },
   buttonText: '#FAFAFA',
@@ -59,23 +59,23 @@ export const COLORS = {
   // light: TBA
   // dark: dracula theme
   currLine: {
-    light: 'grey',
+    light: '#D1D5DB',
     dark: '#44475a',
   },
   comment: {
-    light: '#6B7280',
+    light: '#104c91', 
     dark: '#6272a4',
   },
   cyan: {
-    light: '#8be9fd',
+    light: '#0284C7', //light blue
     dark: '#8be9fd',
   },
   green: {
-    light: '#50fa7b',
+    light: '#B91C1C', //red
     dark: '#50fa7b',
   },
   orange: {
-    light: '#ffb86c',
+    light: '#CA8A04', //dark gold
     dark: '#ffb86c',
   },
   pink: {
@@ -83,7 +83,7 @@ export const COLORS = {
     dark: '#ff79c6',
   },
   purple: {
-    light: '#bd93f9',
+    light: '#6D28D9', 
     dark: '#bd93f9',
   },
   red: {
