@@ -58,6 +58,11 @@ export const globalStyle = css`
     }
   }
 
+  img {
+    height: 25%;
+    width: 30%;
+  }
+
   // This fixes tooltip FOUC
   // A line shows up at page bottom every reload if this is removed
   // https://github.com/wwayne/react-tooltip/issues/588
