@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect } from "react"
 import Layout from "../components/Layout/Layout"
 import styled from '@emotion/styled';
-import {COLORS} from '../styles/globalstyles/theme';
-import {v, maxq} from '../styles/globalstyles/variables';
+import { COLORS } from '../styles/globalstyles/theme';
+import { v, maxq } from '../styles/globalstyles/variables';
 
 
 const WindowHeader = styled.div`
@@ -31,10 +31,7 @@ const DirectoryBar = styled.section`
 `
 const DirectoryBarSeperator = styled.div`
   height: 0.35rem;
-  margin-top: 0.125rem;
-  margin-left: -${v.mdSpacing};
-  margin-right: -${v.mdSpacing};
-  margin-bottom: 0.125rem;
+  margin-top: 0.125rem -${v.mdSpacing};
   background: linear-gradient(var(--color-backgroundShadow, ${COLORS.backgroundShadow.light}), transparent);
 `
 const ContentBox = styled.section`
@@ -68,7 +65,7 @@ const Content = styled.textarea`
 const ContentMeta = styled.section`
   margin-left: -${v.mdSpacing};
   margin-right: -${v.mdSpacing};
-  background-color: var(--color-comment, ${COLORS.comment.light});
+  background-color: var(--color-currLine, ${COLORS.currLine.light});
   height: 2rem;
   display: flex;
   justify-content: end;
@@ -154,8 +151,8 @@ const About = () => {
   useEffect(() => {
     const currentURL = window.location.href;
     let dirStr = currentURL.replace(/(^.*:\/{2})*(www\.)?/g, "") // remove 'http(s)://' and remove 'www.'
-                           .replace(/\.(ca|com|net|org)(?=[^\w])/g, "") // remove '.ca', '.com', '.net', '.org'
-                           .replace(/((\/)+|\.)(?=.+)/g, " &#10095 "); // &#10095 := html code for large arrow (>)
+      .replace(/\.(ca|com|net|org)(?=[^\w])/g, "") // remove '.ca', '.com', '.net', '.org'
+      .replace(/((\/)+|\.)(?=.+)/g, " &#10095 "); // &#10095 := html code for large arrow (>)
     document.getElementById("directoryBar").innerHTML = dirStr;
   }, [])
 
@@ -170,16 +167,16 @@ const About = () => {
 
   return (
     <Layout title="About">
-      <WindowHeader/>
+      <WindowHeader />
       <TerminalContainer>
         <Opening>We are VikeLabs.</Opening>
-        <DirectoryBar id="directoryBar"/>
-        <DirectoryBarSeperator/>
+        <DirectoryBar id="directoryBar" />
+        <DirectoryBarSeperator />
         <ContentBox>
           <LineNumbers id="lineNumbers"></LineNumbers>
-          <Content id="content" onInput={reportTextAreaChange} 
+          <Content id="content" onInput={reportTextAreaChange}
             defaultValue={`VikeLabs is a collective of students who learn to build, deploy, and test software quickly. We view UVic as a kind of laboratory for testing solutions to problems that exist within the UVic community. We limit ourselves to the UVic community because it's much easier to deploy and test solutions to users where we are in close proximity to them and their problems.\n\nWe accept members from every faculty who have an interest in product design/research, software development, business, marketing, or product management.\n\nJoin Us.`}></Content>
-          </ContentBox>
+        </ContentBox>
         <ContentMeta>
           <CaretPosition id="caretPosition">Pos X</CaretPosition>
           <SelectionCount id="selectionCount">(XX selected)</SelectionCount>
