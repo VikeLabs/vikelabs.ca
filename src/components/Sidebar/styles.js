@@ -32,7 +32,7 @@ export const SLinkContainer = styled.div`
   border-radius: 0; //${v.borderRadius};
   margin: 6px 0;
   :hover {
-    box-shadow: inset 0 0 0 1px var(--color-background2, ${COLORS.background2.light});
+    box-shadow: ${({ isActive }) => (!isActive ? `inset 0 0 0 1px var(--color-background2, ${COLORS.background2.light})` : `transparent`)};
   }
 `
 export const SToggle = styled.div`
