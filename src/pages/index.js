@@ -31,10 +31,7 @@ const DirectoryBar = styled.section`
 `
 const DirectoryBarSeperator = styled.div`
   height: 0.35rem;
-  margin-top: 0.125rem;
-  margin-left: -${v.mdSpacing};
-  margin-right: -${v.mdSpacing};
-  margin-bottom: 0.125rem;
+  margin: 0.125rem -${v.mdSpacing};
   background: linear-gradient(var(--color-backgroundShadow, ${COLORS.backgroundShadow.light}), transparent);
 `
 const ContentBox = styled.section`
@@ -68,7 +65,7 @@ const Content = styled.textarea`
 const ContentMeta = styled.section`
   margin-left: -${v.mdSpacing};
   margin-right: -${v.mdSpacing};
-  background-color: var(--color-comment, ${COLORS.comment.light});
+  background-color: var(--color-currLine, ${COLORS.currLine.light});
   height: 2rem;
   display: flex;
   justify-content: end;
