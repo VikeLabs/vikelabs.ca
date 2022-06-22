@@ -62,7 +62,7 @@ export const Explanation = styled.div`
 `
 
 export const Teststuff = styled.div`
-  background: red;
+  background: var(--color-background, ${COLORS.background.light});
   padding: ${v.mdSpacing};
   border-radius: calc(${v.borderRadius} * 2);
   
@@ -77,7 +77,7 @@ export const Teststuff = styled.div`
   }
   span {
     margin-bottom: 0.1em;
-    background: black;
+    // background: black;
   }
   margin-bottom: 1.5em;
   img {
@@ -122,26 +122,31 @@ export const Teammates = styled.div `
   margin-bottom: 1.5em;
 `
 // Members role and name and social details
+// Consider justify-content: flex-start
+// Might need to research on how flex grow works here with another component thats not a flexbox
+// RENAME THIS TO SOMETHING BETTER SO THAT IT CAN ALSO BE USED FOR TECH STACK USED
 export const Memberdetail = styled.div `
-  background: pink;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-bottom: 0.1em;
+  flex-grow: 2;
 
 `
 
 // Social Detail
 export const Socials = styled.div `
-  background: grey;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
 `
 
+export const SocialIc = styled.div`
+  margin-right: 1em;
+`
+
 // Member Image
 export const MemberIcon = styled.div `
-  background: blue;
   img {
     width: 150px;
     height: 150px;

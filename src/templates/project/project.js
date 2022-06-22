@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import Layout from '../../components/Layout/Layout';
 import "./project-styling.css"
-import { HeadingContainer, PageHeader, EntireWrapper, Explanation, Teststuff, Sicon, Members, Teammates, Memberdetail, MemberIcon, Socials } from "./project-styling"
+import { HeadingContainer, PageHeader, EntireWrapper, Explanation, Teststuff, Sicon, Members, Teammates, Memberdetail, MemberIcon, Socials, SocialIc } from "./project-styling"
 import { LiteYoutubeEmbed } from 'react-lite-yt-embed'; // incase it's needed
 import { SocialIcon } from 'react-social-icons'; //incase required
 import ReactTooltip from 'react-tooltip';
@@ -54,17 +54,17 @@ function ProjectDetails({ data }) {
           <p>I don't have a background color</p>
           <p>I am Malenia, Blade of Miquella</p> */}
 
-
-          <h1>What is Vikelabs?</h1>
           {/* <h2>What is Vikelabs?</h2> */}
           {/* Could use a font change for both h tags */}
           {/* Please do figure out why the h1 tag is specifically at the middle unlike the h2 tag */}
           {/* Honestly I am kinda digging both styles lol */}
+
+          <h1>What is Vikelabs?</h1>
           <p>Consist of a team of UVic students who build apps to learn more about software development, product management, and design.</p>
           <p>&lt;Insert latest update of project here&gt;</p>
 
 
-            <Members>
+            {/* <Members>
               <Teststuff>
                 <span>
                   <h3>Lechonk</h3>
@@ -97,10 +97,10 @@ function ProjectDetails({ data }) {
                 <img src={lechonk} alt='lechonk'></img>
               </Teststuff>
 
-            </Members>
+            </Members> */}
 
 
-            <h1>Meet the members!!!</h1>
+            {/* <h1>Meet the members!!!</h1>
             <Members>
               <Teammates>
                 <Memberdetail>
@@ -115,18 +115,28 @@ function ProjectDetails({ data }) {
                   <img src = {lechonk} alt='lechonk'></img>
                 </MemberIcon>
               </Teammates>
-            </Members>
+            </Members> */}
 
 
             <h1>Meet the members!!!</h1>
             {/* Could create a different file that contains the following thing React structure.  */}
               <Teammates>
                 <Memberdetail>
-                  <h3>Lechonk</h3>
+                  <h3>Lechonkyyyy</h3>
                   <p>Project Coordinator</p>
                   <Socials>
-                    <SocialIcon url="https://www.reddit.com/user/Ganmany" />
-                    <SocialIcon url="https://twitter.com/jamestang9" />
+                    <SocialIc>
+                      <SocialIcon network="github" bgColor='#c3b4fd' />
+                    </SocialIc>
+                    <SocialIc>
+                      <SocialIcon network="reddit" bgColor='#c3b4fd' />
+                    </SocialIc>
+                    <SocialIc>
+                      <SocialIcon network="spotify" bgColor='#c3b4fd' />
+                    </SocialIc>
+                    <SocialIc>
+                      <SocialIcon network="github" bgColor='#c3b4fd' />
+                    </SocialIc>
                   </Socials>
                 </Memberdetail>
                 <MemberIcon>
@@ -138,8 +148,18 @@ function ProjectDetails({ data }) {
                   <h3>Lechonk</h3>
                   <p>Project Coordinator</p>
                   <Socials>
-                    <SocialIcon url="https://www.reddit.com/user/Ganmany" />
-                    <SocialIcon url="https://twitter.com/jamestang9" />
+                    <SocialIc>
+                      <SocialIcon network="github" bgColor='#c3b4fd' />
+                    </SocialIc>
+                    <SocialIc>
+                      <SocialIcon network="reddit" bgColor='#c3b4fd' />
+                    </SocialIc>
+                    <SocialIc>
+                      <SocialIcon network="spotify" bgColor='#c3b4fd' />
+                    </SocialIc>
+                    <SocialIc>
+                      <SocialIcon network="github" bgColor='#c3b4fd' />
+                    </SocialIc>
                   </Socials>
                 </Memberdetail>
                 <MemberIcon>
@@ -151,8 +171,18 @@ function ProjectDetails({ data }) {
                   <h3>Lechonk</h3>
                   <p>Project Coordinator</p>
                   <Socials>
-                    <SocialIcon url="https://www.reddit.com/user/Ganmany" />
-                    <SocialIcon url="https://twitter.com/jamestang9" />
+                    <SocialIc>
+                      <SocialIcon network="github" bgColor='#c3b4fd' />
+                    </SocialIc>
+                    <SocialIc>
+                      <SocialIcon network="reddit" bgColor='#c3b4fd' />
+                    </SocialIc>
+                    <SocialIc>
+                      <SocialIcon network="spotify" bgColor='#c3b4fd' />
+                    </SocialIc>
+                    <SocialIc>
+                      <SocialIcon network="github" bgColor='#c3b4fd' />
+                    </SocialIc>
                   </Socials>
                 </Memberdetail>
                 <MemberIcon>
