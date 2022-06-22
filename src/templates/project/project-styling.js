@@ -60,3 +60,93 @@ export const Explanation = styled.div`
     padding-top: 0.5em;
   }
 `
+
+export const Teststuff = styled.div`
+  background: red;
+  padding: ${v.mdSpacing};
+  border-radius: calc(${v.borderRadius} * 2);
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h1 {
+    font-size: 1.4em;
+    margin-top: -0.2em;
+    margin-bottom: 0.1em;
+    justify-content: start;
+  }
+  span {
+    margin-bottom: 0.1em;
+    background: black;
+  }
+  margin-bottom: 1.5em;
+  img {
+    width: 150px;
+    height: 150px;
+    border-radius: 75%;
+    border: 2px solid #c3b4fd;
+    padding: 3px;
+  }
+`
+
+export const Sicon = styled.div`
+  padding: 5px;
+
+`
+
+// padding: ${v.mdSpacing};
+// unsure how padding is working against me here, making the items within the container "smaller". Kind of weird
+export const Members = styled.div`
+  display: flex;
+  background: var(--color-background, ${COLORS.background.light});
+  flex-direction: column;
+  justify-content: space-between;
+  h2 {
+    color:black;
+    font-size: 69px;
+    font-family: Impact;
+  }
+  border-radius: calc(${v.borderRadius} * 2);
+  margin-bottom: 1.5em;
+  padding: ${v.mdSpacing};
+`
+
+// Individual teammates detail
+export const Teammates = styled.div `
+  background: var(--color-background, ${COLORS.background.light});
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: calc(${v.borderRadius} * 2);
+  padding: ${v.mdSpacing};
+  margin-bottom: 1.5em;
+`
+// Members role and name and social details
+export const Memberdetail = styled.div `
+  background: pink;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 0.1em;
+
+`
+
+// Social Detail
+export const Socials = styled.div `
+  background: grey;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`
+
+// Member Image
+export const MemberIcon = styled.div `
+  background: blue;
+  img {
+    width: 150px;
+    height: 150px;
+    border-radius: 75%;
+    border: 2px solid #c3b4fd;
+    padding: 3px;
+  }
+`
