@@ -5,8 +5,10 @@ import "./project-styling.css"
 import { HeadingContainer, PageHeader, EntireWrapper, Explanation, Teststuff, Sicon, Members, Teammates, Memberdetail, MemberIcon, Socials, SocialIc } from "./project-styling"
 import { LiteYoutubeEmbed } from 'react-lite-yt-embed'; // incase it's needed
 import { SocialIcon } from 'react-social-icons'; //incase required
+import { FaGithub, FaFacebook, FaSpotify, FaYoutube, FaTwitter, FaTwitch, FaLinkedin } from 'react-icons/fa'; //Import more if required
 import ReactTooltip from 'react-tooltip';
 import lechonk from '../../images/chonk.png'
+import { IconContext } from 'react-icons';
 
 // for react-lite-yt-embed
 // const extractVideoURL = (demo) => {
@@ -18,6 +20,17 @@ function ProjectDetails({ data }) {
   const {
     title, description, github, members
   } = data.allInfo.frontmatter;
+
+  function changeBackground(e){
+    e.background='#c3b4fd';
+    e.target.style.color='var(--color-background, ${COLORS.background.light})';
+  }
+  // Interaction Bug between the two background changes, might need a state change
+  function leaveBackground(e){
+    e.target.style.background='var(--color-background, ${COLORS.background.light})';
+    e.target.style.color='#c3b4fd';
+  }
+
   return (
     <Layout title={title}>
       <EntireWrapper>
@@ -27,6 +40,7 @@ function ProjectDetails({ data }) {
             <p>{description}</p>
           </PageHeader>
         </HeadingContainer>
+        <IconContext.Provider value={{ color: '#c3b4fd', size: "2em" , style: {marginRight: "1em"}}}>
         <Explanation>
           {/* {html ?
             <div dangerouslySetInnerHTML={{ __html: html }} />
@@ -125,18 +139,9 @@ function ProjectDetails({ data }) {
                   <h3>Lechonkyyyy</h3>
                   <p>Project Coordinator</p>
                   <Socials>
-                    <SocialIc>
-                      <SocialIcon network="github" bgColor='#c3b4fd' />
-                    </SocialIc>
-                    <SocialIc>
-                      <SocialIcon network="reddit" bgColor='#c3b4fd' />
-                    </SocialIc>
-                    <SocialIc>
-                      <SocialIcon network="spotify" bgColor='#c3b4fd' />
-                    </SocialIc>
-                    <SocialIc>
-                      <SocialIcon network="github" bgColor='#c3b4fd' />
-                    </SocialIc>
+                      <FaFacebook onMouseEnter={changeBackground} onMouseLeave={leaveBackground}/>
+                      <FaLinkedin />
+                      <FaGithub />
                   </Socials>
                 </Memberdetail>
                 <MemberIcon>
@@ -148,18 +153,8 @@ function ProjectDetails({ data }) {
                   <h3>Lechonk</h3>
                   <p>Project Coordinator</p>
                   <Socials>
-                    <SocialIc>
-                      <SocialIcon network="github" bgColor='#c3b4fd' />
-                    </SocialIc>
-                    <SocialIc>
-                      <SocialIcon network="reddit" bgColor='#c3b4fd' />
-                    </SocialIc>
-                    <SocialIc>
-                      <SocialIcon network="spotify" bgColor='#c3b4fd' />
-                    </SocialIc>
-                    <SocialIc>
-                      <SocialIcon network="github" bgColor='#c3b4fd' />
-                    </SocialIc>
+                      <FaGithub />
+                      <FaLinkedin />                     
                   </Socials>
                 </Memberdetail>
                 <MemberIcon>
@@ -171,18 +166,8 @@ function ProjectDetails({ data }) {
                   <h3>Lechonk</h3>
                   <p>Project Coordinator</p>
                   <Socials>
-                    <SocialIc>
-                      <SocialIcon network="github" bgColor='#c3b4fd' />
-                    </SocialIc>
-                    <SocialIc>
-                      <SocialIcon network="reddit" bgColor='#c3b4fd' />
-                    </SocialIc>
-                    <SocialIc>
-                      <SocialIcon network="spotify" bgColor='#c3b4fd' />
-                    </SocialIc>
-                    <SocialIc>
-                      <SocialIcon network="github" bgColor='#c3b4fd' />
-                    </SocialIc>
+                      <FaGithub />
+                      <FaLinkedin />                     
                   </Socials>
                 </Memberdetail>
                 <MemberIcon>
@@ -226,6 +211,7 @@ function ProjectDetails({ data }) {
 
             
           </Explanation>
+          </IconContext.Provider>
 
         {/* <Teststuff>
           {html ?

@@ -6,3 +6,19 @@
   background-color: var(--color-tooltip);
   cursor: pointer;
 }
+
+.SocialIcon {
+  /* background-color: pink; */
+  margin-right: 1em;
+  width: 1.4em;
+  height: 1.4em;
+  /* background-color: red; */
+}
+
+.SocialIcon:hover {
+  background-color: var(--color-tooltip);
+}
+
+.react-icons:hover{
+  color: red;
+}

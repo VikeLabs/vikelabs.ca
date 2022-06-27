@@ -142,7 +142,7 @@ export const Socials = styled.div `
 `
 
 export const SocialIc = styled.div`
-  margin-right: 1em;
+  margin-right: 1.5em;
 `
 
 // Member Image
