@@ -61,6 +61,7 @@ export const Explanation = styled.div`
   }
 `
 
+// Placeholder for the tech stack, remove if necessary
 export const Teststuff = styled.div`
   background: var(--color-background, ${COLORS.background.light});
   padding: ${v.mdSpacing};
@@ -96,18 +97,6 @@ export const Sicon = styled.div`
 
 // padding: ${v.mdSpacing};
 // unsure how padding is working against me here, making the items within the container "smaller". Kind of weird
-export const Members = styled.div`
-  display: flex;
-  background: var(--color-background, ${COLORS.background.light});
-  flex-direction: column;
-  justify-content: space-between;
-  h2 {
-    color:black;
-    font-size: 69px;
-    font-family: Impact;
-  }
-  border-radius: calc(${v.borderRadius} * 2);
-`
 
 // Individual teammates detail
 export const Teammates = styled.div `
@@ -142,11 +131,7 @@ export const Socials = styled.div `
     border-radius: 35%;
     padding-top: 0.2em;
   }
-  
-`
-
-export const SocialIc = styled.div`
-  margin-right: 1.5em;
+ 
 `
 
 // Member Image

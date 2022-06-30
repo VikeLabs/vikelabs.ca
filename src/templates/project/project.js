@@ -2,9 +2,9 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import Layout from '../../components/Layout/Layout';
 import "./project-styling.css"
-import { HeadingContainer, PageHeader, EntireWrapper, Explanation, Teststuff, Sicon, Members, Teammates, Memberdetail, MemberIcon, Socials, SocialIc } from "./project-styling"
+import { HeadingContainer, PageHeader, EntireWrapper, Explanation, Teststuff, Teammates, Memberdetail, MemberIcon, Socials } from "./project-styling"
 import { LiteYoutubeEmbed } from 'react-lite-yt-embed'; // incase it's needed
-import { FaGithub, FaFacebook, FaSpotify, FaYoutube, FaTwitter, FaTwitch, FaLinkedin, FaGit, FaStripeS, FaSafari } from 'react-icons/fa'; //Import more if required
+import { FaGithub, FaLinkedin} from 'react-icons/fa'; //Import more if required
 import ReactTooltip from 'react-tooltip';
 import lechonk from '../../images/chonk.png'
 import { IconContext } from 'react-icons';
@@ -29,7 +29,7 @@ function ProjectDetails({ data }) {
             <p>{description}</p>
           </PageHeader>
         </HeadingContainer>
-        <IconContext.Provider value={{size:"2em", style: {verticalAlign: 'middle'}}}>
+        <IconContext.Provider value={{size:"2em" }}>
         <Explanation>
           {/* {html ?
             <div dangerouslySetInnerHTML={{ __html: html }} />
@@ -37,77 +37,21 @@ function ProjectDetails({ data }) {
             <p>This project page has no content.</p>
           } */}
           {/* Could use a font change for both h tags */}
-          {/* Please do figure out why the h1 tag is specifically at the middle unlike the h2 tag */}
           {/* Honestly I am kinda digging both styles lol */}
+          {/* Didn't use any display: blocks for styling, possible issue? Learn */}
 
           <h1>What is Vikelabs?</h1>
           <p>Consist of a team of UVic students who build apps to learn more about software development, product management, and design.</p>
           <p>&lt;Insert latest update of project here&gt;</p>
 
-
-            {/* <Members>
-              <Teststuff>
-                <span>
-                  <h3>Lechonk</h3>
-                  <p>Project Coordinator</p>
-                  <SocialIcon url="https://www.reddit.com/user/Ganmany" />
-                  <SocialIcon url="https://twitter.com/jamestang9" />
-                </span>
-                <img src={lechonk} alt='lechonk'></img>
-              </Teststuff>
-              <Teststuff>
-                <span>
-                  <h3>Lechonk</h3>
-                  <p>Project Coordinator</p>
-                  <div>
-                  <Sicon>
-                    <SocialIcon url="https://www.reddit.com/user/Ganmany" bgColor='#c3b4fd' />
-                  </Sicon>
-                  <Sicon>
-                    <SocialIcon network="twitter" bgColor='#c3b4fd'/>
-                  </Sicon>
-                  </div>
-                </span>
-                <img src={lechonk} alt='lechonk'></img>
-              </Teststuff>
-              <Teststuff>
-                <span>
-                  <h3>Lechonk</h3>
-                  <p>Project Coordinator</p>
-                </span>
-                <img src={lechonk} alt='lechonk'></img>
-              </Teststuff>
-
-            </Members> */}
-
-
             <h1>Meet the members!!!</h1>
-            {/* Could create a different file that contains the following thing React structure.  */}
+            {/* Might need to figure out why hovering just automatically works here  */}
+            {/* Let there be span?? */}
               <Teammates>
                 <Memberdetail>
                   <h4>Lechonkyyyy</h4>
                   <p>Project Coordinator</p>
                   <Socials>
-                      {/* <span>
-                        <FaTwitch color='red'/>
-                      </span>
-                      <span>
-                        <div>
-                          <FaSpotify />
-                        </div>
-                      </span>
-                      <span>
-                        <a>
-                          <FaLinkedin />
-                        </a>
-                      </span>
-                      <a>
-                        <FaLinkedin />
-                      </a>
-                      <FaLinkedin />
-                      <a class="link github" href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>
-                        <FaGithub />
-                      </a> */}
                       <a>
                         <FaLinkedin />
                       </a>
@@ -122,7 +66,7 @@ function ProjectDetails({ data }) {
               </Teammates>
               <Teammates>
                 <Memberdetail>
-                  <h3>Lechonk</h3>
+                  <h4>Lechonk</h4>
                   <p>Project Coordinator</p>
                   <Socials>
                       <a>
@@ -139,7 +83,7 @@ function ProjectDetails({ data }) {
               </Teammates>
               <Teammates>
                 <Memberdetail>
-                  <h3>Lechonk</h3>
+                  <h4>Lechonk</h4>
                   <p>Project Coordinator</p>
                   <Socials>  
                       <a>
@@ -151,70 +95,17 @@ function ProjectDetails({ data }) {
                   <img src = {lechonk} alt='lechonk'></img>
                 </MemberIcon>
               </Teammates>
-          
-
-            {/* <h2>Meet the Members!!</h2>
-            <Teststuff>
-              <span>
-                <h3>Lechonk</h3>
-                <p>Project Coordinator</p>
-                <SocialIcon url="https://www.reddit.com/user/Ganmany" />
-                <SocialIcon url="https://twitter.com/jamestang9" />
-              </span>
-              <img src={lechonk} alt='lechonk'></img>
-            </Teststuff>
-            <Teststuff>
-              <span>
-                <h3>Lechonk</h3>
-                <p>Project Coordinator</p>
-                <div>
-                <Sicon>
-                  <SocialIcon url="https://www.reddit.com/user/Ganmany" bgColor='#c3b4fd' />
-                </Sicon>
-                <Sicon>
-                  <SocialIcon network="twitter" bgColor='#c3b4fd'/>
-                </Sicon>
-                </div>
-              </span>
-              <img src={lechonk} alt='lechonk'></img>
-            </Teststuff>
-            <Teststuff>
-              <span>
-                <h3>Lechonk</h3>
-                <p>Project Coordinator</p>
-              </span>
-              <img src={lechonk} alt='lechonk'></img>
-            </Teststuff> */}
+        
 
             
           </Explanation>
           </IconContext.Provider>
 
-        {/* <Teststuff>
-          {html ?
-            <div dangerouslySetInnerHTML={{ __html: html }} />
-            :
-            <p>This project page has no content.</p>
-          }
-          <div>lechonk</div>
-          <div>
-            <span>
-              <h1>
-                Hello There 2
-              </h1>
-              <p>I am lechonk</p>
-            </span>
-          </div>
-          <img src={lechonk} alt='lechonk'></img>
-
-        </Teststuff> */}
+        {/* Haven't decide how to design this lol */}
+        {/* Will leave this to someone else or future me */}
         <h2>Tech Stack Used</h2>
         <Teststuff>
-            <span>
-              <h3>React</h3>
-              <p>I am React, therefore I react</p>
-            </span>
-            <img src={lechonk} alt='lechonk'></img>
+            <p>Insert someone else's responsibility here</p>
             
             {/* This is definetely not the final design of this section. Will improve on it later I think, hopefully*/}
 
