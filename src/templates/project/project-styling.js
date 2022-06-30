@@ -123,7 +123,6 @@ export const Memberdetail = styled.div `
 export const Socials = styled.div `
   display: flex;
   flex-direction: row;
-  align-items: center;
   a {
     width: 2.5em;
     height: 2.5em;
