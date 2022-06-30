@@ -107,8 +107,6 @@ export const Members = styled.div`
     font-family: Impact;
   }
   border-radius: calc(${v.borderRadius} * 2);
-  margin-bottom: 1.5em;
-  padding: ${v.mdSpacing};
 `
 
 // Individual teammates detail
@@ -129,16 +127,22 @@ export const Memberdetail = styled.div `
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 0.1em;
   flex-grow: 2;
-
 `
 
 // Social Detail
 export const Socials = styled.div `
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  align-items: center;
+  a {
+    width: 2.5em;
+    height: 2.5em;
+    text-align: center;
+    border-radius: 35%;
+    padding-top: 0.2em;
+  }
+  
 `
 
 export const SocialIc = styled.div`
@@ -148,8 +152,8 @@ export const SocialIc = styled.div`
 // Member Image
 export const MemberIcon = styled.div `
   img {
-    width: 150px;
-    height: 150px;
+    width: 8em;
+    height: 8em;
     border-radius: 75%;
     border: 2px solid #c3b4fd;
     padding: 3px;

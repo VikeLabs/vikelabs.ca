@@ -4,8 +4,7 @@ import Layout from '../../components/Layout/Layout';
 import "./project-styling.css"
 import { HeadingContainer, PageHeader, EntireWrapper, Explanation, Teststuff, Sicon, Members, Teammates, Memberdetail, MemberIcon, Socials, SocialIc } from "./project-styling"
 import { LiteYoutubeEmbed } from 'react-lite-yt-embed'; // incase it's needed
-import { SocialIcon } from 'react-social-icons'; //incase required
-import { FaGithub, FaFacebook, FaSpotify, FaYoutube, FaTwitter, FaTwitch, FaLinkedin } from 'react-icons/fa'; //Import more if required
+import { FaGithub, FaFacebook, FaSpotify, FaYoutube, FaTwitter, FaTwitch, FaLinkedin, FaGit, FaStripeS, FaSafari } from 'react-icons/fa'; //Import more if required
 import ReactTooltip from 'react-tooltip';
 import lechonk from '../../images/chonk.png'
 import { IconContext } from 'react-icons';
@@ -21,16 +20,6 @@ function ProjectDetails({ data }) {
     title, description, github, members
   } = data.allInfo.frontmatter;
 
-  function changeBackground(e){
-    e.background='#c3b4fd';
-    e.target.style.color='var(--color-background, ${COLORS.background.light})';
-  }
-  // Interaction Bug between the two background changes, might need a state change
-  function leaveBackground(e){
-    e.target.style.background='var(--color-background, ${COLORS.background.light})';
-    e.target.style.color='#c3b4fd';
-  }
-
   return (
     <Layout title={title}>
       <EntireWrapper>
@@ -40,35 +29,13 @@ function ProjectDetails({ data }) {
             <p>{description}</p>
           </PageHeader>
         </HeadingContainer>
-        <IconContext.Provider value={{ color: '#c3b4fd', size: "2em" , style: {marginRight: "1em"}}}>
+        <IconContext.Provider value={{size:"2em", style: {verticalAlign: 'middle'}}}>
         <Explanation>
           {/* {html ?
             <div dangerouslySetInnerHTML={{ __html: html }} />
             :
             <p>This project page has no content.</p>
           } */}
-          {/* <ul>
-            <li>I am an unordered list without a background color</li>
-          </ul>
-          <p>I don't have a background color</p>
-          <p>I am Malenia, Blade of Miquella</p>
-          <ul>
-            <li>I am an unordered list without a background color</li>
-          </ul>
-          <p>I don't have a background color</p>
-          <p>I am Malenia, Blade of Miquella</p>
-          <ul>
-            <li>I am an unordered list without a background color</li>
-          </ul>
-          <p>I don't have a background color</p>
-          <p>I am Malenia, Blade of Miquella</p>
-          <ul>
-            <li>I am an unordered list without a background color</li>
-          </ul>
-          <p>I don't have a background color</p>
-          <p>I am Malenia, Blade of Miquella</p> */}
-
-          {/* <h2>What is Vikelabs?</h2> */}
           {/* Could use a font change for both h tags */}
           {/* Please do figure out why the h1 tag is specifically at the middle unlike the h2 tag */}
           {/* Honestly I am kinda digging both styles lol */}
@@ -114,34 +81,39 @@ function ProjectDetails({ data }) {
             </Members> */}
 
 
-            {/* <h1>Meet the members!!!</h1>
-            <Members>
-              <Teammates>
-                <Memberdetail>
-                  <h3>Lechonk</h3>
-                  <p>Project Coordinator</p>
-                  <Socials>
-                    <SocialIcon url="https://www.reddit.com/user/Ganmany" />
-                    <SocialIcon url="https://twitter.com/jamestang9" />
-                  </Socials>
-                </Memberdetail>
-                <MemberIcon>
-                  <img src = {lechonk} alt='lechonk'></img>
-                </MemberIcon>
-              </Teammates>
-            </Members> */}
-
-
             <h1>Meet the members!!!</h1>
             {/* Could create a different file that contains the following thing React structure.  */}
               <Teammates>
                 <Memberdetail>
-                  <h3>Lechonkyyyy</h3>
+                  <h4>Lechonkyyyy</h4>
                   <p>Project Coordinator</p>
                   <Socials>
-                      <FaFacebook onMouseEnter={changeBackground} onMouseLeave={leaveBackground}/>
+                      {/* <span>
+                        <FaTwitch color='red'/>
+                      </span>
+                      <span>
+                        <div>
+                          <FaSpotify />
+                        </div>
+                      </span>
+                      <span>
+                        <a>
+                          <FaLinkedin />
+                        </a>
+                      </span>
+                      <a>
+                        <FaLinkedin />
+                      </a>
                       <FaLinkedin />
-                      <FaGithub />
+                      <a class="link github" href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>
+                        <FaGithub />
+                      </a> */}
+                      <a>
+                        <FaLinkedin />
+                      </a>
+                      <a>
+                        <FaGithub />
+                      </a>
                   </Socials>
                 </Memberdetail>
                 <MemberIcon>
@@ -153,8 +125,12 @@ function ProjectDetails({ data }) {
                   <h3>Lechonk</h3>
                   <p>Project Coordinator</p>
                   <Socials>
-                      <FaGithub />
-                      <FaLinkedin />                     
+                      <a>
+                        <FaLinkedin />
+                      </a>
+                      <a>
+                        <FaGithub />
+                      </a>                   
                   </Socials>
                 </Memberdetail>
                 <MemberIcon>
@@ -165,9 +141,10 @@ function ProjectDetails({ data }) {
                 <Memberdetail>
                   <h3>Lechonk</h3>
                   <p>Project Coordinator</p>
-                  <Socials>
-                      <FaGithub />
-                      <FaLinkedin />                     
+                  <Socials>  
+                      <a>
+                        <FaGithub />
+                      </a>                 
                   </Socials>
                 </Memberdetail>
                 <MemberIcon>

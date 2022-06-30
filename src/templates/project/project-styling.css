@@ -9,16 +9,36 @@
 
 .SocialIcon {
   /* background-color: pink; */
-  margin-right: 1em;
+  /* margin-right: 1em;
   width: 1.4em;
-  height: 1.4em;
+  height: 1.4em; */
   /* background-color: red; */
 }
 
 .SocialIcon:hover {
-  background-color: var(--color-tooltip);
+  /* background: red; */
+  color: pink;
 }
 
 .react-icons:hover{
   color: red;
+}
+
+.github:hover{
+  color: blueviolet;
+  background-color: red;
+}
+
+.link {
+  /* height: 70px;
+  width: 70px;
+  background-color: white; */
+  border-radius: 35px;
+  text-align: center;
+  margin: 7px;
+  /* line-height: 80px; */
+}
+
+.test {
+  vertical-align: middle;
 }
