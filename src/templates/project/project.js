@@ -45,19 +45,31 @@ function ProjectDetails({ data }) {
               {/* Might need to figure out why hovering just automatically works here  */}
               {/* Let there be span?? */}
               <Teammates>
-                  <Member name={"Le Chonk"} role={"Project Coordinator"} git={'https://www.lttstore.com'} link={'#'}/>
+                  <Member 
+                    name="Le Chonk" 
+                    role="Project Coordinator" 
+                    git='https://www.lttstore.com' 
+                    link='#'/>
                   <MemberIcon>
                     <img src = {lechonk} alt='lechonk'></img>
                   </MemberIcon>
               </Teammates>
               <Teammates>
-                <Member name={"Le Chonk"} role={"Project Coordinator"} git={'https://www.youtube.com/watch?v=dQw4w9WgXcQ'} link={'#'}/>
+                <Member 
+                    name="Le Chonk" 
+                    role="Project Coordinator" 
+                    git='https://www.youtube.com/watch?v=dQw4w9WgXcQ' 
+                    link='#'/>
                   <MemberIcon>
                     <img src = {lechonk} alt='lechonk'></img>
                   </MemberIcon>
               </Teammates>
               <Teammates>
-                <Member name={"Le Chonk"} role={"Project Coordinator"} git={'https://google.ca'} link={'#'}/>
+                <Member 
+                    name="Le Chonk" 
+                    role="Project Coordinator" 
+                    git='https://google.ca' 
+                    link='#'/>
                   <MemberIcon>
                     <img src = {lechonk} alt='lechonk'></img>
                   </MemberIcon>
