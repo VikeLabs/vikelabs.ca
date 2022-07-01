@@ -2,10 +2,9 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import Layout from '../../components/Layout/Layout';
 import "./project-styling.css"
-import { HeadingContainer, PageHeader, EntireWrapper, Explanation, Teststuff, Teammates,  MemberIcon } from "./project-styling"
+import { HeadingContainer, PageHeader, EntireWrapper, Explanation, TechStackPlaceholder, Teammates,  MemberIcon } from "./project-styling"
 import Member from './project-members';
 import { LiteYoutubeEmbed } from 'react-lite-yt-embed'; // incase it's needed
-import { FaGithub, FaLinkedin} from 'react-icons/fa'; //Import more if required
 import ReactTooltip from 'react-tooltip';
 import lechonk from '../../images/chonk.png'
 import { IconContext } from 'react-icons';
@@ -32,12 +31,12 @@ function ProjectDetails({ data }) {
         </HeadingContainer>
         <IconContext.Provider value={{size:"2em" }}>
           <Explanation>
+            {/* Commented below incase required */}
             {/* {html ?
               <div dangerouslySetInnerHTML={{ __html: html }} />
               :
               <p>This project page has no content.</p>
             } */}
-            {/* Didn't use any display: blocks for styling, possible issue? Learn */}
             <h1>What is Vikelabs?</h1>
             <p>Consist of a team of UVic students who build apps to learn more about software development, product management, and design.</p>
             <p>&lt;Insert latest update of project here&gt;</p>
@@ -46,35 +45,32 @@ function ProjectDetails({ data }) {
               {/* Might need to figure out why hovering just automatically works here  */}
               {/* Let there be span?? */}
               <Teammates>
-                  <Member name={"Le Chonk"} role={"Project Coordinator"}/>
+                  <Member name={"Le Chonk"} role={"Project Coordinator"} git={'https://www.lttstore.com'} link={'#'}/>
                   <MemberIcon>
                     <img src = {lechonk} alt='lechonk'></img>
                   </MemberIcon>
               </Teammates>
               <Teammates>
-                <Member name={"Le Chonk"} role={"Project Coordinator"}/>
+                <Member name={"Le Chonk"} role={"Project Coordinator"} git={'https://www.youtube.com/watch?v=dQw4w9WgXcQ'} link={'#'}/>
                   <MemberIcon>
                     <img src = {lechonk} alt='lechonk'></img>
                   </MemberIcon>
               </Teammates>
               <Teammates>
-                <Member name={"Le Chonk"} role={"Project Coordinator"}/>
+                <Member name={"Le Chonk"} role={"Project Coordinator"} git={'https://google.ca'} link={'#'}/>
                   <MemberIcon>
                     <img src = {lechonk} alt='lechonk'></img>
                   </MemberIcon>
-              </Teammates>
-              
+              </Teammates>         
             </Explanation>
           </IconContext.Provider>
 
         {/* Haven't decide how to design this lol */}
         {/* Will leave this to someone else or future me */}
         <h2>Tech Stack Used</h2>
-        <Teststuff>
+        <TechStackPlaceholder>
             <p>Insert someone else's responsibility here</p>
-        </Teststuff>
-
-        <h3>&lt;Insert link to take to a different page &gt;</h3>
+        </TechStackPlaceholder>
 
         <ReactTooltip
           className="ttEdit"

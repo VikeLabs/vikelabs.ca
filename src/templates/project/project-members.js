@@ -1,20 +1,19 @@
 import React from 'react';
 import "./project-styling.css"
-import { Memberdetail, Socials } from "./project-styling"
-import { LiteYoutubeEmbed } from 'react-lite-yt-embed'; // incase it's needed
+import { MemberDetail, Socials } from "./project-styling"
 import ReactTooltip from 'react-tooltip';
 import Media from './member-media';
 
-const Member = (props) => {
+const Member = ({name, role, link, git}) => {
     return (
-        <Memberdetail>
-            <h4>{props.name}</h4>
-            <p>{props.role}</p>
+        <MemberDetail>
+            <h4>{name}</h4>
+            <p>{role}</p>
             <Socials>
-                <Media name='Github' />
-                <Media name='Linkedin' />
+                <Media media='Github' git={git}/>
+                <Media media='Linkedin' link={link} />
             </Socials>
-        </Memberdetail>
+        </MemberDetail>
     )
 }
 
