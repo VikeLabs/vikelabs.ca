@@ -17,4 +17,34 @@ members: [
 
 # Vision
 
-stub
+stub nihao ma
+
+laowhy
+
+
+- [x] Write the press release
+- [x] Update the website
+- [ ] Contact the media
+
+
+`
+This is a code block
+`
+
+
+| Syntax | Description |
+| ----------- | ----------- |
+| Header | Title |
+| Paragraph | Text |
+
+
+```
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "age": 25
+}
+```
+
+
+<!-- ![sample](chonk.png) -->

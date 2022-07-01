@@ -94,6 +94,10 @@ export const COLORS = {
     light: '#f1fa8c',
     dark: '#f1fa8c',
   },
+  lightPurple: {
+    light: '#c3b4fd',
+    dark: '#c3b4fd',
+  },
 };
 
 export const COLOR_MODE_KEY = 'color-mode';

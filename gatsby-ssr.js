@@ -142,6 +142,12 @@ const MagicScriptTag = () => {
         ? '${COLORS.yellow.light}'
         : '${COLORS.yellow.dark}'
     );
+    root.style.setProperty(
+      '--color-lightPurple',
+      colorMode ==='light'
+        ? '${COLORS.lightPurple.light}'
+        : '${COLORS.lightPurple.dark}'
+    )
     root.style.setProperty('--initial-color-mode', colorMode);
   })()
 `;
