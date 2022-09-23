@@ -21,6 +21,7 @@ export const Metadata = ({ title, description, image }: MetadataProps) => {
       <meta property="og:url" content="https://vikelabs.ca" />
       <meta property="og:type" content="website" />
       <meta property="og:title" content="VikeLabs" />
+      <meta property="og:image" content={image ?? defaultImage} />
       <meta
         property="og:description"
         content={description ?? defaultDescription}
