@@ -19,7 +19,10 @@ import { BaseLayout } from "../layouts/base";
 export const About: NextPage = () => {
   return (
     <BaseLayout>
-      <Metadata title="About" />
+      <Metadata
+        title="About"
+        description="Learn more about VikeLabs, it's mission and it's members."
+      />
       <Box py="10">
         <Container maxW="container.xl">
           <Text>

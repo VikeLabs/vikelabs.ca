@@ -17,6 +17,13 @@ import Image from "next/image";
 import { NextPage } from "next";
 import vikeLabsPhoto from "../public/vikelabs.jpg";
 
+const connect =
+  "Network with like-minded, passionate other students and professionals within the industry. We're active in on Discord and GitHub.";
+const learn =
+  "Learn new skills and technologies through workshops and events. Work with peers to build projects and applications.";
+const build =
+  "Build projects and applications that you can add to your portfolio and resume. ";
+
 export const Index: NextPage = () => {
   return (
     <Layout>
@@ -91,9 +98,9 @@ export const Index: NextPage = () => {
           </Box>
           <SimpleGrid columns={[1, 1, 3]} spacing={10} my="6">
             {[
-              { title: "Connect", body: "Lorum ipsum" },
-              { title: "Learn", body: "Lorum ipsum" },
-              { title: "Build", body: "Lorum ipsum" },
+              { title: "Connect", body: connect },
+              { title: "Learn", body: learn },
+              { title: "Build", body: build },
             ].map((item) => (
               <Box bg="white" borderRadius="xl" p="5" key={item.title}>
                 <Center>
