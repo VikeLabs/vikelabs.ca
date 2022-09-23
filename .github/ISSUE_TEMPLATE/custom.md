@@ -1,18 +1,19 @@
 ---
-name: Custom issue template
+name: Standard Issue Template
 about: Describe this issue template's purpose here.
-title: ''
+title: Standard Issue Template
 labels: ''
 assignees: ''
 
 ---
 
----
-name: Other
-about: Something else
+### User Story
+<!-- Include a relevant user story to help others understand the purpose of the ticket -->
+As a \<type of user\> I would like to \<perform some task\> so that I can \<achieve some outcome\>
 
----
+### Details
+<!-- Include any extra details needed to perform this ticket. Include any additional resources that would be helpful -->
 
-<!-- Bug reports and Feature requests must use other templates, or will be closed -->
-<!-- Please ask questions on the NetlifyCMS Gitter channel (https://gitter.im/netlify/NetlifyCMS). -->
-<!-- Issues which contain questions or support requests will be closed. -->
+
+### Acceptance Criteria
+<!-- Include acceptance critiera for the ticket, ie. what must be done for this ticket to be considered "done" -->
