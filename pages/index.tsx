@@ -38,7 +38,6 @@ export const Index: NextPage = () => {
             <Flex direction="column" justifyContent="center">
               <Heading
                 as="h1"
-                fontFamily="Consolas"
                 fontSize={["4em", "5em", "6em"]}
                 color="gray.700"
                 lineHeight={[1, 1, 1.15]}
