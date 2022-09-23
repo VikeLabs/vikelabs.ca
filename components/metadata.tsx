@@ -18,10 +18,13 @@ export const Metadata = ({ title, description, image }: MetadataProps) => {
       {/* TODO */}
       <meta name="image" content={image ?? defaultImage} />
       {/* Open Graph */}
+      <meta property="theme-color" content="#108091" />
       <meta property="og:url" content="https://vikelabs.ca" />
       <meta property="og:type" content="website" />
       <meta property="og:title" content="VikeLabs" />
-      <meta property="og:image" content={image ?? defaultImage} />
+      {/* TODO */}
+      {/* <meta property="og:image" content={image ?? defaultImage} /> */}
+      {/* <meta property="og:image" content={image ?? defaultImage} /> */}
       <meta
         property="og:description"
         content={description ?? defaultDescription}

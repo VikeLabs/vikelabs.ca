@@ -1,9 +1,9 @@
-import { Box, Flex, Link, Text } from "@chakra-ui/layout";
+import { Box, Flex, Text } from "@chakra-ui/layout";
 import { Button, IconButton } from "@chakra-ui/button";
 import { Heading } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/icon";
 import { GoMarkGithub } from "react-icons/go";
-import { GrLinkedin } from "react-icons/gr";
+import { GrInstagram, GrLinkedin, GrYoutube } from "react-icons/gr";
 import { SiDiscord } from "react-icons/si";
 
 export const GitHubIcon = (
@@ -18,6 +18,20 @@ const LinkedInIcon = (
   <Icon as={GrLinkedin} color="black" title="LinkedIn logo" boxSize="2rem" />
 );
 
+const InstagramIcon = (
+  <Icon as={GrInstagram} color="black" title="Instagram logo" boxSize="2rem" />
+);
+
+const YouTubeIcon = (
+  <Icon as={GrYoutube} color="black" title="YouTube logo" boxSize="2rem" />
+);
+
+const discordInvite = "https://discord.gg/Znse6XaVNu";
+const github = "vikelabs";
+const linkedin = "vikelabs";
+const instagram = "vikelabs";
+const youtube = "https://www.youtube.com/channel/UCKAAXo4bqb034PZYR6ZhpQw";
+
 export const Contact = () => {
   return (
     <Box my="8">
@@ -31,23 +45,43 @@ export const Contact = () => {
           <Box>
             <IconButton
               // make the button a link
-              as={Link}
-              // href={`https://github.com/${data.site.siteMetadata.github}`}
+              as={"a"}
+              href={`https://github.com/${github}`}
               // makes the link open in a new tab
               target="_blank"
               // specifies the icon
               icon={GitHubIcon}
               isRound
-              aria-label=""
+              aria-label="vikelabs github"
               variant="unstyled"
               mr="2"
             />
             <IconButton
-              as={Link}
-              // href={`https://www.linkedin.com/company/${data.site.siteMetadata.linkedin}`}
+              as={"a"}
+              href={`https://www.linkedin.com/company/${linkedin}`}
               target="_blank"
               icon={LinkedInIcon}
-              aria-label=""
+              aria-label="vikelabs linkedin"
+              boxSize="2rem"
+              variant="unstyled"
+              mr="2"
+            />
+            <IconButton
+              as={"a"}
+              href={`https://www.instagram.com/${instagram}`}
+              target="_blank"
+              icon={InstagramIcon}
+              aria-label="vikelabs instagram"
+              boxSize="2rem"
+              variant="unstyled"
+              mr="2"
+            />
+            <IconButton
+              as={"a"}
+              href={youtube}
+              target="_blank"
+              icon={YouTubeIcon}
+              aria-label="vikelabs youtube"
               boxSize="2rem"
               variant="unstyled"
               mr="2"
@@ -55,7 +89,12 @@ export const Contact = () => {
           </Box>
         </Box>
         <Box>
-          <Button variant="black" leftIcon={DiscordIcon}>
+          <Button
+            variant="black"
+            leftIcon={DiscordIcon}
+            as="a"
+            href={discordInvite}
+          >
             Join Our Discord!
           </Button>
         </Box>

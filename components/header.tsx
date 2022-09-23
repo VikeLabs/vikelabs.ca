@@ -54,6 +54,23 @@ const MenuBar = ({ items }: { items: MenuItem[] }) => (
   </Flex>
 );
 
+const NofiticationBar = () => (
+  <Box bg="green.600" py="1">
+    <Container maxW="container.xl">
+      <Center>
+        <a
+          href="https://discord.gg/gRK5XZ5r?event=1022675053009178717"
+          target={"_blank"}
+        >
+          <Text fontWeight="extrabold" color="white">
+            Kick-off event is happening Sept, 28th, 2022 at 6pm. RSVP now!
+          </Text>
+        </a>
+      </Center>
+    </Container>
+  </Box>
+);
+
 export const Header = () => {
   const { isOpen, onToggle } = useDisclosure();
 
@@ -84,15 +101,7 @@ export const Header = () => {
           </Box>
         </Collapse>
       </Container>
-      <Box bg="green.600" py="1">
-        <Container maxW="container.xl">
-          <Center>
-            <Text fontWeight="extrabold" color="white">
-              Want to learn React? We've go a workshop coming up.
-            </Text>
-          </Center>
-        </Container>
-      </Box>
+      <NofiticationBar />
     </Box>
   );
 };

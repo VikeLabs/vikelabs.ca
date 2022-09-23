@@ -1,13 +1,4 @@
-import {
-  Box,
-  Center,
-  Container,
-  Flex,
-  Heading,
-  Link,
-  LinkBox,
-  Text,
-} from "@chakra-ui/layout";
+import { Box, Container, Flex, Heading, Text } from "@chakra-ui/layout";
 
 import { Contact } from "../components/contact";
 import { BaseLayout } from "../layouts/base";
