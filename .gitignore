@@ -3,7 +3,10 @@
 node_modules
 .cache/
 # Build directory
-public/
+
 static/admin/*.bundle.*
 .DS_Store
 yarn-error.log
+
+# Next.js build output
+.next
