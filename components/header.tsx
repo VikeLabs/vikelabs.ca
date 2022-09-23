@@ -1,12 +1,4 @@
-import {
-  Box,
-  Center,
-  Container,
-  Flex,
-  Heading,
-  LinkBox,
-  Text,
-} from "@chakra-ui/layout";
+import { Box, Center, Container, Flex, Heading, Text } from "@chakra-ui/layout";
 
 import { IconButton } from "@chakra-ui/react";
 import { Collapse } from "@chakra-ui/react";
@@ -32,10 +24,10 @@ const menuItems: MenuItem[] = [
   //   title: "Blog",
   //   to: "/blog",
   // },
-  {
-    title: "Projects",
-    to: "/projects",
-  },
+  // {
+  //   title: "Projects",
+  //   to: "/projects",
+  // },
 ];
 
 const Logo = () => (
