@@ -8,7 +8,7 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/layout";
-import { Contact } from "../components/contact";
+import { Contact, DiscordIcon, discordInvite } from "../components/contact";
 import { BaseLayout as Layout } from "../layouts/base";
 import { Metadata } from "../components/metadata";
 import { Button, ButtonGroup } from "@chakra-ui/button";
@@ -53,6 +53,15 @@ export const Index: NextPage = () => {
                 <Link href="/about">
                   <Button colorScheme="blue">Learn More</Button>
                 </Link>
+
+                <Button
+                  variant="black"
+                  leftIcon={DiscordIcon}
+                  as="a"
+                  href={discordInvite}
+                >
+                  Join Our Discord!
+                </Button>
               </ButtonGroup>
             </Flex>
             <Flex

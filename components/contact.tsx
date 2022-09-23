@@ -10,7 +10,7 @@ export const GitHubIcon = (
   <Icon as={GoMarkGithub} color="black" title="GitHub logo" boxSize="2rem" />
 );
 
-const DiscordIcon = (
+export const DiscordIcon = (
   <Icon as={SiDiscord} color="white" title="Discord logo" boxSize="1.5rem" />
 );
 
@@ -26,7 +26,7 @@ const YouTubeIcon = (
   <Icon as={GrYoutube} color="black" title="YouTube logo" boxSize="2rem" />
 );
 
-const discordInvite = "https://discord.gg/Znse6XaVNu";
+export const discordInvite = "https://discord.gg/Znse6XaVNu";
 const github = "vikelabs";
 const linkedin = "vikelabs";
 const instagram = "vikelabs";
