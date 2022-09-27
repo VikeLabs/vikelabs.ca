@@ -46,9 +46,11 @@ const MenuBar = ({ items }: { items: MenuItem[] }) => (
   <Flex as="nav" direction={["column", "row", null]} align="center">
     {items.map(({ title, to }) => (
       <Link href={to} key={title}>
-        <Box key={title} m="2">
-          <Text fontFamily="Raleway">{title}</Text>
-        </Box>
+        <a>
+          <Box key={title} m="2">
+            <Text fontFamily="Raleway">{title}</Text>
+          </Box>
+        </a>
       </Link>
     ))}
   </Flex>
@@ -79,7 +81,9 @@ export const Header = () => {
       <Container maxW="container.xl" my="2">
         <Flex align="center" justify="space-between">
           <Link href="/">
-            <Logo />
+            <a>
+              <Logo />
+            </a>
           </Link>
           <Box display={["none", "block"]}>
             <MenuBar items={menuItems} />

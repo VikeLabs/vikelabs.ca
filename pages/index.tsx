@@ -50,8 +50,8 @@ export const Index: NextPage = () => {
                 the software.
               </Text>
               <ButtonGroup>
-                <Link href="/about">
-                  <Button colorScheme="blue">Learn More</Button>
+                <Link href="/about" passHref>
+                  <Button as="a" colorScheme="blue">Learn More</Button>
                 </Link>
 
                 <Button
