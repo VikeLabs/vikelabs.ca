@@ -105,7 +105,7 @@ export const Header = () => {
           </Box>
         </Collapse>
       </Container>
-      <NofiticationBar />
+      {/* <NofiticationBar /> */}
     </Box>
   );
 };
