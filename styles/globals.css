@@ -1,9 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+
+/* All the !important in here can be removed after chakra ui removal */
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif !important;
   height: 100%;
+}
+
+h2 {
+  font-weight: 600 !important;
+  font-size: 20px !important;
 }
 
 a {
@@ -34,7 +43,7 @@ a {
   --md: 16px;
   --lg: 24px;
   --xl: 32px;
-  --br: 6px;
+  --br: 8px;
 
   /* font */
 

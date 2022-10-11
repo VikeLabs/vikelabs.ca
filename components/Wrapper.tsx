@@ -6,7 +6,7 @@ import { FaDiscord } from "react-icons/fa";
 import config from "../config/config";
 
 const Layout = styled.div`
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   justify-content: center;
   display: flex;
@@ -21,13 +21,14 @@ const Main = styled.main`
 `;
 
 const Header = styled.div`
-  padding: var(--lg) var(--lg) 0;
+  padding: var(--lg);
 `;
 
 const HeaderContent = styled.div`
   padding-bottom: var(--lg);
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const Logo = styled.img`
@@ -53,7 +54,7 @@ const Sponsors = styled.div`
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   const navLinks: NavigationLink[] = [
     { name: "Home", path: "/" },
-    { name: "Home2", path: "/newindex" },
+    { name: "Projects", path: "/newprojects" },
     { name: "Sandbox", path: "/sandbox" },
   ];
   const socialIcons: SocialIcon[] = [
