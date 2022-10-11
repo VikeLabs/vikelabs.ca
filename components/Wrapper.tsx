@@ -17,6 +17,7 @@ const Layout = styled.div`
 const Main = styled.main`
   display: block;
   flex: 1 0 auto;
+  padding: var(--lg);
 `;
 
 const Header = styled.div`
@@ -64,7 +65,7 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
     <Layout>
       <Header>
         <HeaderContent>
-          VIKELABS
+          <Logo src="../img/logo.png" />
           <NavBar navLinks={navLinks} />
         </HeaderContent>
       </Header>
