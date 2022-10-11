@@ -1,0 +1,47 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Inter";
+  height: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}
+
+/* variables */
+:root {
+
+  /* sizes */
+  --maxWidth: 1200px;
+  --sm: 8px;
+  --md: 16px;
+  --lg: 24px;
+  --xl: 32px;
+  --br: 6px;
+
+  /* font */
+
+  /* colors */
+  --black: #272727;
+  --blue: #5865f2;
+  --yellow: #FED766;
+  --red: #E84855;
+  --white: #fff;
+}
