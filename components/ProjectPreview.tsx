@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import React, { ReactNode } from 'react'
@@ -32,6 +34,7 @@ const Desc = styled.p`
   text-overflow: ellipsis;
   overflow: hidden;
   color: #555;
+  margin-bottom: 10px;
   @supports (-webkit-line-clamp: 2) {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -44,10 +47,16 @@ const Desc = styled.p`
 
 const Stack = styled.div`
   display: flex;
+  gap: 6px;
 `
 
 const StackItem = styled.div`
-  
+  border-radius: 3px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--white);
+  font-weight: 500;
 `
 
 const ProjectPreview = ({project}: {project: ProjectExcerpt}) => {
@@ -63,11 +72,9 @@ const ProjectPreview = ({project}: {project: ProjectExcerpt}) => {
           {project.desc}
         </Desc>
         <Stack>
-          {project.stack.map((item: ReactNode) => (
-            // <StackItem className={css`
-            //   background-color: blue;
-            // `}>{item}</StackItem>
-            <StackItem>{item}</StackItem>
+          {project.stack.map((item: {color: string, name: string}) => (
+            <StackItem css={{backgroundColor: item.color}}>{item.name}</StackItem>
+            // <StackItem>{item}</StackItem>
           ))}
         </Stack>
           

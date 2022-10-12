@@ -16,7 +16,10 @@ export interface ProjectExcerpt {
   name: string;
   img: string;
   desc: string;
-  stack: any[];
+  stack: {
+    color: string,
+    name: string,
+  }[];
 }
 
 const TwoColumn = ({projects}: {projects: ProjectExcerpt[]}) => {
