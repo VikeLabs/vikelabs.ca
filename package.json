@@ -4,7 +4,7 @@
   "description": "VikeLabs website",
   "version": "0.1.0",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\""
@@ -23,6 +23,7 @@
     "babel-plugin-styled-components": "^2.0.7",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
+    "firebase": "^9.12.0",
     "framer-motion": "^7.3.6",
     "next": "12.3.0",
     "react": "18.2.0",

@@ -151,7 +151,7 @@ const DiscordInvite = () => {
           <Image src="/Logo.jpg" width={34} height={20} />
         </ServerIcon>
         <ServerInfo>
-          <h3>UVic Guitar Club</h3>
+          <h3>VikeLabs</h3>
           <ServerApi>
             <span>
               <OnlineCount></OnlineCount>

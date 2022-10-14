@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
+import { useAuthContext } from "./AuthProvider";
 import NavItem from "./NavItem";
 
 export type NavigationLink = {
@@ -13,12 +14,15 @@ const NavRow = styled.div`
   align-items: center;
 `;
 
-const NavBar = ({ navLinks }: { navLinks: NavigationLink[] }) => (
-  <NavRow>
-    {navLinks.map((navLink: NavigationLink) => (
-      <NavItem navLink={navLink} />
-    ))}
-  </NavRow>
-);
-
+const NavBar = ({ navLinks }: { navLinks: NavigationLink[] }) => {
+  const {user} = useAuthContext();
+  return (
+    <NavRow>
+      {navLinks.map((navLink: NavigationLink) => (
+        <NavItem navLink={navLink} />
+      ))}
+      {user && user.token && <NavItem navLink={{name: "Dashboard", path: "/dashboard"}} />}
+    </NavRow>
+  )
+}
 export default NavBar;
