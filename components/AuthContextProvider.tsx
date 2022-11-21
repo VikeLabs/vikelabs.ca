@@ -1,45 +1,49 @@
-import React, { createContext, useContext, useReducer } from 'react'
+import React, { createContext, useContext, useReducer } from "react";
 
-export const AuthContext = createContext(null)
+export const AuthContext = createContext(null);
 
 export type AuthState = {
-  name: string,
-  email: string,
-  photoUrl: string,
-  token: string,
+  name: string;
+  email: string;
+  photoUrl: string;
+  token: string;
 } | null;
 
 export const authReducer = (state: AuthState, action) => {
   switch (action.type) {
     case "login":
-      return {user: action.payload};
+      return { user: action.payload };
     case "logout":
-      return {user: null};
+      return { user: null };
     default:
       return state;
   }
-}
+};
 // TODO: Change the names "userSession" to "auth"
 
-export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [state, dispatch] = useReducer(authReducer, {
-    user: "loading"
+    user: "loading",
   });
   // logs everytime the state is changed
   console.log("AuthContext state: ", state);
   return (
-    <AuthContext.Provider value={{...state, dispatch}}>
+    <AuthContext.Provider value={{ ...state, dispatch }}>
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
 // context hook
 
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw Error('useAuthContext must be used inside an AuthContextProvider');
+    throw Error("useAuthContext must be used inside an AuthContextProvider");
   }
   return context;
-}
+};

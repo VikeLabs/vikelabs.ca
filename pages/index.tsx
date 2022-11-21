@@ -51,7 +51,9 @@ export const Index: NextPage = () => {
               </Text>
               <ButtonGroup>
                 <Link href="/about" passHref>
-                  <Button as="a" colorScheme="blue">Learn More</Button>
+                  <Button as="a" colorScheme="blue">
+                    Learn More
+                  </Button>
                 </Link>
 
                 <Button
