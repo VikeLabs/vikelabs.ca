@@ -1,13 +1,17 @@
-import React from 'react'
-import ProjectPreview from '../components/ProjectPreview'
+import React, { useEffect } from 'react'
 import NextJsIcon from '../components/svg/nextjs'
 import ReactIcon from '../components/svg/react'
 import TsIcon from '../components/svg/typescript'
-import TwoColumn, { ProjectExcerpt } from '../components/TwoColumn'
-import Wrapper from '../components/Wrapper'
+import Wrapper from '../components/wrapper'
+
+type ProjectExcerpt = {
+  name: string;
+  img: string;
+  desc: string;
+  stack: {name: string, color: string}[];
+}
 
 const Projects = () => {
-  // This will be populated using whatever is in the markdown file
   const projects: ProjectExcerpt[] = [
     {
       name: "Test Project", 
@@ -39,8 +43,9 @@ const Projects = () => {
 
   return (
     <Wrapper>
-      <div>Projects</div>
-      <TwoColumn projects={projects} />
+      <div>
+        Projects / children here
+      </div>
     </Wrapper>
   )
 }

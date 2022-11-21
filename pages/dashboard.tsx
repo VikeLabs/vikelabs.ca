@@ -1,15 +1,10 @@
 import React from 'react'
-import { useAuthContext } from '../components/AuthProvider';
-import Wrapper from '../components/Wrapper';
 
 // check auth only allow authorized users here
 
 const Dashboard = () => {
-  const context = useAuthContext();
-  console.log("CONTEXT: ", context)
   return (
-    <Wrapper>
-      Welcome, {context.user?.name}
+    <>
       <div>If user is admin, redirect to /dashboard/admin:</div>
       <h2>Projects</h2>
       <p>Panel to edit projects, make them live/draft, and order the projects</p>
@@ -37,7 +32,10 @@ const Dashboard = () => {
       <p>They can also see the info</p>
       <li>Order in /projects page</li>
       <li>Preview of what the project preview on /projects page looks like</li>
-    </Wrapper>
+
+      <h2>Blog</h2>
+      <p>Team leaders and admins can create blogs here</p>
+      </>
   )
 }
 
