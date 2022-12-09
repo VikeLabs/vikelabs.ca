@@ -2,6 +2,9 @@ import React from "react";
 
 // check auth only allow authorized users here
 
+type CurrentPage = {
+  role: "member" | "lead" | "admin";
+};
 const Dashboard = () => {
   return (
     <>

@@ -13,7 +13,7 @@ const navigationPaths: NavigationPath[] = [
   { name: "Projects", path: "projects" },
   { name: "Resources", path: "resources" },
   { name: "Blog", path: "blog" },
-  { name: "Sponsors", path: "sponsors" },
+  { name: "Dashboard", path: "dashboard" },
 ];
 
 export const NavigationBar = () => {
