@@ -5,15 +5,20 @@ import "../styles/globals.css";
 
 import "@fontsource/kanit";
 import "@fontsource/raleway/700.css";
-import { useEffect, useState } from "react";
 import { AuthContextProvider } from "../components/AuthContextProvider";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
-      <AuthContextProvider>
-        <Component {...pageProps} />
-      </AuthContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthContextProvider>
+          <Component {...pageProps} />
+        </AuthContextProvider>
+      </QueryClientProvider>
     </ChakraProvider>
   );
 }
