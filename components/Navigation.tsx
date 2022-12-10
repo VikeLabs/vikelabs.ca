@@ -9,11 +9,11 @@ type NavigationPath = {
 };
 
 const navigationPaths: NavigationPath[] = [
-  { name: "About Us", path: "about" },
-  { name: "Projects", path: "projects" },
-  { name: "Resources", path: "resources" },
-  { name: "Blog", path: "blog" },
-  { name: "Dashboard", path: "dashboard" },
+  { name: "About Us", path: "/about" },
+  { name: "Projects", path: "/projects" },
+  { name: "Resources", path: "/resources" },
+  { name: "Blog", path: "/blog" },
+  { name: "Dashboard", path: "/dashboard" },
 ];
 
 export const NavigationBar = () => {
