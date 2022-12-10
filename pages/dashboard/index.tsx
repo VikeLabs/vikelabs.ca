@@ -1,4 +1,5 @@
 import React from "react";
+import DashboardWrapper from "../../components/DashboardWrapper";
 
 // check auth only allow authorized users here
 
@@ -7,7 +8,7 @@ type CurrentPage = {
 };
 const Dashboard = () => {
   return (
-    <>
+    <DashboardWrapper title="Dashboard">
       <div>If user is admin, redirect to /dashboard/admin:</div>
       <h2>Projects</h2>
       <p>
@@ -55,7 +56,7 @@ const Dashboard = () => {
 
       <h2>Blog</h2>
       <p>Team leaders and admins can create blogs here</p>
-    </>
+    </DashboardWrapper>
   );
 };
 
