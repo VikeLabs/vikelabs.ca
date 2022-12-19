@@ -7,11 +7,12 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("NEXT_PUBLIC_SUPABASE_URL")
+  url      = env("NEXT_PUBLIC_DATABASE_URL")
 }
 
 model User {
   id          String @id @default(cuid())
+  oAuthId     String @unique
   vId         String
   username    String
   displayName String
@@ -20,4 +21,28 @@ model User {
   github      String
   imageUrl    String
   role        String
+  // projects    Project[]
+}
+
+model Technology {
+  id    String @id @default(cuid())
+  name  String
+  color String
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  // lead User @relation(fields: [leadId], references: [id])
+  leadId    String
+  name      String
+  // stack Technology[] @relation(references: [name])
+  // members User[] @relation(fields: [memberIds], references: [id])
+  memberIds String[]
+}
+
+enum Role {
+  USER // Not 'registered' in VikeLabs yet
+  MEMBER // Registered
+  LEAD // Controls Projects, can add / remove technology (cannot remove technology that a project is using, cannot add existing technology. can add custom technology)
+  ADMIN // Can edit pretty much everything within bounds of safety.
 }

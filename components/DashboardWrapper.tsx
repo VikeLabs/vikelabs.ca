@@ -15,7 +15,11 @@ const DashboardNavigation = ({ items }: { items: DashboardLink[] }) => {
     <nav>
       <ul className="flex flex-col justify-center items-center space-y-2 md:flex-row md:space-x-8 md:space-y-0 font-bold text-center group text-lg md:text-base">
         {items.map((item: DashboardLink) => (
-          <NavigationButton name={item.title} path={item.path} />
+          <NavigationButton
+            name={item.title}
+            path={item.path}
+            key={item.path}
+          />
         ))}
       </ul>
     </nav>

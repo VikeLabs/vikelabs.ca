@@ -21,7 +21,7 @@ export const NavigationBar = () => {
     <nav>
       <ul className="flex flex-col justify-center items-center space-y-2 md:flex-row md:space-x-8 md:space-y-0 font-bold text-center group text-lg md:text-base">
         {navigationPaths.map((page: NavigationPath) => (
-          <NavigationButton name={page.name} path={page.path} />
+          <NavigationButton name={page.name} path={page.path} key={page.path} />
         ))}
         <li className="py-2 md:py-0 cursor-pointer">
           <LogInOutButton />

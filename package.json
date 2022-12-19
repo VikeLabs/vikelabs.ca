@@ -9,6 +9,7 @@
     "start": "next start",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "prismaDev": "dotenv -e .env.local -- npx prisma migrate dev",
+    "prismaGenerate": "dotenv -e .env.local -- npx prisma generate",
     "prismaStudio": "dotenv -e .env.local -- npx prisma studio"
   },
   "dependencies": {
@@ -35,8 +36,9 @@
     "firebase": "^9.12.0",
     "framer-motion": "^7.3.6",
     "jwt-decode": "^3.1.2",
-    "next": "12.3.0",
-    "react": "18.2.0",
+    "next": "^13.0.7",
+    "nextjs-cors": "^2.1.2",
+    "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.40.0",
@@ -50,7 +52,7 @@
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.23.1",
-    "eslint-config-next": "12.3.0",
+    "eslint-config-next": "^13.0.7",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard-with-typescript": "^23.0.0",
     "eslint-plugin-import": "^2.26.0",

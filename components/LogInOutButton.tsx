@@ -1,29 +1,33 @@
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { supabase } from "../supabase-client";
 import { useAuthContext } from "./AuthContextProvider";
 
 const LogInOutButton = () => {
+  const { auth } = supabase;
+  const router = useRouter();
   const { user, dispatch } = useAuthContext();
 
   function logOut() {
     /* sign the user out */
-    supabase.auth.signOut().then(() => {
+    auth.signOut().then(() => {
       dispatch({ type: "logout" });
+      router.push("/");
     });
   }
 
   const logIn = () => {
-    supabase.auth.signInWithOAuth({
+    auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: "http://localhost:3001/newprojects",
+        redirectTo: "http://localhost:3001/dashboard",
       },
     });
   };
 
   useEffect(() => {
     const getUser = async () => {
-      return await supabase.auth.getUser();
+      return await auth.getUser();
     };
     getUser().then((user) => {
       if (user?.data?.user) {
@@ -40,9 +44,9 @@ const LogInOutButton = () => {
       {user !== "loading" && (
         <span>
           {user ? (
-            <button onClick={() => logOut()}>Log In</button>
+            <button onClick={() => logOut()}>Log Out</button>
           ) : (
-            <button onClick={() => logIn()}>Log Out</button>
+            <button onClick={() => logIn()}>Log In</button>
           )}
         </span>
       )}

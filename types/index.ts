@@ -10,6 +10,10 @@ export type GetLoggedInUserResponse = {
   role: string;
 };
 
+export type PostEditUserResponse = {
+  user: LoggedInUserEditForm;
+};
+
 export type LoggedInUserEditForm = {
   vId: string;
   username: string;
@@ -18,6 +22,11 @@ export type LoggedInUserEditForm = {
   lastName: string;
   imageUrl: string;
   github: string;
+};
+
+export type UserMutation = {
+  data: LoggedInUserEditForm;
+  token: string;
 };
 
 export type ErrorMessage = {

@@ -10,10 +10,10 @@ export const Metadata = ({ title, description, image }: MetadataProps) => {
   const defaultDescription =
     "We are a community of student developers, designers, and entrepreneurs who are passionate about building the future of the software. Based at the University of Victoria, we are a student-run software development club.";
   const defaultImage = "/vikelabs.jpg";
-
+  const titleStr = `${title} | VikeLabs`;
   return (
     <Head>
-      <title>{title} | VikeLabs</title>
+      <title>{titleStr}</title>
       <meta name="description" content={description ?? defaultDescription} />
       {/* TODO */}
       <meta name="image" content={image ?? defaultImage} />

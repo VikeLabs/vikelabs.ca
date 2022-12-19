@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Control, Controller, useForm } from "react-hook-form";
+import { useAuthContext } from "../../components/AuthContextProvider";
 import DashboardWrapper from "../../components/DashboardWrapper";
+import { useEditUserMutation } from "../../hooks/useEditUserMutation";
 import { useLoggedInUser } from "../../hooks/useLoggedInUser";
+import { supabase } from "../../supabase-client";
 import { GetLoggedInUserResponse, LoggedInUserEditForm } from "../../types";
 
 type UserEditorForm = Omit<GetLoggedInUserResponse, "id" | "role">;
@@ -45,11 +48,12 @@ const Divider = () => <div className="w-full h-px bg-black my-4"></div>;
 
 const Member = () => {
   // mock data until auth is confidently correct
-  const mock = {
-    userId: "clbhseq990000pjmt5jrtkmu1",
-  };
 
-  const user = useLoggedInUser(mock.userId);
+  const { user, dispatch } = useAuthContext();
+  const loggedInUser = useLoggedInUser(user.id);
+  const editUserMutation = useEditUserMutation(user.id);
+  const [isEditing, setIsEditing] = useState(false);
+  let token: string;
 
   const { formState, handleSubmit, control, setValue, reset } =
     useForm<UserEditorForm>({
@@ -64,19 +68,42 @@ const Member = () => {
       },
     });
 
+  useEffect(() => {
+    const getToken = async () => {
+      supabase.auth.getSession().then();
+      const sessionResponse = await supabase.auth.getSession();
+      if (sessionResponse.error) {
+        throw new Error(sessionResponse.error.message);
+      }
+      return sessionResponse.data.session?.access_token;
+    };
+    getToken()
+      .then((access_token: string) => {
+        token = access_token;
+      })
+      .catch((e) => console.error(e));
+  });
   // populate form with values
   useEffect(() => {
-    // TODO: Do this with a loop instead with user.data?.["vId"]
-    if (user.data) {
-      reset(user.data);
+    if (loggedInUser.data && user !== "loading") {
+      reset(loggedInUser.data);
     }
-    console.log("User data: ", user.data);
-  }, [user.data]);
-
-  const [isEditing, setIsEditing] = useState(false);
+  }, [loggedInUser.data]);
 
   const onSubmit = (data: LoggedInUserEditForm) => {
-    console.log("Submmited at member edit page", data);
+    editUserMutation.mutate(
+      { data, token },
+      {
+        onSuccess: (response) => {
+          if (response.ok) {
+            console.log("editUserMutation succeeded!");
+            setIsEditing(false);
+          } else {
+            console.log("editUserMutation failed!");
+          }
+        },
+      }
+    );
   };
 
   return (
@@ -84,124 +111,122 @@ const Member = () => {
       <>
         {/* Display inputs with these as the placeholder */}
         {/* This might just be the github display photo, or at least defaulted to it */}
-        {user.isLoading && <div>Loading</div>}
-        {user.data && (
-          <>
-            <div>
-              <h2>Public Info</h2>
-              <p className="pb-4">
-                This information is publicly available on this website. (some
-                privacy disclaimers maybe?)
-              </p>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <Editable
-                  label="Username"
-                  control={control}
-                  isEditing={isEditing}
-                  controlName="username"
-                  placeholder="johnsmith123"
-                />
-                <Editable
-                  label="Display Name"
-                  control={control}
-                  isEditing={isEditing}
-                  controlName="displayName"
-                  placeholder="John Smith"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <Editable
-                  label="Profile Picture URL"
-                  control={control}
-                  isEditing={isEditing}
-                  controlName="imageUrl"
-                  placeholder="https://cdn.frankerfacez.com/avatar/twitch/2663092323"
-                />
-                <Editable
-                  label="Github Username"
-                  control={control}
-                  isEditing={isEditing}
-                  controlName="github"
-                  placeholder="johnSmithCantCode"
-                />
-              </div>
-
-              <Divider />
-
-              <h2>Private Info</h2>
-              <p className="pb-4">
-                This information will only be seen by the club executives for
-                administration purposes.
-              </p>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <Editable
-                  label="First Name"
-                  control={control}
-                  isEditing={isEditing}
-                  controlName="firstName"
-                  placeholder="Johnathan"
-                />
-                <Editable
-                  label="Last Name"
-                  control={control}
-                  isEditing={isEditing}
-                  controlName="lastName"
-                  placeholder="Smith"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <Editable
-                  label="Student ID"
-                  control={control}
-                  isEditing={isEditing}
-                  controlName="vId"
-                  placeholder="01234567"
-                />
-                <div>
-                  <Label text="Club Id" />
-                  <p>{user.data.id}</p>
-                </div>
-              </div>
-              <div>
-                {isEditing ? (
-                  <>
-                    {formState.dirtyFields.displayName && (
-                      <div>
-                        Because you changed your <strong>Display Name</strong>,
-                        admins need to review it for any inappropriate
-                        statements before allowing it
-                      </div>
-                    )}
-                    <button
-                      className="p-4 bg-red-400"
-                      onClick={() => {
-                        setIsEditing(false);
-                        reset(user.data);
-                      }}
-                    >
-                      Cancel Editing
-                    </button>
-                    <button
-                      className="p-4 bg-green-400"
-                      onClick={handleSubmit(onSubmit)}
-                    >
-                      {formState.dirtyFields.displayName
-                        ? "Submit for Approval"
-                        : "Save Changes"}
-                    </button>
-                  </>
-                ) : (
-                  <button
-                    className="p-4 bg-orange-400"
-                    onClick={() => setIsEditing(true)}
-                  >
-                    Edit Profile
-                  </button>
-                )}
-              </div>
-              <Divider />
+        {(loggedInUser.isLoading || user === "loading") && <div>Loading</div>}
+        {loggedInUser.data && user !== "loading" && (
+          <div>
+            <h2>Public Info</h2>
+            <p className="pb-4">
+              This information is publicly available on this website. (some
+              privacy disclaimers maybe?)
+            </p>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <Editable
+                label="Username"
+                control={control}
+                isEditing={isEditing}
+                controlName="username"
+                placeholder="johnsmith123"
+              />
+              <Editable
+                label="Display Name"
+                control={control}
+                isEditing={isEditing}
+                controlName="displayName"
+                placeholder="John Smith"
+              />
             </div>
-          </>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <Editable
+                label="Profile Picture URL"
+                control={control}
+                isEditing={isEditing}
+                controlName="imageUrl"
+                placeholder="https://cdn.frankerfacez.com/avatar/twitch/2663092323"
+              />
+              <Editable
+                label="Github Username"
+                control={control}
+                isEditing={isEditing}
+                controlName="github"
+                placeholder="johnSmithCantCode"
+              />
+            </div>
+
+            <Divider />
+
+            <h2>Private Info</h2>
+            <p className="pb-4">
+              This information will only be seen by the club executives for
+              administration purposes.
+            </p>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <Editable
+                label="First Name"
+                control={control}
+                isEditing={isEditing}
+                controlName="firstName"
+                placeholder="Johnathan"
+              />
+              <Editable
+                label="Last Name"
+                control={control}
+                isEditing={isEditing}
+                controlName="lastName"
+                placeholder="Smith"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <Editable
+                label="Student ID"
+                control={control}
+                isEditing={isEditing}
+                controlName="vId"
+                placeholder="01234567"
+              />
+              <div>
+                <Label text="Club Id" />
+                <p>{loggedInUser.data.id}</p>
+              </div>
+            </div>
+            <div>
+              {isEditing ? (
+                <>
+                  {formState.dirtyFields.displayName && (
+                    <div>
+                      Because you changed your <strong>Display Name</strong>,
+                      admins need to review it for any inappropriate statements
+                      before allowing it
+                    </div>
+                  )}
+                  <button
+                    className="p-4 bg-red-400"
+                    onClick={() => {
+                      setIsEditing(false);
+                      reset(loggedInUser.data);
+                    }}
+                  >
+                    Cancel Editing
+                  </button>
+                  <button
+                    className="p-4 bg-green-400"
+                    onClick={handleSubmit(onSubmit)}
+                  >
+                    {formState.dirtyFields.displayName
+                      ? "Submit for Approval"
+                      : "Save Changes"}
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="p-4 bg-orange-400"
+                  onClick={() => setIsEditing(true)}
+                >
+                  Edit Profile
+                </button>
+              )}
+            </div>
+            <Divider />
+          </div>
         )}
         <h2>DANGER ZONE</h2>
         <div>[MOCK TOGGLE ACCORDION]</div>
