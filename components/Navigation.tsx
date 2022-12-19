@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { useAuthContext } from "./AuthContextProvider";
 import LogInOutButton from "./LogInOutButton";
 
 // Refactor this to config
@@ -13,16 +14,23 @@ const navigationPaths: NavigationPath[] = [
   { name: "Projects", path: "/projects" },
   { name: "Resources", path: "/resources" },
   { name: "Blog", path: "/blog" },
-  { name: "Dashboard", path: "/dashboard" },
 ];
 
 export const NavigationBar = () => {
+  const { user } = useAuthContext();
   return (
     <nav>
       <ul className="flex flex-col justify-center items-center space-y-2 md:flex-row md:space-x-8 md:space-y-0 font-bold text-center group text-lg md:text-base">
         {navigationPaths.map((page: NavigationPath) => (
           <NavigationButton name={page.name} path={page.path} key={page.path} />
         ))}
+        {user && user !== "loading" && (
+          <NavigationButton
+            name="Dashboard"
+            path="/dashboard"
+            key="/dashboard"
+          />
+        )}
         <li className="py-2 md:py-0 cursor-pointer">
           <LogInOutButton />
         </li>

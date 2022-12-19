@@ -1,5 +1,6 @@
 export type GetLoggedInUserResponse = {
   id: string;
+  oAuthId: string;
   vId: string;
   username: string;
   displayName: string;
@@ -22,11 +23,6 @@ export type LoggedInUserEditForm = {
   lastName: string;
   imageUrl: string;
   github: string;
-};
-
-export type UserMutation = {
-  data: LoggedInUserEditForm;
-  token: string;
 };
 
 export type ErrorMessage = {

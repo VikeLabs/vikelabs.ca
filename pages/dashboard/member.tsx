@@ -1,10 +1,11 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Control, Controller, useForm } from "react-hook-form";
 import { useAuthContext } from "../../components/AuthContextProvider";
 import DashboardWrapper from "../../components/DashboardWrapper";
 import { useEditUserMutation } from "../../hooks/useEditUserMutation";
 import { useLoggedInUser } from "../../hooks/useLoggedInUser";
-import { supabase } from "../../supabase-client";
+import { useToken } from "../../hooks/useToken";
 import { GetLoggedInUserResponse, LoggedInUserEditForm } from "../../types";
 
 type UserEditorForm = Omit<GetLoggedInUserResponse, "id" | "role">;
@@ -47,14 +48,10 @@ const Label = ({ text }: { text: string }) => (
 const Divider = () => <div className="w-full h-px bg-black my-4"></div>;
 
 const Member = () => {
-  // mock data until auth is confidently correct
-
   const { user, dispatch } = useAuthContext();
-  const loggedInUser = useLoggedInUser(user.id);
-  const editUserMutation = useEditUserMutation(user.id);
+  const loggedInUser = useLoggedInUser(user?.id, user?.token);
+  const editUserMutation = useEditUserMutation(user?.id, user?.token);
   const [isEditing, setIsEditing] = useState(false);
-  let token: string;
-
   const { formState, handleSubmit, control, setValue, reset } =
     useForm<UserEditorForm>({
       defaultValues: {
@@ -68,21 +65,6 @@ const Member = () => {
       },
     });
 
-  useEffect(() => {
-    const getToken = async () => {
-      supabase.auth.getSession().then();
-      const sessionResponse = await supabase.auth.getSession();
-      if (sessionResponse.error) {
-        throw new Error(sessionResponse.error.message);
-      }
-      return sessionResponse.data.session?.access_token;
-    };
-    getToken()
-      .then((access_token: string) => {
-        token = access_token;
-      })
-      .catch((e) => console.error(e));
-  });
   // populate form with values
   useEffect(() => {
     if (loggedInUser.data && user !== "loading") {
@@ -91,19 +73,19 @@ const Member = () => {
   }, [loggedInUser.data]);
 
   const onSubmit = (data: LoggedInUserEditForm) => {
-    editUserMutation.mutate(
-      { data, token },
-      {
-        onSuccess: (response) => {
-          if (response.ok) {
-            console.log("editUserMutation succeeded!");
-            setIsEditing(false);
-          } else {
-            console.log("editUserMutation failed!");
+    editUserMutation.mutate(data, {
+      onSuccess: (response) => {
+        if (response.ok) {
+          console.log("editUserMutation succeeded!");
+          setIsEditing(false);
+        } else {
+          console.log("editUserMutation failed!");
+          if (response.status === 401) {
+            dispatch({ type: "logout" });
           }
-        },
-      }
-    );
+        }
+      },
+    });
   };
 
   return (

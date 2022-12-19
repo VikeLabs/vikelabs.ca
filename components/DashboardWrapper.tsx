@@ -1,5 +1,6 @@
 import React from "react";
 import { BaseLayout as Layout } from "../layouts/base";
+import { useAuthContext } from "./AuthContextProvider";
 import BlogDashboard from "./BlogDashboard";
 import Container from "./Container";
 import { NavigationButton } from "./Navigation";
@@ -38,17 +39,25 @@ const DashboardWrapper = ({
     { title: "Lead", path: "/dashboard/lead" },
     { title: "Admin", path: "/dashboard/admin" },
   ];
-
+  const { user, dispatch } = useAuthContext();
   return (
     <Wrapper hasFooter={false}>
       <Container>
         <div className="bg-slate-300 p-4">{title} Dashboard</div>
       </Container>
-      <DashboardNavigation items={dashboardLinks} />
-      <Container>
-        <div className="bg-slate-100 p-4">{children}</div>
-      </Container>
-      <BlogDashboard />
+      {user && user !== "loading" ? (
+        <>
+          <DashboardNavigation items={dashboardLinks} />
+          <Container>
+            <div className="bg-slate-100 p-4">{children}</div>
+          </Container>
+          <BlogDashboard />
+        </>
+      ) : (
+        <Container>
+          <div className="bg-slate-100 p-4">You are not signed in</div>
+        </Container>
+      )}
     </Wrapper>
   );
 };

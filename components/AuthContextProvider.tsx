@@ -1,13 +1,20 @@
+import { useRouter } from "next/router";
 import React, { createContext, useContext, useReducer } from "react";
 
 export const AuthContext = createContext(null);
 
+// TODO:  These needs work, set this to specifically contain token, oAuthId, and id.
 export type AuthState = {
   name: string;
   email: string;
   photoUrl: string;
   token: string;
 } | null;
+
+export type RealAuthState = {
+  user: {};
+  token: string;
+};
 
 export const authReducer = (state: AuthState, action) => {
   switch (action.type) {

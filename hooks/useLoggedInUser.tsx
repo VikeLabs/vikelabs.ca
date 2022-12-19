@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { GetLoggedInUserResponse } from "../types";
+import { useToken } from "./useToken";
 
 /**
  * CAUTION:
@@ -8,14 +9,14 @@ import { GetLoggedInUserResponse } from "../types";
  * @param userId
  * @returns
  */
-export function useLoggedInUser(oAuthId: string) {
+export function useLoggedInUser(oAuthId: string, token: string) {
   return useQuery<GetLoggedInUserResponse>(["user", oAuthId], async () => {
     const response = await fetch(`/api/users/${oAuthId}`, {
       method: "GET",
-      // headers: {
-      //   "Content-Type": "application/json",
-      //   Authorization: `Bearer auth token?`,
-      // },
+      headers: {
+        // "Content-Type": "application/json",
+        Authorization: token,
+      },
     });
     if (!response.ok) {
       console.error("Error!", response.statusText);
