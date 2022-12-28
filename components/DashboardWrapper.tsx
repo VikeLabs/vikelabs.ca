@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React from "react";
 import { useLoggedInUser } from "../hooks/useLoggedInUser";
 import { useAuthContext } from "./AuthContextProvider";
@@ -15,13 +16,32 @@ const DashboardWrapper = ({
 }) => {
   const { user, dispatch } = useAuthContext();
   const loggedInUser = useLoggedInUser(user?.id, user?.token);
+
+  const router = useRouter();
+  let allowed = true;
+  if (
+    router.pathname.startsWith("/dashboard/admin") &&
+    loggedInUser.data?.role !== "admin"
+  ) {
+    allowed = false;
+  }
+  if (
+    router.pathname.startsWith("/dashboard/lead") &&
+    !(loggedInUser.data?.role === "lead" || loggedInUser.data?.role === "admin")
+  ) {
+    allowed = false;
+  }
+  if (router.pathname.startsWith("/dashboard/member") && !user) {
+    allowed = false;
+  }
+
   return (
     <Wrapper hasFooter={false}>
       {allowed ? (
         <>
-      <Container>
-        <div className="bg-slate-300 p-4">{title} Dashboard</div>
-      </Container>
+          <Container>
+            <div className="bg-slate-300 p-4">{title} Dashboard</div>
+          </Container>
           {(loggedInUser.data?.role === "lead" ||
             loggedInUser.data?.role === "admin") && (
             <nav>
@@ -53,7 +73,7 @@ const DashboardWrapper = ({
         </>
       ) : (
         <Container>
-          <div className="bg-slate-100 p-4">You are not signed in</div>
+          <div className="bg-slate-100 p-4">unauthorized</div>
         </Container>
       )}
     </Wrapper>
