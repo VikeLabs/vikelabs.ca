@@ -3,20 +3,58 @@ import React, { createContext, useContext, useReducer } from "react";
 
 export const AuthContext = createContext(null);
 
-// TODO:  These needs work, set this to specifically contain token, oAuthId, and id.
-export type AuthState = {
-  name: string;
-  email: string;
-  photoUrl: string;
-  token: string;
-} | null;
-
 export type RealAuthState = {
-  user: {};
-  token: string;
+  user?: {
+    app_metadata: {
+      provider: string;
+      providers: string[];
+    };
+    id: string;
+    token: string;
+    aud: string;
+    confirmed_at: string;
+    created_at: string;
+    email: string;
+    email_confirmed_at: string;
+    identities: {
+      id: string;
+      user_id: string;
+      identity_data: {
+        avatar_url: string;
+        email: string;
+        email_verified: boolean;
+        full_name: string;
+        iss: string;
+        name: string;
+        preferred_username: string;
+        provider_id: string;
+        sub: string;
+        user_name: string;
+      };
+      last_sign_in_at: string;
+      provider: string;
+      updated_at: string;
+    };
+    last_sign_in_at: string;
+    phone: string;
+    role: string;
+    updated_at: string;
+    user_metadata: {
+      avatar_url: string;
+      email: string;
+      full_name: string;
+      iss: string;
+      name: string;
+      preferred_username: string;
+      provider_id: string;
+      sub: string;
+      user_name: string;
+    };
+  };
 };
 
-export const authReducer = (state: AuthState, action) => {
+// TODO: let's... not have so much stuff in the auth state. Need to edit it in the login button component
+export const authReducer = (state: RealAuthState, action) => {
   switch (action.type) {
     case "login":
       return { user: action.payload };
