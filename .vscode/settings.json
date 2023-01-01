@@ -3,5 +3,8 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "prettier.printWidth": 100,
+  "prettier.semi": true,
+  "editor.minimap.maxColumn": 100
 }

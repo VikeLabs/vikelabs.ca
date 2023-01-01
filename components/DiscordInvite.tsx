@@ -148,7 +148,7 @@ const DiscordInvite = () => {
       </DiscordImitationHeader>
       <DiscordImitationEmbed>
         <ServerIcon>
-          <Image src="/Logo.jpg" width={34} height={20} />
+          <Image src="/Logo.jpg" width={34} height={20} alt="Discord server icon" />
         </ServerIcon>
         <ServerInfo>
           <h3>VikeLabs</h3>

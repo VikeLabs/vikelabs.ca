@@ -34,7 +34,7 @@ export const Faq = () => {
   return (
     <Accordion>
       {Entries.map((entry) => (
-        <AccordionItem>
+        <AccordionItem key={entry.title}>
           <h2>
             <AccordionButton>
               <Box flex="1" textAlign="left">

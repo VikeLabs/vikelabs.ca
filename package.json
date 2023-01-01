@@ -7,7 +7,7 @@
     "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "format": "eslint --fix \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "prismaDev": "dotenv -e .env.local -- npx prisma migrate dev",
     "prismaGenerate": "dotenv -e .env.local -- npx prisma generate",
     "prismaStudio": "dotenv -e .env.local -- npx prisma studio"

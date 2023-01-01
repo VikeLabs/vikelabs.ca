@@ -25,10 +25,7 @@ export const Metadata = ({ title, description, image }: MetadataProps) => {
       {/* TODO */}
       {/* <meta property="og:image" content={image ?? defaultImage} /> */}
       {/* <meta property="og:image" content={image ?? defaultImage} /> */}
-      <meta
-        property="og:description"
-        content={description ?? defaultDescription}
-      />
+      <meta property="og:description" content={description ?? defaultDescription} />
     </Head>
   );
 };

@@ -1,5 +1,4 @@
 import React from "react";
-import LogInOutButton from "./LogInOutButton";
 import { NavigationBar } from "./Navigation";
 
 const Wrapper = ({

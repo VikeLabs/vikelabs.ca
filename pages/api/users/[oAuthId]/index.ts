@@ -1,10 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, User } from "@prisma/client";
-import {
-  ErrorMessage,
-  GetLoggedInUserResponse,
-  LoggedInUserEditForm,
-} from "../../../../types";
+import { ErrorMessage, GetLoggedInUserResponse, LoggedInUserEditForm } from "../../../../types";
 import { supabase } from "../../../../supabase-client";
 
 const prisma = new PrismaClient();
@@ -37,7 +33,7 @@ export async function verifySignature(authToken: string) {
   return false;
 }
 
-export default async (
+const editUser = async (
   req: NextApiRequest,
   res: NextApiResponse<GetLoggedInUserResponse | ErrorMessage>
   // res: NextApiResponse
@@ -45,6 +41,7 @@ export default async (
   try {
     if (!(await verifySignature(req.headers.authorization))) {
       res.status(401).json({ message: "invalid token signature" });
+      return;
     }
     let user: User;
     switch (req.method) {
@@ -53,10 +50,7 @@ export default async (
         res.status(200).json(user);
         break;
       case "POST":
-        user = await updateUser(
-          req.query.oAuthId as string,
-          JSON.parse(req.body)
-        );
+        user = await updateUser(req.query.oAuthId as string, JSON.parse(req.body));
         res.status(200).json(user);
         break;
       default:
@@ -68,3 +62,5 @@ export default async (
     res.status(500).json({ message: e.message });
   }
 };
+
+export default editUser;

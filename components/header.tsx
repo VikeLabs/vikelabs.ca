@@ -1,5 +1,4 @@
-import { Box, Center, Container, Flex, Heading, Text } from "@chakra-ui/layout";
-
+import { Box, Container, Flex, Heading, Text } from "@chakra-ui/layout";
 import { IconButton } from "@chakra-ui/react";
 import { Collapse } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
@@ -36,9 +35,7 @@ const Logo = () => (
   </Heading>
 );
 
-const MenuIcon = () => (
-  <Icon as={GiHamburgerMenu} title="menu icon" boxSize="2rem" />
-);
+const MenuIcon = () => <Icon as={GiHamburgerMenu} title="menu icon" boxSize="2rem" />;
 
 const CloseIcon = () => <Icon as={MdClose} title="close icon" boxSize="2rem" />;
 
@@ -52,23 +49,6 @@ const MenuBar = ({ items }: { items: MenuItem[] }) => (
       </Link>
     ))}
   </Flex>
-);
-
-const NofiticationBar = () => (
-  <Box bg="green.600" py="1">
-    <Container maxW="container.xl">
-      <Center>
-        <a
-          href="https://discord.gg/gRK5XZ5r?event=1022675053009178717"
-          target={"_blank"}
-        >
-          <Text fontWeight="extrabold" color="white">
-            Kick-off event is happening Sept, 28th, 2022 at 6pm. RSVP now!
-          </Text>
-        </a>
-      </Center>
-    </Container>
-  </Box>
 );
 
 export const Header = () => {

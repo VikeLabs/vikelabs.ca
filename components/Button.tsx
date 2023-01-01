@@ -36,15 +36,7 @@ const LargeButton = styled.button`
   padding: calc(1.5 * var(--sm)) var(--md);
 `;
 
-const Button = ({
-  text,
-  link,
-  size,
-}: {
-  text: string;
-  link?: string;
-  size?: string;
-}) => {
+const Button = ({ text, link, size }: { text: string; link?: string; size?: string }) => {
   switch (size) {
     case "sm":
       return (

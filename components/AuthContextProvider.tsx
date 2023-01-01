@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import React, { createContext, useContext, useReducer } from "react";
 
 export const AuthContext = createContext(null);
@@ -66,21 +65,11 @@ export const authReducer = (state: RealAuthState, action) => {
 };
 // TODO: Change the names "userSession" to "auth"
 
-export const AuthContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(authReducer, {
     user: "loading",
   });
-  // logs everytime the state is changed
-  console.log("AuthContext state: ", state);
-  return (
-    <AuthContext.Provider value={{ ...state, dispatch }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ ...state, dispatch }}>{children}</AuthContext.Provider>;
 };
 
 // context hook

@@ -7,22 +7,13 @@ import Container from "./Container";
 import { NavigationButton } from "./Navigation";
 import Wrapper from "./wrapper";
 
-const DashboardWrapper = ({
-  children,
-  title,
-}: {
-  children: React.ReactNode;
-  title: string;
-}) => {
-  const { user, dispatch } = useAuthContext();
+const DashboardWrapper = ({ children, title }: { children: React.ReactNode; title: string }) => {
+  const { user } = useAuthContext();
   const loggedInUser = useLoggedInUser(user?.id, user?.token);
 
   const router = useRouter();
   let allowed = true;
-  if (
-    router.pathname.startsWith("/dashboard/admin") &&
-    loggedInUser.data?.role !== "admin"
-  ) {
+  if (router.pathname.startsWith("/dashboard/admin") && loggedInUser.data?.role !== "admin") {
     allowed = false;
   }
   if (
@@ -42,26 +33,13 @@ const DashboardWrapper = ({
           <Container>
             <div className="bg-slate-300 p-4">{title} Dashboard</div>
           </Container>
-          {(loggedInUser.data?.role === "lead" ||
-            loggedInUser.data?.role === "admin") && (
+          {(loggedInUser.data?.role === "lead" || loggedInUser.data?.role === "admin") && (
             <nav>
               <ul className="flex flex-col justify-center items-center space-y-2 md:flex-row md:space-x-8 md:space-y-0 font-bold text-center group text-lg md:text-base">
-                <NavigationButton
-                  name="Member"
-                  path="/dashboard/member"
-                  key="member"
-                />
-                <NavigationButton
-                  name="Lead"
-                  path="/dashboard/lead"
-                  key="lead"
-                />
+                <NavigationButton name="Member" path="/dashboard/member" key="member" />
+                <NavigationButton name="Lead" path="/dashboard/lead" key="lead" />
                 {loggedInUser.data?.role === "admin" && (
-                  <NavigationButton
-                    name="Admin"
-                    path="/dashboard/admin"
-                    key="admin"
-                  />
+                  <NavigationButton name="Admin" path="/dashboard/admin" key="admin" />
                 )}
               </ul>
             </nav>

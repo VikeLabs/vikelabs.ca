@@ -14,17 +14,11 @@ export const DiscordIcon = (
   <Icon as={SiDiscord} color="white" title="Discord logo" boxSize="1.5rem" />
 );
 
-const LinkedInIcon = (
-  <Icon as={GrLinkedin} color="black" title="LinkedIn logo" boxSize="2rem" />
-);
+const LinkedInIcon = <Icon as={GrLinkedin} color="black" title="LinkedIn logo" boxSize="2rem" />;
 
-const InstagramIcon = (
-  <Icon as={GrInstagram} color="black" title="Instagram logo" boxSize="2rem" />
-);
+const InstagramIcon = <Icon as={GrInstagram} color="black" title="Instagram logo" boxSize="2rem" />;
 
-const YouTubeIcon = (
-  <Icon as={GrYoutube} color="black" title="YouTube logo" boxSize="2rem" />
-);
+const YouTubeIcon = <Icon as={GrYoutube} color="black" title="YouTube logo" boxSize="2rem" />;
 
 export const discordInvite = "https://discord.gg/Znse6XaVNu";
 const github = "vikelabs";
@@ -39,8 +33,8 @@ export const Contact = () => {
       <Flex align="center" justify="space-between">
         <Box>
           <Text my="2">
-            Looking for your next great co-op? Have feedback about the website?
-            Interested in sponsoring the club? Let us know!
+            Looking for your next great co-op? Have feedback about the website? Interested in
+            sponsoring the club? Let us know!
           </Text>
           <Box>
             <IconButton
@@ -89,12 +83,7 @@ export const Contact = () => {
           </Box>
         </Box>
         <Box>
-          <Button
-            variant="black"
-            leftIcon={DiscordIcon}
-            as="a"
-            href={discordInvite}
-          >
+          <Button variant="black" leftIcon={DiscordIcon} as="a" href={discordInvite}>
             Join Our Discord!
           </Button>
         </Box>

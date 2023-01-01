@@ -1,11 +1,9 @@
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Control, Controller, useForm } from "react-hook-form";
 import { useAuthContext } from "../../components/AuthContextProvider";
 import DashboardWrapper from "../../components/DashboardWrapper";
 import { useEditUserMutation } from "../../hooks/useEditUserMutation";
 import { useLoggedInUser } from "../../hooks/useLoggedInUser";
-import { useToken } from "../../hooks/useToken";
 import { GetLoggedInUserResponse, LoggedInUserEditForm } from "../../types";
 
 type UserEditorForm = Omit<GetLoggedInUserResponse, "id" | "role">;
@@ -52,25 +50,24 @@ const Member = () => {
   const loggedInUser = useLoggedInUser(user?.id, user?.token);
   const editUserMutation = useEditUserMutation(user?.id, user?.token);
   const [isEditing, setIsEditing] = useState(false);
-  const { formState, handleSubmit, control, setValue, reset } =
-    useForm<UserEditorForm>({
-      defaultValues: {
-        vId: "",
-        username: "",
-        displayName: "",
-        firstName: "",
-        lastName: "",
-        imageUrl: "",
-        github: "",
-      },
-    });
+  const { formState, handleSubmit, control, reset } = useForm<UserEditorForm>({
+    defaultValues: {
+      vId: "",
+      username: "",
+      displayName: "",
+      firstName: "",
+      lastName: "",
+      imageUrl: "",
+      github: "",
+    },
+  });
 
   // populate form with values
   useEffect(() => {
     if (loggedInUser.data && user !== "loading") {
       reset(loggedInUser.data);
     }
-  }, [loggedInUser.data]);
+  }, [loggedInUser.data, reset, user]);
 
   const onSubmit = (data: LoggedInUserEditForm) => {
     editUserMutation.mutate(data, {
@@ -98,8 +95,8 @@ const Member = () => {
           <div>
             <h2>Public Info</h2>
             <p className="pb-4">
-              This information is publicly available on this website. (some
-              privacy disclaimers maybe?)
+              This information is publicly available on this website. (some privacy disclaimers
+              maybe?)
             </p>
             <div className="grid grid-cols-2 gap-4 mb-4">
               <Editable
@@ -138,8 +135,7 @@ const Member = () => {
 
             <h2>Private Info</h2>
             <p className="pb-4">
-              This information will only be seen by the club executives for
-              administration purposes.
+              This information will only be seen by the club executives for administration purposes.
             </p>
             <div className="grid grid-cols-2 gap-4 mb-4">
               <Editable
@@ -175,9 +171,8 @@ const Member = () => {
                 <>
                   {formState.dirtyFields.displayName && (
                     <div>
-                      Because you changed your <strong>Display Name</strong>,
-                      admins need to review it for any inappropriate statements
-                      before allowing it
+                      Because you changed your <strong>Display Name</strong>, admins need to review
+                      it for any inappropriate statements before allowing it
                     </div>
                   )}
                   <button
@@ -189,20 +184,12 @@ const Member = () => {
                   >
                     Cancel Editing
                   </button>
-                  <button
-                    className="p-4 bg-green-400"
-                    onClick={handleSubmit(onSubmit)}
-                  >
-                    {formState.dirtyFields.displayName
-                      ? "Submit for Approval"
-                      : "Save Changes"}
+                  <button className="p-4 bg-green-400" onClick={handleSubmit(onSubmit)}>
+                    {formState.dirtyFields.displayName ? "Submit for Approval" : "Save Changes"}
                   </button>
                 </>
               ) : (
-                <button
-                  className="p-4 bg-orange-400"
-                  onClick={() => setIsEditing(true)}
-                >
+                <button className="p-4 bg-orange-400" onClick={() => setIsEditing(true)}>
                   Edit Profile
                 </button>
               )}

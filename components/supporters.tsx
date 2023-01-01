@@ -9,22 +9,17 @@ export const Supporters = () => {
     <Box>
       <Heading my="5">Supporters</Heading>
       <Flex justify="space-evenly">
-        {/* <Center>
+        <Center>
           <Image
             src={uvicCivil}
             alt="University of Victoria Civil Engineering Department"
             height={100}
             width={100}
           />
-        </Center> */}
-        {/* <Center>
-          <Image
-            src={uvss}
-            alt="University of Victoria Student Society"
-            height={100}
-            width={180}
-          />
-        </Center> */}
+        </Center>
+        <Center>
+          <Image src={uvss} alt="University of Victoria Student Society" height={100} width={180} />
+        </Center>
         <Center>
           <Image
             src={ess}

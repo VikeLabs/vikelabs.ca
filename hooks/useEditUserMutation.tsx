@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LoggedInUserEditForm } from "../types";
-import { useToken } from "./useToken";
 
 export function useEditUserMutation(oAuthId: string, token: string) {
   const queryClient = useQueryClient();

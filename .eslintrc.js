@@ -1,9 +1,9 @@
 module.exports = {
-  parser: `@typescript-eslint/parser`,
+  parser: "@typescript-eslint/parser",
   extends: [
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
-    "prettier/@typescript-eslint",
+    "next/core-web-vitals",
   ],
   plugins: ["@typescript-eslint", "prettier"],
   parserOptions: {
@@ -15,10 +15,12 @@ module.exports = {
     node: true,
   },
   rules: {
-    quotes: "off",
-    "@typescript-eslint/quotes": [
+    "react/no-unescaped-entities": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    semi: "off",
+    quotes: [
       2,
-      "backtick",
+      "double",
       {
         avoidEscape: true,
       },
@@ -28,9 +30,9 @@ module.exports = {
       "error",
       {
         trailingComma: "es5",
-        semi: false,
+        semi: true,
         singleQuote: false,
-        printWidth: 120,
+        printWidth: 100,
       },
     ],
   },

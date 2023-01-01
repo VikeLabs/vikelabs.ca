@@ -25,11 +25,7 @@ export const NavigationBar = () => {
           <NavigationButton name={page.name} path={page.path} key={page.path} />
         ))}
         {user && user !== "loading" && (
-          <NavigationButton
-            name="Dashboard"
-            path="/dashboard"
-            key="/dashboard"
-          />
+          <NavigationButton name="Dashboard" path="/dashboard" key="/dashboard" />
         )}
         <li className="py-2 md:py-0 cursor-pointer">
           <LogInOutButton />
@@ -39,13 +35,7 @@ export const NavigationBar = () => {
   );
 };
 
-export const NavigationButton = ({
-  name,
-  path,
-}: {
-  name: string;
-  path: string;
-}) => {
+export const NavigationButton = ({ name, path }: { name: string; path: string }) => {
   return (
     <li className="py-2 cursor-pointer">
       <Link href={path}>{name}</Link>

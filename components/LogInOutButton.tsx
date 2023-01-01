@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import { useTokenMutation } from "../hooks/useTokenMutation";
 import { supabase } from "../supabase-client";
 import { useAuthContext } from "./AuthContextProvider";
 
@@ -48,7 +47,7 @@ const LogInOutButton = () => {
         dispatch({ type: "logout" });
       }
     });
-  }, []);
+  });
 
   return (
     <div>

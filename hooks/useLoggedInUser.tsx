@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { GetLoggedInUserResponse } from "../types";
-import { useToken } from "./useToken";
 
 /**
  * CAUTION:
