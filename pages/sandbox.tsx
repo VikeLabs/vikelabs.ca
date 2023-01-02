@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../components/Button";
 import styled from "@emotion/styled";
-import Wrapper from "../components/wrapper";
+import Wrapper from "../components/Wrapper";
 import DiscordInvite from "../components/DiscordInvite";
 
 const Table = styled.div`

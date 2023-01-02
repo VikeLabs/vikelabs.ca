@@ -47,7 +47,8 @@ const LogInOutButton = () => {
         dispatch({ type: "logout" });
       }
     });
-  });
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div>

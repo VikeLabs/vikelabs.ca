@@ -5,7 +5,7 @@ import { useAuthContext } from "./AuthContextProvider";
 import BlogDashboard from "./BlogDashboard";
 import Container from "./Container";
 import { NavigationButton } from "./Navigation";
-import Wrapper from "./wrapper";
+import Wrapper from "./Wrapper";
 
 const DashboardWrapper = ({ children, title }: { children: React.ReactNode; title: string }) => {
   const { user } = useAuthContext();
