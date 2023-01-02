@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import { supabase } from "../supabase-client";
 import { useAuthContext } from "./AuthContextProvider";
 
+const OAUTH_PROVIDERS = ["github", "discord"]
+
 const LogInOutButton = () => {
   const { auth } = supabase;
   const router = useRouter();
@@ -15,7 +17,17 @@ const LogInOutButton = () => {
     });
   }
 
-  const logIn = () => {
+  // The actual signin part  
+  const logInDiscord = () => {
+    auth.signInWithOAuth({
+      provider: "discord",
+      options: {
+        redirectTo: "http://localhost:3001/dashboard",
+      },
+    });
+  };
+
+  const logInGithub = () => {
     auth.signInWithOAuth({
       provider: "github",
       options: {
@@ -58,7 +70,10 @@ const LogInOutButton = () => {
           {user ? (
             <button onClick={() => logOut()}>Log Out</button>
           ) : (
-            <button onClick={() => logIn()}>Log In</button>
+            <span>
+              <button onClick={() => logInDiscord()}>Discord Login</button>
+              <button onClick={() => logInGithub()}>Github Login</button>
+            </span>
           )}
         </span>
       )}
