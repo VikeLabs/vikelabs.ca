@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { supabase } from "../supabase-client";
 import { useAuthContext } from "./AuthContextProvider";
 
-const OAUTH_PROVIDERS = ["github", "discord"]
+const OAUTH_PROVIDERS = ["github", "discord"];
 
 const LogInOutButton = () => {
   const { auth } = supabase;
@@ -17,7 +17,7 @@ const LogInOutButton = () => {
     });
   }
 
-  // The actual signin part  
+  // The actual signin part
   const logInDiscord = () => {
     auth.signInWithOAuth({
       provider: "discord",
