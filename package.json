@@ -37,7 +37,7 @@
     "gatsby-remark-embed-video": "^3.1.1",
     "gatsby-remark-images": "^6.9.0",
     "gatsby-source-filesystem": "^4.9.0",
-    "gatsby-transformer-remark": "^5.9.0",
+    "gatsby-transformer-remark": "^5.25.1",
     "gatsby-transformer-sharp": "^4.7.0",
     "react": "^17.0.1",
     "react-beautiful-dnd": "^13.1.0",
