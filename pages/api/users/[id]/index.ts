@@ -4,21 +4,21 @@ import { ErrorMessage, GetLoggedInUserResponse, LoggedInUserEditForm } from "../
 import { supabase } from "../../../../supabase-client";
 
 const prisma = new PrismaClient();
-const usage = "GET or POST /api/users/[oAuthId]";
+const usage = "GET or POST /api/users/[id]";
 
-export async function getUser(oAuthId: string) {
+export async function getUser(id: string) {
   const user = await prisma.user.findUnique({
     where: {
-      oAuthId,
+      id,
     },
   });
   return user;
 }
 
-export async function updateUser(oAuthId: string, data: LoggedInUserEditForm) {
+export async function updateUser(id: string, data: LoggedInUserEditForm) {
   const user = await prisma.user.update({
     where: {
-      oAuthId,
+      id,
     },
     data,
   });
@@ -38,20 +38,29 @@ const editUser = async (
       res.status(401).json({ message: "invalid token signature" });
       return;
     }
+    // When the logged in user does not have an account,
+    // let the frontend know so it can give the user to create one
+    // Tell the user what we'll be storing, and what data is visible.
+    // By default, the user's profile should be hidden from public with a setting.
+    if (!userFromToken) {
+      res.status(401).json({ message: "invalid token signature" });
+      return;
+    }
+
     // validate user's auth id is the same as the queried id
     // admins should be able to view this
-    if (userFromToken.id !== req.query.oAuthId) {
+    if (userFromToken.id !== req.query.id) {
       res.status(401).json({ message: "URL parameter of user ID does not match user ID" });
       return;
     }
     let user: User;
     switch (req.method) {
       case "GET":
-        user = await getUser(req.query.oAuthId as string);
+        user = await getUser(req.query.id as string);
         res.status(200).json(user);
         break;
       case "POST":
-        user = await updateUser(req.query.oAuthId as string, JSON.parse(req.body));
+        user = await updateUser(req.query.id as string, JSON.parse(req.body));
         res.status(200).json(user);
         break;
       default:

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { useLoggedInUser } from "../hooks/useLoggedInUser";
 import { useAuthContext } from "./AuthContextProvider";
 import BlogDashboard from "./BlogDashboard";
@@ -10,7 +10,6 @@ import Wrapper from "./Wrapper";
 const DashboardWrapper = ({ children, title }: { children: React.ReactNode; title: string }) => {
   const { user } = useAuthContext();
   const loggedInUser = useLoggedInUser(user?.id, user?.token);
-  console.log(user?.id, user?.token);
 
   const router = useRouter();
   let allowed = true;

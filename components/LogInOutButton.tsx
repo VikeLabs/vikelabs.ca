@@ -3,8 +3,6 @@ import React, { useEffect } from "react";
 import { supabase } from "../supabase-client";
 import { useAuthContext } from "./AuthContextProvider";
 
-const OAUTH_PROVIDERS = ["github", "discord"];
-
 const LogInOutButton = () => {
   const { auth } = supabase;
   const router = useRouter();
@@ -17,12 +15,25 @@ const LogInOutButton = () => {
     });
   }
 
+  // TODO: https://supabase.com/docs/guides/auth/overview#redirect-urls-and-wildcards
+  const getURL = () => {
+    let url =
+      process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
+      process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
+      "http://localhost:3001";
+    // Make sure to include `https://` when not localhost.
+    url = url.includes("http") ? url : `https://${url}`;
+    // Make sure to including trailing `/`.
+    url = url.charAt(url.length - 1) === "/" ? url : `${url}/`;
+    return url;
+  };
+
   // The actual signin part
   const logInDiscord = () => {
     auth.signInWithOAuth({
       provider: "discord",
       options: {
-        redirectTo: "http://localhost:3001/dashboard",
+        redirectTo: `${getURL()}/dashboard`,
       },
     });
   };
@@ -31,7 +42,7 @@ const LogInOutButton = () => {
     auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: "http://localhost:3001/dashboard",
+        redirectTo: `${getURL()}/dashboard`,
       },
     });
   };
@@ -62,9 +73,13 @@ const LogInOutButton = () => {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    console.log("User", user);
+  }, [user]);
+
   return (
     <div>
-      {user === "loading" ? (
+      {user?.isLoading ? (
         <p>loading</p>
       ) : (
         <span>

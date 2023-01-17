@@ -8,9 +8,9 @@ import { GetLoggedInUserResponse } from "../types";
  * @param userId
  * @returns
  */
-export function useLoggedInUser(oAuthId: string, token: string) {
-  return useQuery<GetLoggedInUserResponse>(["user", oAuthId], async () => {
-    const response = await fetch(`/api/users/${oAuthId}`, {
+export function useLoggedInUser(id: string, token: string) {
+  return useQuery<GetLoggedInUserResponse>(["user", id], async () => {
+    const response = await fetch(`/api/users/${id}`, {
       method: "GET",
       headers: {
         // "Content-Type": "application/json",

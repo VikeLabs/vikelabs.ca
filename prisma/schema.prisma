@@ -12,7 +12,6 @@ datasource db {
 
 model User {
   id          String @id @default(cuid())
-  oAuthId     String @unique
   vId         String
   username    String
   displayName String
@@ -21,23 +20,50 @@ model User {
   github      String
   imageUrl    String
   role        String
-  // projects    Project[]
+  projects    ProjectHasMembers[]
+}
+
+model Project {
+  id        Int   @id @default(autoincrement())
+  leadId    String
+  name      String
+  isLive Boolean @default(false) // for verification purposes
+  members   ProjectHasMembers[]
+  stack ProjectUsesTechnology[]
+}
+
+// Users and Projects are Many-to-Many, so we need a relation table (JOIN / pivot table)
+model ProjectHasMembers {
+  project Project @relation(fields: [projectId], references: [id])
+  projectId Int
+  member User @relation(fields: [memberId], references: [id])
+  memberId String
+  assignedAt DateTime @default(now())
+  assignedBy String
+  isTeamLead Boolean @default(false)
+  @@id([projectId, memberId])
 }
 
 model Technology {
   id    String @id @default(cuid())
   name  String
+  bgColor String
   color String
+  createdBy String @default("")
+  usedOnProject ProjectUsesTechnology[]
 }
 
-model Project {
-  id        String   @id @default(cuid())
-  // lead User @relation(fields: [leadId], references: [id])
-  leadId    String
-  name      String
-  // stack Technology[] @relation(references: [name])
-  // members User[] @relation(fields: [memberIds], references: [id])
-  memberIds String[]
+// Many-to-many project to technology
+// Is this really necessary to be stored in the DB? Cant this be hard config'd in client side?
+model ProjectUsesTechnology {
+  project Project @relation(fields: [projectId], references: [id])
+  projectId Int
+  technology Technology @relation(fields: [technologyId], references: [id])
+  technologyId String
+  assignedAt DateTime @default(now())
+  assignedBy String
+  isTeamLead Boolean @default(false)
+  @@id([projectId, technologyId])
 }
 
 enum Role {

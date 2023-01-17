@@ -1,6 +1,7 @@
+import { Prisma } from "@prisma/client";
+
 export type GetLoggedInUserResponse = {
   id: string;
-  oAuthId: string;
   vId: string;
   username: string;
   displayName: string;
@@ -27,4 +28,15 @@ export type LoggedInUserEditForm = {
 
 export type ErrorMessage = {
   message: string;
+};
+
+export type CreateUserInput = {
+  vId: string;
+  username: string;
+  displayName: string;
+  firstName: string;
+  lastName: string;
+  github: string;
+  discord: string;
+  imageUrl: string;
 };

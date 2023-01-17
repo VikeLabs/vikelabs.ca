@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useReducer } from "react";
 
-export const AuthContext = createContext(null);
+export const AuthContext = createContext<AuthState>(null);
 
-export type RealAuthState = {
+export type AuthState = {
+  // TODO: This is for github, discord's might be different.
   user?: {
+    isLoading?: boolean;
     app_metadata: {
       provider: string;
       providers: string[];
@@ -50,10 +52,12 @@ export type RealAuthState = {
       user_name: string;
     };
   };
+
+  dispatch: any;
 };
 
 // TODO: let's... not have so much stuff in the auth state. Need to edit it in the login button component
-export const authReducer = (state: RealAuthState, action) => {
+export const authReducer = (state: AuthState, action) => {
   switch (action.type) {
     case "login":
       return { user: action.payload };
@@ -67,7 +71,7 @@ export const authReducer = (state: RealAuthState, action) => {
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(authReducer, {
-    user: "loading",
+    user: { isLoading: true },
   });
   return <AuthContext.Provider value={{ ...state, dispatch }}>{children}</AuthContext.Provider>;
 };

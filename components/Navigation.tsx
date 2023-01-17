@@ -24,9 +24,7 @@ export const NavigationBar = () => {
         {navigationPaths.map((page: NavigationPath) => (
           <NavigationButton name={page.name} path={page.path} key={page.path} />
         ))}
-        {user && user !== "loading" && (
-          <NavigationButton name="Dashboard" path="/dashboard" key="/dashboard" />
-        )}
+        {user && <NavigationButton name="Dashboard" path="/dashboard" key="/dashboard" />}
         <li className="py-2 md:py-0 cursor-pointer">
           <LogInOutButton />
         </li>

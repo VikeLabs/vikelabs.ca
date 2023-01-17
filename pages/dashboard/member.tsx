@@ -1,3 +1,4 @@
+import { Button, Checkbox } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Control, Controller, useForm } from "react-hook-form";
 import { useAuthContext } from "../../components/AuthContextProvider";
@@ -64,7 +65,7 @@ const Member = () => {
 
   // populate form with values
   useEffect(() => {
-    if (loggedInUser.data && user !== "loading") {
+    if (loggedInUser.data && user) {
       reset(loggedInUser.data);
     }
   }, [loggedInUser.data, reset, user]);
@@ -85,13 +86,66 @@ const Member = () => {
     });
   };
 
+  const [policyAgreement, setPolicyAgreement] = useState(false);
+
+  // Check that policyAgreement is true
+  // Send request to create account to backend
+  // Backend must verify via auth token and create account with id as user ID
+  // Populate other data such as email, discord, github info from token info
+  const createAccount = () => {
+    // While creating account, disable all interactable elements (to prevent re-clicks)
+    // Do this by using a conditional on the layout for the mutation data.
+    console.log("Create Account Button Clicked!");
+
+    // If receive response "username already exists, display error."
+  };
+
   return (
     <DashboardWrapper title="Member">
       <>
         {/* Display inputs with these as the placeholder */}
         {/* This might just be the github display photo, or at least defaulted to it */}
-        {(loggedInUser.isLoading || user === "loading") && <div>Loading</div>}
-        {loggedInUser.data && user !== "loading" && (
+
+        {/* Please refactor the children of the conditions */}
+        {/* When the loggedInUser has finished loading but the account doesnt exist, prompt to create it */}
+        {!loggedInUser.isLoading && user && !loggedInUser.data && (
+          <div>
+            {/* Right now all that says is Log In, might wanna change that to "Access" or something. */}
+            <p>
+              You are currently logged in temporarily using your (Github/Discord) account. To make
+              access any of this website's features, you will need to create an account. Please read
+              and accept our terms / privacy etc before proceeding and clicking the create account
+              button. If you decline, you will be logged out, your current session information will
+              be wiped from our database and this account signup process will be aborted. TODO:
+              State what information will be stored, and what information will be public. Mention
+              that all info will be kept hidden from public by default.
+            </p>
+            <div>
+              This should be a box with a scrollbar for a long terms of use policy (be careful and
+              abide to GDPR)
+            </div>
+            <div>
+              {/* Maybe user must scroll all the way down to enable checkbox? */}
+              <Checkbox
+                isChecked={policyAgreement}
+                onChange={() => setPolicyAgreement(!policyAgreement)}
+              >
+                I have read and agreed to the terms
+              </Checkbox>
+            </div>
+            <div>
+              <input value={user.user_metadata.user_name} />
+            </div>
+            <div>
+              <Button isDisabled={!policyAgreement} onClick={() => createAccount()}>
+                Create Account
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {(loggedInUser.isLoading || !user) && <div>Loading</div>}
+        {loggedInUser.data && user && (
           <div>
             <h2>Public Info</h2>
             <p className="pb-4">
