@@ -10,6 +10,7 @@ import Wrapper from "./Wrapper";
 const DashboardWrapper = ({ children, title }: { children: React.ReactNode; title: string }) => {
   const { user } = useAuthContext();
   const loggedInUser = useLoggedInUser(user?.id, user?.token);
+  console.log(user?.id, user?.token);
 
   const router = useRouter();
   let allowed = true;
@@ -28,6 +29,7 @@ const DashboardWrapper = ({ children, title }: { children: React.ReactNode; titl
 
   return (
     <Wrapper hasFooter={false}>
+      <div>test {loggedInUser.data?.role}</div>
       {allowed ? (
         <>
           <Container>

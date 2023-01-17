@@ -1,6 +1,5 @@
 import React from "react";
 import DashboardWrapper from "../../components/DashboardWrapper";
-
 const Dashboard = () => {
   return (
     <DashboardWrapper title="Dashboard">

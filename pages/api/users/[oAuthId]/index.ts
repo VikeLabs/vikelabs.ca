@@ -25,22 +25,23 @@ export async function updateUser(oAuthId: string, data: LoggedInUserEditForm) {
   return user;
 }
 
-export async function verifySignature(authToken: string) {
-  const verifySignature = await supabase.auth.getUser(authToken);
-  if (verifySignature.data.user) {
-    return true;
-  }
-  return false;
-}
-
 const editUser = async (
   req: NextApiRequest,
   res: NextApiResponse<GetLoggedInUserResponse | ErrorMessage>
   // res: NextApiResponse
 ) => {
   try {
-    if (!(await verifySignature(req.headers.authorization))) {
+    const dataFromToken = await supabase.auth.getUser(req.headers.authorization);
+    const userFromToken = dataFromToken.data.user;
+    // validate token was given by supabase
+    if (!userFromToken) {
       res.status(401).json({ message: "invalid token signature" });
+      return;
+    }
+    // validate user's auth id is the same as the queried id
+    // admins should be able to view this
+    if (userFromToken.id !== req.query.oAuthId) {
+      res.status(401).json({ message: "URL parameter of user ID does not match user ID" });
       return;
     }
     let user: User;
