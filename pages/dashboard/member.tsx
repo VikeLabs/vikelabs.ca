@@ -1,48 +1,11 @@
-import { Button, Checkbox } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Control, Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useAuthContext } from "../../components/AuthContextProvider";
 import DashboardWrapper from "../../components/DashboardWrapper";
+import { Editable, Label, UserEditorForm } from "../../components/FormHelpers";
 import { useEditUserMutation } from "../../hooks/useEditUserMutation";
 import { useLoggedInUser } from "../../hooks/useLoggedInUser";
-import { GetLoggedInUserResponse, LoggedInUserEditForm } from "../../types";
-
-type UserEditorForm = Omit<GetLoggedInUserResponse, "id" | "role">;
-
-const Editable = ({
-  label,
-  controlName,
-  control,
-  isEditing,
-  placeholder,
-}: {
-  label: string;
-  controlName: keyof UserEditorForm;
-  control: Control<UserEditorForm, any>;
-  isEditing: boolean;
-  placeholder?: string;
-}) => (
-  <div>
-    <Label text={label} />
-    <Controller
-      control={control}
-      name={controlName}
-      render={({ field: { onChange, value } }) => (
-        <input
-          className="block w-full py-2 px-3 rounded-md border-solid border-black border-2 disabled:p-0 disabled:border-none"
-          onChange={onChange}
-          value={value}
-          disabled={!isEditing}
-          placeholder={placeholder}
-        />
-      )}
-    />
-  </div>
-);
-
-const Label = ({ text }: { text: string }) => (
-  <label className="block mb-1 font-semibold">{text}</label>
-);
+import { LoggedInUserEditForm } from "../../types";
 
 const Divider = () => <div className="w-full h-px bg-black my-4"></div>;
 
@@ -86,64 +49,10 @@ const Member = () => {
     });
   };
 
-  const [policyAgreement, setPolicyAgreement] = useState(false);
-
-  // Check that policyAgreement is true
-  // Send request to create account to backend
-  // Backend must verify via auth token and create account with id as user ID
-  // Populate other data such as email, discord, github info from token info
-  const createAccount = () => {
-    // While creating account, disable all interactable elements (to prevent re-clicks)
-    // Do this by using a conditional on the layout for the mutation data.
-    console.log("Create Account Button Clicked!");
-
-    // If receive response "username already exists, display error."
-  };
-
   return (
     <DashboardWrapper title="Member">
       <>
-        {/* Display inputs with these as the placeholder */}
-        {/* This might just be the github display photo, or at least defaulted to it */}
-
-        {/* Please refactor the children of the conditions */}
-        {/* When the loggedInUser has finished loading but the account doesnt exist, prompt to create it */}
-        {!loggedInUser.isLoading && user && !loggedInUser.data && (
-          <div>
-            {/* Right now all that says is Log In, might wanna change that to "Access" or something. */}
-            <p>
-              You are currently logged in temporarily using your (Github/Discord) account. To make
-              access any of this website's features, you will need to create an account. Please read
-              and accept our terms / privacy etc before proceeding and clicking the create account
-              button. If you decline, you will be logged out, your current session information will
-              be wiped from our database and this account signup process will be aborted. TODO:
-              State what information will be stored, and what information will be public. Mention
-              that all info will be kept hidden from public by default.
-            </p>
-            <div>
-              This should be a box with a scrollbar for a long terms of use policy (be careful and
-              abide to GDPR)
-            </div>
-            <div>
-              {/* Maybe user must scroll all the way down to enable checkbox? */}
-              <Checkbox
-                isChecked={policyAgreement}
-                onChange={() => setPolicyAgreement(!policyAgreement)}
-              >
-                I have read and agreed to the terms
-              </Checkbox>
-            </div>
-            <div>
-              <input value={user.user_metadata.user_name} />
-            </div>
-            <div>
-              <Button isDisabled={!policyAgreement} onClick={() => createAccount()}>
-                Create Account
-              </Button>
-            </div>
-          </div>
-        )}
-
+        {/* TODO: PLEASE refactor the children of the conditions, it's messier than a dogpen */}
         {(loggedInUser.isLoading || !user) && <div>Loading</div>}
         {loggedInUser.data && user && (
           <div>

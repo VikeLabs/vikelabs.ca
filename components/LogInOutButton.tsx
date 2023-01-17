@@ -73,10 +73,6 @@ const LogInOutButton = () => {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    console.log("User", user);
-  }, [user]);
-
   return (
     <div>
       {user?.isLoading ? (

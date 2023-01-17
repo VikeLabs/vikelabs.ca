@@ -33,22 +33,15 @@ const editUser = async (
   try {
     const dataFromToken = await supabase.auth.getUser(req.headers.authorization);
     const userFromToken = dataFromToken.data.user;
+
     // validate token was given by supabase
-    if (!userFromToken) {
-      res.status(401).json({ message: "invalid token signature" });
-      return;
-    }
-    // When the logged in user does not have an account,
-    // let the frontend know so it can give the user to create one
-    // Tell the user what we'll be storing, and what data is visible.
-    // By default, the user's profile should be hidden from public with a setting.
     if (!userFromToken) {
       res.status(401).json({ message: "invalid token signature" });
       return;
     }
 
     // validate user's auth id is the same as the queried id
-    // admins should be able to view this
+    // TODO: admins should be able to view this
     if (userFromToken.id !== req.query.id) {
       res.status(401).json({ message: "URL parameter of user ID does not match user ID" });
       return;

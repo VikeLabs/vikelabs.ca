@@ -8,7 +8,8 @@ export type GetLoggedInUserResponse = {
   firstName: string;
   lastName: string;
   imageUrl: string;
-  github: string;
+  github?: string;
+  discord?: string; // TODO
   role: string;
 };
 
@@ -30,7 +31,7 @@ export type ErrorMessage = {
   message: string;
 };
 
-export type CreateUserInput = {
+export type CreateUserRequest = {
   vId: string;
   username: string;
   displayName: string;

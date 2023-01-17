@@ -1,11 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, User } from "@prisma/client";
-import {
-  CreateUserInput,
-  ErrorMessage,
-  GetLoggedInUserResponse,
-  LoggedInUserEditForm,
-} from "../../../types";
+import { CreateUserRequest, ErrorMessage, GetLoggedInUserResponse } from "../../../types";
 import { supabase } from "../../../supabase-client";
 
 const prisma = new PrismaClient();
@@ -26,7 +21,7 @@ export async function getUserIfExist(id: string) {
 }
 
 // TODO: Please dont use any
-export async function createNewUser(id: string, userFromInput: CreateUserInput) {
+export async function createNewUser(id: string, userFromInput: CreateUserRequest) {
   const data: User = {
     id,
     vId: userFromInput.vId,
@@ -51,7 +46,6 @@ const createUser = async (
 ) => {
   try {
     const token = req.headers.authorization;
-
     const dataFromToken = await supabase.auth.getUser(token);
     const userFromToken = dataFromToken.data.user;
 
@@ -71,7 +65,7 @@ const createUser = async (
     let user: User;
     switch (req.method) {
       case "POST":
-        const userFromInput = req.body;
+        const userFromInput = JSON.parse(req.body);
         user = await createNewUser(userFromToken.id, userFromInput);
         res.status(200).json(user);
         break;
