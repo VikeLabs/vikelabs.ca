@@ -40,6 +40,7 @@ model ProjectHasMembers {
   memberId String
   assignedAt DateTime @default(now())
   assignedBy String
+  isCredited Boolean @default(false) // Enabled = info appears on the project page credits list
   isTeamLead Boolean @default(false)
   @@id([projectId, memberId])
 }
