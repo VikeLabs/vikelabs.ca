@@ -1,54 +1,171 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useAuthContext } from "../../components/AuthContextProvider";
 import DashboardWrapper from "../../components/DashboardWrapper";
-const Dashboard = () => {
+import { Editable, Label, UserEditorForm } from "../../components/FormHelpers";
+import { useEditUserMutation } from "../../hooks/useEditUserMutation";
+import { useLoggedInUser } from "../../hooks/useLoggedInUser";
+import { LoggedInUserEditForm } from "../../types";
+
+const Divider = () => <div className="w-full h-px bg-black my-4"></div>;
+
+const Member = () => {
+  const { user, dispatch } = useAuthContext();
+  const loggedInUser = useLoggedInUser(user?.id, user?.token);
+  const editUserMutation = useEditUserMutation(user?.id, user?.token);
+  const [isEditing, setIsEditing] = useState(false);
+  const { formState, handleSubmit, control, reset } = useForm<UserEditorForm>({
+    defaultValues: {
+      vId: "",
+      username: "",
+      displayName: "",
+      firstName: "",
+      lastName: "",
+      imageUrl: "",
+      github: "",
+    },
+  });
+
+  // populate form with values
+  useEffect(() => {
+    if (loggedInUser.data && user) {
+      reset(loggedInUser.data);
+    }
+  }, [loggedInUser.data, reset, user]);
+
+  const onSubmit = (data: LoggedInUserEditForm) => {
+    editUserMutation.mutate(data, {
+      onSuccess: (response) => {
+        if (response.ok) {
+          console.log("editUserMutation succeeded!");
+          setIsEditing(false);
+        } else {
+          console.log("editUserMutation failed!");
+          if (response.status === 401) {
+            dispatch({ type: "logout" });
+          }
+        }
+      },
+    });
+  };
+
   return (
-    <DashboardWrapper title="Dashboard">
-      <div>If user is admin, redirect to /dashboard/admin:</div>
-      <h2>Projects</h2>
-      <p>Panel to edit projects, make them live/draft, and order the projects</p>
+    <DashboardWrapper title="Member">
+      <>
+        {/* TODO: PLEASE refactor the children of the conditions, it's messier than a dogpen */}
+        {(loggedInUser.isLoading || !user) && <div>Loading</div>}
+        {loggedInUser.data && user && (
+          <div>
+            <h2>Public Info</h2>
+            <p className="pb-4">
+              This information is publicly available on this website. (some privacy disclaimers
+              maybe?)
+            </p>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <Editable
+                label="Username"
+                control={control}
+                isEditing={isEditing}
+                controlName="username"
+                placeholder="johnsmith123"
+              />
+              <Editable
+                label="Display Name"
+                control={control}
+                isEditing={isEditing}
+                controlName="displayName"
+                placeholder="John Smith"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <Editable
+                label="Profile Picture URL"
+                control={control}
+                isEditing={isEditing}
+                controlName="imageUrl"
+                placeholder="https://cdn.frankerfacez.com/avatar/twitch/2663092323"
+              />
+              <Editable
+                label="Github Username"
+                control={control}
+                isEditing={isEditing}
+                controlName="github"
+                placeholder="johnSmithCantCode"
+              />
+            </div>
 
-      <div>If user is team leader, redirect to /dashboard/teams:</div>
-      <h2>Your Projects</h2>
-      <p>CourseUp</p>
-      <p>VikeLabs.ca</p>
-      <p>
-        Teams the user manages here (detected by github?), with links to their specific dashboard
-        page /dashboard/teams/teamName
-      </p>
+            <Divider />
 
-      <div>If user is team member, show their profile and associated info</div>
-      <li>Change their display name</li>
-      <li>Change their display photo</li>
-      <li>Change their github url</li>
-
-      <h2>Edit Project</h2>
-      <p>
-        In this page, users can see preview of their project page and enable editing for each
-        section on the same page. There's also a "submit for approval" button to alert admins of
-        approval request and a "Save Draft" button to simply save.
-      </p>
-      <li>Title</li>
-      <li>Description</li>
-      <li>
-        Stack / Technologies - There's a preset list of technologies and colors, but the user can
-        add a custom technology + color
-      </li>
-      <li>Repository link</li>
-      <li>Deployment links</li>
-      <li>Screenshots</li>
-      <li>
-        Team members - choose from a list of users in vikelabs that are registered on the site - can
-        choose whether to show pfp or not - add by github, with their preferred name and github
-        username
-      </li>
-      <p>They can also see the info</p>
-      <li>Order in /projects page</li>
-      <li>Preview of what the project preview on /projects page looks like</li>
-
-      <h2>Blog</h2>
-      <p>Team leaders and admins can create blogs here</p>
+            <h2>Private Info</h2>
+            <p className="pb-4">
+              This information will only be seen by the club executives for administration purposes.
+            </p>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <Editable
+                label="First Name"
+                control={control}
+                isEditing={isEditing}
+                controlName="firstName"
+                placeholder="Johnathan"
+              />
+              <Editable
+                label="Last Name"
+                control={control}
+                isEditing={isEditing}
+                controlName="lastName"
+                placeholder="Smith"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <Editable
+                label="Student ID"
+                control={control}
+                isEditing={isEditing}
+                controlName="vId"
+                placeholder="01234567"
+              />
+              <div>
+                <Label text="Club Id" />
+                <p>{loggedInUser.data.id}</p>
+              </div>
+            </div>
+            <div>
+              {isEditing ? (
+                <>
+                  {formState.dirtyFields.displayName && (
+                    <div>
+                      Because you changed your <strong>Display Name</strong>, admins need to review
+                      it for any inappropriate statements before allowing it
+                    </div>
+                  )}
+                  <button
+                    className="p-4 bg-red-400"
+                    onClick={() => {
+                      setIsEditing(false);
+                      reset(loggedInUser.data);
+                    }}
+                  >
+                    Cancel Editing
+                  </button>
+                  <button className="p-4 bg-green-400" onClick={handleSubmit(onSubmit)}>
+                    {formState.dirtyFields.displayName ? "Submit for Approval" : "Save Changes"}
+                  </button>
+                </>
+              ) : (
+                <button className="p-4 bg-orange-400" onClick={() => setIsEditing(true)}>
+                  Edit Profile
+                </button>
+              )}
+            </div>
+            <Divider />
+          </div>
+        )}
+        <h2>DANGER ZONE</h2>
+        <div>[MOCK TOGGLE ACCORDION]</div>
+        <button className="p-4 bg-red-400">Delete Account</button>
+      </>
     </DashboardWrapper>
   );
 };
 
-export default Dashboard;
+export default Member;

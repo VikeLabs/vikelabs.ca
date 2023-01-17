@@ -41,7 +41,7 @@ const DashboardWrapper = ({ children, title }: { children: React.ReactNode; titl
               {(loggedInUser.data?.role === "lead" || loggedInUser.data?.role === "admin") && (
                 <nav>
                   <ul className="flex flex-col justify-center items-center space-y-2 md:flex-row md:space-x-8 md:space-y-0 font-bold text-center group text-lg md:text-base">
-                    <NavigationButton name="Member" path="/dashboard/member" key="member" />
+                    <NavigationButton name="Member" path="/dashboard" key="member" />
                     <NavigationButton name="Lead" path="/dashboard/lead" key="lead" />
                     {loggedInUser.data?.role === "admin" && (
                       <NavigationButton name="Admin" path="/dashboard/admin" key="admin" />
