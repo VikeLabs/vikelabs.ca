@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import ApprovalNotice from "../../components/ApprovalNotice";
 import { useAuthContext } from "../../components/AuthContextProvider";
 import DashboardWrapper from "../../components/DashboardWrapper";
 import { Editable, Label, UserEditorForm } from "../../components/FormHelpers";
@@ -129,34 +130,22 @@ const Member = () => {
                 <p>{loggedInUser.data.id}</p>
               </div>
             </div>
-            <div>
-              {isEditing ? (
-                <>
-                  {formState.dirtyFields.displayName && (
-                    <div>
-                      Because you changed your <strong>Display Name</strong>, admins need to review
-                      it for any inappropriate statements before allowing it
-                    </div>
-                  )}
-                  <button
-                    className="p-4 bg-red-400"
-                    onClick={() => {
-                      setIsEditing(false);
-                      reset(loggedInUser.data);
-                    }}
-                  >
-                    Cancel Editing
-                  </button>
-                  <button className="p-4 bg-green-400" onClick={handleSubmit(onSubmit)}>
-                    {formState.dirtyFields.displayName ? "Submit for Approval" : "Save Changes"}
-                  </button>
-                </>
-              ) : (
-                <button className="p-4 bg-orange-400" onClick={() => setIsEditing(true)}>
-                  Edit Profile
-                </button>
-              )}
-            </div>
+            <ApprovalNotice
+              isEditing={isEditing}
+              fieldNames={[
+                { label: "Username", controlName: "username" },
+                { label: "Display Name", controlName: "displayName" },
+                { label: "Profile Picture", controlName: "imageUrl" },
+                { label: "Github Username", controlName: "github" },
+              ]}
+              formState={formState}
+              onEdit={() => setIsEditing(true)}
+              onCancel={() => {
+                setIsEditing(false);
+                reset(loggedInUser.data);
+              }}
+              onSubmit={handleSubmit(onSubmit)}
+            />
             <Divider />
           </div>
         )}

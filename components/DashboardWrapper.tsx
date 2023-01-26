@@ -76,7 +76,7 @@ const DashboardWrapper = ({ children, title }: { children: React.ReactNode; titl
       {!loggedInUser.isLoading && user && !loggedInUser.data ? (
         <CreateAccountCard />
       ) : (
-        <DashboardView allowed={allowed} title={title} role={loggedInUser?.data.role}>
+        <DashboardView allowed={allowed} title={title} role={loggedInUser.data?.role}>
           {children}
         </DashboardView>
       )}
