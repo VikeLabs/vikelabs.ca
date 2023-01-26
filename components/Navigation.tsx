@@ -10,6 +10,7 @@ type NavigationPath = {
 };
 
 const navigationPaths: NavigationPath[] = [
+  { name: "Home", path: "/" },
   { name: "About Us", path: "/about" },
   { name: "Projects", path: "/projects" },
   // { name: "Blog", path: "/blog" },

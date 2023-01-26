@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { supabase } from "../supabase-client";
 import { useAuthContext } from "./AuthContextProvider";
+import Loading from "./Loading";
 
 const LogInOutButton = () => {
   const { auth } = supabase;
@@ -76,7 +77,7 @@ const LogInOutButton = () => {
   return (
     <div>
       {user?.isLoading ? (
-        <p>loading</p>
+        <Loading />
       ) : (
         <span>
           {user ? (
