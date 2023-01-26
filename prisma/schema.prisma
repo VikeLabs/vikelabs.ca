@@ -27,11 +27,12 @@ model User {
 // model UserInfo {} for draft/live user info
 
 model Project {
-  id      Int         @id @default(autoincrement())
-  draftId String      @unique
-  draft   ProjectInfo @relation("draft", fields: [draftId], references: [id])
-  liveId  String      @unique
-  live    ProjectInfo @relation("live", fields: [liveId], references: [id])
+  id      Int             @id @default(autoincrement())
+  leadBy  ProjectHasLead?
+  draftId String          @unique
+  draft   ProjectInfo     @relation("draft", fields: [draftId], references: [id])
+  liveId  String          @unique
+  live    ProjectInfo     @relation("live", fields: [liveId], references: [id])
   // order priority?
 }
 
@@ -47,7 +48,6 @@ model ProjectInfo {
   recruiting     Boolean
   recruitingFor  String
   members        ProjectHasMembers[]
-  leadBy         ProjectHasLead?
   updatedBy      String // username
 }
 
@@ -67,11 +67,11 @@ model ProjectHasMembers {
 }
 
 model ProjectHasLead {
-  project    ProjectInfo @relation(fields: [projectId], references: [id])
-  projectId  String      @unique
-  lead       User        @relation(fields: [leadId], references: [id])
-  leadId     String      @unique // assuming project can only have one lead at any given time
-  isCredited Boolean     @default(false) // Enabled = info appears on the project page credits list
+  project    Project @relation(fields: [projectId], references: [id])
+  projectId  Int     @unique
+  lead       User    @relation(fields: [leadId], references: [id])
+  leadId     String  @unique // assuming project can only have one lead at any given time
+  isCredited Boolean @default(false) // Enabled = info appears on the project page credits list
 
   @@id([projectId, leadId])
 }

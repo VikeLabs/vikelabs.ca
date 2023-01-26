@@ -1,4 +1,9 @@
-import { Prisma } from "@prisma/client";
+import { ProjectInfo } from "@prisma/client";
+
+export type GetProjectEditViewResponse = {
+  projectLive: ProjectInfo;
+  projectDraft?: ProjectInfo;
+};
 
 export type GetLoggedInUserResponse = {
   id: string;
@@ -9,7 +14,7 @@ export type GetLoggedInUserResponse = {
   lastName: string;
   imageUrl: string;
   github?: string;
-  discord?: string; // TODO
+  discord?: string;
   role: string;
 };
 

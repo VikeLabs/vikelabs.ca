@@ -25,7 +25,7 @@ export async function updateUser(id: string, data: LoggedInUserEditForm) {
   return user;
 }
 
-const editUser = async (
+const userEndpoint = async (
   req: NextApiRequest,
   res: NextApiResponse<GetLoggedInUserResponse | ErrorMessage>
   // res: NextApiResponse
@@ -66,4 +66,4 @@ const editUser = async (
   }
 };
 
-export default editUser;
+export default userEndpoint;

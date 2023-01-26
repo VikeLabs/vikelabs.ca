@@ -2,7 +2,7 @@ name: vikelabs-push
 
 on:
   push:
-    branches: [robert]
+    branches: [robert] # customize this to your branch if needed
 
 jobs:
   build:
