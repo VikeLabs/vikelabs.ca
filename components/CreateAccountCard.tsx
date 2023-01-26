@@ -11,20 +11,23 @@ const CreateAccountCard = () => {
   const { handleSubmit, control } = useForm<UserEditorForm>({
     defaultValues: {
       vId: "",
-      username: user.user_metadata.user_name,
+      username:
+        user.app_metadata.provider === "github"
+          ? user.user_metadata.user_name
+          : user.user_metadata.full_name,
       displayName:
         user.app_metadata.provider === "github"
           ? user.user_metadata.full_name
-          : user.user_metadata.user_name,
+          : user.user_metadata.full_name,
       firstName:
         user.app_metadata.provider === "github" ? user.user_metadata.full_name.split(" ")[0] : "",
       lastName:
         user.app_metadata.provider === "github"
           ? user.user_metadata.full_name.split(" ")[1] || ""
           : "",
-      imageUrl: user.app_metadata.provider === "github" ? user.user_metadata.avatar_url : "",
+      imageUrl: user.user_metadata.avatar_url,
       github: user.app_metadata.provider === "github" ? user.user_metadata.user_name : "",
-      discord: user.app_metadata.provider === "discord" ? user.user_metadata.user_name : "",
+      discord: user.app_metadata.provider === "discord" ? user.user_metadata.name : "",
     },
   });
   const [policyAgreement, setPolicyAgreement] = useState(false);
