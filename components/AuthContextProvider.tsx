@@ -3,7 +3,6 @@ import React, { createContext, useContext, useReducer } from "react";
 export const AuthContext = createContext<AuthState>(null);
 
 export type AuthState = {
-  // TODO: This is for github, discord's might be different.
   user?: {
     isLoading?: boolean;
     app_metadata: {
@@ -52,11 +51,9 @@ export type AuthState = {
       user_name: string;
     };
   };
-
   dispatch: any;
 };
 
-// TODO: let's... not have so much stuff in the auth state. Need to edit it in the login button component
 export const authReducer = (state: AuthState, action) => {
   switch (action.type) {
     case "login":
@@ -67,7 +64,6 @@ export const authReducer = (state: AuthState, action) => {
       return state;
   }
 };
-// TODO: Change the names "userSession" to "auth"
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(authReducer, {
@@ -76,10 +72,9 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   return <AuthContext.Provider value={{ ...state, dispatch }}>{children}</AuthContext.Provider>;
 };
 
-// context hook
-
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
+  // console.log(context);
   if (!context) {
     throw Error("useAuthContext must be used inside an AuthContextProvider");
   }
