@@ -1,9 +1,42 @@
 import React from "react";
+import { useAuthContext } from "../../components/AuthContextProvider";
 import DashboardWrapper from "../../components/DashboardWrapper";
+import Loading from "../../components/Loading";
+import { useProjectEditView } from "../../hooks/useProjectEditView";
 
-const lead = () => {
+const Lead = () => {
+  const { user } = useAuthContext();
+  const projectEditView = useProjectEditView(user?.id, user?.token);
+
   return (
     <DashboardWrapper title="Team Lead">
+      {projectEditView.isLoading && <Loading />}
+      {projectEditView.data && (
+        // TODO: Rename live/draft to just live/draft
+        <div>
+          <h2>Live Data</h2>
+          <div>ID: {projectEditView.data.live.id}</div>
+          <div>Title: {projectEditView.data.live.title}</div>
+          <div>Desc: {projectEditView.data.live.description.toString()}</div>
+          <div>ImageURLs: {projectEditView.data.live.imageUrls.toString()}</div>
+          <div>Links: {projectEditView.data.live.links.toString()}</div>
+          <div>Stack: {projectEditView.data.live.stack.toString()}</div>
+          <div>UpdatedBy: {projectEditView.data.live.updatedBy}</div>
+          <div>Recruiting: {projectEditView.data.live.recruiting ? "true" : "false"}</div>
+          <div>RecruitingFor: {projectEditView.data.live.recruitingFor}</div>
+          <br />
+          <h2>Draft Data</h2>
+          <div>ID: {projectEditView.data.draft.id}</div>
+          <div>Title: {projectEditView.data.draft.title}</div>
+          <div>Desc: {projectEditView.data.draft.description.toString()}</div>
+          <div>ImageURLs: {projectEditView.data.draft.imageUrls.toString()}</div>
+          <div>Links: {projectEditView.data.draft.links.toString()}</div>
+          <div>Stack: {projectEditView.data.draft.stack.toString()}</div>
+          <div>UpdatedBy: {projectEditView.data.draft.updatedBy}</div>
+          <div>Recruiting: {projectEditView.data.draft.recruiting ? "true" : "false"}</div>
+          <div>RecruitingFor: {projectEditView.data.draft.recruitingFor}</div>
+        </div>
+      )}
       <div>
         Your projects:
         {/* Link is /dashboard/teams/teamName */}
@@ -41,4 +74,4 @@ const lead = () => {
   );
 };
 
-export default lead;
+export default Lead;

@@ -1,7 +1,7 @@
 import React from "react";
 import DashboardWrapper from "../../components/DashboardWrapper";
 
-const admin = () => {
+const Admin = () => {
   return (
     <DashboardWrapper title="Admin">
       <div>Approve changes</div>
@@ -10,4 +10,4 @@ const admin = () => {
   );
 };
 
-export default admin;
+export default Admin;

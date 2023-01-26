@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, ProjectInfo } from "@prisma/client";
-import { ErrorMessage, GetProjectEditViewResponse } from "../../../../types";
-import { supabase } from "../../../../supabase-client";
+import { ErrorMessage, GetProjectEditViewResponse } from "../../../../../types";
+import { supabase } from "../../../../../supabase-client";
 
 const prisma = new PrismaClient();
 const usage = "GET /api/project/[id]";
@@ -60,22 +60,30 @@ const userEndpoint = async (
       return;
     }
 
-    // check if projectId is actually a number
-    if (isNaN(Number(req.query.id))) {
-      res.status(401).json({ message: "project ID is supposed to be a number, received NaN." });
-      return;
-    }
+    // // check if projectId is actually a number
+    // console.log(req.query.id);
+    // if (isNaN(Number(req.query.id))) {
+    //   res.status(401).json({ message: "project ID is supposed to be a number, received NaN." });
+    //   return;
+    // }
 
-    // validate user's role is lead
+    // validate user's role is lead or admin
     const userRole = await getUserRole(userFromToken.id);
     if (userRole !== "lead" && userRole !== "admin") {
       res.status(401).json({ message: "User is not a team lead nor admin" });
       return;
     }
 
+    // validate user's auth id is the same as the queried id
+    // allow admins through
+    if (userFromToken.id !== req.query.id && userRole !== "admin") {
+      res.status(401).json({ message: "URL parameter of user ID does not match user ID" });
+      return;
+    }
+
     // validate user is the team lead for the project
     const project = await getProjectFromLeadId(userFromToken.id);
-    if (project.id !== Number(req.query.id)) {
+    if (!project) {
       res.status(401).json({ message: "User is not this project's team lead" });
       return;
     }
@@ -83,8 +91,8 @@ const userEndpoint = async (
     switch (req.method) {
       case "GET":
         res.status(200).json({
-          projectLive: await getProjectInfo(project.liveId),
-          projectDraft: await getProjectInfo(project.draftId),
+          live: await getProjectInfo(project.liveId),
+          draft: await getProjectInfo(project.draftId),
         });
         break;
       default:

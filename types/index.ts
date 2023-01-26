@@ -1,8 +1,8 @@
 import { ProjectInfo } from "@prisma/client";
 
 export type GetProjectEditViewResponse = {
-  projectLive: ProjectInfo;
-  projectDraft?: ProjectInfo;
+  live: ProjectInfo;
+  draft?: ProjectInfo;
 };
 
 export type GetLoggedInUserResponse = {
