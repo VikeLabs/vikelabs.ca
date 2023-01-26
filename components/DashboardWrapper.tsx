@@ -8,6 +8,50 @@ import CreateAccountCard from "./CreateAccountCard";
 import { NavigationButton } from "./Navigation";
 import Wrapper from "./Wrapper";
 
+const DashboardView = ({
+  children,
+  allowed,
+  title,
+  role,
+}: {
+  children: React.ReactNode;
+  allowed: boolean;
+  title: string;
+  role: string;
+}) => {
+  switch (allowed) {
+    case true:
+      return (
+        <>
+          <Container>
+            <div className="bg-slate-300 p-4">{title} Dashboard</div>
+          </Container>
+          {(role === "lead" || role === "admin") && (
+            <nav>
+              <ul className="flex flex-col justify-center items-center space-y-2 md:flex-row md:space-x-8 md:space-y-0 font-bold text-center group text-lg md:text-base">
+                <NavigationButton name="Member" path="/dashboard" key="member" />
+                <NavigationButton name="Lead" path="/dashboard/lead" key="lead" />
+                {role === "admin" && (
+                  <NavigationButton name="Admin" path="/dashboard/admin" key="admin" />
+                )}
+              </ul>
+            </nav>
+          )}
+          <Container>
+            <div className="bg-slate-100 p-4">{children}</div>
+          </Container>
+          <BlogDashboard />
+        </>
+      );
+    case false:
+      return (
+        <Container>
+          <div className="bg-slate-100 p-4">unauthorized</div>
+        </Container>
+      );
+  }
+};
+
 const DashboardWrapper = ({ children, title }: { children: React.ReactNode; title: string }) => {
   const { user } = useAuthContext();
   const loggedInUser = useLoggedInUser(user?.id, user?.token);
@@ -32,34 +76,9 @@ const DashboardWrapper = ({ children, title }: { children: React.ReactNode; titl
       {!loggedInUser.isLoading && user && !loggedInUser.data ? (
         <CreateAccountCard />
       ) : (
-        <>
-          {allowed ? (
-            <>
-              <Container>
-                <div className="bg-slate-300 p-4">{title} Dashboard</div>
-              </Container>
-              {(loggedInUser.data?.role === "lead" || loggedInUser.data?.role === "admin") && (
-                <nav>
-                  <ul className="flex flex-col justify-center items-center space-y-2 md:flex-row md:space-x-8 md:space-y-0 font-bold text-center group text-lg md:text-base">
-                    <NavigationButton name="Member" path="/dashboard" key="member" />
-                    <NavigationButton name="Lead" path="/dashboard/lead" key="lead" />
-                    {loggedInUser.data?.role === "admin" && (
-                      <NavigationButton name="Admin" path="/dashboard/admin" key="admin" />
-                    )}
-                  </ul>
-                </nav>
-              )}
-              <Container>
-                <div className="bg-slate-100 p-4">{children}</div>
-              </Container>
-              <BlogDashboard />
-            </>
-          ) : (
-            <Container>
-              <div className="bg-slate-100 p-4">unauthorized</div>
-            </Container>
-          )}
-        </>
+        <DashboardView allowed={allowed} title={title} role={loggedInUser?.data.role}>
+          {children}
+        </DashboardView>
       )}
     </Wrapper>
   );
