@@ -1,10 +1,20 @@
 {
+  "eslint.alwaysShowStatus": true,
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "prettier.printWidth": 100,
-  "prettier.semi": true,
-  "editor.minimap.maxColumn": 100
+  "editor.tabSize": 2,
+  "eslint.validate": ["javascript", "javascriptreact", "html", "typescript", "typescriptreact"],
+  "eslint.codeActionsOnSave.mode": "problems",
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.quiet": false,
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "git.autorefresh": true,
+  "eslint.enable": true,
+  "eslint.debug": true
 }

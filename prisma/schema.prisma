@@ -11,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id          String @id @default(cuid())
+  id          String              @id @default(cuid())
   vId         String
   username    String
   displayName String
@@ -21,50 +21,67 @@ model User {
   imageUrl    String
   role        String
   projects    ProjectHasMembers[]
+  isLeadFor   ProjectHasLead?
 }
 
+// model UserInfo {} for draft/live user info
+
 model Project {
-  id        Int   @id @default(autoincrement())
-  leadId    String
-  name      String
-  isLive Boolean @default(false) // for verification purposes
-  members   ProjectHasMembers[]
-  stack ProjectUsesTechnology[]
+  id      Int         @id @default(autoincrement())
+  draftId String      @unique
+  draft   ProjectInfo @relation("draft", fields: [draftId], references: [id])
+  liveId  String      @unique
+  live    ProjectInfo @relation("live", fields: [liveId], references: [id])
+  // order priority?
+}
+
+model ProjectInfo {
+  id             String              @id @default(cuid())
+  projectAsDraft Project?            @relation("draft")
+  projectAsLive  Project?            @relation("live")
+  title          String
+  description    Json
+  links          Json
+  stack          Json
+  imageUrls      Json
+  recruiting     Boolean
+  recruitingFor  String
+  members        ProjectHasMembers[]
+  leadBy         ProjectHasLead?
+  updatedBy      String // username
 }
 
 // Users and Projects are Many-to-Many, so we need a relation table (JOIN / pivot table)
 model ProjectHasMembers {
-  project Project @relation(fields: [projectId], references: [id])
-  projectId Int
-  member User @relation(fields: [memberId], references: [id])
-  memberId String
-  assignedAt DateTime @default(now())
-  assignedBy String
-  isCredited Boolean @default(false) // Enabled = info appears on the project page credits list
-  isTeamLead Boolean @default(false)
+  project    ProjectInfo @relation(fields: [projectId], references: [id])
+  projectId  String
+  member     User        @relation(fields: [memberId], references: [id])
+  memberId   String
+  isCredited Boolean     @default(false)
+
+  // assignedAt    DateTime     @default(now())
+  // assignedBy    String
+  // isCredited    Boolean      @default(false) // Enabled = info appears on the project page credits list
+  // isTeamLead    Boolean      @default(false)
   @@id([projectId, memberId])
 }
 
-model Technology {
-  id    String @id @default(cuid())
-  name  String
-  bgColor String
-  color String
-  createdBy String @default("")
-  usedOnProject ProjectUsesTechnology[]
+model ProjectHasLead {
+  project    ProjectInfo @relation(fields: [projectId], references: [id])
+  projectId  String      @unique
+  lead       User        @relation(fields: [leadId], references: [id])
+  leadId     String      @unique // assuming project can only have one lead at any given time
+  isCredited Boolean     @default(false) // Enabled = info appears on the project page credits list
+
+  @@id([projectId, leadId])
 }
 
-// Many-to-many project to technology
-// Is this really necessary to be stored in the DB? Cant this be hard config'd in client side?
-model ProjectUsesTechnology {
-  project Project @relation(fields: [projectId], references: [id])
-  projectId Int
-  technology Technology @relation(fields: [technologyId], references: [id])
-  technologyId String
-  assignedAt DateTime @default(now())
-  assignedBy String
-  isTeamLead Boolean @default(false)
-  @@id([projectId, technologyId])
+model Technology {
+  id        String @id @default(cuid())
+  name      String
+  bgColor   String
+  color     String
+  createdBy String @default("")
 }
 
 enum Role {
