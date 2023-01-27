@@ -1,8 +1,23 @@
-import { ProjectInfo } from "@prisma/client";
+import { ProjectHasMembers, ProjectInfo } from "@prisma/client";
+
+export type ProjectInfoWithMembers = ProjectInfo & {
+  members?: any;
+};
 
 export type GetProjectEditViewResponse = {
+  id: number;
   live: ProjectInfo;
   draft?: ProjectInfo;
+  members?: MemberInfo[];
+};
+
+export type MemberInfo = {
+  id: string;
+  username?: string;
+  displayName?: string;
+  imageUrl?: string;
+  github?: string;
+  discord?: string;
 };
 
 export type GetLoggedInUserResponse = {

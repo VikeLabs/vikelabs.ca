@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "ProjectInfo" ADD COLUMN     "approvedAt" TIMESTAMP(3),
+ADD COLUMN     "approvedBy" TEXT,
+ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

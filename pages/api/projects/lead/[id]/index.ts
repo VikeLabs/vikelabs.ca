@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient, ProjectInfo } from "@prisma/client";
-import { ErrorMessage, GetProjectEditViewResponse } from "../../../../../types";
+import { PrismaClient } from "@prisma/client";
+import { ErrorMessage, GetProjectEditViewResponse, MemberInfo } from "../../../../../types";
 import { supabase } from "../../../../../supabase-client";
 
 const prisma = new PrismaClient();
@@ -27,13 +27,34 @@ export async function getUserRole(id: string) {
   return user.role;
 }
 
-export async function getProject(id: number) {
-  const project = await prisma.project.findUnique({
-    where: {
-      id,
-    },
-  });
-  return project;
+export async function getProjectMembers(id: number) {
+  const members = await prisma.project
+    .findUnique({
+      where: {
+        id,
+      },
+    })
+    .members();
+  const memberInfos: MemberInfo[] = [];
+  for (const member of members) {
+    if (member.isCredited) {
+      const memberInfo = await prisma.user.findUnique({
+        where: {
+          id: member.memberId,
+        },
+      });
+      const { id, username, displayName, imageUrl, github, discord } = memberInfo;
+      memberInfos.push({
+        id,
+        username,
+        displayName,
+        imageUrl,
+        github,
+        discord,
+      });
+    }
+  }
+  return memberInfos;
 }
 
 export async function getProjectInfo(id: string) {
@@ -42,7 +63,9 @@ export async function getProjectInfo(id: string) {
       id,
     },
   });
-  return project;
+  // remove approvedBy info for team lead
+  const { approvedBy, ...projectEdit } = project;
+  return projectEdit;
 }
 
 const userEndpoint = async (
@@ -59,13 +82,6 @@ const userEndpoint = async (
       res.status(401).json({ message: "invalid token signature" });
       return;
     }
-
-    // // check if projectId is actually a number
-    // console.log(req.query.id);
-    // if (isNaN(Number(req.query.id))) {
-    //   res.status(401).json({ message: "project ID is supposed to be a number, received NaN." });
-    //   return;
-    // }
 
     // validate user's role is lead or admin
     const userRole = await getUserRole(userFromToken.id);
@@ -91,8 +107,10 @@ const userEndpoint = async (
     switch (req.method) {
       case "GET":
         res.status(200).json({
+          id: project.id,
           live: await getProjectInfo(project.liveId),
           draft: await getProjectInfo(project.draftId),
+          members: await getProjectMembers(project.id),
         });
         break;
       default:
