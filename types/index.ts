@@ -1,5 +1,19 @@
 import { ProjectHasMembers, ProjectInfo } from "@prisma/client";
 
+export type ImageInfo = {
+  aria: string;
+  url: string;
+};
+
+export type TechTag = {
+  label: string;
+  color: string;
+};
+
+export type LinkTag = TechTag & {
+  url: string;
+};
+
 export type ProjectInfoWithMembers = ProjectInfo & {
   members?: any;
 };
