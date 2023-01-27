@@ -94,6 +94,12 @@ const Member = () => {
               placeholder="johnSmithCantCode"
             />
           </div>
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <Label text="Club Id" />
+              <p>{loggedInUser.data.id}</p>
+            </div>
+          </div>
 
           <Divider />
 
@@ -124,10 +130,6 @@ const Member = () => {
               controlName="vId"
               placeholder="01234567"
             />
-            <div>
-              <Label text="Club Id" />
-              <p>{loggedInUser.data.id}</p>
-            </div>
           </div>
           <ApprovalNotice
             isEditing={isEditing}

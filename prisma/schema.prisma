@@ -63,6 +63,7 @@ model ProjectHasMembers {
   memberId   String
   isCredited Boolean @default(false)
 
+  // role   String @default("")
   // assignedAt    DateTime     @default(now())
   // assignedBy    String
   // isCredited    Boolean      @default(false) // Enabled = info appears on the project page credits list

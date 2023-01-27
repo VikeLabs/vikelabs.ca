@@ -13,7 +13,7 @@ export type GetProjectEditViewResponse = {
 
 export type MemberInfo = {
   id: string;
-  username?: string;
+  username: string;
   displayName?: string;
   imageUrl?: string;
   github?: string;

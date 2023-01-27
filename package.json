@@ -42,7 +42,8 @@
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.40.0",
-    "react-icons": "^4.4.0"
+    "react-icons": "^4.4.0",
+    "react-indiana-drag-scroll": "^2.2.0"
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^9.3.0",
