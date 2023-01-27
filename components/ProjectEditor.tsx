@@ -56,6 +56,9 @@ import { ImageInfo, LinkTag, TechTag } from "../types";
 import ProjectSideButtons from "./ProjectSideButtons";
 import { mockData } from "../utils/mockData";
 import { Controller, useForm } from "react-hook-form";
+import { EditorContent, Extension, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import HardBreak from "@tiptap/extension-hard-break";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -98,6 +101,8 @@ const ProjectEditor = ({
   });
 
   const onSubmit = (data: ProjectEditorForm) => {
+    const descriptionHtml = editor.getHTML();
+    console.log(descriptionHtml);
     console.log("Form submitted: ", data);
     // editUserMutation.mutate(data, {
     //   onSuccess: (response) => {
@@ -114,12 +119,22 @@ const ProjectEditor = ({
     // });
   };
 
+  const editor = useEditor({
+    extensions: [StarterKit],
+    editorProps: {
+      attributes: {
+        class: "py-2.5 px-4 rounded-md mr-4 border border-chakraBorder",
+      },
+    },
+    content: formState.defaultValues.description,
+  });
+
   return (
     <CardBody>
       <Flex>
-        <Box>
-          <Wrap align="center" m="-1" p="1" mr="4" spacing="5">
-            <FormControl isInvalid={!!formState.errors.title} width="auto">
+        <Box width="100%">
+          <Wrap align="center" m="-1" p="1" mr="4" spacing="2">
+            <FormControl isInvalid={!!formState.errors.title} width="auto" alignItems="flex-start">
               {!preview && <FormLabel>Title</FormLabel>}
               <Controller
                 control={control}
@@ -137,16 +152,22 @@ const ProjectEditor = ({
               {!formState.errors.title && <FormErrorMessage>Title is required.</FormErrorMessage>}
             </FormControl>
             <FormControl isInvalid={!!formState.errors.title} width="auto">
-              {!preview && <FormLabel>Recruiting</FormLabel>}
+              {!preview && <FormLabel ml="2">Recruiting</FormLabel>}
               <Controller
                 control={control}
                 name="recruiting"
                 render={({ field: { onChange, value } }) => (
                   <>
                     {preview ? (
-                      <>{value && <Badge colorScheme="cyan">recruiting</Badge>}</>
+                      <>
+                        {value && (
+                          <Badge colorScheme="cyan" display="block">
+                            recruiting
+                          </Badge>
+                        )}
+                      </>
                     ) : (
-                      <Switch size="lg" isChecked={value} onChange={onChange} />
+                      <Switch ml="2" size="lg" isChecked={value} onChange={onChange} />
                     )}
                   </>
                 )}
@@ -154,11 +175,73 @@ const ProjectEditor = ({
               {!formState.errors.title && <FormErrorMessage>Title is required.</FormErrorMessage>}
             </FormControl>
           </Wrap>
-          <Heading pt="5">Description</Heading>
-          <Text pt="2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et sapien justo. Integer
-            bibendum odio a arcu eleifend dignissim. Integer ullamcorper lacinia velit a porta.
-          </Text>
+          <Box pt="5">
+            <FormControl isInvalid={!!formState.errors.title} width="auto">
+              {!preview ? (
+                <FormLabel>Description</FormLabel>
+              ) : (
+                <Heading pb="2">Description</Heading>
+              )}
+              <Controller
+                control={control}
+                name="description"
+                render={({ field: { onChange, value } }) => (
+                  <>
+                    {preview ? (
+                      <div dangerouslySetInnerHTML={{ __html: editor?.getHTML() }} />
+                    ) : (
+                      <EditorContent editor={editor} value={value} onChange={onChange} />
+                    )}
+                  </>
+                )}
+              />
+              {!formState.errors.title && <FormErrorMessage>Title is required.</FormErrorMessage>}
+            </FormControl>
+          </Box>
+
+          <Box pt="5">
+            <FormControl isInvalid={!!formState.errors.title} width="100%">
+              {!preview ? <FormLabel>Stack</FormLabel> : <Heading pb="2">Stack</Heading>}
+              <Controller
+                control={control}
+                name="description"
+                render={({ field: { onChange, value } }) => (
+                  <>{preview ? <p>Preview stack</p> : <p>Editor stack</p>}</>
+                )}
+              />
+              {!formState.errors.title && <FormErrorMessage>Title is required.</FormErrorMessage>}
+            </FormControl>
+          </Box>
+
+          <Box pt="5">
+            <Heading>Stack</Heading>
+            <Wrap pt="2">
+              {mockData.stack.map((tech: TechTag, index) => (
+                <Tag
+                  key={index}
+                  size="sm"
+                  variant="solid"
+                  borderRadius="sm"
+                  colorScheme={tech.color}
+                >
+                  {tech.label}
+                </Tag>
+              ))}
+            </Wrap>
+          </Box>
+          <Box pt="5">
+            <Heading>Links</Heading>
+            <Wrap pt="2">
+              {mockData.links.map((link: LinkTag, index) => (
+                <Link href={link.url} key={index} lineHeight={1} isExternal>
+                  <Tag size="sm" variant="subtle" borderRadius="sm" colorScheme={link.color}>
+                    <TagLeftIcon boxSize={2.5} as={LinkIcon} />
+                    <TagLabel ml={-1}>{link.label}</TagLabel>
+                  </Tag>
+                </Link>
+              ))}
+            </Wrap>
+          </Box>
         </Box>
         <Spacer />
         {isPreview && (
@@ -173,29 +256,7 @@ const ProjectEditor = ({
           />
         )}
       </Flex>
-      <Box pt="5">
-        <Heading>Stack</Heading>
-        <Wrap pt="2">
-          {mockData.stack.map((tech: TechTag, index) => (
-            <Tag key={index} size="sm" variant="solid" borderRadius="sm" colorScheme={tech.color}>
-              {tech.label}
-            </Tag>
-          ))}
-        </Wrap>
-      </Box>
-      <Box pt="5">
-        <Heading>Links</Heading>
-        <Wrap pt="2">
-          {mockData.links.map((link: LinkTag, index) => (
-            <Link href={link.url} key={index} lineHeight={1} isExternal>
-              <Tag size="sm" variant="subtle" borderRadius="sm" colorScheme={link.color}>
-                <TagLeftIcon boxSize={2.5} as={LinkIcon} />
-                <TagLabel ml={-1}>{link.label}</TagLabel>
-              </Tag>
-            </Link>
-          ))}
-        </Wrap>
-      </Box>
+
       <Box pt="5">
         <Heading>Images</Heading>
         <div>

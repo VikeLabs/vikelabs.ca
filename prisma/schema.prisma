@@ -43,7 +43,7 @@ model ProjectInfo {
   projectAsDraft Project?  @relation("draft")
   projectAsLive  Project?  @relation("live")
   title          String
-  description    Json
+  description    String // very long HTML string
   links          Json
   stack          Json
   imageUrls      Json
