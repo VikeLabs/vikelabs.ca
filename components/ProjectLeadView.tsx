@@ -47,18 +47,21 @@ import { ProjectInfo } from "@prisma/client";
 import ScrollContainer from "react-indiana-drag-scroll";
 import Image from "next/image";
 import { ImageInfo, LinkTag, TechTag } from "../types";
+import ProjectSideButtons from "./ProjectSideButtons";
 
 const ProjectLeadView = ({
   id,
   project,
   members,
   onEditor,
+  preview,
   onPreview,
 }: {
   id: number;
   project: ProjectInfo;
   members: MemberInfo[];
   onEditor: () => void;
+  preview: boolean;
   onPreview: () => void;
 }) => {
   return (
@@ -135,39 +138,15 @@ const ProjectLeadView = ({
           </Text>
         </Box>
         <Spacer />
-        <Box>
-          <VStack>
-            <IconButton
-              aria-label={`Edit ${project.title}`}
-              icon={<EditIcon />}
-              onClick={onEditor}
-            />
-            <IconButton
-              aria-label={`View ${project.title}`}
-              icon={<ViewIcon />}
-              onClick={onPreview}
-            />
-            <Popover placement="left-end">
-              <PopoverTrigger>
-                <IconButton aria-label={`${project.title} Metadata`} icon={<InfoOutlineIcon />} />
-              </PopoverTrigger>
-              <Portal>
-                <PopoverContent>
-                  <PopoverCloseButton />
-                  <PopoverBody>
-                    <Text fontSize="sm">Project ID: {id}</Text>
-                    <Text fontSize="sm">Version ID: {project.id}</Text>
-                    <Text fontSize="sm">Order: TODO</Text>
-                    <Text fontSize="sm">Updated by: {project.updatedBy}</Text>
-                    <Text fontSize="sm">Updated at: TODO</Text>
-                    <Text fontSize="sm">Approved by: {project.approvedBy}</Text>
-                    <Text fontSize="sm">Approved at: TODO</Text>
-                  </PopoverBody>
-                </PopoverContent>
-              </Portal>
-            </Popover>
-          </VStack>
-        </Box>
+        <ProjectSideButtons
+          id={id}
+          project={project}
+          members={members}
+          onEditor={onEditor}
+          preview={preview}
+          onPreview={onPreview}
+          isPreview
+        />
       </Flex>
     </CardBody>
   );

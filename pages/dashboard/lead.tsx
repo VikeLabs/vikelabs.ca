@@ -48,6 +48,7 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import Image from "next/image";
 import Project from "../../components/Project";
 import ProjectLeadView from "../../components/ProjectLeadView";
+import ProjectEditor from "../../components/ProjectEditor";
 
 const ProjectHeader = ({ heading, text }: { heading: string; text: string }) => (
   <>
@@ -72,10 +73,19 @@ const ProjectCard = ({
   const [preview, setPreview] = useState(false);
   const [editor, setEditor] = useState(false);
 
+  // TODO: order of these conditions need to be changed later
   return (
     <Card>
       {editor ? (
-        <Text>{editor ? "editor" : "viewer"}</Text>
+        <ProjectEditor
+          id={id}
+          project={project}
+          members={members}
+          onEditor={() => setEditor(false)}
+          preview={preview}
+          onPreview={() => setPreview(!preview)}
+          isPreview
+        />
       ) : (
         <>
           {preview ? (
@@ -84,7 +94,8 @@ const ProjectCard = ({
               project={project}
               members={members}
               onEditor={() => setEditor(true)}
-              onExitPreview={() => setPreview(false)}
+              preview={preview}
+              onPreview={() => setPreview(false)}
               isPreview
             />
           ) : (
@@ -93,6 +104,7 @@ const ProjectCard = ({
               project={project}
               members={members}
               onEditor={() => setEditor(true)}
+              preview={preview}
               onPreview={() => setPreview(true)}
             />
           )}

@@ -49,7 +49,7 @@ import Image from "next/image";
 import { ImageInfo, LinkTag, TechTag } from "../types";
 import ProjectSideButtons from "./ProjectSideButtons";
 
-const Project = ({
+const ProjectEditor = ({
   id,
   project,
   members,
@@ -66,6 +66,9 @@ const Project = ({
   onPreview?: () => void;
   isPreview?: boolean;
 }) => {
+  // TODO: When modified, disable the editor button. previewer now uses the edited project values
+  const [projectInfo, setProjectInfo] = useState(project);
+
   return (
     <CardBody>
       <Flex>
@@ -197,4 +200,4 @@ const Project = ({
   );
 };
 
-export default Project;
+export default ProjectEditor;
