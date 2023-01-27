@@ -68,7 +68,7 @@ const Project = ({
   isPreview?: boolean;
 }) => {
   return (
-    <CardBody>
+    <CardBody p="5">
       <Flex>
         <Box>
           <Wrap align="center">

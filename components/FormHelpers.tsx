@@ -1,7 +1,5 @@
 import { Control, Controller } from "react-hook-form";
-import { GetLoggedInUserResponse } from "../types";
-
-export type UserEditorForm = Omit<GetLoggedInUserResponse, "id" | "role">;
+import { GetLoggedInUserResponse, UserEditorForm } from "../types";
 
 export const Label = ({ text }: { text: string }) => (
   <label className="block mb-1 font-semibold">{text}</label>

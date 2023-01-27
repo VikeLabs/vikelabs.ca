@@ -2,9 +2,9 @@ import { Button, Checkbox } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useCreateUserMutation } from "../hooks/useCreateUserMutation";
-import { CreateUserRequest } from "../types";
+import { CreateUserRequest, UserEditorForm } from "../types";
 import { useAuthContext } from "./AuthContextProvider";
-import { Editable, UserEditorForm } from "./FormHelpers";
+import { Editable } from "./FormHelpers";
 
 const CreateAccountCard = () => {
   const { user } = useAuthContext();

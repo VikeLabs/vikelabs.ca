@@ -1,5 +1,7 @@
 import { ProjectHasMembers, ProjectInfo } from "@prisma/client";
 
+export type UserEditorForm = Omit<GetLoggedInUserResponse, "id" | "role">;
+
 export type ImageInfo = {
   aria: string;
   url: string;
@@ -45,20 +47,6 @@ export type GetLoggedInUserResponse = {
   github?: string;
   discord?: string;
   role: string;
-};
-
-export type PostEditUserResponse = {
-  user: LoggedInUserEditForm;
-};
-
-export type LoggedInUserEditForm = {
-  vId: string;
-  username: string;
-  displayName: string;
-  firstName: string;
-  lastName: string;
-  imageUrl: string;
-  github: string;
 };
 
 export type ErrorMessage = {

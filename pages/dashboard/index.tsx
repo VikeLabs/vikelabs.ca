@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 import ApprovalNotice from "../../components/ApprovalNotice";
 import { useAuthContext } from "../../components/AuthContextProvider";
 import DashboardWrapper from "../../components/DashboardWrapper";
-import { Editable, Label, UserEditorForm } from "../../components/FormHelpers";
+import { Editable, Label } from "../../components/FormHelpers";
 import InfoHeader from "../../components/InfoHeader";
 import Loading from "../../components/Loading";
 import { useEditUserMutation } from "../../hooks/useEditUserMutation";
 import { useLoggedInUser } from "../../hooks/useLoggedInUser";
-import { LoggedInUserEditForm } from "../../types";
+import { UserEditorForm } from "../../types";
 
 const Divider = () => <div className="w-full h-px bg-black my-4"></div>;
 
@@ -36,7 +36,7 @@ const Member = () => {
     }
   }, [loggedInUser.data, reset, user]);
 
-  const onSubmit = (data: LoggedInUserEditForm) => {
+  const onSubmit = (data: UserEditorForm) => {
     editUserMutation.mutate(data, {
       onSuccess: (response) => {
         if (response.ok) {

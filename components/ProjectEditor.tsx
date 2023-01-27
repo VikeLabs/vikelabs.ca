@@ -29,9 +29,15 @@ import {
   Link,
   Wrap,
   SimpleGrid,
+  FormControl,
+  FormLabel,
+  Input,
+  FormHelperText,
+  FormErrorMessage,
+  Switch,
 } from "@chakra-ui/react";
 import { EditIcon, InfoOutlineIcon, LinkIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { MemberInfo } from "../types";
+import { GetProjectEditViewResponse, MemberInfo } from "../types";
 import {
   Popover,
   PopoverTrigger,
@@ -49,6 +55,14 @@ import Image from "next/image";
 import { ImageInfo, LinkTag, TechTag } from "../types";
 import ProjectSideButtons from "./ProjectSideButtons";
 import { mockData } from "../utils/mockData";
+import { Controller, useForm } from "react-hook-form";
+
+export type ProjectEditorForm = Omit<
+  ProjectInfo,
+  "id" | "updatedBy" | "updatedAt" | "approvedBy" | "approvedAt"
+> & {
+  members: MemberInfo[];
+};
 
 const ProjectEditor = ({
   id,
@@ -68,17 +82,77 @@ const ProjectEditor = ({
   isPreview?: boolean;
 }) => {
   // TODO: When modified, disable the editor button. previewer now uses the edited project values
-  const [projectInfo, setProjectInfo] = useState(project);
+  // TODO: If the user edits, it should replace the current draft if it hasnt been approved
+  // const [projectInfo, setProjectInfo] = useState(project);
+  const { formState, handleSubmit, control, reset } = useForm<ProjectEditorForm>({
+    defaultValues: {
+      title: project.title,
+      description: project.description,
+      links: project.links,
+      stack: project.stack,
+      imageUrls: project.imageUrls,
+      recruiting: project.recruiting,
+      recruitingFor: project.recruitingFor,
+      members,
+    },
+  });
+
+  const onSubmit = (data: ProjectEditorForm) => {
+    console.log("Form submitted: ", data);
+    // editUserMutation.mutate(data, {
+    //   onSuccess: (response) => {
+    //     if (response.ok) {
+    //       console.log("editUserMutation succeeded!");
+    //       setIsEditing(false);
+    //     } else {
+    //       console.log("editUserMutation failed!");
+    //       if (response.status === 401) {
+    //         dispatch({ type: "logout" });
+    //       }
+    //     }
+    //   },
+    // });
+  };
 
   return (
     <CardBody>
       <Flex>
         <Box>
-          <Wrap align="center">
-            <Heading as="h3" size="lg">
-              {project.title}
-            </Heading>
-            <Badge colorScheme="cyan">recruiting</Badge>
+          <Wrap align="center" m="-1" p="1" mr="4" spacing="5">
+            <FormControl isInvalid={!!formState.errors.title} width="auto">
+              {!preview && <FormLabel>Title</FormLabel>}
+              <Controller
+                control={control}
+                name="title"
+                render={({ field: { onChange, value } }) => (
+                  <>
+                    {preview ? (
+                      <Heading>{value}</Heading>
+                    ) : (
+                      <Input type="title" value={value} onChange={onChange} minWidth={300} />
+                    )}
+                  </>
+                )}
+              />
+              {!formState.errors.title && <FormErrorMessage>Title is required.</FormErrorMessage>}
+            </FormControl>
+            <FormControl isInvalid={!!formState.errors.title} width="auto">
+              {!preview && <FormLabel>Recruiting</FormLabel>}
+              <Controller
+                control={control}
+                name="recruiting"
+                render={({ field: { onChange, value } }) => (
+                  <>
+                    {preview ? (
+                      <>{value && <Badge colorScheme="cyan">recruiting</Badge>}</>
+                    ) : (
+                      <Switch size="lg" isChecked={value} onChange={onChange} />
+                    )}
+                  </>
+                )}
+              />
+              {!formState.errors.title && <FormErrorMessage>Title is required.</FormErrorMessage>}
+            </FormControl>
           </Wrap>
           <Heading pt="5">Description</Heading>
           <Text pt="2">
