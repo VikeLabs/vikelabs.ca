@@ -48,6 +48,7 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import Image from "next/image";
 import { ImageInfo, LinkTag, TechTag } from "../types";
 import ProjectSideButtons from "./ProjectSideButtons";
+import { mockData } from "../utils/mockData";
 
 const Project = ({
   id,
@@ -98,12 +99,7 @@ const Project = ({
       <Box pt="5">
         <Heading>Stack</Heading>
         <Wrap pt="2">
-          {[
-            { label: "TypeScript", color: "blue" },
-            { label: "React", color: "cyan" },
-            { label: "Go", color: "teal" },
-            { label: "Python", color: "orange" },
-          ].map((tech: TechTag, index) => (
+          {mockData.stack.map((tech: TechTag, index) => (
             <Tag key={index} size="sm" variant="solid" borderRadius="sm" colorScheme={tech.color}>
               {tech.label}
             </Tag>
@@ -113,28 +109,7 @@ const Project = ({
       <Box pt="5">
         <Heading>Links</Heading>
         <Wrap pt="2">
-          {[
-            {
-              label: "Website",
-              color: "blackAlpha",
-              url: "https://github.com/VikeLabs/vikelabs.ca",
-            },
-            {
-              label: "GitHub",
-              color: "purple",
-              url: "https://github.com/VikeLabs/vikelabs.ca",
-            },
-            {
-              label: "Android",
-              color: "green",
-              url: "https://github.com/VikeLabs/vikelabs.ca",
-            },
-            {
-              label: "iOS",
-              color: "blue",
-              url: "https://github.com/VikeLabs/vikelabs.ca",
-            },
-          ].map((link: LinkTag, index) => (
+          {mockData.links.map((link: LinkTag, index) => (
             <Link href={link.url} key={index} lineHeight={1} isExternal>
               <Tag size="sm" variant="subtle" borderRadius="sm" colorScheme={link.color}>
                 <TagLeftIcon boxSize={2.5} as={LinkIcon} />
@@ -148,24 +123,12 @@ const Project = ({
         <Heading>Images</Heading>
         <div>
           <ScrollContainer className="list mt-4 mb-1 flex overflow-auto" hideScrollbars={false}>
-            {[
-              { aria: "grey cat", url: "https://placekitten.com/400/400" },
-              { aria: "grey cat", url: "https://placekitten.com/500/400" },
-              { aria: "grey cat", url: "https://placekitten.com/400/400" },
-            ].map((image: ImageInfo, index: number) => (
+            {mockData.images.map((image: ImageInfo, index: number) => (
               <div
                 key={index}
                 className="mr-2 flex-shrink-0 overflow-hidden rounded bg-placeholder-light dark:bg-placeholder-dark"
               >
-                <Image
-                  loading="eager"
-                  src={image.url}
-                  // height={height}
-                  height={400}
-                  width={400}
-                  // objectFit="cover"
-                  alt={image.aria}
-                />
+                <Image loading="eager" src={image.url} height={400} width={400} alt={image.aria} />
               </div>
             ))}
           </ScrollContainer>

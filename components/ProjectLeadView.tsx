@@ -48,6 +48,7 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import Image from "next/image";
 import { ImageInfo, LinkTag, TechTag } from "../types";
 import ProjectSideButtons from "./ProjectSideButtons";
+import { mockData } from "../utils/mockData";
 
 const ProjectLeadView = ({
   id,
@@ -73,57 +74,17 @@ const ProjectLeadView = ({
             <Badge colorScheme="cyan">recruiting</Badge>
           </Wrap>
           <AvatarGroup pt="2" size="md" max={5}>
-            {[
-              {
-                id: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
-                username: "robchendev",
-                displayName: "Robert Chen",
-                imageUrl: "https://avatars.githubusercontent.com/u/66714443?v=4s",
-                github: "robchendev",
-                discord: "chend#1234",
-              },
-              { id: "128728912746712892", username: "someguy123" },
-              { id: "128728912746712893", username: "someguy123" },
-              { id: "128728912746712894", username: "someguy123" },
-              { id: "128728912746712895", username: "someguy123" },
-              { id: "128728912746712896", username: "someguy123" },
-            ].map((member: MemberInfo) => (
+            {mockData.memberInfo.map((member: MemberInfo) => (
               <Avatar key={member.id} name={member.displayName} src={member.imageUrl} />
             ))}
           </AvatarGroup>
           <Wrap pt="2">
-            {[
-              { label: "TypeScript", color: "blue" },
-              { label: "React", color: "cyan" },
-              { label: "Go", color: "teal" },
-              { label: "Python", color: "orange" },
-            ].map((tech: TechTag, index) => (
+            {mockData.stack.map((tech: TechTag, index) => (
               <Tag key={index} size="sm" variant="solid" borderRadius="sm" colorScheme={tech.color}>
                 {tech.label}
               </Tag>
             ))}
-            {[
-              {
-                label: "Website",
-                color: "blackAlpha",
-                url: "https://github.com/VikeLabs/vikelabs.ca",
-              },
-              {
-                label: "GitHub",
-                color: "purple",
-                url: "https://github.com/VikeLabs/vikelabs.ca",
-              },
-              {
-                label: "Android",
-                color: "green",
-                url: "https://github.com/VikeLabs/vikelabs.ca",
-              },
-              {
-                label: "iOS",
-                color: "blue",
-                url: "https://github.com/VikeLabs/vikelabs.ca",
-              },
-            ].map((link: LinkTag, index) => (
+            {mockData.links.map((link: LinkTag, index) => (
               <Link href={link.url} key={index} lineHeight={1} isExternal>
                 <Tag size="sm" variant="subtle" borderRadius="sm" colorScheme={link.color}>
                   <TagLeftIcon boxSize={2.5} as={LinkIcon} />
