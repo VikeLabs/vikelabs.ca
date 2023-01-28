@@ -88,6 +88,7 @@ import { Icon } from "@chakra-ui/react";
 import { HexColorPicker } from "react-colorful";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import TechTagCustomizer from "./TechTagCustomizer";
+import DragAndDrop from "./DragAndDrop";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -222,17 +223,9 @@ const ProjectEditor = ({
 
     return result;
   };
-  // TODO: What are the types???
-  const onDragEnd = (result) => {
-    // dropped outside the list
 
+  const onStackDragEnd = (result) => {
     if (!result.destination) {
-      return;
-    }
-    console.log(result.destination);
-    if (result.destination?.droppableId === "delete") {
-      console.log(result.source.index);
-      removeTechTag(result.source.index);
       return;
     }
     const stack = getValues().stack as TechTag[];
@@ -386,68 +379,14 @@ const ProjectEditor = ({
                       ))}
                     </Wrap>
                   ) : (
-                    <Box pt={3}>
-                      <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable droppableId="droppable" direction="horizontal">
-                          {(provided) => (
-                            <>
-                              <div ref={provided.innerRef} {...provided.droppableProps}>
-                                <Wrap p={0} m={0} spacing={3}>
-                                  {(value as TechTag[]).map((tech: TechTag, index) => (
-                                    <Draggable
-                                      key={index}
-                                      draggableId={String(index)}
-                                      index={index}
-                                    >
-                                      {(provided, snapshot) => (
-                                        <HStack
-                                          ref={provided.innerRef}
-                                          {...provided.draggableProps}
-                                          {...provided.dragHandleProps}
-                                          style={getDraggableStyle(
-                                            provided.draggableProps?.style,
-                                            snapshot
-                                          )}
-                                          key={index}
-                                          spacing={1}
-                                        >
-                                          {/* This is terrible. Do the X on the tag instead. Use a toggleable button above. */}
-
-                                          <Tag
-                                            size="sm"
-                                            variant="solid"
-                                            borderRadius="sm"
-                                            colorScheme={
-                                              tech.color.includes("#") ? undefined : tech.color
-                                            }
-                                            bgColor={
-                                              tech.color.includes("#") ? tech.color : undefined
-                                            }
-                                            cursor="pointer"
-                                            height="auto"
-                                          >
-                                            {tech.label}
-                                          </Tag>
-                                          <IconButton
-                                            ml="1"
-                                            size="1xs"
-                                            aria-label="delete tech tag"
-                                            icon={<DeleteIcon />}
-                                            onClick={() => removeTechTag(index)}
-                                            variant="ghost"
-                                          />
-                                        </HStack>
-                                      )}
-                                    </Draggable>
-                                  ))}
-                                </Wrap>
-                              </div>
-                              <span style={{ position: "absolute" }}>{provided.placeholder}</span>
-                            </>
-                          )}
-                        </Droppable>
-                      </DragDropContext>
-                    </Box>
+                    <DragAndDrop
+                      pt={3}
+                      direction="horizontal"
+                      type="stack"
+                      items={value as TechTag[]}
+                      onDragEnd={onStackDragEnd}
+                      onRemoveItem={removeTechTag}
+                    />
                   )
                 }
               />
