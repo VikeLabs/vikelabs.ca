@@ -41,6 +41,15 @@ import {
   Button,
   MenuItem,
   useMenuItem,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Modal,
+  Center,
 } from "@chakra-ui/react";
 import {
   AddIcon,
@@ -75,6 +84,7 @@ import { EditorContent, Extension, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import HardBreak from "@tiptap/extension-hard-break";
 import { Icon } from "@chakra-ui/react";
+import { HexColorPicker } from "react-colorful";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -153,15 +163,71 @@ const ProjectEditor = ({
     setValue("stack", stack);
   };
 
-  // TODO:
+  // TODO: Rename these for more generalized adds like the LinkTags
   const addTechTag = (tech: TechTag) => {
     const stack = getValues().stack;
     (stack as TechTag[]).push(tech);
     setValue("stack", stack);
-    console.log(getValues().stack);
+    setTechSearch("");
   };
 
-  const techTagCustomizer = (tech: TechTag) => {};
+  // TODO: This can be separate from linkTagCustomizer because of the color diff
+  const TechTagCustomizer = ({
+    label: techLabel,
+    onSubmit,
+  }: {
+    label: string;
+    onSubmit: (tech: TechTag) => void;
+  }) => {
+    // TODO: Make callback functions to apply / add tag
+
+    const [label, setLabel] = useState(techLabel);
+    const [color, setColor] = useState("#333333");
+    return (
+      <ModalContent>
+        <ModalHeader>Technology Customizer</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <SimpleGrid spacing={6} columns={2}>
+            <HexColorPicker color={color} onChange={setColor} />
+            <Wrap>
+              <Input value={label} onChange={(e) => setLabel(e.target.value)} />
+              <Input
+                value={color}
+                onChange={(e) => {
+                  if (!e.target.value.includes("#")) {
+                    setColor("#" + e.target.value);
+                  } else {
+                    setColor(e.target.value);
+                  }
+                }}
+              />
+              <Spacer />
+
+              <Center width="100%" height="auto">
+                <Tag size="sm" variant="solid" borderRadius="sm" bgColor={color}>
+                  {label}
+                </Tag>
+              </Center>
+              <Spacer />
+              <Button
+                colorScheme="blue"
+                onClick={() => onSubmit({ label, color })}
+                disabled={!techLabel.length}
+                width="100%"
+              >
+                Add Stack
+              </Button>
+            </Wrap>
+          </SimpleGrid>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button variant="ghost">Secondary Action</Button>
+        </ModalFooter>
+      </ModalContent>
+    );
+  };
 
   const [techSearch, setTechSearch] = useState("");
   const [techSearchFocus, setTechSearchFocus] = useState(false);
@@ -184,6 +250,10 @@ const ProjectEditor = ({
       </Box>
     );
   };
+
+  // Modal
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const finalRef = React.useRef(null);
 
   return (
     <CardBody>
@@ -296,12 +366,11 @@ const ProjectEditor = ({
                           {
                             <>
                               {!!techSearch.length && (
-                                <MenuItem
-                                  onClick={() => {
-                                    addTechTag({ label: techSearch, color: "#333" });
-                                    setTechSearch("");
-                                  }}
-                                >
+                                <MenuItem onClick={onOpen}>
+                                  <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+                                    <ModalOverlay />
+                                    <TechTagCustomizer label={techSearch} onSubmit={addTechTag} />
+                                  </Modal>
                                   {/* Doesnt have to be on the Red menu button */}
                                   {/* Can open on input focus */}
                                   <Tag
