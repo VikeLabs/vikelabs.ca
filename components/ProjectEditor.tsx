@@ -329,95 +329,57 @@ const ProjectEditor = ({
 
           <Box pt="5">
             <FormControl isInvalid={!!formState.errors.title} width="100%">
-              {!preview ? (
-                <>
-                  <FormLabel>Stack</FormLabel>
-                  <Wrap>
-                    <Box>
-                      {/* isOpen={techSearchFocus}  */}
-                      <Menu
-                        placement="right-start"
-                        // onOpen={() => setTechSearchFocus(true)}
-                        // onClose={() => setTechSearchFocus(false)}
-                      >
-                        {/* <Input
-                                type="title"
-                                minWidth={300}
-                                onChange={(e) => setTechSearch(e.target.value)}
-                                onFocus={() => setTechSearchFocus(true)}
-                                onBlur={() => setTechSearchFocus(false)}
-                              /> */}
-                        <MenuButton as={Button} alignItems="center">
-                          {/* When click on add, the search is focused */}
-                          {/* When the search is focused or the search is not empty, change icon */}
-                          {/* Instead of using two different icons, can we rotate one? */}
-                          Add New
-                        </MenuButton>
-                        <MenuList>
-                          <MenuInput
-                            type="title"
-                            onChange={(e) => setTechSearch(e.target.value)}
-                            // onFocus={() => setTechSearchFocus(true)}
-                            // onBlur={() => setTechSearchFocus(false)}
-                            value={techSearch}
-                          />
-                          {
-                            <>
-                              <MenuItem onClick={onTechCustomizerOpen}>
-                                <TechTagCustomizer
-                                  label={!techSearch.length ? "Custom" : techSearch}
-                                  finalRef={techCustomizerRef}
-                                  isOpen={isTechCustomizerOpen}
-                                  onSubmit={addTechTag}
-                                  onClose={onTechCustomizerClose}
-                                />
-                                <Tag
-                                  size="sm"
-                                  variant="solid"
-                                  borderRadius="sm"
-                                  bgColor="#333"
-                                  cursor="pointer"
-                                >
-                                  {!techSearch.length ? "Custom" : techSearch}
-                                </Tag>
-                              </MenuItem>
+              {preview ? <Heading pb="2">Stack</Heading> : <FormLabel>Stack</FormLabel>}
+              {!preview && (
+                <Menu placement="right-start">
+                  <MenuButton as={Button}>Add New</MenuButton>
+                  <MenuList>
+                    <MenuInput
+                      type="title"
+                      onChange={(e) => setTechSearch(e.target.value)}
+                      value={techSearch}
+                    />
 
-                              {mockData.presetStack.map((techPreset: TechTag, index: number) => (
-                                <>
-                                  {techPreset.label
-                                    .toLowerCase()
-                                    .includes(techSearch.toLowerCase()) && (
-                                    <MenuItem
-                                      key={index}
-                                      onClick={() => {
-                                        addTechTag({
-                                          label: techPreset.label,
-                                          color: techPreset.color,
-                                        });
-                                      }}
-                                    >
-                                      <Tag
-                                        size="sm"
-                                        variant="solid"
-                                        borderRadius="sm"
-                                        colorScheme={techPreset.color}
-                                        cursor="pointer"
-                                      >
-                                        {techPreset.label}
-                                      </Tag>
-                                    </MenuItem>
-                                  )}
-                                </>
-                              ))}
-                            </>
-                          }
-                        </MenuList>
-                      </Menu>
-                    </Box>
-                  </Wrap>
-                </>
-              ) : (
-                <Heading pb="2">Stack</Heading>
+                    {/* Custom Tech Tag */}
+                    <MenuItem onClick={onTechCustomizerOpen}>
+                      <TechTagCustomizer
+                        label={!techSearch.length ? "Custom" : techSearch}
+                        finalRef={techCustomizerRef}
+                        isOpen={isTechCustomizerOpen}
+                        onSubmit={addTechTag}
+                        onClose={onTechCustomizerClose}
+                      />
+                      <Tag
+                        size="sm"
+                        variant="solid"
+                        borderRadius="sm"
+                        bgColor="#333"
+                        cursor="pointer"
+                      >
+                        {!techSearch.length ? "Custom" : techSearch}
+                      </Tag>
+                    </MenuItem>
+
+                    {/* Preset Tech Tag */}
+                    {mockData.presetStack.map((techPreset: TechTag, index: number) => {
+                      if (techPreset.label.toLowerCase().includes(techSearch.toLowerCase())) {
+                        return (
+                          <MenuItem key={index} onClick={() => addTechTag(techPreset)}>
+                            <Tag
+                              size="sm"
+                              variant="solid"
+                              borderRadius="sm"
+                              colorScheme={techPreset.color}
+                              cursor="pointer"
+                            >
+                              {techPreset.label}
+                            </Tag>
+                          </MenuItem>
+                        );
+                      }
+                    })}
+                  </MenuList>
+                </Menu>
               )}
               <Controller
                 control={control}
