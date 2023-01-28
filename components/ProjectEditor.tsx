@@ -247,16 +247,6 @@ const ProjectEditor = ({
     return style;
   }
 
-  function getDroppableStyle(style, snapshot) {
-    return {
-      ...style,
-      backgroundColor: "#FED7D7",
-      fontWeight: 600,
-      border: "3px dashed #F56565",
-      color: "#F56565",
-    };
-  }
-
   return (
     <CardBody>
       <Flex>
@@ -267,15 +257,13 @@ const ProjectEditor = ({
               <Controller
                 control={control}
                 name="title"
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    {preview ? (
-                      <Heading>{value}</Heading>
-                    ) : (
-                      <Input type="title" value={value} onChange={onChange} minWidth={300} />
-                    )}
-                  </>
-                )}
+                render={({ field: { onChange, value } }) =>
+                  preview ? (
+                    <Heading>{value}</Heading>
+                  ) : (
+                    <Input type="title" value={value} onChange={onChange} minWidth={300} />
+                  )
+                }
               />
               {!formState.errors.title && <FormErrorMessage>Title is required.</FormErrorMessage>}
             </FormControl>
@@ -284,46 +272,37 @@ const ProjectEditor = ({
               <Controller
                 control={control}
                 name="recruiting"
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    {preview ? (
-                      <>
-                        {value && (
-                          <Badge colorScheme="cyan" display="block">
-                            recruiting
-                          </Badge>
-                        )}
-                      </>
-                    ) : (
-                      <Switch ml="2" size="lg" isChecked={value} onChange={onChange} />
-                    )}
-                  </>
-                )}
+                render={({ field: { onChange, value } }) => {
+                  if (preview && value) {
+                    return (
+                      <Badge colorScheme="cyan" display="block">
+                        recruiting
+                      </Badge>
+                    );
+                  } else if (!preview) {
+                    return <Switch ml="2" size="lg" isChecked={value} onChange={onChange} />;
+                  }
+                }}
               />
-              {!formState.errors.title && <FormErrorMessage>Title is required.</FormErrorMessage>}
             </FormControl>
           </Wrap>
           <Box pt="5">
             <FormControl isInvalid={!!formState.errors.title} width="auto">
-              {!preview ? (
-                <FormLabel>Description</FormLabel>
-              ) : (
-                <Heading pb="2">Description</Heading>
-              )}
+              {preview ? <Heading pb="2">Description</Heading> : <FormLabel>Description</FormLabel>}
               <Controller
                 control={control}
                 name="description"
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    {preview ? (
-                      <div dangerouslySetInnerHTML={{ __html: editor?.getHTML() }} />
-                    ) : (
-                      <EditorContent editor={editor} value={value} onChange={onChange} />
-                    )}
-                  </>
-                )}
+                render={({ field: { onChange, value } }) =>
+                  preview ? (
+                    <div dangerouslySetInnerHTML={{ __html: editor?.getHTML() }} />
+                  ) : (
+                    <EditorContent editor={editor} value={value} onChange={onChange} />
+                  )
+                }
               />
-              {!formState.errors.title && <FormErrorMessage>Title is required.</FormErrorMessage>}
+              {!formState.errors.description && (
+                <FormErrorMessage>Description is required.</FormErrorMessage>
+              )}
             </FormControl>
           </Box>
 
@@ -384,11 +363,10 @@ const ProjectEditor = ({
               <Controller
                 control={control}
                 name="stack"
-                render={({ field: { onChange, value } }) => (
+                render={({ field: { value } }) => (
                   <>
                     {preview ? (
                       <Wrap pt="2">
-                        {/* TODO: unsafe casting, we have no way of invariating value */}
                         {(value ? (value as TechTag[]) : []).map((tech: TechTag, index) => (
                           <Tag
                             key={index}
@@ -406,7 +384,7 @@ const ProjectEditor = ({
                       <Box pt={3}>
                         <DragDropContext onDragEnd={onDragEnd}>
                           <Droppable droppableId="droppable" direction="horizontal">
-                            {(provided, snapshot) => (
+                            {(provided) => (
                               <>
                                 <div ref={provided.innerRef} {...provided.droppableProps}>
                                   <Wrap p={0} m={0} spacing={2}>
@@ -451,17 +429,13 @@ const ProjectEditor = ({
                           </Droppable>
                           <Box mt={3} width="100%">
                             <Droppable droppableId="delete" direction="horizontal">
-                              {(provided, snapshot) => (
+                              {(provided) => (
                                 <Box
                                   ref={provided.innerRef}
                                   {...provided.droppableProps}
-                                  style={getDroppableStyle(
-                                    provided.draggableProps?.style,
-                                    snapshot
-                                  )}
-                                  className="h-14 border-black border-dashed rounded-md border-2 flex items-center justify-center w-full"
+                                  className="h-14 font-semibold border-dashed rounded-md border-2 border-red-400 text-red-400  bg-red-100 flex items-center justify-center w-full"
                                 >
-                                  <Box>Drag here to delete</Box>
+                                  Drag here to delete
                                   <span style={{ position: "absolute" }}>
                                     {provided.placeholder}
                                   </span>
@@ -475,7 +449,6 @@ const ProjectEditor = ({
                   </>
                 )}
               />
-              {!formState.errors.title && <FormErrorMessage>Title is required.</FormErrorMessage>}
             </FormControl>
           </Box>
 
@@ -516,15 +489,7 @@ const ProjectEditor = ({
                 key={index}
                 className="mr-2 flex-shrink-0 overflow-hidden rounded bg-placeholder-light dark:bg-placeholder-dark"
               >
-                <Image
-                  loading="eager"
-                  src={image.url}
-                  // height={height}
-                  height={400}
-                  width={400}
-                  // objectFit="cover"
-                  alt={image.aria}
-                />
+                <Image loading="eager" src={image.url} height={400} width={400} alt={image.aria} />
               </div>
             ))}
           </ScrollContainer>
