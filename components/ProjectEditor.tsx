@@ -86,6 +86,7 @@ import HardBreak from "@tiptap/extension-hard-break";
 import { Icon } from "@chakra-ui/react";
 import { HexColorPicker } from "react-colorful";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import TechTagCustomizer from "./TechTagCustomizer";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -172,65 +173,6 @@ const ProjectEditor = ({
     setTechSearch("");
   };
 
-  // TODO: This can be separate from linkTagCustomizer because of the color diff
-  const TechTagCustomizer = ({
-    label: techLabel,
-    onSubmit,
-    onClose,
-  }: {
-    label: string;
-    onSubmit: (tech: TechTag) => void;
-    onClose: () => void;
-  }) => {
-    // TODO: Make callback functions to apply / add tag
-
-    const [label, setLabel] = useState(techLabel);
-    const [color, setColor] = useState("#333333");
-    return (
-      <ModalContent>
-        <ModalHeader>Technology Customizer</ModalHeader>
-        <ModalCloseButton mt={1.5} />
-        <ModalBody pb={6}>
-          <SimpleGrid spacing={6} columns={2}>
-            <HexColorPicker color={color} onChange={setColor} />
-            <Wrap>
-              <Input value={label} onChange={(e) => setLabel(e.target.value)} />
-              <Input
-                value={color}
-                onChange={(e) => {
-                  if (!e.target.value.includes("#")) {
-                    setColor("#" + e.target.value);
-                  } else {
-                    setColor(e.target.value);
-                  }
-                }}
-              />
-              <Spacer />
-
-              <Center width="100%" height="auto">
-                <Tag size="sm" variant="solid" borderRadius="sm" bgColor={color}>
-                  {label}
-                </Tag>
-              </Center>
-              <Spacer />
-              <Button
-                colorScheme="blue"
-                onClick={() => {
-                  onSubmit({ label, color });
-                  onClose();
-                }}
-                disabled={!techLabel.length}
-                width="100%"
-              >
-                Add Stack
-              </Button>
-            </Wrap>
-          </SimpleGrid>
-        </ModalBody>
-      </ModalContent>
-    );
-  };
-
   const [techSearch, setTechSearch] = useState("");
   const [techSearchFocus, setTechSearchFocus] = useState(false);
 
@@ -254,9 +196,20 @@ const ProjectEditor = ({
     );
   };
 
-  // Modal
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const finalRef = React.useRef(null);
+  //
+  const {
+    isOpen: isTechCustomizerOpen,
+    onOpen: onTechCustomizerOpen,
+    onClose: onTechCustomizerClose,
+  } = useDisclosure();
+  const techCustomizerRef = React.useRef(null);
+
+  const {
+    isOpen: isLinkCustomizerOpen,
+    onOpen: onLinkCustomizerOpen,
+    onClose: onLinkCustomizerClose,
+  } = useDisclosure();
+  const linkCustomizerRef = React.useRef(null);
 
   // react-dnd
   const reorder = (list: TechTag[], startIndex: number, endIndex: number) => {
@@ -410,30 +363,24 @@ const ProjectEditor = ({
                           />
                           {
                             <>
-                              {!!techSearch.length && (
-                                // TODO: Somethings causing this to trigger on its own
-                                <MenuItem onClick={onOpen}>
-                                  <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
-                                    <ModalOverlay />
-                                    <TechTagCustomizer
-                                      label={techSearch}
-                                      onSubmit={addTechTag}
-                                      onClose={onClose}
-                                    />
-                                  </Modal>
-                                  {/* Doesnt have to be on the Red menu button */}
-                                  {/* Can open on input focus */}
-                                  <Tag
-                                    size="sm"
-                                    variant="solid"
-                                    borderRadius="sm"
-                                    bgColor="#333"
-                                    cursor="pointer"
-                                  >
-                                    {techSearch}
-                                  </Tag>
-                                </MenuItem>
-                              )}
+                              <MenuItem onClick={onTechCustomizerOpen}>
+                                <TechTagCustomizer
+                                  label={!techSearch.length ? "Custom" : techSearch}
+                                  finalRef={techCustomizerRef}
+                                  isOpen={isTechCustomizerOpen}
+                                  onSubmit={addTechTag}
+                                  onClose={onTechCustomizerClose}
+                                />
+                                <Tag
+                                  size="sm"
+                                  variant="solid"
+                                  borderRadius="sm"
+                                  bgColor="#333"
+                                  cursor="pointer"
+                                >
+                                  {!techSearch.length ? "Custom" : techSearch}
+                                </Tag>
+                              </MenuItem>
 
                               {mockData.presetStack.map((techPreset: TechTag, index: number) => (
                                 <>
@@ -447,7 +394,6 @@ const ProjectEditor = ({
                                           label: techPreset.label,
                                           color: techPreset.color,
                                         });
-                                        setTechSearch("");
                                       }}
                                     >
                                       <Tag
