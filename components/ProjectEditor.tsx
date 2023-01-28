@@ -85,6 +85,7 @@ import StarterKit from "@tiptap/starter-kit";
 import HardBreak from "@tiptap/extension-hard-break";
 import { Icon } from "@chakra-ui/react";
 import { HexColorPicker } from "react-colorful";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -175,9 +176,11 @@ const ProjectEditor = ({
   const TechTagCustomizer = ({
     label: techLabel,
     onSubmit,
+    onClose,
   }: {
     label: string;
     onSubmit: (tech: TechTag) => void;
+    onClose: () => void;
   }) => {
     // TODO: Make callback functions to apply / add tag
 
@@ -186,8 +189,8 @@ const ProjectEditor = ({
     return (
       <ModalContent>
         <ModalHeader>Technology Customizer</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
+        <ModalCloseButton mt={1.5} />
+        <ModalBody pb={6}>
           <SimpleGrid spacing={6} columns={2}>
             <HexColorPicker color={color} onChange={setColor} />
             <Wrap>
@@ -212,7 +215,10 @@ const ProjectEditor = ({
               <Spacer />
               <Button
                 colorScheme="blue"
-                onClick={() => onSubmit({ label, color })}
+                onClick={() => {
+                  onSubmit({ label, color });
+                  onClose();
+                }}
                 disabled={!techLabel.length}
                 width="100%"
               >
@@ -221,10 +227,6 @@ const ProjectEditor = ({
             </Wrap>
           </SimpleGrid>
         </ModalBody>
-
-        <ModalFooter>
-          <Button variant="ghost">Secondary Action</Button>
-        </ModalFooter>
       </ModalContent>
     );
   };
@@ -238,6 +240,7 @@ const ProjectEditor = ({
     return (
       <Box px="3" role={role}>
         <Input
+          mb="2"
           placeholder="Enter technology"
           size="sm"
           {...rest}
@@ -254,6 +257,52 @@ const ProjectEditor = ({
   // Modal
   const { isOpen, onOpen, onClose } = useDisclosure();
   const finalRef = React.useRef(null);
+
+  // react-dnd
+  const reorder = (list: TechTag[], startIndex: number, endIndex: number) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+  };
+  // TODO: What are the types???
+  const onDragEnd = (result) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+    if (result.destination?.droppableId === "delete") {
+      removeTechTag(result.source.index);
+      return;
+    }
+    const stack = getValues().stack as TechTag[];
+    const newStack = reorder(stack, result.source.index, result.destination.index);
+    setValue("stack", newStack);
+  };
+
+  function getDraggableStyle(style, snapshot) {
+    if (!snapshot.isDropAnimating) {
+      return style;
+    }
+    if (snapshot.draggingOver === "delete") {
+      return {
+        ...style,
+        display: "none",
+      };
+    }
+    return style;
+  }
+
+  function getDroppableStyle(style, snapshot) {
+    return {
+      ...style,
+      backgroundColor: "#FED7D7",
+      fontWeight: 600,
+      border: "3px dashed #F56565",
+      color: "#F56565",
+    };
+  }
 
   return (
     <CardBody>
@@ -335,8 +384,8 @@ const ProjectEditor = ({
                       {/* isOpen={techSearchFocus}  */}
                       <Menu
                         placement="right-start"
-                        onOpen={() => setTechSearchFocus(true)}
-                        onClose={() => setTechSearchFocus(false)}
+                        // onOpen={() => setTechSearchFocus(true)}
+                        // onClose={() => setTechSearchFocus(false)}
                       >
                         {/* <Input
                                 type="title"
@@ -345,15 +394,11 @@ const ProjectEditor = ({
                                 onFocus={() => setTechSearchFocus(true)}
                                 onBlur={() => setTechSearchFocus(false)}
                               /> */}
-                        <MenuButton as={IconButton} alignItems="center">
+                        <MenuButton as={Button} alignItems="center">
                           {/* When click on add, the search is focused */}
                           {/* When the search is focused or the search is not empty, change icon */}
                           {/* Instead of using two different icons, can we rotate one? */}
-                          {techSearchFocus ? (
-                            <Icon as={CloseIcon} boxSize={5} />
-                          ) : (
-                            <Icon as={AddIcon} boxSize={5} />
-                          )}
+                          Add New
                         </MenuButton>
                         <MenuList>
                           <MenuInput
@@ -366,10 +411,15 @@ const ProjectEditor = ({
                           {
                             <>
                               {!!techSearch.length && (
+                                // TODO: Somethings causing this to trigger on its own
                                 <MenuItem onClick={onOpen}>
                                   <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
                                     <ModalOverlay />
-                                    <TechTagCustomizer label={techSearch} onSubmit={addTechTag} />
+                                    <TechTagCustomizer
+                                      label={techSearch}
+                                      onSubmit={addTechTag}
+                                      onClose={onClose}
+                                    />
                                   </Modal>
                                   {/* Doesnt have to be on the Red menu button */}
                                   {/* Can open on input focus */}
@@ -431,7 +481,7 @@ const ProjectEditor = ({
                     {preview ? (
                       <Wrap pt="2">
                         {/* TODO: unsafe casting, we have no way of invariating value */}
-                        {(value as TechTag[]).map((tech: TechTag, index) => (
+                        {(value ? (value as TechTag[]) : []).map((tech: TechTag, index) => (
                           <Tag
                             key={index}
                             size="sm"
@@ -445,27 +495,74 @@ const ProjectEditor = ({
                         ))}
                       </Wrap>
                     ) : (
-                      <Wrap pt="2">
-                        {/* Need react beautiful dnd */}
-                        {/* Have a "drag here to delete" box */}
-                        {/* TODO: unsafe casting, we have no way of invariating value */}
-                        {(value as TechTag[]).map((tech: TechTag, index) => (
-                          <Tag
-                            key={index}
-                            size="sm"
-                            variant="solid"
-                            borderRadius="sm"
-                            colorScheme={tech.color.includes("#") ? undefined : tech.color}
-                            bgColor={tech.color.includes("#") ? tech.color : undefined}
-                            onClick={(e) => removeTechTag(index)}
-                            cursor="pointer"
-                            height="auto"
-                          >
-                            <TagLabel>{tech.label}</TagLabel>
-                            <TagRightIcon boxSize={2.5} as={CloseIcon} />
-                          </Tag>
-                        ))}
-                      </Wrap>
+                      <Box pt={3}>
+                        <DragDropContext onDragEnd={onDragEnd}>
+                          <Droppable droppableId="droppable" direction="horizontal">
+                            {(provided, snapshot) => (
+                              <>
+                                <div ref={provided.innerRef} {...provided.droppableProps}>
+                                  <Wrap p={0} m={0} spacing={2}>
+                                    {(value as TechTag[]).map((tech: TechTag, index) => (
+                                      <Draggable
+                                        key={index}
+                                        draggableId={String(index)}
+                                        index={index}
+                                      >
+                                        {(provided, snapshot) => (
+                                          <Tag
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            style={getDraggableStyle(
+                                              provided.draggableProps?.style,
+                                              snapshot
+                                            )}
+                                            key={index}
+                                            size="sm"
+                                            variant="solid"
+                                            borderRadius="sm"
+                                            colorScheme={
+                                              tech.color.includes("#") ? undefined : tech.color
+                                            }
+                                            bgColor={
+                                              tech.color.includes("#") ? tech.color : undefined
+                                            }
+                                            cursor="pointer"
+                                            height="auto"
+                                          >
+                                            {tech.label}
+                                          </Tag>
+                                        )}
+                                      </Draggable>
+                                    ))}
+                                  </Wrap>
+                                </div>
+                                <span style={{ position: "absolute" }}>{provided.placeholder}</span>
+                              </>
+                            )}
+                          </Droppable>
+                          <Box mt={3} width="100%">
+                            <Droppable droppableId="delete" direction="horizontal">
+                              {(provided, snapshot) => (
+                                <Box
+                                  ref={provided.innerRef}
+                                  {...provided.droppableProps}
+                                  style={getDroppableStyle(
+                                    provided.draggableProps?.style,
+                                    snapshot
+                                  )}
+                                  className="h-14 border-black border-dashed rounded-md border-2 flex items-center justify-center w-full"
+                                >
+                                  <Box>Drag here to delete</Box>
+                                  <span style={{ position: "absolute" }}>
+                                    {provided.placeholder}
+                                  </span>
+                                </Box>
+                              )}
+                            </Droppable>
+                          </Box>
+                        </DragDropContext>
+                      </Box>
                     )}
                   </>
                 )}
