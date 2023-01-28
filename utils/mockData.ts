@@ -3,6 +3,7 @@ import { ImageInfo, LinkTag, MemberInfo, TechTag } from "../types";
 type mockData = {
   memberInfo: MemberInfo[];
   stack: TechTag[];
+  presetStack: TechTag[];
   links: LinkTag[];
   images: ImageInfo[];
 };
@@ -25,6 +26,16 @@ export const mockData = {
   ],
   stack: [
     { label: "TypeScript", color: "blue" },
+    { label: "React", color: "cyan" },
+    { label: "Go", color: "teal" },
+    { label: "Python", color: "orange" },
+  ],
+  presetStack: [
+    { label: "TypeScript", color: "blue" },
+    { label: "JavaScript", color: "yellow" },
+    { label: "C", color: "pink" },
+    { label: "C++", color: "green" },
+    { label: "BrainFk", color: "purple" },
     { label: "React", color: "cyan" },
     { label: "Go", color: "teal" },
     { label: "Python", color: "orange" },

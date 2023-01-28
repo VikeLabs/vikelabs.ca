@@ -35,8 +35,23 @@ import {
   FormHelperText,
   FormErrorMessage,
   Switch,
+  Menu,
+  MenuButton,
+  MenuList,
+  Button,
+  MenuItem,
+  useMenuItem,
 } from "@chakra-ui/react";
-import { EditIcon, InfoOutlineIcon, LinkIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import {
+  AddIcon,
+  ChevronDownIcon,
+  CloseIcon,
+  EditIcon,
+  InfoOutlineIcon,
+  LinkIcon,
+  ViewIcon,
+  ViewOffIcon,
+} from "@chakra-ui/icons";
 import { GetProjectEditViewResponse, MemberInfo } from "../types";
 import {
   Popover,
@@ -59,6 +74,7 @@ import { Controller, useForm } from "react-hook-form";
 import { EditorContent, Extension, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import HardBreak from "@tiptap/extension-hard-break";
+import { Icon } from "@chakra-ui/react";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -87,18 +103,20 @@ const ProjectEditor = ({
   // TODO: When modified, disable the editor button. previewer now uses the edited project values
   // TODO: If the user edits, it should replace the current draft if it hasnt been approved
   // const [projectInfo, setProjectInfo] = useState(project);
-  const { formState, handleSubmit, control, reset } = useForm<ProjectEditorForm>({
-    defaultValues: {
-      title: project.title,
-      description: project.description,
-      links: project.links,
-      stack: project.stack,
-      imageUrls: project.imageUrls,
-      recruiting: project.recruiting,
-      recruitingFor: project.recruitingFor,
-      members,
-    },
-  });
+  const { formState, handleSubmit, control, reset, getValues, setValue } =
+    useForm<ProjectEditorForm>({
+      defaultValues: {
+        title: project.title,
+        description: project.description,
+        links: project.links,
+        stack: project.stack as TechTag[], // this should be an array
+        // stack: project.stack,
+        imageUrls: project.imageUrls,
+        recruiting: project.recruiting,
+        recruitingFor: project.recruitingFor,
+        members,
+      },
+    });
 
   const onSubmit = (data: ProjectEditorForm) => {
     const descriptionHtml = editor.getHTML();
@@ -128,6 +146,44 @@ const ProjectEditor = ({
     },
     content: formState.defaultValues.description,
   });
+
+  const removeTechTag = (index: number) => {
+    const stack = getValues().stack;
+    (stack as TechTag[]).splice(index, 1);
+    setValue("stack", stack);
+  };
+
+  // TODO:
+  const addTechTag = (tech: TechTag) => {
+    const stack = getValues().stack;
+    (stack as TechTag[]).push(tech);
+    setValue("stack", stack);
+    console.log(getValues().stack);
+  };
+
+  const techTagCustomizer = (tech: TechTag) => {};
+
+  const [techSearch, setTechSearch] = useState("");
+  const [techSearchFocus, setTechSearchFocus] = useState(false);
+
+  const navigationKeys = ["ArrowUp", "ArrowDown", "Escape"];
+  const MenuInput = (props) => {
+    const { role, ...rest } = useMenuItem(props);
+    return (
+      <Box px="3" role={role}>
+        <Input
+          placeholder="Enter technology"
+          size="sm"
+          {...rest}
+          onKeyDown={(e) => {
+            if (!navigationKeys.includes(e.key)) {
+              e.stopPropagation();
+            }
+          }}
+        />
+      </Box>
+    );
+  };
 
   return (
     <CardBody>
@@ -201,34 +257,154 @@ const ProjectEditor = ({
 
           <Box pt="5">
             <FormControl isInvalid={!!formState.errors.title} width="100%">
-              {!preview ? <FormLabel>Stack</FormLabel> : <Heading pb="2">Stack</Heading>}
+              {!preview ? (
+                <>
+                  <FormLabel>Stack</FormLabel>
+                  <Wrap>
+                    <Box>
+                      {/* isOpen={techSearchFocus}  */}
+                      <Menu
+                        placement="right-start"
+                        onOpen={() => setTechSearchFocus(true)}
+                        onClose={() => setTechSearchFocus(false)}
+                      >
+                        {/* <Input
+                                type="title"
+                                minWidth={300}
+                                onChange={(e) => setTechSearch(e.target.value)}
+                                onFocus={() => setTechSearchFocus(true)}
+                                onBlur={() => setTechSearchFocus(false)}
+                              /> */}
+                        <MenuButton as={IconButton} alignItems="center">
+                          {/* When click on add, the search is focused */}
+                          {/* When the search is focused or the search is not empty, change icon */}
+                          {/* Instead of using two different icons, can we rotate one? */}
+                          {techSearchFocus ? (
+                            <Icon as={CloseIcon} boxSize={5} />
+                          ) : (
+                            <Icon as={AddIcon} boxSize={5} />
+                          )}
+                        </MenuButton>
+                        <MenuList>
+                          <MenuInput
+                            type="title"
+                            onChange={(e) => setTechSearch(e.target.value)}
+                            // onFocus={() => setTechSearchFocus(true)}
+                            // onBlur={() => setTechSearchFocus(false)}
+                            value={techSearch}
+                          />
+                          {
+                            <>
+                              {!!techSearch.length && (
+                                <MenuItem
+                                  onClick={() => {
+                                    addTechTag({ label: techSearch, color: "#333" });
+                                    setTechSearch("");
+                                  }}
+                                >
+                                  {/* Doesnt have to be on the Red menu button */}
+                                  {/* Can open on input focus */}
+                                  <Tag
+                                    size="sm"
+                                    variant="solid"
+                                    borderRadius="sm"
+                                    bgColor="#333"
+                                    cursor="pointer"
+                                  >
+                                    {techSearch}
+                                  </Tag>
+                                </MenuItem>
+                              )}
+
+                              {mockData.presetStack.map((techPreset: TechTag, index: number) => (
+                                <>
+                                  {techPreset.label
+                                    .toLowerCase()
+                                    .includes(techSearch.toLowerCase()) && (
+                                    <MenuItem
+                                      key={index}
+                                      onClick={() => {
+                                        addTechTag({
+                                          label: techPreset.label,
+                                          color: techPreset.color,
+                                        });
+                                        setTechSearch("");
+                                      }}
+                                    >
+                                      <Tag
+                                        size="sm"
+                                        variant="solid"
+                                        borderRadius="sm"
+                                        colorScheme={techPreset.color}
+                                        cursor="pointer"
+                                      >
+                                        {techPreset.label}
+                                      </Tag>
+                                    </MenuItem>
+                                  )}
+                                </>
+                              ))}
+                            </>
+                          }
+                        </MenuList>
+                      </Menu>
+                    </Box>
+                  </Wrap>
+                </>
+              ) : (
+                <Heading pb="2">Stack</Heading>
+              )}
               <Controller
                 control={control}
-                name="description"
+                name="stack"
                 render={({ field: { onChange, value } }) => (
-                  <>{preview ? <p>Preview stack</p> : <p>Editor stack</p>}</>
+                  <>
+                    {preview ? (
+                      <Wrap pt="2">
+                        {/* TODO: unsafe casting, we have no way of invariating value */}
+                        {(value as TechTag[]).map((tech: TechTag, index) => (
+                          <Tag
+                            key={index}
+                            size="sm"
+                            variant="solid"
+                            borderRadius="sm"
+                            colorScheme={tech.color.includes("#") ? undefined : tech.color}
+                            bgColor={tech.color.includes("#") ? tech.color : undefined}
+                          >
+                            {tech.label}
+                          </Tag>
+                        ))}
+                      </Wrap>
+                    ) : (
+                      <Wrap pt="2">
+                        {/* Need react beautiful dnd */}
+                        {/* Have a "drag here to delete" box */}
+                        {/* TODO: unsafe casting, we have no way of invariating value */}
+                        {(value as TechTag[]).map((tech: TechTag, index) => (
+                          <Tag
+                            key={index}
+                            size="sm"
+                            variant="solid"
+                            borderRadius="sm"
+                            colorScheme={tech.color.includes("#") ? undefined : tech.color}
+                            bgColor={tech.color.includes("#") ? tech.color : undefined}
+                            onClick={(e) => removeTechTag(index)}
+                            cursor="pointer"
+                            height="auto"
+                          >
+                            <TagLabel>{tech.label}</TagLabel>
+                            <TagRightIcon boxSize={2.5} as={CloseIcon} />
+                          </Tag>
+                        ))}
+                      </Wrap>
+                    )}
+                  </>
                 )}
               />
               {!formState.errors.title && <FormErrorMessage>Title is required.</FormErrorMessage>}
             </FormControl>
           </Box>
 
-          <Box pt="5">
-            <Heading>Stack</Heading>
-            <Wrap pt="2">
-              {mockData.stack.map((tech: TechTag, index) => (
-                <Tag
-                  key={index}
-                  size="sm"
-                  variant="solid"
-                  borderRadius="sm"
-                  colorScheme={tech.color}
-                >
-                  {tech.label}
-                </Tag>
-              ))}
-            </Wrap>
-          </Box>
           <Box pt="5">
             <Heading>Links</Heading>
             <Wrap pt="2">
