@@ -1,10 +1,18 @@
-import React from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { FormState } from "react-hook-form";
 
 export type RestrictedField = {
   label: string;
   controlName: string;
 };
+
+const formatList = (elements: ReactElement[]): ReactNode =>
+  elements.map((element, i) => (
+    <React.Fragment key={element.key}>
+      {i === 0 ? null : i === elements.length - 1 ? " and " : ", "}
+      {element}
+    </React.Fragment>
+  ));
 
 const ApprovalNotice = ({
   isEditing,
@@ -22,37 +30,29 @@ const ApprovalNotice = ({
   onSubmit: () => void;
 }) => {
   const fieldsThatRequireApproval = [];
-  let fieldNamesHtml = "";
   for (const fieldName of fieldNames) {
     if (formState.dirtyFields?.[fieldName.controlName]) {
-      fieldsThatRequireApproval.push(`<strong>${fieldName.label}</strong>`);
+      fieldsThatRequireApproval.push(
+        <strong key={fieldName.controlName}>{fieldName.label}</strong>
+      );
     }
-  }
-  if (fieldsThatRequireApproval.length > 1) {
-    const fieldNameLast = fieldsThatRequireApproval.pop();
-    if (fieldsThatRequireApproval.length > 0) {
-      fieldNamesHtml += fieldsThatRequireApproval.join(", </span>");
-    }
-    fieldNamesHtml += " and " + fieldNameLast;
-  } else if (fieldsThatRequireApproval.length === 1) {
-    fieldNamesHtml += `<strong>${fieldsThatRequireApproval[0]}</strong>`;
   }
 
   switch (isEditing) {
     case true:
       return (
         <>
-          {fieldNamesHtml.length !== 0 && (
+          {fieldsThatRequireApproval.length !== 0 && (
             <div>
-              Since you edited <span dangerouslySetInnerHTML={{ __html: fieldNamesHtml }} />, your
-              changes must be approved before they can go public.
+              Since you edited {formatList(fieldsThatRequireApproval)}, your changes must be
+              approved before they can go public.
             </div>
           )}
           <button className="p-4 bg-red-400" onClick={onCancel}>
             Cancel Editing
           </button>
           <button className="p-4 bg-green-400" onClick={onSubmit}>
-            {fieldNamesHtml.length !== 0 ? "Submit for Approval" : "Save Changes"}
+            {fieldsThatRequireApproval.length !== 0 ? "Submit for Approval" : "Save Changes"}
           </button>
         </>
       );
