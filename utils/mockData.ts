@@ -42,11 +42,6 @@ export const mockData = {
   ],
   links: [
     {
-      label: "Website",
-      color: "blackAlpha",
-      url: "https://github.com/VikeLabs/vikelabs.ca",
-    },
-    {
       label: "GitHub",
       color: "purple",
       url: "https://github.com/VikeLabs/vikelabs.ca",
@@ -63,11 +58,6 @@ export const mockData = {
     },
   ],
   presetLinks: [
-    {
-      label: "Website",
-      color: "blackAlpha",
-      url: "",
-    },
     {
       label: "GitHub",
       color: "purple",

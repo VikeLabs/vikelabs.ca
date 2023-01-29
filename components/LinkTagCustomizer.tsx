@@ -20,6 +20,7 @@ import { colorShade, hexToRgbA } from "../utils/colorHelpers";
 
 const LinkTagCustomizer = ({
   label: tagLabel,
+  colorScheme,
   url: tagUrl,
   finalRef,
   isOpen,
@@ -28,6 +29,7 @@ const LinkTagCustomizer = ({
   onClose,
 }: {
   label: string;
+  colorScheme: string;
   url: string;
   finalRef: React.RefObject<{ focus(options?: FocusOptions): void }>;
   isOpen: boolean;
@@ -36,29 +38,49 @@ const LinkTagCustomizer = ({
   onClose: () => void;
 }) => {
   const [label, setLabel] = useState("");
-  const [color, setColor] = useState("#333333");
   const [url, setUrl] = useState("");
+  const [color, setColor] = useState("");
 
   // Reset everytime the modal mounts
   useEffect(() => {
-    setLabel(tagLabel);
-    setUrl(tagUrl);
+    if (url === "" && isOpen) {
+      setUrl(tagUrl);
+    }
+    if (label === "" && isOpen) {
+      setLabel(tagLabel);
+    }
+    if (color === "" && isOpen && !colorScheme) {
+      setColor("#333333");
+    }
   });
 
   return (
-    <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+    <Modal
+      finalFocusRef={finalRef}
+      isOpen={isOpen}
+      onClose={() => {
+        setLabel("");
+        setUrl("");
+        setColor("");
+        onClose();
+      }}
+    >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Technology Customizer</ModalHeader>
+        <ModalHeader>Link Customizer</ModalHeader>
         <ModalCloseButton mt={1.5} />
         <ModalBody pb={6}>
           <SimpleGrid spacing={6} columns={2}>
             <HexColorPicker color={color} onChange={setColor} />
             <Wrap>
-              <Input value={label} onChange={(e) => setLabel(e.target.value)} />
+              <Input
+                value={label}
+                onChange={(e) => setLabel(e.target.value)}
+                placeholder="Link Label"
+              />
               <Input
                 value={url}
-                onChange={(e) => setLabel(e.target.value)}
+                onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://example.com"
               />
               <Input
@@ -77,8 +99,9 @@ const LinkTagCustomizer = ({
                   size="sm"
                   variant="subtle"
                   borderRadius="sm"
-                  bgColor={hexToRgbA(color, 0.3)}
-                  textColor={colorShade(color, -100)}
+                  colorScheme={colorScheme}
+                  bgColor={!color ? undefined : hexToRgbA(color, 0.3)}
+                  textColor={!color ? undefined : colorShade(color, -100)}
                 >
                   {label}
                 </Tag>
@@ -87,10 +110,13 @@ const LinkTagCustomizer = ({
               <Button
                 colorScheme="blue"
                 onClick={() => {
-                  onSubmit({ label, color, url });
+                  setLabel("");
+                  setUrl("");
+                  setColor("");
+                  onSubmit({ label, color: color ? color : colorScheme, url });
                   onClose();
                 }}
-                disabled={!tagLabel.length}
+                isDisabled={!label.length || !url.length}
                 width="100%"
               >
                 Add Link

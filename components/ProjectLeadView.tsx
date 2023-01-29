@@ -104,6 +104,7 @@ const ProjectLeadView = ({
               )
             )}
           </Wrap>
+          {/* This cuts out only <p></p> not <i> <b> <strong> etc */}
           <Text pt={1} noOfLines={1}>
             {excerpt}
           </Text>

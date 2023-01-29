@@ -223,6 +223,7 @@ const ProjectEditor = ({
         setLinkSearch("");
         break;
     }
+    console.log(getValues()?.[type]);
   };
 
   const updateTag = (type: "stack" | "links", itemToUpdate: TechTag | LinkTag, index: number) => {
@@ -241,6 +242,7 @@ const ProjectEditor = ({
 
   const [techSearch, setTechSearch] = useState("");
   const [linkSearch, setLinkSearch] = useState("");
+  const [linkColor, setLinkColor] = useState("blackAlpha");
 
   const navigationKeys = ["ArrowUp", "ArrowDown", "Escape"];
   const MenuInput = (props) => {
@@ -354,7 +356,7 @@ const ProjectEditor = ({
                     {/* Custom Tech Tag */}
                     <MenuItem onClick={onTechCustomizerOpen}>
                       <TechTagCustomizer
-                        label={!techSearch.length ? "Custom" : techSearch}
+                        label={!techSearch.length ? "" : techSearch}
                         finalRef={techCustomizerRef}
                         isOpen={isTechCustomizerOpen}
                         onSubmit={(item: TechTag) => addTag("stack", item)}
@@ -442,19 +444,26 @@ const ProjectEditor = ({
                     {/* Custom Link Tag */}
                     <MenuItem onClick={onLinkCustomizerOpen}>
                       <LinkTagCustomizer
-                        label={!linkSearch.length ? "Custom" : linkSearch}
-                        url="https://example.com"
+                        label={!linkSearch.length ? "" : linkSearch}
+                        colorScheme={linkColor}
+                        url=""
                         finalRef={linkCustomizerRef}
                         isOpen={isLinkCustomizerOpen}
-                        onSubmit={(item: LinkTag) => addTag("links", item)}
+                        onSubmit={(item: LinkTag) => {
+                          addTag("links", item);
+                          setLinkColor("blackAlpha");
+                        }}
                         onUpdate={(item: LinkTag, index: number) => updateTag("links", item, index)}
-                        onClose={onLinkCustomizerClose}
+                        onClose={() => {
+                          onLinkCustomizerClose();
+                          setLinkColor("blackAlpha");
+                        }}
                       />
                       <Tag
                         size="sm"
                         variant="subtle"
                         borderRadius="sm"
-                        bgColor={hexToRgbA("#999999", 0.3)}
+                        colorScheme={linkColor}
                         cursor="pointer"
                       >
                         {!linkSearch.length ? "Custom" : linkSearch}
@@ -465,7 +474,15 @@ const ProjectEditor = ({
                     {mockData.presetLinks.map((linkPreset: LinkTag, index: number) => {
                       if (linkPreset.label.toLowerCase().includes(linkSearch.toLowerCase())) {
                         return (
-                          <MenuItem key={index} onClick={() => addTag("links", linkPreset)}>
+                          <MenuItem
+                            key={index}
+                            onClick={() => {
+                              setLinkSearch(linkPreset.label);
+                              setLinkColor(linkPreset.color);
+                              onLinkCustomizerOpen();
+                              // addTag("links", linkPreset);
+                            }}
+                          >
                             <Tag
                               size="sm"
                               variant="subtle"
@@ -555,7 +572,7 @@ const ProjectEditor = ({
           />
         )}
       </Flex>
-
+      {/* TODO: NEXT */}
       <Box pt="5">
         <Heading>Images</Heading>
         <div>
@@ -565,6 +582,7 @@ const ProjectEditor = ({
                 key={index}
                 className="mr-2 flex-shrink-0 overflow-hidden rounded bg-placeholder-light dark:bg-placeholder-dark"
               >
+                {/* Should set height to 400 and calculate width based off height of image */}
                 <Image loading="eager" src={image.url} height={400} width={400} alt={image.aria} />
               </div>
             ))}

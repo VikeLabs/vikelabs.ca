@@ -35,11 +35,20 @@ const TechTagCustomizer = ({
 
   // Reset label everytime the modal mounts
   useEffect(() => {
-    setLabel(techLabel);
+    if (label === "" && isOpen) {
+      setLabel(techLabel);
+    }
   });
 
   return (
-    <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+    <Modal
+      finalFocusRef={finalRef}
+      isOpen={isOpen}
+      onClose={() => {
+        setLabel("");
+        onClose();
+      }}
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Technology Customizer</ModalHeader>
@@ -48,7 +57,11 @@ const TechTagCustomizer = ({
           <SimpleGrid spacing={6} columns={2}>
             <HexColorPicker color={color} onChange={setColor} />
             <Wrap>
-              <Input value={label} onChange={(e) => setLabel(e.target.value)} />
+              <Input
+                value={label}
+                onChange={(e) => setLabel(e.target.value)}
+                placeholder="Language / Tools"
+              />
               <Input
                 value={color}
                 onChange={(e) => {
@@ -69,10 +82,11 @@ const TechTagCustomizer = ({
               <Button
                 colorScheme="blue"
                 onClick={() => {
+                  setLabel("");
                   onSubmit({ label, color });
                   onClose();
                 }}
-                disabled={!techLabel.length}
+                isDisabled={!techLabel.length}
                 width="100%"
               >
                 Add Technology

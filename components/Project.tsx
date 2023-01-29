@@ -124,6 +124,7 @@ const Project = ({
         <Heading>Images</Heading>
         <div>
           <ScrollContainer className="list mt-4 mb-1 flex overflow-auto" hideScrollbars={false}>
+            {/* Onclick should open a lightbox */}
             {mockData.images.map((image: ImageInfo, index: number) => (
               <div
                 key={index}

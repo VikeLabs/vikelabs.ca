@@ -16,8 +16,8 @@ const DragAndDrop = ({
 }: {
   pt: number;
   direction: string;
-  type: "stack" | "links";
-  items: TechTag[] | LinkTag[];
+  type: "stack" | "links" | "images" | "members";
+  items: TechTag[] | LinkTag[] /* | ImageFile[] */;
   onDragEnd: (result: any) => void;
   onRemoveItem: (index: number) => void;
 }) => {
@@ -102,6 +102,10 @@ const DragAndDrop = ({
             ))}
           </>
         );
+      case "images":
+        return <></>;
+      case "members":
+        return <></>;
     }
   };
 
