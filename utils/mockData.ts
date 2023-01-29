@@ -62,6 +62,28 @@ export const mockData = {
       url: "https://github.com/VikeLabs/vikelabs.ca",
     },
   ],
+  presetLinks: [
+    {
+      label: "Website",
+      color: "blackAlpha",
+      url: "",
+    },
+    {
+      label: "GitHub",
+      color: "purple",
+      url: "",
+    },
+    {
+      label: "Android",
+      color: "green",
+      url: "",
+    },
+    {
+      label: "iOS",
+      color: "blue",
+      url: "",
+    },
+  ],
   images: [
     { aria: "grey cat", url: "https://placekitten.com/400/400" },
     { aria: "grey cat", url: "https://placekitten.com/500/400" },

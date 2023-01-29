@@ -15,27 +15,34 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import { TechTag } from "../types";
+import { LinkTag, TechTag } from "../types";
+import { colorShade, hexToRgbA } from "../utils/colorHelpers";
 
-const TechTagCustomizer = ({
-  label: techLabel,
+const LinkTagCustomizer = ({
+  label: tagLabel,
+  url: tagUrl,
   finalRef,
   isOpen,
   onSubmit,
+  onUpdate,
   onClose,
 }: {
   label: string;
+  url: string;
   finalRef: React.RefObject<{ focus(options?: FocusOptions): void }>;
   isOpen: boolean;
-  onSubmit: (tech: TechTag) => void;
+  onSubmit: (tech: LinkTag) => void;
+  onUpdate: (item: LinkTag, index: number) => void;
   onClose: () => void;
 }) => {
   const [label, setLabel] = useState("");
   const [color, setColor] = useState("#333333");
+  const [url, setUrl] = useState("");
 
-  // Reset label everytime the modal mounts
+  // Reset everytime the modal mounts
   useEffect(() => {
-    setLabel(techLabel);
+    setLabel(tagLabel);
+    setUrl(tagUrl);
   });
 
   return (
@@ -50,6 +57,11 @@ const TechTagCustomizer = ({
             <Wrap>
               <Input value={label} onChange={(e) => setLabel(e.target.value)} />
               <Input
+                value={url}
+                onChange={(e) => setLabel(e.target.value)}
+                placeholder="https://example.com"
+              />
+              <Input
                 value={color}
                 onChange={(e) => {
                   if (!e.target.value.includes("#")) {
@@ -61,7 +73,13 @@ const TechTagCustomizer = ({
               />
               <Spacer />
               <Center width="100%" height="auto">
-                <Tag size="sm" variant="solid" borderRadius="sm" bgColor={color}>
+                <Tag
+                  size="sm"
+                  variant="subtle"
+                  borderRadius="sm"
+                  bgColor={hexToRgbA(color, 0.3)}
+                  textColor={colorShade(color, -100)}
+                >
                   {label}
                 </Tag>
               </Center>
@@ -69,13 +87,13 @@ const TechTagCustomizer = ({
               <Button
                 colorScheme="blue"
                 onClick={() => {
-                  onSubmit({ label, color });
+                  onSubmit({ label, color, url });
                   onClose();
                 }}
-                disabled={!techLabel.length}
+                disabled={!tagLabel.length}
                 width="100%"
               >
-                Add Technology
+                Add Link
               </Button>
             </Wrap>
           </SimpleGrid>
@@ -85,4 +103,4 @@ const TechTagCustomizer = ({
   );
 };
 
-export default TechTagCustomizer;
+export default LinkTagCustomizer;

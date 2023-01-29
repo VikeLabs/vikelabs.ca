@@ -89,6 +89,8 @@ import { HexColorPicker } from "react-colorful";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import TechTagCustomizer from "./TechTagCustomizer";
 import DragAndDrop from "./DragAndDrop";
+import LinkTagCustomizer from "./LinkTagCustomizer";
+import { colorShade, hexToRgbA } from "../utils/colorHelpers";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -122,7 +124,7 @@ const ProjectEditor = ({
       defaultValues: {
         title: project.title,
         description: project.description,
-        links: project.links,
+        links: project.links as LinkTag[],
         stack: project.stack as TechTag[], // this should be an array
         // stack: project.stack,
         imageUrls: project.imageUrls,
@@ -161,24 +163,83 @@ const ProjectEditor = ({
     content: formState.defaultValues.description,
   });
 
-  const removeTechTag = (index: number) => {
-    console.log("remove");
-    const stack = getValues().stack;
-    (stack as TechTag[]).splice(index, 1);
-    setValue("stack", stack);
-    console.log(getValues().stack);
+  // react-dnd
+  const reorder = (list: TechTag[] | LinkTag[], startIndex: number, endIndex: number) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    return result;
   };
 
-  // TODO: Rename these for more generalized adds like the LinkTags
-  const addTechTag = (tech: TechTag) => {
-    const stack = getValues().stack;
-    (stack as TechTag[]).push(tech);
-    setValue("stack", stack);
-    setTechSearch("");
+  const onDragEnd = (type: "stack" | "links", result: any) => {
+    const items = getValues()?.[type];
+    if (!result.destination) {
+      return;
+    }
+    switch (type) {
+      case "stack":
+        setValue(
+          "stack",
+          reorder(items as TechTag[], result.source.index, result.destination.index)
+        );
+        break;
+      case "links":
+        setValue(
+          "links",
+          reorder(items as LinkTag[], result.source.index, result.destination.index)
+        );
+        break;
+    }
+  };
+
+  const removeTag = (type: "stack" | "links", index: number) => {
+    const items = getValues()?.[type];
+    switch (type) {
+      case "stack":
+        (items as TechTag[]).splice(index, 1);
+        setValue("stack", items);
+        setTechSearch("");
+        break;
+      case "links":
+        (items as LinkTag[]).splice(index, 1);
+        setValue("links", items);
+        setLinkSearch("");
+        break;
+    }
+  };
+
+  const addTag = (type: "stack" | "links", itemToAdd: TechTag | LinkTag) => {
+    const items = getValues()?.[type];
+    switch (type) {
+      case "stack":
+        (items as TechTag[]).push(itemToAdd as TechTag);
+        setValue("stack", items);
+        setTechSearch("");
+        break;
+      case "links":
+        (items as LinkTag[]).push(itemToAdd as LinkTag);
+        setValue("links", items);
+        setLinkSearch("");
+        break;
+    }
+  };
+
+  const updateTag = (type: "stack" | "links", itemToUpdate: TechTag | LinkTag, index: number) => {
+    const items = getValues()?.[type];
+    switch (type) {
+      case "stack":
+        (items as TechTag[])[index] = itemToUpdate as TechTag;
+        setValue("stack", items);
+        break;
+      case "links":
+        (items as LinkTag[])[index] = itemToUpdate as LinkTag;
+        setValue("links", items);
+        break;
+    }
   };
 
   const [techSearch, setTechSearch] = useState("");
-  const [techSearchFocus, setTechSearchFocus] = useState(false);
+  const [linkSearch, setLinkSearch] = useState("");
 
   const navigationKeys = ["ArrowUp", "ArrowDown", "Escape"];
   const MenuInput = (props) => {
@@ -214,37 +275,6 @@ const ProjectEditor = ({
     onClose: onLinkCustomizerClose,
   } = useDisclosure();
   const linkCustomizerRef = React.useRef(null);
-
-  // react-dnd
-  const reorder = (list: TechTag[], startIndex: number, endIndex: number) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-
-    return result;
-  };
-
-  const onStackDragEnd = (result) => {
-    if (!result.destination) {
-      return;
-    }
-    const stack = getValues().stack as TechTag[];
-    const newStack = reorder(stack, result.source.index, result.destination.index);
-    setValue("stack", newStack);
-  };
-
-  function getDraggableStyle(style, snapshot) {
-    if (!snapshot.isDropAnimating) {
-      return style;
-    }
-    if (snapshot.draggingOver === "delete") {
-      return {
-        ...style,
-        display: "none",
-      };
-    }
-    return style;
-  }
 
   return (
     <CardBody>
@@ -324,7 +354,7 @@ const ProjectEditor = ({
                         label={!techSearch.length ? "Custom" : techSearch}
                         finalRef={techCustomizerRef}
                         isOpen={isTechCustomizerOpen}
-                        onSubmit={addTechTag}
+                        onSubmit={(item: TechTag) => addTag("stack", item)}
                         onClose={onTechCustomizerClose}
                       />
                       <Tag
@@ -342,7 +372,7 @@ const ProjectEditor = ({
                     {mockData.presetStack.map((techPreset: TechTag, index: number) => {
                       if (techPreset.label.toLowerCase().includes(techSearch.toLowerCase())) {
                         return (
-                          <MenuItem key={index} onClick={() => addTechTag(techPreset)}>
+                          <MenuItem key={index} onClick={() => addTag("stack", techPreset)}>
                             <Tag
                               size="sm"
                               variant="solid"
@@ -384,8 +414,8 @@ const ProjectEditor = ({
                       direction="horizontal"
                       type="stack"
                       items={value as TechTag[]}
-                      onDragEnd={onStackDragEnd}
-                      onRemoveItem={removeTechTag}
+                      onDragEnd={(result: any) => onDragEnd("stack", result)}
+                      onRemoveItem={(index: number) => removeTag("stack", index)}
                     />
                   )
                 }
@@ -394,18 +424,119 @@ const ProjectEditor = ({
           </Box>
 
           <Box pt="5">
+            <FormControl isInvalid={!!formState.errors.title} width="100%">
+              {preview ? <Heading pb="2">Links</Heading> : <FormLabel>Links</FormLabel>}
+              {!preview && (
+                <Menu placement="right-start">
+                  <MenuButton as={Button}>Add New</MenuButton>
+                  <MenuList>
+                    <MenuInput
+                      type="title"
+                      onChange={(e) => setLinkSearch(e.target.value)}
+                      value={linkSearch}
+                    />
+
+                    {/* Custom Link Tag */}
+                    <MenuItem onClick={onLinkCustomizerOpen}>
+                      <LinkTagCustomizer
+                        label={!linkSearch.length ? "Custom" : linkSearch}
+                        url="https://example.com"
+                        finalRef={linkCustomizerRef}
+                        isOpen={isLinkCustomizerOpen}
+                        onSubmit={(item: LinkTag) => addTag("links", item)}
+                        onUpdate={(item: LinkTag, index: number) => updateTag("links", item, index)}
+                        onClose={onLinkCustomizerClose}
+                      />
+                      <Tag
+                        size="sm"
+                        variant="subtle"
+                        borderRadius="sm"
+                        bgColor={hexToRgbA("#999999", 0.3)}
+                        cursor="pointer"
+                      >
+                        {!linkSearch.length ? "Custom" : linkSearch}
+                      </Tag>
+                    </MenuItem>
+
+                    {/* Preset Link Tag */}
+                    {mockData.presetLinks.map((linkPreset: LinkTag, index: number) => {
+                      if (linkPreset.label.toLowerCase().includes(linkSearch.toLowerCase())) {
+                        return (
+                          <MenuItem key={index} onClick={() => addTag("links", linkPreset)}>
+                            <Tag
+                              size="sm"
+                              variant="subtle"
+                              borderRadius="sm"
+                              colorScheme={linkPreset.color}
+                              cursor="pointer"
+                            >
+                              {linkPreset.label}
+                            </Tag>
+                          </MenuItem>
+                        );
+                      }
+                    })}
+                  </MenuList>
+                </Menu>
+              )}
+              <Controller
+                control={control}
+                name="links"
+                render={({ field: { value } }) =>
+                  preview ? (
+                    <Wrap pt="2">
+                      {/* THIS IS NOT AN ARRAY??? */}
+                      {(!!(value as LinkTag[]).length ? (value as LinkTag[]) : []).map(
+                        (link: LinkTag, index) => (
+                          <Link href={link.url} key={index} lineHeight={1} isExternal>
+                            <Tag
+                              key={index}
+                              size="sm"
+                              variant="subtle"
+                              borderRadius="sm"
+                              colorScheme={link.color.includes("#") ? undefined : link.color}
+                              bgColor={
+                                link.color.includes("#") ? hexToRgbA(link.color, 0.3) : undefined
+                              }
+                              textColor={
+                                link.color.includes("#") ? colorShade(link.color, -100) : undefined
+                              }
+                            >
+                              <TagLeftIcon boxSize={2.5} as={LinkIcon} />
+                              <TagLabel ml={-1}>{link.label}</TagLabel>
+                            </Tag>
+                          </Link>
+                        )
+                      )}
+                    </Wrap>
+                  ) : (
+                    <DragAndDrop
+                      pt={3}
+                      direction="horizontal"
+                      type="links"
+                      items={value as LinkTag[]}
+                      onDragEnd={(result: any) => onDragEnd("links", result)}
+                      onRemoveItem={(index: number) => removeTag("links", index)}
+                    />
+                  )
+                }
+              />
+            </FormControl>
+          </Box>
+
+          {/* <Box pt="5">
             <Heading>Links</Heading>
             <Wrap pt="2">
-              {mockData.links.map((link: LinkTag, index) => (
-                <Link href={link.url} key={index} lineHeight={1} isExternal>
-                  <Tag size="sm" variant="subtle" borderRadius="sm" colorScheme={link.color}>
+              {mockData.links.map((links: LinkTag, index) => (
+                <Link href={links.url} key={index} lineHeight={1} isExternal>
+                  <Tag size="sm" variant="subtle" borderRadius="sm" colorScheme={links.color}>
                     <TagLeftIcon boxSize={2.5} as={LinkIcon} />
-                    <TagLabel ml={-1}>{link.label}</TagLabel>
+                    <TagLabel ml={-1}>{links.label}</TagLabel>
                   </Tag>
                 </Link>
               ))}
             </Wrap>
-          </Box>
+          </Box> */}
         </Box>
         <Spacer />
         {isPreview && (
