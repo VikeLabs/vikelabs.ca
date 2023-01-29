@@ -31,7 +31,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { EditIcon, InfoOutlineIcon, LinkIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { LinkTag, MemberInfo, TechTag } from "../../types";
+import { LinkTag, MemberInfo, ProjectInfoLeadView, TechTag } from "../../types";
 import {
   Popover,
   PopoverTrigger,
@@ -67,7 +67,7 @@ const ProjectCard = ({
   members,
 }: {
   id: number;
-  project: ProjectInfo;
+  project: ProjectInfoLeadView;
   members: MemberInfo[];
 }) => {
   const [preview, setPreview] = useState(false);

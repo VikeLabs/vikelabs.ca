@@ -20,10 +20,12 @@ export type ProjectInfoWithMembers = ProjectInfo & {
   members?: any;
 };
 
+export type ProjectInfoLeadView = Omit<ProjectInfo, "approvedBy">;
+
 export type GetProjectEditViewResponse = {
   id: number;
-  live: ProjectInfo;
-  draft?: ProjectInfo;
+  live: ProjectInfoLeadView;
+  draft?: ProjectInfoLeadView;
   members?: MemberInfo[];
 };
 

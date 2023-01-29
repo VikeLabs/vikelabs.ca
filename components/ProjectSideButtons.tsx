@@ -1,4 +1,11 @@
-import { EditIcon, InfoOutlineIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import {
+  CloseIcon,
+  EditIcon,
+  ExternalLinkIcon,
+  InfoOutlineIcon,
+  ViewIcon,
+  ViewOffIcon,
+} from "@chakra-ui/icons";
 import {
   Box,
   IconButton,
@@ -13,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { ProjectInfo } from "@prisma/client";
 import React from "react";
-import { MemberInfo } from "../types";
+import { MemberInfo, ProjectInfoLeadView } from "../types";
 
 const ProjectSideButtons = ({
   id,
@@ -23,25 +30,54 @@ const ProjectSideButtons = ({
   preview,
   onPreview,
   isPreview = false,
+  isEditing = false,
 }: {
   id: number;
-  project: ProjectInfo;
+  project: ProjectInfoLeadView;
   members: MemberInfo[];
   onEditor?: () => void;
   preview: boolean;
   onPreview?: () => void;
   isPreview?: boolean;
+  isEditing?: boolean;
 }) => {
   return (
     <Box>
       <VStack>
-        <IconButton aria-label={`Edit ${project.title}`} icon={<EditIcon />} onClick={onEditor} />
-        <IconButton
-          aria-label={preview ? "Exit preview" : `View ${project.title}`}
-          colorScheme={preview ? "teal" : "gray"}
-          icon={preview ? <ViewOffIcon /> : <ViewIcon />}
-          onClick={onPreview}
-        />
+        {isEditing ? (
+          <>
+            <IconButton
+              aria-label={`Edit ${project.title}`}
+              colorScheme={isEditing ? "red" : "gray"}
+              icon={isEditing ? <CloseIcon /> : <EditIcon />}
+              onClick={() => {
+                if (preview) onPreview();
+                onEditor();
+              }}
+            />
+            <IconButton
+              aria-label={preview ? "Exit preview" : `View ${project.title}`}
+              colorScheme={preview ? "teal" : "gray"}
+              icon={preview ? <ViewOffIcon /> : <ViewIcon />}
+              onClick={onPreview}
+            />
+          </>
+        ) : (
+          <>
+            <IconButton
+              aria-label={`Edit ${project.title}`}
+              icon={<EditIcon />}
+              onClick={onEditor}
+            />
+            <IconButton
+              aria-label={`Visit project page for ${project.title}`}
+              colorScheme="gray"
+              icon={<ExternalLinkIcon />}
+              onClick={() => console.log("TODO: Navigate to project page via the project id", id)}
+            />
+          </>
+        )}
+
         <Popover placement="left-end">
           <PopoverTrigger>
             <IconButton aria-label={`${project.title} Metadata`} icon={<InfoOutlineIcon />} />
@@ -55,7 +91,7 @@ const ProjectSideButtons = ({
                 <Text fontSize="sm">Order: TODO</Text>
                 <Text fontSize="sm">Updated by: {project.updatedBy}</Text>
                 <Text fontSize="sm">Updated at: TODO</Text>
-                <Text fontSize="sm">Approved by: {project.approvedBy}</Text>
+                {/* <Text fontSize="sm">Approved by: {project.approvedBy}</Text> */}
                 <Text fontSize="sm">Approved at: TODO</Text>
               </PopoverBody>
             </PopoverContent>

@@ -62,7 +62,7 @@ import {
   ViewIcon,
   ViewOffIcon,
 } from "@chakra-ui/icons";
-import { GetProjectEditViewResponse, MemberInfo } from "../types";
+import { GetProjectEditViewResponse, MemberInfo, ProjectInfoLeadView } from "../types";
 import {
   Popover,
   PopoverTrigger,
@@ -109,7 +109,7 @@ const ProjectEditor = ({
   isPreview = false,
 }: {
   id: number;
-  project: ProjectInfo;
+  project: ProjectInfoLeadView;
   members: MemberInfo[];
   onEditor?: () => void;
   preview: boolean;
@@ -212,6 +212,7 @@ const ProjectEditor = ({
     const items = getValues()?.[type];
     switch (type) {
       case "stack":
+        console.log(items);
         (items as TechTag[]).push(itemToAdd as TechTag);
         setValue("stack", items);
         setTechSearch("");
@@ -288,7 +289,9 @@ const ProjectEditor = ({
                 name="title"
                 render={({ field: { onChange, value } }) =>
                   preview ? (
-                    <Heading>{value}</Heading>
+                    <Heading as="h3" size="lg">
+                      {value}
+                    </Heading>
                   ) : (
                     <Input type="title" value={value} onChange={onChange} minWidth={300} />
                   )
@@ -337,7 +340,7 @@ const ProjectEditor = ({
 
           <Box pt="5">
             <FormControl isInvalid={!!formState.errors.title} width="100%">
-              {preview ? <Heading pb="2">Stack</Heading> : <FormLabel>Stack</FormLabel>}
+              {preview ? <Heading>Stack</Heading> : <FormLabel>Stack</FormLabel>}
               {!preview && (
                 <Menu placement="right-start">
                   <MenuButton as={Button}>Add New</MenuButton>
@@ -425,7 +428,7 @@ const ProjectEditor = ({
 
           <Box pt="5">
             <FormControl isInvalid={!!formState.errors.title} width="100%">
-              {preview ? <Heading pb="2">Links</Heading> : <FormLabel>Links</FormLabel>}
+              {preview ? <Heading>Links</Heading> : <FormLabel>Links</FormLabel>}
               {!preview && (
                 <Menu placement="right-start">
                   <MenuButton as={Button}>Add New</MenuButton>
@@ -548,6 +551,7 @@ const ProjectEditor = ({
             preview={preview}
             onPreview={onPreview}
             isPreview
+            isEditing
           />
         )}
       </Flex>

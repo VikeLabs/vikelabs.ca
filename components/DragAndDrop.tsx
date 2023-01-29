@@ -42,7 +42,7 @@ const DragAndDrop = ({
                       borderRadius="sm"
                       colorScheme={tech.color.includes("#") ? undefined : tech.color}
                       bgColor={tech.color.includes("#") ? tech.color : undefined}
-                      cursor="pointer"
+                      cursor="grab"
                       height="auto"
                     >
                       {tech.label}
@@ -83,7 +83,7 @@ const DragAndDrop = ({
                       textColor={
                         link.color.includes("#") ? colorShade(link.color, -100) : undefined
                       }
-                      cursor="pointer"
+                      cursor="grab"
                       height="auto"
                     >
                       {link.label}

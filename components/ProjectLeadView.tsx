@@ -31,7 +31,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { EditIcon, InfoOutlineIcon, LinkIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { MemberInfo } from "../types";
+import { MemberInfo, ProjectInfoLeadView } from "../types";
 import {
   Popover,
   PopoverTrigger,
@@ -59,16 +59,17 @@ const ProjectLeadView = ({
   onPreview,
 }: {
   id: number;
-  project: ProjectInfo;
+  project: ProjectInfoLeadView;
   members: MemberInfo[];
   onEditor: () => void;
   preview: boolean;
   onPreview: () => void;
 }) => {
+  const excerpt = project.description.replaceAll("<p>", "").replaceAll("</p>", " ");
   return (
     <CardBody>
       <Flex>
-        <Box>
+        <Box pr="2">
           <Wrap align="center">
             <Heading size="xs">{project.title}</Heading>
             <Badge colorScheme="cyan">recruiting</Badge>
@@ -79,23 +80,32 @@ const ProjectLeadView = ({
             ))}
           </AvatarGroup>
           <Wrap pt="2">
-            {mockData.stack.map((tech: TechTag, index) => (
-              <Tag key={index} size="sm" variant="solid" borderRadius="sm" colorScheme={tech.color}>
-                {tech.label}
-              </Tag>
-            ))}
-            {mockData.links.map((link: LinkTag, index) => (
-              <Link href={link.url} key={index} lineHeight={1} isExternal>
-                <Tag size="sm" variant="subtle" borderRadius="sm" colorScheme={link.color}>
-                  <TagLeftIcon boxSize={2.5} as={LinkIcon} />
-                  <TagLabel ml={-1}>{link.label}</TagLabel>
+            {(!!(project.stack as TechTag[]).length ? (project.stack as TechTag[]) : []).map(
+              (tech: TechTag, index) => (
+                <Tag
+                  key={index}
+                  size="sm"
+                  variant="solid"
+                  borderRadius="sm"
+                  colorScheme={tech.color}
+                >
+                  {tech.label}
                 </Tag>
-              </Link>
-            ))}
+              )
+            )}
+            {(!!(project.links as LinkTag[]).length ? (project.links as LinkTag[]) : []).map(
+              (link: LinkTag, index) => (
+                <Link href={link.url} key={index} lineHeight={1} isExternal>
+                  <Tag size="sm" variant="subtle" borderRadius="sm" colorScheme={link.color}>
+                    <TagLeftIcon boxSize={2.5} as={LinkIcon} />
+                    <TagLabel ml={-1}>{link.label}</TagLabel>
+                  </Tag>
+                </Link>
+              )
+            )}
           </Wrap>
-          <Text pt="1" noOfLines={1}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et sapien justo. Integer
-            bibendum odio a arcu eleifend dignissim. Integer ullamcorper lacinia velit a porta.
+          <Text pt={1} noOfLines={1}>
+            {excerpt}
           </Text>
         </Box>
         <Spacer />

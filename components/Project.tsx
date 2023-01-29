@@ -31,7 +31,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { EditIcon, InfoOutlineIcon, LinkIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { MemberInfo } from "../types";
+import { MemberInfo, ProjectInfoLeadView } from "../types";
 import {
   Popover,
   PopoverTrigger,
@@ -60,7 +60,7 @@ const Project = ({
   isPreview = false,
 }: {
   id: number;
-  project: ProjectInfo;
+  project: ProjectInfoLeadView; // TODO: make new type ProjectInfoPublicView
   members: MemberInfo[];
   onEditor?: () => void;
   preview: boolean;
@@ -75,13 +75,10 @@ const Project = ({
             <Heading as="h3" size="lg">
               {project.title}
             </Heading>
-            <Badge colorScheme="cyan">recruiting</Badge>
+            {project.recruiting && <Badge colorScheme="cyan">recruiting</Badge>}
           </Wrap>
           <Heading pt="5">Description</Heading>
-          <Text pt="2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et sapien justo. Integer
-            bibendum odio a arcu eleifend dignissim. Integer ullamcorper lacinia velit a porta.
-          </Text>
+          <Box pt={2} dangerouslySetInnerHTML={{ __html: project.description }} />
         </Box>
         <Spacer />
         {isPreview && (
@@ -99,24 +96,28 @@ const Project = ({
       <Box pt="5">
         <Heading>Stack</Heading>
         <Wrap pt="2">
-          {mockData.stack.map((tech: TechTag, index) => (
-            <Tag key={index} size="sm" variant="solid" borderRadius="sm" colorScheme={tech.color}>
-              {tech.label}
-            </Tag>
-          ))}
+          {(!!(project.stack as TechTag[]).length ? (project.stack as TechTag[]) : []).map(
+            (tech: TechTag, index) => (
+              <Tag key={index} size="sm" variant="solid" borderRadius="sm" colorScheme={tech.color}>
+                {tech.label}
+              </Tag>
+            )
+          )}
         </Wrap>
       </Box>
       <Box pt="5">
         <Heading>Links</Heading>
         <Wrap pt="2">
-          {mockData.links.map((link: LinkTag, index) => (
-            <Link href={link.url} key={index} lineHeight={1} isExternal>
-              <Tag size="sm" variant="subtle" borderRadius="sm" colorScheme={link.color}>
-                <TagLeftIcon boxSize={2.5} as={LinkIcon} />
-                <TagLabel ml={-1}>{link.label}</TagLabel>
-              </Tag>
-            </Link>
-          ))}
+          {(!!(project.links as LinkTag[]).length ? (project.links as LinkTag[]) : []).map(
+            (link: LinkTag, index) => (
+              <Link href={link.url} key={index} lineHeight={1} isExternal>
+                <Tag size="sm" variant="subtle" borderRadius="sm" colorScheme={link.color}>
+                  <TagLeftIcon boxSize={2.5} as={LinkIcon} />
+                  <TagLabel ml={-1}>{link.label}</TagLabel>
+                </Tag>
+              </Link>
+            )
+          )}
         </Wrap>
       </Box>
       <Box pt="5">
