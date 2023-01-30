@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import { LinkTag, TechTag } from "../types";
+import { LinkTag } from "../types";
 import { colorShade, hexToRgbA } from "../utils/colorHelpers";
 
 const LinkTagCustomizer = ({
@@ -25,7 +25,6 @@ const LinkTagCustomizer = ({
   finalRef,
   isOpen,
   onSubmit,
-  onUpdate,
   onClose,
 }: {
   label: string;
@@ -34,7 +33,6 @@ const LinkTagCustomizer = ({
   finalRef: React.RefObject<{ focus(options?: FocusOptions): void }>;
   isOpen: boolean;
   onSubmit: (tech: LinkTag) => void;
-  onUpdate: (item: LinkTag, index: number) => void;
   onClose: () => void;
 }) => {
   const [label, setLabel] = useState("");
@@ -42,6 +40,8 @@ const LinkTagCustomizer = ({
   const [color, setColor] = useState("");
 
   // Reset everytime the modal mounts
+  // Doing what the eslint editor suggests will run an infinite loop, so disabling it
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (url === "" && isOpen) {
       setUrl(tagUrl);

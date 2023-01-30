@@ -1,61 +1,35 @@
-import React, { useCallback, useState } from "react";
-import { useAuthContext } from "../components/AuthContextProvider";
-import DashboardWrapper from "../components/DashboardWrapper";
-import Loading from "../components/Loading";
-import { useProjectEditView } from "../hooks/useProjectEditView";
+import React from "react";
 import {
   Card,
-  CardHeader,
   CardBody,
-  CardFooter,
   Heading,
-  Stack,
   Box,
-  StackDivider,
   Text,
   Badge,
-  HStack,
   Tag,
   Flex,
   Spacer,
   TagLabel,
-  TagRightIcon,
   TagLeftIcon,
-  AvatarGroup,
   Avatar,
-  IconButton,
-  VStack,
-  Portal,
   Link,
   Wrap,
   SimpleGrid,
 } from "@chakra-ui/react";
-import { EditIcon, InfoOutlineIcon, LinkIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { LinkIcon } from "@chakra-ui/icons";
 import { MemberInfo, ProjectInfoLeadView } from "../types";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
-} from "@chakra-ui/react";
-import { ProjectInfo } from "@prisma/client";
 import ScrollContainer from "react-indiana-drag-scroll";
 import Image from "next/image";
 import { ImageInfo, LinkTag, TechTag } from "../types";
 import ProjectSideButtons from "./ProjectSideButtons";
 import { mockData } from "../utils/mockData";
+import * as DOMPurify from "dompurify";
 
 const Project = ({
   id,
   project,
   members,
   onEditor,
-  preview,
   onPreview,
   isPreview = false,
 }: {
@@ -63,7 +37,6 @@ const Project = ({
   project: ProjectInfoLeadView; // TODO: make new type ProjectInfoPublicView
   members: MemberInfo[];
   onEditor?: () => void;
-  preview: boolean;
   onPreview?: () => void;
   isPreview?: boolean;
 }) => {
@@ -78,7 +51,10 @@ const Project = ({
             {project.recruiting && <Badge colorScheme="cyan">recruiting</Badge>}
           </Wrap>
           <Heading pt="5">Description</Heading>
-          <Box pt={2} dangerouslySetInnerHTML={{ __html: project.description }} />
+          <Box
+            pt={2}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(project.description) }}
+          />
         </Box>
         <Spacer />
         {isPreview && (
@@ -87,7 +63,6 @@ const Project = ({
             project={project}
             members={members}
             onEditor={onEditor}
-            preview={preview}
             onPreview={onPreview}
             isPreview
           />

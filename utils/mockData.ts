@@ -8,7 +8,7 @@ type mockData = {
   images: ImageInfo[];
 };
 
-export const mockData = {
+const mockData = {
   memberInfo: [
     {
       id: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
@@ -80,3 +80,5 @@ export const mockData = {
     { aria: "grey cat", url: "https://placekitten.com/400/400" },
   ],
 };
+
+export { mockData };

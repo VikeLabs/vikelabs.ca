@@ -64,6 +64,7 @@ export async function getProjectInfo(id: string) {
     },
   });
   // remove approvedBy info for team lead
+  // eslint-disable-next-line
   const { approvedBy, ...projectEdit } = project;
   return projectEdit;
 }

@@ -1,10 +1,9 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Box, HStack, IconButton, Tag, useDisclosure, Wrap } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Box, HStack, IconButton, Tag, Wrap } from "@chakra-ui/react";
+import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { LinkTag, TechTag } from "../types";
 import { colorShade, hexToRgbA } from "../utils/colorHelpers";
-import TechTagCustomizer from "./TechTagCustomizer";
 
 const DragAndDrop = ({
   pt,

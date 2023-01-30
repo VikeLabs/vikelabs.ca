@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { useAuthContext } from "../../components/AuthContextProvider";
 import DashboardWrapper from "../../components/DashboardWrapper";
 import Loading from "../../components/Loading";
@@ -7,45 +7,13 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Heading,
   Stack,
   Box,
   StackDivider,
   Text,
-  Badge,
-  HStack,
-  Tag,
-  Flex,
-  Spacer,
-  TagLabel,
-  TagRightIcon,
-  TagLeftIcon,
-  AvatarGroup,
-  Avatar,
-  IconButton,
-  VStack,
-  Portal,
-  Link,
-  Wrap,
-  SimpleGrid,
 } from "@chakra-ui/react";
-import { EditIcon, InfoOutlineIcon, LinkIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { LinkTag, MemberInfo, ProjectInfoLeadView, TechTag } from "../../types";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
-} from "@chakra-ui/react";
-import { ProjectInfo } from "@prisma/client";
-import ScrollContainer from "react-indiana-drag-scroll";
-import Image from "next/image";
+import { MemberInfo, ProjectInfoLeadView } from "../../types";
 import Project from "../../components/Project";
 import ProjectLeadView from "../../components/ProjectLeadView";
 import ProjectEditor from "../../components/ProjectEditor";
@@ -70,42 +38,40 @@ const ProjectCard = ({
   project: ProjectInfoLeadView;
   members: MemberInfo[];
 }) => {
-  const [preview, setPreview] = useState(false);
-  const [editor, setEditor] = useState(false);
+  const [isPreview, setPreview] = useState(false);
+  const [isEditing, setEditing] = useState(false);
 
   // TODO: order of these conditions need to be changed later
   return (
     <Card>
-      {editor ? (
+      {isEditing ? (
         <ProjectEditor
           id={id}
           project={project}
           members={members}
-          onEditor={() => setEditor(false)}
-          preview={preview}
-          onPreview={() => setPreview(!preview)}
-          isPreview
+          onEditor={() => setEditing(false)}
+          onPreview={() => setPreview(!isPreview)}
+          isPreview={isPreview}
         />
       ) : (
         <>
-          {preview ? (
+          {isPreview ? (
             <Project
               id={id}
               project={project}
               members={members}
-              onEditor={() => setEditor(true)}
-              preview={preview}
+              onEditor={() => setEditing(true)}
               onPreview={() => setPreview(false)}
-              isPreview
+              isPreview={isPreview}
             />
           ) : (
             <ProjectLeadView
               id={id}
               project={project}
               members={members}
-              onEditor={() => setEditor(true)}
-              preview={preview}
+              onEditor={() => setEditing(true)}
               onPreview={() => setPreview(true)}
+              isPreview={isPreview}
             />
           )}
         </>

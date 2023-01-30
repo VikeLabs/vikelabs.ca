@@ -1,4 +1,4 @@
-import { ProjectHasMembers, ProjectInfo } from "@prisma/client";
+import { ProjectInfo } from "@prisma/client";
 
 export type UserEditorForm = Omit<GetLoggedInUserResponse, "id" | "role">;
 

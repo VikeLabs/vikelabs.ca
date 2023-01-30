@@ -34,6 +34,8 @@ const TechTagCustomizer = ({
   const [color, setColor] = useState("#333333");
 
   // Reset label everytime the modal mounts
+  // Doing what the eslint error suggestions put it into an infinite loop, so ignoring it
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (label === "" && isOpen) {
       setLabel(techLabel);

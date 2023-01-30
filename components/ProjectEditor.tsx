@@ -1,38 +1,23 @@
-import React, { useCallback, useState } from "react";
-import { useAuthContext } from "../components/AuthContextProvider";
-import DashboardWrapper from "../components/DashboardWrapper";
-import Loading from "../components/Loading";
-import { useProjectEditView } from "../hooks/useProjectEditView";
+import React, { useState } from "react";
 import {
   Card,
-  CardHeader,
   CardBody,
-  CardFooter,
   Heading,
-  Stack,
   Box,
-  StackDivider,
   Text,
   Badge,
-  HStack,
   Tag,
   Flex,
   Spacer,
   TagLabel,
-  TagRightIcon,
   TagLeftIcon,
-  AvatarGroup,
   Avatar,
-  IconButton,
-  VStack,
-  Portal,
   Link,
   Wrap,
   SimpleGrid,
   FormControl,
   FormLabel,
   Input,
-  FormHelperText,
   FormErrorMessage,
   Switch,
   Menu,
@@ -41,39 +26,10 @@ import {
   Button,
   MenuItem,
   useMenuItem,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
   useDisclosure,
-  Modal,
-  Center,
 } from "@chakra-ui/react";
-import {
-  AddIcon,
-  ChevronDownIcon,
-  CloseIcon,
-  DeleteIcon,
-  EditIcon,
-  InfoOutlineIcon,
-  LinkIcon,
-  ViewIcon,
-  ViewOffIcon,
-} from "@chakra-ui/icons";
-import { GetProjectEditViewResponse, MemberInfo, ProjectInfoLeadView } from "../types";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
-} from "@chakra-ui/react";
+import { LinkIcon } from "@chakra-ui/icons";
+import { MemberInfo, ProjectInfoLeadView } from "../types";
 import { ProjectInfo } from "@prisma/client";
 import ScrollContainer from "react-indiana-drag-scroll";
 import Image from "next/image";
@@ -81,16 +37,13 @@ import { ImageInfo, LinkTag, TechTag } from "../types";
 import ProjectSideButtons from "./ProjectSideButtons";
 import { mockData } from "../utils/mockData";
 import { Controller, useForm } from "react-hook-form";
-import { EditorContent, Extension, useEditor } from "@tiptap/react";
+import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import HardBreak from "@tiptap/extension-hard-break";
-import { Icon } from "@chakra-ui/react";
-import { HexColorPicker } from "react-colorful";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import TechTagCustomizer from "./TechTagCustomizer";
 import DragAndDrop from "./DragAndDrop";
 import LinkTagCustomizer from "./LinkTagCustomizer";
 import { colorShade, hexToRgbA } from "../utils/colorHelpers";
+import * as DOMPurify from "dompurify";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -104,7 +57,6 @@ const ProjectEditor = ({
   project,
   members,
   onEditor,
-  preview,
   onPreview,
   isPreview = false,
 }: {
@@ -112,27 +64,25 @@ const ProjectEditor = ({
   project: ProjectInfoLeadView;
   members: MemberInfo[];
   onEditor?: () => void;
-  preview: boolean;
   onPreview?: () => void;
   isPreview?: boolean;
 }) => {
   // TODO: When modified, disable the editor button. previewer now uses the edited project values
   // TODO: If the user edits, it should replace the current draft if it hasnt been approved
   // const [projectInfo, setProjectInfo] = useState(project);
-  const { formState, handleSubmit, control, reset, getValues, setValue } =
-    useForm<ProjectEditorForm>({
-      defaultValues: {
-        title: project.title,
-        description: project.description,
-        links: project.links as LinkTag[],
-        stack: project.stack as TechTag[], // this should be an array
-        // stack: project.stack,
-        imageUrls: project.imageUrls,
-        recruiting: project.recruiting,
-        recruitingFor: project.recruitingFor,
-        members,
-      },
-    });
+  const { formState, control, getValues, setValue } = useForm<ProjectEditorForm>({
+    defaultValues: {
+      title: project.title,
+      description: project.description,
+      links: project.links as LinkTag[],
+      stack: project.stack as TechTag[], // this should be an array
+      // stack: project.stack,
+      imageUrls: project.imageUrls,
+      recruiting: project.recruiting,
+      recruitingFor: project.recruitingFor,
+      members,
+    },
+  });
 
   const onSubmit = (data: ProjectEditorForm) => {
     const descriptionHtml = editor.getHTML();
@@ -226,20 +176,6 @@ const ProjectEditor = ({
     console.log(getValues()?.[type]);
   };
 
-  const updateTag = (type: "stack" | "links", itemToUpdate: TechTag | LinkTag, index: number) => {
-    const items = getValues()?.[type];
-    switch (type) {
-      case "stack":
-        (items as TechTag[])[index] = itemToUpdate as TechTag;
-        setValue("stack", items);
-        break;
-      case "links":
-        (items as LinkTag[])[index] = itemToUpdate as LinkTag;
-        setValue("links", items);
-        break;
-    }
-  };
-
   const [techSearch, setTechSearch] = useState("");
   const [linkSearch, setLinkSearch] = useState("");
   const [linkColor, setLinkColor] = useState("blackAlpha");
@@ -285,12 +221,12 @@ const ProjectEditor = ({
         <Box width="100%">
           <Wrap align="center" m="-1" p="1" mr="4" spacing="2">
             <FormControl isInvalid={!!formState.errors.title} width="auto" alignItems="flex-start">
-              {!preview && <FormLabel>Title</FormLabel>}
+              {!isPreview && <FormLabel>Title</FormLabel>}
               <Controller
                 control={control}
                 name="title"
                 render={({ field: { onChange, value } }) =>
-                  preview ? (
+                  isPreview ? (
                     <Heading as="h3" size="lg">
                       {value}
                     </Heading>
@@ -302,18 +238,18 @@ const ProjectEditor = ({
               {!formState.errors.title && <FormErrorMessage>Title is required.</FormErrorMessage>}
             </FormControl>
             <FormControl isInvalid={!!formState.errors.title} width="auto">
-              {!preview && <FormLabel ml="2">Recruiting</FormLabel>}
+              {!isPreview && <FormLabel ml="2">Recruiting</FormLabel>}
               <Controller
                 control={control}
                 name="recruiting"
                 render={({ field: { onChange, value } }) => {
-                  if (preview && value) {
+                  if (isPreview && value) {
                     return (
                       <Badge colorScheme="cyan" display="block">
                         recruiting
                       </Badge>
                     );
-                  } else if (!preview) {
+                  } else if (!isPreview) {
                     return <Switch ml="2" size="lg" isChecked={value} onChange={onChange} />;
                   }
                 }}
@@ -322,13 +258,19 @@ const ProjectEditor = ({
           </Wrap>
           <Box pt="5">
             <FormControl isInvalid={!!formState.errors.title} width="auto">
-              {preview ? <Heading pb="2">Description</Heading> : <FormLabel>Description</FormLabel>}
+              {isPreview ? (
+                <Heading pb="2">Description</Heading>
+              ) : (
+                <FormLabel>Description</FormLabel>
+              )}
               <Controller
                 control={control}
                 name="description"
                 render={({ field: { onChange, value } }) =>
-                  preview ? (
-                    <div dangerouslySetInnerHTML={{ __html: editor?.getHTML() }} />
+                  isPreview ? (
+                    <div
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(editor?.getHTML()) }}
+                    />
                   ) : (
                     <EditorContent editor={editor} value={value} onChange={onChange} />
                   )
@@ -342,8 +284,8 @@ const ProjectEditor = ({
 
           <Box pt="5">
             <FormControl isInvalid={!!formState.errors.title} width="100%">
-              {preview ? <Heading>Stack</Heading> : <FormLabel>Stack</FormLabel>}
-              {!preview && (
+              {isPreview ? <Heading>Stack</Heading> : <FormLabel>Stack</FormLabel>}
+              {!isPreview && (
                 <Menu placement="right-start">
                   <MenuButton as={Button}>Add New</MenuButton>
                   <MenuList>
@@ -398,7 +340,7 @@ const ProjectEditor = ({
                 control={control}
                 name="stack"
                 render={({ field: { value } }) =>
-                  preview ? (
+                  isPreview ? (
                     <Wrap pt="2">
                       {(value ? (value as TechTag[]) : []).map((tech: TechTag, index) => (
                         <Tag
@@ -430,8 +372,8 @@ const ProjectEditor = ({
 
           <Box pt="5">
             <FormControl isInvalid={!!formState.errors.title} width="100%">
-              {preview ? <Heading>Links</Heading> : <FormLabel>Links</FormLabel>}
-              {!preview && (
+              {isPreview ? <Heading>Links</Heading> : <FormLabel>Links</FormLabel>}
+              {!isPreview && (
                 <Menu placement="right-start">
                   <MenuButton as={Button}>Add New</MenuButton>
                   <MenuList>
@@ -453,7 +395,6 @@ const ProjectEditor = ({
                           addTag("links", item);
                           setLinkColor("blackAlpha");
                         }}
-                        onUpdate={(item: LinkTag, index: number) => updateTag("links", item, index)}
                         onClose={() => {
                           onLinkCustomizerClose();
                           setLinkColor("blackAlpha");
@@ -503,7 +444,7 @@ const ProjectEditor = ({
                 control={control}
                 name="links"
                 render={({ field: { value } }) =>
-                  preview ? (
+                  isPreview ? (
                     <Wrap pt="2">
                       {/* THIS IS NOT AN ARRAY??? */}
                       {(!!(value as LinkTag[]).length ? (value as LinkTag[]) : []).map(
@@ -559,18 +500,15 @@ const ProjectEditor = ({
           </Box> */}
         </Box>
         <Spacer />
-        {isPreview && (
-          <ProjectSideButtons
-            id={id}
-            project={project}
-            members={members}
-            onEditor={onEditor}
-            preview={preview}
-            onPreview={onPreview}
-            isPreview
-            isEditing
-          />
-        )}
+        <ProjectSideButtons
+          id={id}
+          project={project}
+          members={members}
+          onEditor={onEditor}
+          onPreview={onPreview}
+          isEditing
+          isPreview={isPreview}
+        />
       </Flex>
       {/* TODO: NEXT */}
       <Box pt="5">

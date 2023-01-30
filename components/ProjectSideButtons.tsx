@@ -18,7 +18,6 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { ProjectInfo } from "@prisma/client";
 import React from "react";
 import { MemberInfo, ProjectInfoLeadView } from "../types";
 
@@ -27,19 +26,17 @@ const ProjectSideButtons = ({
   project,
   members,
   onEditor,
-  preview,
   onPreview,
-  isPreview = false,
   isEditing = false,
+  isPreview = false,
 }: {
   id: number;
   project: ProjectInfoLeadView;
   members: MemberInfo[];
   onEditor?: () => void;
-  preview: boolean;
   onPreview?: () => void;
-  isPreview?: boolean;
   isEditing?: boolean;
+  isPreview?: boolean;
 }) => {
   return (
     <Box>
@@ -51,14 +48,14 @@ const ProjectSideButtons = ({
               colorScheme={isEditing ? "red" : "gray"}
               icon={isEditing ? <CloseIcon /> : <EditIcon />}
               onClick={() => {
-                if (preview) onPreview();
+                if (isPreview) onPreview();
                 onEditor();
               }}
             />
             <IconButton
-              aria-label={preview ? "Exit preview" : `View ${project.title}`}
-              colorScheme={preview ? "teal" : "gray"}
-              icon={preview ? <ViewOffIcon /> : <ViewIcon />}
+              aria-label={isPreview ? "Exit preview" : `View ${project.title}`}
+              colorScheme={isPreview ? "teal" : "gray"}
+              icon={isPreview ? <ViewOffIcon /> : <ViewIcon />}
               onClick={onPreview}
             />
           </>
