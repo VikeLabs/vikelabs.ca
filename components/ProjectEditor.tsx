@@ -229,6 +229,7 @@ const ProjectEditor = ({
                 }
               />
             </Section>
+
             <Section
               label="Recruiting"
               isPreview={isPreview}
@@ -249,6 +250,7 @@ const ProjectEditor = ({
               />
             </Section>
           </Wrap>
+
           <Section
             label="Description"
             isPreview={isPreview}
@@ -272,22 +274,6 @@ const ProjectEditor = ({
             isPreview={isPreview}
             error={[!!formState.errors.description, "Stack is required"]}
           >
-            {!isPreview && (
-              <PresetMenu search={techSearch} setSearch={(value: string) => setTechSearch(value)}>
-                <CustomTechTag
-                  search={techSearch}
-                  addItem={(item: TechTag) => addTag("stack", item)}
-                  isOpen={isTechCustomizerOpen}
-                  onOpen={onTechCustomizerOpen}
-                  onClose={onTechCustomizerClose}
-                  finalRef={techCustomizerRef}
-                />
-                <PresetTechTags
-                  search={techSearch}
-                  onClick={(item: TechTag) => addTag("stack", item)}
-                />
-              </PresetMenu>
-            )}
             <Controller
               control={control}
               name="stack"
@@ -308,14 +294,33 @@ const ProjectEditor = ({
                     ))}
                   </Wrap>
                 ) : (
-                  <DragAndDrop
-                    pt={3}
-                    direction="horizontal"
-                    type="stack"
-                    items={value as TechTag[]}
-                    onDragEnd={(result: any) => onDragEnd("stack", result)}
-                    onRemoveItem={(index: number) => removeTag("stack", index)}
-                  />
+                  <>
+                    <PresetMenu
+                      search={techSearch}
+                      setSearch={(value: string) => setTechSearch(value)}
+                    >
+                      <CustomTechTag
+                        search={techSearch}
+                        addItem={(item: TechTag) => addTag("stack", item)}
+                        isOpen={isTechCustomizerOpen}
+                        onOpen={onTechCustomizerOpen}
+                        onClose={onTechCustomizerClose}
+                        finalRef={techCustomizerRef}
+                      />
+                      <PresetTechTags
+                        search={techSearch}
+                        onClick={(item: TechTag) => addTag("stack", item)}
+                      />
+                    </PresetMenu>
+                    <DragAndDrop
+                      pt={3}
+                      direction="horizontal"
+                      type="stack"
+                      items={value as TechTag[]}
+                      onDragEnd={(result: any) => onDragEnd("stack", result)}
+                      onRemoveItem={(index: number) => removeTag("stack", index)}
+                    />
+                  </>
                 )
               }
             />
@@ -326,33 +331,6 @@ const ProjectEditor = ({
             isPreview={isPreview}
             error={[!!formState.errors.description, "Stack is required"]}
           >
-            {!isPreview && (
-              <PresetMenu search={linkSearch} setSearch={setLinkSearch}>
-                <CustomLinkTag
-                  search={linkSearch}
-                  isOpen={isLinkCustomizerOpen}
-                  onOpen={onLinkCustomizerOpen}
-                  finalRef={linkCustomizerRef}
-                  linkColor={linkColor}
-                  onSubmit={(item: LinkTag) => {
-                    addTag("links", item);
-                    setLinkColor("blackAlpha");
-                  }}
-                  onClose={() => {
-                    onLinkCustomizerClose();
-                    setLinkColor("blackAlpha");
-                  }}
-                />
-                <PresetLinkTags
-                  search={linkSearch}
-                  onClick={(label: string, color: string) => {
-                    setLinkSearch(label);
-                    setLinkColor(color);
-                    onLinkCustomizerOpen();
-                  }}
-                />
-              </PresetMenu>
-            )}
             <Controller
               control={control}
               name="links"
@@ -384,14 +362,41 @@ const ProjectEditor = ({
                     )}
                   </Wrap>
                 ) : (
-                  <DragAndDrop
-                    pt={3}
-                    direction="horizontal"
-                    type="links"
-                    items={value as LinkTag[]}
-                    onDragEnd={(result: any) => onDragEnd("links", result)}
-                    onRemoveItem={(index: number) => removeTag("links", index)}
-                  />
+                  <>
+                    <PresetMenu search={linkSearch} setSearch={setLinkSearch}>
+                      <CustomLinkTag
+                        search={linkSearch}
+                        isOpen={isLinkCustomizerOpen}
+                        onOpen={onLinkCustomizerOpen}
+                        finalRef={linkCustomizerRef}
+                        linkColor={linkColor}
+                        onSubmit={(item: LinkTag) => {
+                          addTag("links", item);
+                          setLinkColor("blackAlpha");
+                        }}
+                        onClose={() => {
+                          onLinkCustomizerClose();
+                          setLinkColor("blackAlpha");
+                        }}
+                      />
+                      <PresetLinkTags
+                        search={linkSearch}
+                        onClick={(label: string, color: string) => {
+                          setLinkSearch(label);
+                          setLinkColor(color);
+                          onLinkCustomizerOpen();
+                        }}
+                      />
+                    </PresetMenu>
+                    <DragAndDrop
+                      pt={3}
+                      direction="horizontal"
+                      type="links"
+                      items={value as LinkTag[]}
+                      onDragEnd={(result: any) => onDragEnd("links", result)}
+                      onRemoveItem={(index: number) => removeTag("links", index)}
+                    />
+                  </>
                 )
               }
             />
