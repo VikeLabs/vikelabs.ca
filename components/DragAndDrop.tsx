@@ -6,109 +6,106 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import { LinkTag, TechTag } from "../types";
 import { colorShade, hexToRgbA } from "../utils/colorHelpers";
 
+export const DraggableTechTags = ({
+  items,
+  onRemoveItem,
+}: {
+  items: TechTag[];
+  onRemoveItem: (index: number) => void;
+}) => (
+  <>
+    {(!!items.length ? (items as TechTag[]) : []).map((tech: TechTag, index: number) => (
+      <Draggable key={index} draggableId={String(index)} index={index}>
+        {(provided) => (
+          <HStack
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            key={index}
+            spacing={1}
+          >
+            <Tag
+              size="sm"
+              variant="solid"
+              borderRadius="sm"
+              colorScheme={tech.color.includes("#") ? undefined : tech.color}
+              bgColor={tech.color.includes("#") ? tech.color : undefined}
+              cursor="grab"
+              height="auto"
+            >
+              {tech.label}
+            </Tag>
+            <IconButton
+              ml="1"
+              size="1xs"
+              aria-label="delete tech tag"
+              icon={<DeleteIcon />}
+              onClick={() => onRemoveItem(index)}
+              variant="ghost"
+            />
+          </HStack>
+        )}
+      </Draggable>
+    ))}
+  </>
+);
+
+export const DraggableLinkTags = ({
+  items,
+  onRemoveItem,
+}: {
+  items: TechTag[];
+  onRemoveItem: (index: number) => void;
+}) => (
+  <>
+    {(!!items.length ? (items as LinkTag[]) : []).map((link: LinkTag, index: number) => (
+      <Draggable key={index} draggableId={String(index)} index={index}>
+        {(provided) => (
+          <HStack
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            key={index}
+            spacing={1}
+          >
+            <Tag
+              size="sm"
+              variant="subtle"
+              borderRadius="sm"
+              colorScheme={link.color.includes("#") ? undefined : link.color}
+              bgColor={link.color.includes("#") ? hexToRgbA(link.color, 0.3) : undefined}
+              textColor={link.color.includes("#") ? colorShade(link.color, -100) : undefined}
+              cursor="grab"
+              height="auto"
+            >
+              {link.label}
+            </Tag>
+            <IconButton
+              ml="1"
+              size="1xs"
+              aria-label="delete link tag"
+              icon={<DeleteIcon />}
+              onClick={() => onRemoveItem(index)}
+              variant="ghost"
+            />
+          </HStack>
+        )}
+      </Draggable>
+    ))}
+  </>
+);
+
 const DragAndDrop = ({
   pt,
   direction,
-  type,
-  items,
   onDragEnd,
-  onRemoveItem,
+  children,
 }: {
   pt: number;
   direction: string;
-  type: "stack" | "links" | "images" | "members";
-  items: TechTag[] | LinkTag[] /* | ImageFile[] */;
   onDragEnd: (result: any) => void;
-  onRemoveItem: (index: number) => void;
+  children: React.ReactNode;
 }) => {
-  const DragContent = () => {
-    switch (type) {
-      case "stack":
-        return (
-          <>
-            {(!!items.length ? (items as TechTag[]) : []).map((tech: TechTag, index: number) => (
-              <Draggable key={index} draggableId={String(index)} index={index}>
-                {(provided) => (
-                  <HStack
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    key={index}
-                    spacing={1}
-                  >
-                    <Tag
-                      size="sm"
-                      variant="solid"
-                      borderRadius="sm"
-                      colorScheme={tech.color.includes("#") ? undefined : tech.color}
-                      bgColor={tech.color.includes("#") ? tech.color : undefined}
-                      cursor="grab"
-                      height="auto"
-                    >
-                      {tech.label}
-                    </Tag>
-                    <IconButton
-                      ml="1"
-                      size="1xs"
-                      aria-label="delete tech tag"
-                      icon={<DeleteIcon />}
-                      onClick={() => onRemoveItem(index)}
-                      variant="ghost"
-                    />
-                  </HStack>
-                )}
-              </Draggable>
-            ))}
-          </>
-        );
-      case "links":
-        return (
-          <>
-            {(!!items.length ? (items as LinkTag[]) : []).map((link: LinkTag, index: number) => (
-              <Draggable key={index} draggableId={String(index)} index={index}>
-                {(provided) => (
-                  <HStack
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    key={index}
-                    spacing={1}
-                  >
-                    <Tag
-                      size="sm"
-                      variant="subtle"
-                      borderRadius="sm"
-                      colorScheme={link.color.includes("#") ? undefined : link.color}
-                      bgColor={link.color.includes("#") ? hexToRgbA(link.color, 0.3) : undefined}
-                      textColor={
-                        link.color.includes("#") ? colorShade(link.color, -100) : undefined
-                      }
-                      cursor="grab"
-                      height="auto"
-                    >
-                      {link.label}
-                    </Tag>
-                    <IconButton
-                      ml="1"
-                      size="1xs"
-                      aria-label="delete link tag"
-                      icon={<DeleteIcon />}
-                      onClick={() => onRemoveItem(index)}
-                      variant="ghost"
-                    />
-                  </HStack>
-                )}
-              </Draggable>
-            ))}
-          </>
-        );
-      case "images":
-        return <></>;
-      case "members":
-        return <></>;
-    }
-  };
-
   // TODO: Scrolling is buggy
   return (
     <Box pt={pt}>
@@ -120,7 +117,7 @@ const DragAndDrop = ({
                 <>
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                     <Wrap p={0} m={0} spacing={3} pr={48}>
-                      <DragContent />
+                      {children}
                     </Wrap>
                   </div>
                   <span style={{ position: "absolute" }}>{provided.placeholder}</span>

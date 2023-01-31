@@ -279,48 +279,13 @@ const ProjectEditor = ({
               name="stack"
               render={({ field: { value } }) =>
                 isPreview ? (
-                  <Wrap pt="2">
-                    {(value ? (value as TechTag[]) : []).map((tech: TechTag, index) => (
-                      <Tag
-                        key={index}
-                        size="sm"
-                        variant="solid"
-                        borderRadius="sm"
-                        colorScheme={tech.color.includes("#") ? undefined : tech.color}
-                        bgColor={tech.color.includes("#") ? tech.color : undefined}
-                      >
-                        {tech.label}
-                      </Tag>
-                    ))}
-                  </Wrap>
+                  <View.Stack value={value ? (value as TechTag[]) : []} />
                 ) : (
-                  <>
-                    <PresetMenu
-                      search={techSearch}
-                      setSearch={(value: string) => setTechSearch(value)}
-                    >
-                      <CustomTechTag
-                        search={techSearch}
-                        addItem={(item: TechTag) => addTag("stack", item)}
-                        isOpen={isTechCustomizerOpen}
-                        onOpen={onTechCustomizerOpen}
-                        onClose={onTechCustomizerClose}
-                        finalRef={techCustomizerRef}
-                      />
-                      <PresetTechTags
-                        search={techSearch}
-                        onClick={(item: TechTag) => addTag("stack", item)}
-                      />
-                    </PresetMenu>
-                    <DragAndDrop
-                      pt={3}
-                      direction="horizontal"
-                      type="stack"
-                      items={value as TechTag[]}
-                      onDragEnd={(result: any) => onDragEnd("stack", result)}
-                      onRemoveItem={(index: number) => removeTag("stack", index)}
-                    />
-                  </>
+                  <Edit.Stack
+                    value={value as TechTag[]}
+                    getValues={getValues}
+                    setStack={(items: TechTag[]) => setValue("stack", items)}
+                  />
                 )
               }
             />
@@ -336,67 +301,13 @@ const ProjectEditor = ({
               name="links"
               render={({ field: { value } }) =>
                 isPreview ? (
-                  <Wrap pt="2">
-                    {/* THIS IS NOT AN ARRAY??? */}
-                    {(!!(value as LinkTag[]).length ? (value as LinkTag[]) : []).map(
-                      (link: LinkTag, index) => (
-                        <Link href={link.url} key={index} lineHeight={1} isExternal>
-                          <Tag
-                            key={index}
-                            size="sm"
-                            variant="subtle"
-                            borderRadius="sm"
-                            colorScheme={link.color.includes("#") ? undefined : link.color}
-                            bgColor={
-                              link.color.includes("#") ? hexToRgbA(link.color, 0.3) : undefined
-                            }
-                            textColor={
-                              link.color.includes("#") ? colorShade(link.color, -100) : undefined
-                            }
-                          >
-                            <TagLeftIcon boxSize={2.5} as={LinkIcon} />
-                            <TagLabel ml={-1}>{link.label}</TagLabel>
-                          </Tag>
-                        </Link>
-                      )
-                    )}
-                  </Wrap>
+                  <View.Links value={!!(value as LinkTag[]).length ? (value as LinkTag[]) : []} />
                 ) : (
-                  <>
-                    <PresetMenu search={linkSearch} setSearch={setLinkSearch}>
-                      <CustomLinkTag
-                        search={linkSearch}
-                        isOpen={isLinkCustomizerOpen}
-                        onOpen={onLinkCustomizerOpen}
-                        finalRef={linkCustomizerRef}
-                        linkColor={linkColor}
-                        onSubmit={(item: LinkTag) => {
-                          addTag("links", item);
-                          setLinkColor("blackAlpha");
-                        }}
-                        onClose={() => {
-                          onLinkCustomizerClose();
-                          setLinkColor("blackAlpha");
-                        }}
-                      />
-                      <PresetLinkTags
-                        search={linkSearch}
-                        onClick={(label: string, color: string) => {
-                          setLinkSearch(label);
-                          setLinkColor(color);
-                          onLinkCustomizerOpen();
-                        }}
-                      />
-                    </PresetMenu>
-                    <DragAndDrop
-                      pt={3}
-                      direction="horizontal"
-                      type="links"
-                      items={value as LinkTag[]}
-                      onDragEnd={(result: any) => onDragEnd("links", result)}
-                      onRemoveItem={(index: number) => removeTag("links", index)}
-                    />
-                  </>
+                  <Edit.Links
+                    value={value as LinkTag[]}
+                    getValues={getValues}
+                    setLinks={(items: LinkTag[]) => setValue("links", items)}
+                  />
                 )
               }
             />
