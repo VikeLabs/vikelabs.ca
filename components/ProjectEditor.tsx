@@ -45,6 +45,8 @@ import LinkTagCustomizer from "./LinkTagCustomizer";
 import { colorShade, hexToRgbA } from "../utils/colorHelpers";
 import * as DOMPurify from "dompurify";
 import FileUploader from "./FileUploader";
+import SectionLabel from "./ProjectEditor/SectionLabel";
+import Section from "./ProjectEditor/Section";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -221,8 +223,12 @@ const ProjectEditor = ({
       <Flex>
         <Box width="100%">
           <Wrap align="center" m="-1" p="1" mr="4" spacing="2">
-            <FormControl isInvalid={!!formState.errors.title} width="auto" alignItems="flex-start">
-              {!isPreview && <FormLabel>Title</FormLabel>}
+            <Section
+              label="Title"
+              isPreview={isPreview}
+              error={[!!formState.errors.title, "Title is required"]}
+              noPt
+            >
               <Controller
                 control={control}
                 name="title"
@@ -236,10 +242,13 @@ const ProjectEditor = ({
                   )
                 }
               />
-              {!formState.errors.title && <FormErrorMessage>Title is required.</FormErrorMessage>}
-            </FormControl>
-            <FormControl isInvalid={!!formState.errors.title} width="auto">
-              {!isPreview && <FormLabel ml="2">Recruiting</FormLabel>}
+            </Section>
+            <Section
+              label="Title"
+              isPreview={isPreview}
+              error={[!!formState.errors.recruiting, "Recruiting is required"]}
+              noPt
+            >
               <Controller
                 control={control}
                 name="recruiting"
@@ -255,250 +264,232 @@ const ProjectEditor = ({
                   }
                 }}
               />
-            </FormControl>
+            </Section>
           </Wrap>
-          <Box pt="5">
-            <FormControl isInvalid={!!formState.errors.title} width="auto">
-              {isPreview ? (
-                <Heading pb="2">Description</Heading>
-              ) : (
-                <FormLabel>Description</FormLabel>
-              )}
-              <Controller
-                control={control}
-                name="description"
-                render={({ field: { onChange, value } }) =>
-                  isPreview ? (
-                    <div
-                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(editor?.getHTML()) }}
-                    />
-                  ) : (
-                    <EditorContent editor={editor} value={value} onChange={onChange} />
-                  )
-                }
-              />
-              {!formState.errors.description && (
-                <FormErrorMessage>Description is required.</FormErrorMessage>
-              )}
-            </FormControl>
-          </Box>
+          <Section
+            label="Description"
+            isPreview={isPreview}
+            error={[!!formState.errors.description, "Description is required"]}
+          >
+            <Controller
+              control={control}
+              name="description"
+              render={({ field: { onChange, value } }) =>
+                isPreview ? (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(editor?.getHTML()) }}
+                  />
+                ) : (
+                  <EditorContent editor={editor} value={value} onChange={onChange} />
+                )
+              }
+            />
+          </Section>
 
-          <Box pt="5">
-            <FormControl isInvalid={!!formState.errors.title} width="100%">
-              {isPreview ? <Heading>Stack</Heading> : <FormLabel>Stack</FormLabel>}
-              {!isPreview && (
-                <Menu placement="right-start">
-                  <MenuButton as={Button}>Add New</MenuButton>
-                  <MenuList>
-                    <MenuInput
-                      type="title"
-                      onChange={(e) => setTechSearch(e.target.value)}
-                      value={techSearch}
-                    />
+          <Section
+            label="Stack"
+            isPreview={isPreview}
+            error={[!!formState.errors.description, "Stack is required"]}
+          >
+            {!isPreview && (
+              <Menu placement="right-start">
+                <MenuButton as={Button}>Add New</MenuButton>
+                <MenuList>
+                  <MenuInput
+                    type="title"
+                    onChange={(e) => setTechSearch(e.target.value)}
+                    value={techSearch}
+                  />
 
-                    {/* Custom Tech Tag */}
-                    <MenuItem onClick={onTechCustomizerOpen}>
-                      <TechTagCustomizer
-                        label={!techSearch.length ? "" : techSearch}
-                        finalRef={techCustomizerRef}
-                        isOpen={isTechCustomizerOpen}
-                        onSubmit={(item: TechTag) => addTag("stack", item)}
-                        onClose={onTechCustomizerClose}
-                      />
+                  {/* Custom Tech Tag */}
+                  <MenuItem onClick={onTechCustomizerOpen}>
+                    <TechTagCustomizer
+                      label={!techSearch.length ? "" : techSearch}
+                      finalRef={techCustomizerRef}
+                      isOpen={isTechCustomizerOpen}
+                      onSubmit={(item: TechTag) => addTag("stack", item)}
+                      onClose={onTechCustomizerClose}
+                    />
+                    <Tag
+                      size="sm"
+                      variant="solid"
+                      borderRadius="sm"
+                      bgColor="#333"
+                      cursor="pointer"
+                    >
+                      {!techSearch.length ? "Custom" : techSearch}
+                    </Tag>
+                  </MenuItem>
+
+                  {/* Preset Tech Tag */}
+                  {mockData.presetStack.map((techPreset: TechTag, index: number) => {
+                    if (techPreset.label.toLowerCase().includes(techSearch.toLowerCase())) {
+                      return (
+                        <MenuItem key={index} onClick={() => addTag("stack", techPreset)}>
+                          <Tag
+                            size="sm"
+                            variant="solid"
+                            borderRadius="sm"
+                            colorScheme={techPreset.color}
+                            cursor="pointer"
+                          >
+                            {techPreset.label}
+                          </Tag>
+                        </MenuItem>
+                      );
+                    }
+                  })}
+                </MenuList>
+              </Menu>
+            )}
+            <Controller
+              control={control}
+              name="stack"
+              render={({ field: { value } }) =>
+                isPreview ? (
+                  <Wrap pt="2">
+                    {(value ? (value as TechTag[]) : []).map((tech: TechTag, index) => (
                       <Tag
+                        key={index}
                         size="sm"
                         variant="solid"
                         borderRadius="sm"
-                        bgColor="#333"
-                        cursor="pointer"
+                        colorScheme={tech.color.includes("#") ? undefined : tech.color}
+                        bgColor={tech.color.includes("#") ? tech.color : undefined}
                       >
-                        {!techSearch.length ? "Custom" : techSearch}
+                        {tech.label}
                       </Tag>
-                    </MenuItem>
+                    ))}
+                  </Wrap>
+                ) : (
+                  <DragAndDrop
+                    pt={3}
+                    direction="horizontal"
+                    type="stack"
+                    items={value as TechTag[]}
+                    onDragEnd={(result: any) => onDragEnd("stack", result)}
+                    onRemoveItem={(index: number) => removeTag("stack", index)}
+                  />
+                )
+              }
+            />
+          </Section>
 
-                    {/* Preset Tech Tag */}
-                    {mockData.presetStack.map((techPreset: TechTag, index: number) => {
-                      if (techPreset.label.toLowerCase().includes(techSearch.toLowerCase())) {
-                        return (
-                          <MenuItem key={index} onClick={() => addTag("stack", techPreset)}>
-                            <Tag
-                              size="sm"
-                              variant="solid"
-                              borderRadius="sm"
-                              colorScheme={techPreset.color}
-                              cursor="pointer"
-                            >
-                              {techPreset.label}
-                            </Tag>
-                          </MenuItem>
-                        );
-                      }
-                    })}
-                  </MenuList>
-                </Menu>
-              )}
-              <Controller
-                control={control}
-                name="stack"
-                render={({ field: { value } }) =>
-                  isPreview ? (
-                    <Wrap pt="2">
-                      {(value ? (value as TechTag[]) : []).map((tech: TechTag, index) => (
-                        <Tag
+          <Section
+            label="Links"
+            isPreview={isPreview}
+            error={[!!formState.errors.description, "Stack is required"]}
+          >
+            {!isPreview && (
+              <Menu placement="right-start">
+                <MenuButton as={Button}>Add New</MenuButton>
+                <MenuList>
+                  <MenuInput
+                    type="title"
+                    onChange={(e) => setLinkSearch(e.target.value)}
+                    value={linkSearch}
+                  />
+
+                  {/* Custom Link Tag */}
+                  <MenuItem onClick={onLinkCustomizerOpen}>
+                    <LinkTagCustomizer
+                      label={!linkSearch.length ? "" : linkSearch}
+                      colorScheme={linkColor}
+                      url=""
+                      finalRef={linkCustomizerRef}
+                      isOpen={isLinkCustomizerOpen}
+                      onSubmit={(item: LinkTag) => {
+                        addTag("links", item);
+                        setLinkColor("blackAlpha");
+                      }}
+                      onClose={() => {
+                        onLinkCustomizerClose();
+                        setLinkColor("blackAlpha");
+                      }}
+                    />
+                    <Tag
+                      size="sm"
+                      variant="subtle"
+                      borderRadius="sm"
+                      colorScheme={linkColor}
+                      cursor="pointer"
+                    >
+                      {!linkSearch.length ? "Custom" : linkSearch}
+                    </Tag>
+                  </MenuItem>
+
+                  {/* Preset Link Tag */}
+                  {mockData.presetLinks.map((linkPreset: LinkTag, index: number) => {
+                    if (linkPreset.label.toLowerCase().includes(linkSearch.toLowerCase())) {
+                      return (
+                        <MenuItem
                           key={index}
-                          size="sm"
-                          variant="solid"
-                          borderRadius="sm"
-                          colorScheme={tech.color.includes("#") ? undefined : tech.color}
-                          bgColor={tech.color.includes("#") ? tech.color : undefined}
+                          onClick={() => {
+                            setLinkSearch(linkPreset.label);
+                            setLinkColor(linkPreset.color);
+                            onLinkCustomizerOpen();
+                            // addTag("links", linkPreset);
+                          }}
                         >
-                          {tech.label}
-                        </Tag>
-                      ))}
-                    </Wrap>
-                  ) : (
-                    <DragAndDrop
-                      pt={3}
-                      direction="horizontal"
-                      type="stack"
-                      items={value as TechTag[]}
-                      onDragEnd={(result: any) => onDragEnd("stack", result)}
-                      onRemoveItem={(index: number) => removeTag("stack", index)}
-                    />
-                  )
-                }
-              />
-            </FormControl>
-          </Box>
-
-          <Box pt="5">
-            <FormControl isInvalid={!!formState.errors.title} width="100%">
-              {isPreview ? <Heading>Links</Heading> : <FormLabel>Links</FormLabel>}
-              {!isPreview && (
-                <Menu placement="right-start">
-                  <MenuButton as={Button}>Add New</MenuButton>
-                  <MenuList>
-                    <MenuInput
-                      type="title"
-                      onChange={(e) => setLinkSearch(e.target.value)}
-                      value={linkSearch}
-                    />
-
-                    {/* Custom Link Tag */}
-                    <MenuItem onClick={onLinkCustomizerOpen}>
-                      <LinkTagCustomizer
-                        label={!linkSearch.length ? "" : linkSearch}
-                        colorScheme={linkColor}
-                        url=""
-                        finalRef={linkCustomizerRef}
-                        isOpen={isLinkCustomizerOpen}
-                        onSubmit={(item: LinkTag) => {
-                          addTag("links", item);
-                          setLinkColor("blackAlpha");
-                        }}
-                        onClose={() => {
-                          onLinkCustomizerClose();
-                          setLinkColor("blackAlpha");
-                        }}
-                      />
-                      <Tag
-                        size="sm"
-                        variant="subtle"
-                        borderRadius="sm"
-                        colorScheme={linkColor}
-                        cursor="pointer"
-                      >
-                        {!linkSearch.length ? "Custom" : linkSearch}
-                      </Tag>
-                    </MenuItem>
-
-                    {/* Preset Link Tag */}
-                    {mockData.presetLinks.map((linkPreset: LinkTag, index: number) => {
-                      if (linkPreset.label.toLowerCase().includes(linkSearch.toLowerCase())) {
-                        return (
-                          <MenuItem
-                            key={index}
-                            onClick={() => {
-                              setLinkSearch(linkPreset.label);
-                              setLinkColor(linkPreset.color);
-                              onLinkCustomizerOpen();
-                              // addTag("links", linkPreset);
-                            }}
+                          <Tag
+                            size="sm"
+                            variant="subtle"
+                            borderRadius="sm"
+                            colorScheme={linkPreset.color}
+                            cursor="pointer"
                           >
-                            <Tag
-                              size="sm"
-                              variant="subtle"
-                              borderRadius="sm"
-                              colorScheme={linkPreset.color}
-                              cursor="pointer"
-                            >
-                              {linkPreset.label}
-                            </Tag>
-                          </MenuItem>
-                        );
-                      }
-                    })}
-                  </MenuList>
-                </Menu>
-              )}
-              <Controller
-                control={control}
-                name="links"
-                render={({ field: { value } }) =>
-                  isPreview ? (
-                    <Wrap pt="2">
-                      {/* THIS IS NOT AN ARRAY??? */}
-                      {(!!(value as LinkTag[]).length ? (value as LinkTag[]) : []).map(
-                        (link: LinkTag, index) => (
-                          <Link href={link.url} key={index} lineHeight={1} isExternal>
-                            <Tag
-                              key={index}
-                              size="sm"
-                              variant="subtle"
-                              borderRadius="sm"
-                              colorScheme={link.color.includes("#") ? undefined : link.color}
-                              bgColor={
-                                link.color.includes("#") ? hexToRgbA(link.color, 0.3) : undefined
-                              }
-                              textColor={
-                                link.color.includes("#") ? colorShade(link.color, -100) : undefined
-                              }
-                            >
-                              <TagLeftIcon boxSize={2.5} as={LinkIcon} />
-                              <TagLabel ml={-1}>{link.label}</TagLabel>
-                            </Tag>
-                          </Link>
-                        )
-                      )}
-                    </Wrap>
-                  ) : (
-                    <DragAndDrop
-                      pt={3}
-                      direction="horizontal"
-                      type="links"
-                      items={value as LinkTag[]}
-                      onDragEnd={(result: any) => onDragEnd("links", result)}
-                      onRemoveItem={(index: number) => removeTag("links", index)}
-                    />
-                  )
-                }
-              />
-            </FormControl>
-          </Box>
-
-          {/* <Box pt="5">
-            <Heading>Links</Heading>
-            <Wrap pt="2">
-              {mockData.links.map((links: LinkTag, index) => (
-                <Link href={links.url} key={index} lineHeight={1} isExternal>
-                  <Tag size="sm" variant="subtle" borderRadius="sm" colorScheme={links.color}>
-                    <TagLeftIcon boxSize={2.5} as={LinkIcon} />
-                    <TagLabel ml={-1}>{links.label}</TagLabel>
-                  </Tag>
-                </Link>
-              ))}
-            </Wrap>
-          </Box> */}
+                            {linkPreset.label}
+                          </Tag>
+                        </MenuItem>
+                      );
+                    }
+                  })}
+                </MenuList>
+              </Menu>
+            )}
+            <Controller
+              control={control}
+              name="links"
+              render={({ field: { value } }) =>
+                isPreview ? (
+                  <Wrap pt="2">
+                    {/* THIS IS NOT AN ARRAY??? */}
+                    {(!!(value as LinkTag[]).length ? (value as LinkTag[]) : []).map(
+                      (link: LinkTag, index) => (
+                        <Link href={link.url} key={index} lineHeight={1} isExternal>
+                          <Tag
+                            key={index}
+                            size="sm"
+                            variant="subtle"
+                            borderRadius="sm"
+                            colorScheme={link.color.includes("#") ? undefined : link.color}
+                            bgColor={
+                              link.color.includes("#") ? hexToRgbA(link.color, 0.3) : undefined
+                            }
+                            textColor={
+                              link.color.includes("#") ? colorShade(link.color, -100) : undefined
+                            }
+                          >
+                            <TagLeftIcon boxSize={2.5} as={LinkIcon} />
+                            <TagLabel ml={-1}>{link.label}</TagLabel>
+                          </Tag>
+                        </Link>
+                      )
+                    )}
+                  </Wrap>
+                ) : (
+                  <DragAndDrop
+                    pt={3}
+                    direction="horizontal"
+                    type="links"
+                    items={value as LinkTag[]}
+                    onDragEnd={(result: any) => onDragEnd("links", result)}
+                    onRemoveItem={(index: number) => removeTag("links", index)}
+                  />
+                )
+              }
+            />
+          </Section>
         </Box>
         <Spacer />
         <ProjectSideButtons
@@ -512,8 +503,12 @@ const ProjectEditor = ({
         />
       </Flex>
 
-      <Box pt="5">
-        {isPreview ? <Heading>Images</Heading> : <FormLabel>Images</FormLabel>}
+      <Section
+        label="Images"
+        isPreview={isPreview}
+        error={[!!formState.errors.imageUrls, "Images are required"]}
+        noPt
+      >
         {!isPreview ? (
           <div>
             <Button onClick={() => console.log("should open FileCustomizerModal")}>Add New</Button>
@@ -541,10 +536,14 @@ const ProjectEditor = ({
             </ScrollContainer>
           </div>
         )}
-      </Box>
+      </Section>
 
-      <Box pt="5">
-        {isPreview ? <Heading>Team Members</Heading> : <FormLabel>Team Members</FormLabel>}
+      <Section
+        label="Project Members"
+        isPreview={isPreview}
+        error={[!!formState.errors.members, "Project Members are required"]}
+        noPt
+      >
         {!isPreview ? (
           <div>TODO</div>
         ) : (
@@ -568,7 +567,7 @@ const ProjectEditor = ({
             ))}
           </SimpleGrid>
         )}
-      </Box>
+      </Section>
     </CardBody>
   );
 };
