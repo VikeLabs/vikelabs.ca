@@ -1,23 +1,61 @@
-import { Box } from "@chakra-ui/react";
-import React, { useCallback } from "react";
+import { Box, Center, Text, VStack } from "@chakra-ui/react";
+import React from "react";
 import { useDropzone } from "react-dropzone";
 
-const FileUploader = () => {
-  const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-    console.log(Array.isArray(acceptedFiles));
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+const FileUploader = ({
+  onDrop,
+  accept,
+}: {
+  onDrop: (acceptedFiles: any) => void;
+  accept: { [key: string]: string[] };
+}) => {
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    maxFiles: 1,
+    accept,
+  });
 
   return (
-    <div {...getRootProps()}>
-      <input {...getInputProps()} />
-      {isDragActive ? (
-        <Box>Drop the files here ...</Box>
-      ) : (
-        <p>Drag 'n' drop some files here, or click to select files</p>
-      )}
-    </div>
+    <Box
+      w="full"
+      h="full"
+      bgColor="cyan.100"
+      borderColor="cyan.400"
+      borderWidth="3px"
+      borderRadius="8"
+      borderStyle="dashed"
+      color="cyan.600"
+      px="3"
+      py="2"
+      _hover={{
+        background: "cyan.100",
+        borderColor: "cyan.600",
+        color: "cyan.800",
+      }}
+      {...getRootProps()}
+    >
+      <Center h="full">
+        <VStack textAlign="center" alignItems="center" spacing="0">
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <Text as="h3" fontWeight="600">
+              Drop
+            </Text>
+          ) : (
+            <>
+              <Text as="h3" fontWeight="600">
+                Upload
+              </Text>
+              <Text as="h3" fontWeight="600">
+                {Object.keys(accept)
+                  .map((key: string) => accept[key])[0]
+                  .join(", ")}
+              </Text>
+            </>
+          )}
+        </VStack>
+      </Center>
+    </Box>
   );
 };
 

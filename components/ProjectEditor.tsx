@@ -58,6 +58,10 @@ const ProjectEditor = ({
     const descriptionHtml = editor.getHTML();
     console.log(descriptionHtml);
     console.log("Form submitted: ", data);
+
+    // TODO: Find files in project.imageUrls that are not in data.imageUrls, and delete from Supabase storage
+    // TODO: Find files in data.imageUrls that are not in project.imageUrls, and upload to Supabase storage
+
     // editUserMutation.mutate(data, {
     //   onSuccess: (response) => {
     //     if (response.ok) {
@@ -242,7 +246,11 @@ const ProjectEditor = ({
             isPreview ? (
               <View.Images value={value ? (value as ImageInfo[]) : []} />
             ) : (
-              <Edit.Images />
+              <Edit.Images
+                value={value ? (value as ImageInfo[]) : []}
+                getValues={getValues}
+                setImages={(items: ImageInfo[]) => setValue("imageUrls", items)}
+              />
             )
           }
         />

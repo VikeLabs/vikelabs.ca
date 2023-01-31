@@ -3,8 +3,11 @@ import { ProjectInfo } from "@prisma/client";
 export type UserEditorForm = Omit<GetLoggedInUserResponse, "id" | "role">;
 
 export type ImageInfo = {
-  aria: string;
-  url: string;
+  label: string;
+  fileName: string;
+  file?: any;
+  url?: string;
+  isPending?: boolean;
 };
 
 export type TechTag = {

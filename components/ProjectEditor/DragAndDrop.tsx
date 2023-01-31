@@ -1,9 +1,9 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Box, HStack, IconButton, Tag, Wrap } from "@chakra-ui/react";
+import { Box, HStack, IconButton, Image, Tag, Text, Wrap } from "@chakra-ui/react";
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ScrollContainer from "react-indiana-drag-scroll";
-import { LinkTag, TechTag } from "../../types";
+import { ImageInfo, LinkTag, TechTag } from "../../types";
 import { colorShade, hexToRgbA } from "../../utils/colorHelpers";
 
 export const DraggableRecruitingPositions = ({
@@ -124,6 +124,47 @@ export const DraggableLinkTags = ({
               ml="1"
               size="1xs"
               aria-label="delete link tag"
+              icon={<DeleteIcon />}
+              onClick={() => onRemoveItem(index)}
+              variant="ghost"
+            />
+          </HStack>
+        )}
+      </Draggable>
+    ))}
+  </>
+);
+
+// TODO: There's some flickering when images are dragged / dropped
+export const DraggableImages = ({
+  items,
+  onRemoveItem,
+}: {
+  items: ImageInfo[];
+  onRemoveItem: (index: number) => void;
+}) => (
+  <>
+    {(!!items.length ? (items as ImageInfo[]) : []).map((image: ImageInfo, index: number) => (
+      <Draggable key={`${image.label}/${index}`} draggableId={String(index)} index={index}>
+        {(provided) => (
+          <HStack
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            spacing={1}
+          >
+            {image.isPending && (
+              <Box position="relative" zIndex="2" w="full">
+                <Box position="absolute" left="0" bottom="0" bgColor="teal">
+                  <Text>NEW</Text>
+                </Box>
+              </Box>
+            )}
+            <Image alt={image.label} src={image.url} w={100} h={100} />
+            <IconButton
+              ml="1"
+              size="1xs"
+              aria-label="delete image"
               icon={<DeleteIcon />}
               onClick={() => onRemoveItem(index)}
               variant="ghost"
