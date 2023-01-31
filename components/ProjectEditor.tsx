@@ -254,17 +254,13 @@ const ProjectEditor = ({
               <Controller
                 control={control}
                 name="recruiting"
-                render={({ field: { onChange, value } }) => {
-                  if (isPreview && value) {
-                    return (
-                      <Badge colorScheme="cyan" display="block">
-                        recruiting
-                      </Badge>
-                    );
-                  } else if (!isPreview) {
-                    return <Switch ml="2" size="lg" isChecked={value} onChange={onChange} />;
-                  }
-                }}
+                render={({ field: { onChange, value } }) =>
+                  isPreview ? (
+                    <View.Recruiting value={value} />
+                  ) : (
+                    <Edit.Recruiting value={value} onChange={onChange} />
+                  )
+                }
               />
             </Section>
           </Wrap>
