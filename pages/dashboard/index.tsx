@@ -17,7 +17,7 @@ const Member = () => {
   const loggedInUser = useLoggedInUser(user?.id, user?.token);
   const editUserMutation = useEditUserMutation(user?.id, user?.token);
   const [isEditing, setIsEditing] = useState(false);
-  const { formState, handleSubmit, control, reset } = useForm<UserEditorForm>({
+  const { formState, handleSubmit, control, getValues, reset } = useForm<UserEditorForm>({
     defaultValues: {
       vId: "",
       username: "",
@@ -139,6 +139,7 @@ const Member = () => {
               { label: "Profile Picture", controlName: "imageUrl" },
               { label: "Github Username", controlName: "github" },
             ]}
+            getValues={getValues}
             formState={formState}
             onEdit={() => setIsEditing(true)}
             onCancel={() => {

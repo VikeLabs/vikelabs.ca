@@ -1,5 +1,5 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Box, HStack, IconButton, Image, Tag, Text, Wrap } from "@chakra-ui/react";
+import { Box, HStack, IconButton, Image, Tag, Wrap } from "@chakra-ui/react";
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ScrollContainer from "react-indiana-drag-scroll";

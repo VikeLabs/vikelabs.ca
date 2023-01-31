@@ -1,5 +1,5 @@
 import React from "react";
-import { CardBody, Box, Flex, Spacer, Wrap } from "@chakra-ui/react";
+import { CardBody, Box, Flex, Spacer, Wrap, Button, HStack } from "@chakra-ui/react";
 import { MemberInfo, ProjectInfoLeadView } from "../types";
 import { ProjectInfo } from "@prisma/client";
 import { ImageInfo, LinkTag, TechTag } from "../types";
@@ -13,6 +13,8 @@ import Section from "./ProjectEditor/Section";
 import Underline from "@tiptap/extension-underline";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
+import ApprovalNotice from "../components/ApprovalNotice";
+import { deepDirtyChecker } from "../utils/needApproval";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -39,18 +41,19 @@ const ProjectEditor = ({
   // TODO: When modified, disable the editor button. previewer now uses the edited project values
   // TODO: If the user edits, it should replace the current draft if it hasnt been approved
   // const [projectInfo, setProjectInfo] = useState(project);
-  const { formState, control, watch, getValues, setValue } = useForm<ProjectEditorForm>({
-    defaultValues: {
-      title: project.title,
-      recruiting: project.recruiting,
-      recruitingFor: project.recruitingFor as string[],
-      description: project.description,
-      stack: project.stack as TechTag[],
-      links: project.links as LinkTag[],
-      imageUrls: project.imageUrls as ImageInfo[],
-      members,
-    },
-  });
+  const { formState, control, handleSubmit, watch, getValues, setValue } =
+    useForm<ProjectEditorForm>({
+      defaultValues: {
+        title: project.title,
+        recruiting: project.recruiting,
+        recruitingFor: project.recruitingFor as string[],
+        description: project.description,
+        stack: project.stack as TechTag[],
+        links: project.links as LinkTag[],
+        imageUrls: project.imageUrls as ImageInfo[],
+        members,
+      },
+    });
   const watchRecruiting = watch("recruiting");
   const watchStack = watch("stack");
   const watchLinks = watch("links");
@@ -65,6 +68,7 @@ const ProjectEditor = ({
     // TODO: Find files in project.imageUrls that are not in data.imageUrls, and delete from Supabase storage
     // TODO: Find files in data.imageUrls that are not in project.imageUrls, and upload to Supabase storage
 
+    // TODO: Check if need approval
     // editUserMutation.mutate(data, {
     //   onSuccess: (response) => {
     //     if (response.ok) {
@@ -86,6 +90,9 @@ const ProjectEditor = ({
       attributes: {
         class: "py-2.5 px-4 rounded-md mr-4 border",
       },
+    },
+    onUpdate: ({ editor }) => {
+      setValue("description", editor.getHTML());
     },
     content: formState.defaultValues.description,
   });
@@ -234,7 +241,36 @@ const ProjectEditor = ({
           onPreview={onPreview}
           isEditing
           isPreview={isPreview}
-          isDirty={formState.isDirty}
+          isDirty={
+            deepDirtyChecker(
+              [
+                { label: "Title", controlName: "title", deepCheck: false },
+                {
+                  label: "Description",
+                  controlName: "description",
+                  deepCheck: true,
+                  orderMatters: true,
+                },
+                {
+                  label: "Open Positions",
+                  controlName: "recruitingFor",
+                  deepCheck: true,
+                  orderMatters: true,
+                },
+                { label: "Stack", controlName: "stack", deepCheck: true, orderMatters: true },
+                { label: "Links", controlName: "links", deepCheck: true, orderMatters: true },
+                { label: "Images", controlName: "imageUrls", deepCheck: true, orderMatters: true },
+                {
+                  label: "Team Members",
+                  controlName: "members",
+                  deepCheck: true,
+                  orderMatters: true,
+                },
+              ],
+              formState,
+              getValues
+            ).length > 0
+          }
         />
       </Flex>
       <Section
@@ -277,6 +313,23 @@ const ProjectEditor = ({
           }
         />
       </Section>
+      {/* TODO: This is not correctly identifying changes to RecruitingFor, Stack, Links, Images */}
+      <ApprovalNotice
+        isEditing={true}
+        fieldNames={[
+          { label: "Title", controlName: "title" },
+          { label: "Description", controlName: "description", deepCheck: true },
+          { label: "Open Positions", controlName: "recruitingFor", deepCheck: true },
+          { label: "Stack", controlName: "stack", deepCheck: true },
+          { label: "Links", controlName: "links", deepCheck: true },
+          { label: "Images", controlName: "imageUrls", deepCheck: true },
+          // TODO: Need to add "label" to Members array for ApprovalNotice
+          // { label: "Members", controlName: "members", deepCheck: true },
+        ]}
+        getValues={getValues}
+        formState={formState}
+        onSubmit={handleSubmit(onSubmit)}
+      />
     </CardBody>
   );
 };
