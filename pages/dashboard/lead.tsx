@@ -137,6 +137,7 @@ const Lead = () => {
           </CardBody>
         </Card>
       )}
+      {project.isError && <div>Error loading project info for user id: {user?.id}</div>}
     </DashboardWrapper>
   );
 };

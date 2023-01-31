@@ -5,7 +5,7 @@ import { TechTag } from "../../../types";
 const Stack = ({ value }: { value: TechTag[] }) => {
   return (
     <Wrap pt="2">
-      {(value ? (value as TechTag[]) : []).map((item: TechTag, index) => (
+      {value.map((item: TechTag, index) => (
         <Tag
           key={index}
           size="sm"

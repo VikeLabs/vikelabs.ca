@@ -43,7 +43,7 @@ const ProjectLeadView = ({
         <Box pr="2">
           <Wrap align="center">
             <Heading size="xs">{project.title}</Heading>
-            <Badge colorScheme="cyan">recruiting</Badge>
+            {project.recruiting && <Badge colorScheme="cyan">recruiting</Badge>}
           </Wrap>
           <AvatarGroup pt="2" size="md" max={5}>
             {mockData.memberInfo.map((member: MemberInfo) => (

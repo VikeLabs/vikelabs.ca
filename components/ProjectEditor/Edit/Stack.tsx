@@ -43,7 +43,7 @@ const Stack = ({
 
   const addTag = (itemToAdd: TechTag) => {
     const items = getValues().stack as TechTag[];
-    (items as TechTag[]).push(itemToAdd as TechTag);
+    items.push(itemToAdd);
     setStack(items);
     setSearch("");
   };
@@ -61,11 +61,8 @@ const Stack = ({
         />
         <PresetTechTags search={search} onClick={(item: TechTag) => addTag(item)} />
       </PresetMenu>
-      <DragAndDrop pt={3} direction="horizontal" onDragEnd={(result: any) => onDragEnd(result)}>
-        <DraggableTechTags
-          items={value as TechTag[]}
-          onRemoveItem={(index: number) => removeTag(index)}
-        />
+      <DragAndDrop pt={3} onDragEnd={(result: any) => onDragEnd(result)} direction="horizontal">
+        <DraggableTechTags items={value} onRemoveItem={(index: number) => removeTag(index)} />
       </DragAndDrop>
     </>
   );

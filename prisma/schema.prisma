@@ -48,7 +48,7 @@ model ProjectInfo {
   stack          Json
   imageUrls      Json
   recruiting     Boolean
-  recruitingFor  String
+  recruitingFor  Json
   updatedBy      String // username
   updatedAt      DateTime  @default(now())
   approvedBy     String? // if this is empty then it didnt get / need approval

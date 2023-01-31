@@ -44,7 +44,7 @@ const Links = ({
 
   const addTag = (itemToAdd: LinkTag) => {
     const items = getValues().links as LinkTag[];
-    (items as LinkTag[]).push(itemToAdd as LinkTag);
+    items.push(itemToAdd);
     setLinks(items);
     setSearch("");
   };
@@ -76,11 +76,8 @@ const Links = ({
           }}
         />
       </PresetMenu>
-      <DragAndDrop pt={3} direction="horizontal" onDragEnd={(result: any) => onDragEnd(result)}>
-        <DraggableLinkTags
-          items={value as LinkTag[]}
-          onRemoveItem={(index: number) => removeTag(index)}
-        />
+      <DragAndDrop pt={3} onDragEnd={(result: any) => onDragEnd(result)} direction="horizontal">
+        <DraggableLinkTags items={value} onRemoveItem={(index: number) => removeTag(index)} />
       </DragAndDrop>
     </>
   );

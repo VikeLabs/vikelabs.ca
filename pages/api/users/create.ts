@@ -30,6 +30,7 @@ export async function createNewUser(id: string, userFromInput: CreateUserRequest
     firstName: userFromInput.firstName,
     lastName: userFromInput.lastName,
     github: userFromInput.github,
+    discord: userFromInput.discord,
     imageUrl: userFromInput.imageUrl,
     role: "member",
   };

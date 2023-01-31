@@ -36,18 +36,23 @@ const ProjectEditor = ({
   // TODO: When modified, disable the editor button. previewer now uses the edited project values
   // TODO: If the user edits, it should replace the current draft if it hasnt been approved
   // const [projectInfo, setProjectInfo] = useState(project);
-  const { formState, control, getValues, setValue } = useForm<ProjectEditorForm>({
+  const { formState, control, watch, getValues, setValue } = useForm<ProjectEditorForm>({
     defaultValues: {
       title: project.title,
-      description: project.description,
-      links: project.links as LinkTag[],
-      stack: project.stack as TechTag[],
-      imageUrls: project.imageUrls as ImageInfo[],
       recruiting: project.recruiting,
-      recruitingFor: project.recruitingFor,
+      recruitingFor: project.recruitingFor as string[],
+      description: project.description,
+      stack: project.stack as TechTag[],
+      links: project.links as LinkTag[],
+      imageUrls: project.imageUrls as ImageInfo[],
       members,
     },
   });
+  const watchRecruiting = watch("recruiting");
+  const watchStack = watch("stack");
+  const watchLinks = watch("links");
+  const watchImages = watch("imageUrls");
+  const watchMembers = watch("members");
 
   const onSubmit = (data: ProjectEditorForm) => {
     const descriptionHtml = editor.getHTML();
@@ -81,8 +86,8 @@ const ProjectEditor = ({
   return (
     <CardBody>
       <Flex>
-        <Box width="100%">
-          <Wrap align="center" m="-1" p="1" mr="4" spacing="2">
+        <Box width="100%" mr="5">
+          <Wrap align="center" m="-1" p="1" spacing="2">
             <Section
               label="Title"
               isPreview={isPreview}
@@ -93,6 +98,7 @@ const ProjectEditor = ({
               <Controller
                 control={control}
                 name="title"
+                rules={{ required: true }}
                 render={({ field: { onChange, value } }) =>
                   isPreview ? (
                     <View.Title value={value} />
@@ -102,13 +108,7 @@ const ProjectEditor = ({
                 }
               />
             </Section>
-            <Section
-              label="Recruiting"
-              isPreview={isPreview}
-              error={[!!formState.errors.recruiting, "Recruiting is required"]}
-              noPt
-              noHeading
-            >
+            <Section label="Recruiting?" isPreview={isPreview} noPt noHeading>
               <Controller
                 control={control}
                 name="recruiting"
@@ -123,17 +123,36 @@ const ProjectEditor = ({
             </Section>
           </Wrap>
           <Section
-            label="Recruiting For"
+            label="Open Positions"
             isPreview={isPreview}
-            error={[!!formState.errors.recruiting, "Recruiting For is required"]}
-            noPt
+            error={[
+              !!formState.errors.recruitingFor,
+              "This is required since you set your 'Recruiting?' switch to on.",
+            ]}
             noHeading
+            hidden={!watchRecruiting}
           >
             <Controller
               control={control}
               name="recruitingFor"
-              render={({ field: {} }) =>
-                isPreview ? <View.RecruitingFor /> : <Edit.RecruitingFor />
+              rules={{
+                validate: {
+                  requiredWhenRecruiting: (value) =>
+                    !getValues().recruiting ||
+                    (getValues().recruiting && (value as string[]).length > 0),
+                },
+              }}
+              render={({ field: { value } }) =>
+                watchRecruiting &&
+                (isPreview ? (
+                  <View.RecruitingFor value={value ? (value as string[]) : []} />
+                ) : (
+                  <Edit.RecruitingFor
+                    value={value as string[]}
+                    getValues={getValues}
+                    setPositions={(items: string[]) => setValue("recruitingFor", items)}
+                  />
+                ))
               }
             />
           </Section>
@@ -145,6 +164,7 @@ const ProjectEditor = ({
             <Controller
               control={control}
               name="description"
+              rules={{ required: true }}
               render={({ field: { onChange, value } }) =>
                 isPreview ? (
                   <View.Description value={value} />
@@ -157,7 +177,8 @@ const ProjectEditor = ({
           <Section
             label="Stack"
             isPreview={isPreview}
-            error={[!!formState.errors.description, "Stack is required"]}
+            disabled={(watchStack ? (watchStack as TechTag[]) : []).length === 0}
+            noPb={(watchStack ? (watchStack as TechTag[]) : []).length === 0}
           >
             <Controller
               control={control}
@@ -167,7 +188,7 @@ const ProjectEditor = ({
                   <View.Stack value={value ? (value as TechTag[]) : []} />
                 ) : (
                   <Edit.Stack
-                    value={value as TechTag[]}
+                    value={value ? (value as TechTag[]) : []}
                     getValues={getValues}
                     setStack={(items: TechTag[]) => setValue("stack", items)}
                   />
@@ -178,17 +199,18 @@ const ProjectEditor = ({
           <Section
             label="Links"
             isPreview={isPreview}
-            error={[!!formState.errors.description, "Stack is required"]}
+            disabled={(watchLinks ? (watchLinks as LinkTag[]) : []).length === 0}
+            noPb={(watchLinks ? (watchLinks as LinkTag[]) : []).length === 0}
           >
             <Controller
               control={control}
               name="links"
               render={({ field: { value } }) =>
                 isPreview ? (
-                  <View.Links value={!!(value as LinkTag[]).length ? (value as LinkTag[]) : []} />
+                  <View.Links value={value ? (value as LinkTag[]) : []} />
                 ) : (
                   <Edit.Links
-                    value={value as LinkTag[]}
+                    value={value ? (value as LinkTag[]) : []}
                     getValues={getValues}
                     setLinks={(items: LinkTag[]) => setValue("links", items)}
                   />
@@ -211,7 +233,7 @@ const ProjectEditor = ({
         label="Images"
         isPreview={isPreview}
         error={[!!formState.errors.imageUrls, "Images are required"]}
-        noPt
+        disabled={(watchImages ? (watchImages as ImageInfo[]) : []).length === 0}
       >
         <Controller
           control={control}
@@ -229,7 +251,7 @@ const ProjectEditor = ({
         label="Project Members"
         isPreview={isPreview}
         error={[!!formState.errors.members, "Project Members are required"]}
-        noPt
+        disabled={(watchMembers ? (watchMembers as MemberInfo[]) : []).length === 0}
       >
         <Controller
           control={control}

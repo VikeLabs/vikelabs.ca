@@ -6,6 +6,48 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import { LinkTag, TechTag } from "../../types";
 import { colorShade, hexToRgbA } from "../../utils/colorHelpers";
 
+export const DraggableRecruitingPositions = ({
+  items,
+  onRemoveItem,
+}: {
+  items: string[];
+  onRemoveItem: (index: number) => void;
+}) => (
+  <>
+    {(!!items.length ? (items as string[]) : []).map((position: string, index: number) => (
+      <Draggable key={`${position}/${index}`} draggableId={String(index)} index={index}>
+        {(provided) => (
+          <HStack
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            spacing={1}
+          >
+            <Tag
+              size="sm"
+              variant="subtle"
+              borderRadius="sm"
+              colorScheme="blackAlpha"
+              cursor="grab"
+              height="auto"
+            >
+              {position}
+            </Tag>
+            <IconButton
+              ml="1"
+              size="1xs"
+              aria-label="delete position"
+              icon={<DeleteIcon />}
+              onClick={() => onRemoveItem(index)}
+              variant="ghost"
+            />
+          </HStack>
+        )}
+      </Draggable>
+    ))}
+  </>
+);
+
 export const DraggableTechTags = ({
   items,
   onRemoveItem,
@@ -15,13 +57,12 @@ export const DraggableTechTags = ({
 }) => (
   <>
     {(!!items.length ? (items as TechTag[]) : []).map((tech: TechTag, index: number) => (
-      <Draggable key={index} draggableId={String(index)} index={index}>
+      <Draggable key={`${tech.label}/${index}`} draggableId={String(index)} index={index}>
         {(provided) => (
           <HStack
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            key={index}
             spacing={1}
           >
             <Tag
@@ -59,13 +100,12 @@ export const DraggableLinkTags = ({
 }) => (
   <>
     {(!!items.length ? (items as LinkTag[]) : []).map((link: LinkTag, index: number) => (
-      <Draggable key={index} draggableId={String(index)} index={index}>
+      <Draggable key={`${link.label}/${index}`} draggableId={String(index)} index={index}>
         {(provided) => (
           <HStack
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            key={index}
             spacing={1}
           >
             <Tag
@@ -97,26 +137,26 @@ export const DraggableLinkTags = ({
 
 const DragAndDrop = ({
   pt,
-  direction,
   onDragEnd,
   children,
+  direction = "horizontal",
 }: {
   pt: number;
-  direction: string;
   onDragEnd: (result: any) => void;
   children: React.ReactNode;
+  direction: string;
 }) => {
   // TODO: Scrolling is buggy
   return (
     <Box pt={pt}>
-      <ScrollContainer className="list mb-1 flex overflow-auto" hideScrollbars={false}>
-        <div className="flex-shrink-0 mx-4 overflow-hidden rounded bg-placeholder-light">
+      <ScrollContainer className="list flex" hideScrollbars={false}>
+        <div className="flex-shrink-0 overflow-hidden rounded bg-placeholder-light">
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppable" direction={direction}>
               {(provided) => (
                 <>
                   <div ref={provided.innerRef} {...provided.droppableProps}>
-                    <Wrap p={0} m={0} spacing={3} pr={48}>
+                    <Wrap p={0} m={0} spacing={3} pr={direction === "horizontal" && 48}>
                       {children}
                     </Wrap>
                   </div>

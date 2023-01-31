@@ -5,7 +5,7 @@ import { ImageInfo } from "../../../types";
 
 const Images = ({ value }: { value: ImageInfo[] }) => {
   return (
-    <ScrollContainer className="list mt-4 mb-1 flex overflow-auto" hideScrollbars={false}>
+    <ScrollContainer className="list mt-2 mb-1 flex overflow-auto" hideScrollbars={false}>
       {value.map((image: ImageInfo, index: number) => (
         <div
           key={index}
