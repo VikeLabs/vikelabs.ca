@@ -49,6 +49,12 @@ import SectionLabel from "./ProjectEditor/SectionLabel";
 import Section from "./ProjectEditor/Section";
 import { Edit } from "./ProjectEditor/Edit/_index";
 import { View } from "./ProjectEditor/Preview/_index";
+import PresetMenu, {
+  CustomLinkTag,
+  CustomTechTag,
+  PresetLinkTags,
+  PresetTechTags,
+} from "./ProjectEditor/PresetMenu";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -185,27 +191,6 @@ const ProjectEditor = ({
   const [linkSearch, setLinkSearch] = useState("");
   const [linkColor, setLinkColor] = useState("blackAlpha");
 
-  const navigationKeys = ["ArrowUp", "ArrowDown", "Escape"];
-  const MenuInput = (props) => {
-    const { role, ...rest } = useMenuItem(props);
-    return (
-      <Box px="3" role={role}>
-        <Input
-          mb="2"
-          placeholder="Enter technology"
-          size="sm"
-          {...rest}
-          onKeyDown={(e) => {
-            if (!navigationKeys.includes(e.key)) {
-              e.stopPropagation();
-            }
-          }}
-        />
-      </Box>
-    );
-  };
-
-  //
   const {
     isOpen: isTechCustomizerOpen,
     onOpen: onTechCustomizerOpen,
@@ -288,55 +273,20 @@ const ProjectEditor = ({
             error={[!!formState.errors.description, "Stack is required"]}
           >
             {!isPreview && (
-              <Menu placement="right-start">
-                <MenuButton as={Button}>Add New</MenuButton>
-                <MenuList>
-                  <MenuInput
-                    type="title"
-                    onChange={(e) => setTechSearch(e.target.value)}
-                    value={techSearch}
-                  />
-
-                  {/* Custom Tech Tag */}
-                  <MenuItem onClick={onTechCustomizerOpen}>
-                    <TechTagCustomizer
-                      label={!techSearch.length ? "" : techSearch}
-                      finalRef={techCustomizerRef}
-                      isOpen={isTechCustomizerOpen}
-                      onSubmit={(item: TechTag) => addTag("stack", item)}
-                      onClose={onTechCustomizerClose}
-                    />
-                    <Tag
-                      size="sm"
-                      variant="solid"
-                      borderRadius="sm"
-                      bgColor="#333"
-                      cursor="pointer"
-                    >
-                      {!techSearch.length ? "Custom" : techSearch}
-                    </Tag>
-                  </MenuItem>
-
-                  {/* Preset Tech Tag */}
-                  {mockData.presetStack.map((techPreset: TechTag, index: number) => {
-                    if (techPreset.label.toLowerCase().includes(techSearch.toLowerCase())) {
-                      return (
-                        <MenuItem key={index} onClick={() => addTag("stack", techPreset)}>
-                          <Tag
-                            size="sm"
-                            variant="solid"
-                            borderRadius="sm"
-                            colorScheme={techPreset.color}
-                            cursor="pointer"
-                          >
-                            {techPreset.label}
-                          </Tag>
-                        </MenuItem>
-                      );
-                    }
-                  })}
-                </MenuList>
-              </Menu>
+              <PresetMenu search={techSearch} setSearch={(value: string) => setTechSearch(value)}>
+                <CustomTechTag
+                  search={techSearch}
+                  addItem={(item: TechTag) => addTag("stack", item)}
+                  isOpen={isTechCustomizerOpen}
+                  onOpen={onTechCustomizerOpen}
+                  onClose={onTechCustomizerClose}
+                  finalRef={techCustomizerRef}
+                />
+                <PresetTechTags
+                  search={techSearch}
+                  onClick={(item: TechTag) => addTag("stack", item)}
+                />
+              </PresetMenu>
             )}
             <Controller
               control={control}
@@ -377,71 +327,31 @@ const ProjectEditor = ({
             error={[!!formState.errors.description, "Stack is required"]}
           >
             {!isPreview && (
-              <Menu placement="right-start">
-                <MenuButton as={Button}>Add New</MenuButton>
-                <MenuList>
-                  <MenuInput
-                    type="title"
-                    onChange={(e) => setLinkSearch(e.target.value)}
-                    value={linkSearch}
-                  />
-
-                  {/* Custom Link Tag */}
-                  <MenuItem onClick={onLinkCustomizerOpen}>
-                    <LinkTagCustomizer
-                      label={!linkSearch.length ? "" : linkSearch}
-                      colorScheme={linkColor}
-                      url=""
-                      finalRef={linkCustomizerRef}
-                      isOpen={isLinkCustomizerOpen}
-                      onSubmit={(item: LinkTag) => {
-                        addTag("links", item);
-                        setLinkColor("blackAlpha");
-                      }}
-                      onClose={() => {
-                        onLinkCustomizerClose();
-                        setLinkColor("blackAlpha");
-                      }}
-                    />
-                    <Tag
-                      size="sm"
-                      variant="subtle"
-                      borderRadius="sm"
-                      colorScheme={linkColor}
-                      cursor="pointer"
-                    >
-                      {!linkSearch.length ? "Custom" : linkSearch}
-                    </Tag>
-                  </MenuItem>
-
-                  {/* Preset Link Tag */}
-                  {mockData.presetLinks.map((linkPreset: LinkTag, index: number) => {
-                    if (linkPreset.label.toLowerCase().includes(linkSearch.toLowerCase())) {
-                      return (
-                        <MenuItem
-                          key={index}
-                          onClick={() => {
-                            setLinkSearch(linkPreset.label);
-                            setLinkColor(linkPreset.color);
-                            onLinkCustomizerOpen();
-                            // addTag("links", linkPreset);
-                          }}
-                        >
-                          <Tag
-                            size="sm"
-                            variant="subtle"
-                            borderRadius="sm"
-                            colorScheme={linkPreset.color}
-                            cursor="pointer"
-                          >
-                            {linkPreset.label}
-                          </Tag>
-                        </MenuItem>
-                      );
-                    }
-                  })}
-                </MenuList>
-              </Menu>
+              <PresetMenu search={linkSearch} setSearch={setLinkSearch}>
+                <CustomLinkTag
+                  search={linkSearch}
+                  isOpen={isLinkCustomizerOpen}
+                  onOpen={onLinkCustomizerOpen}
+                  finalRef={linkCustomizerRef}
+                  linkColor={linkColor}
+                  onSubmit={(item: LinkTag) => {
+                    addTag("links", item);
+                    setLinkColor("blackAlpha");
+                  }}
+                  onClose={() => {
+                    onLinkCustomizerClose();
+                    setLinkColor("blackAlpha");
+                  }}
+                />
+                <PresetLinkTags
+                  search={linkSearch}
+                  onClick={(label: string, color: string) => {
+                    setLinkSearch(label);
+                    setLinkColor(color);
+                    onLinkCustomizerOpen();
+                  }}
+                />
+              </PresetMenu>
             )}
             <Controller
               control={control}
