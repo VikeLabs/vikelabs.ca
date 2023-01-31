@@ -1,60 +1,15 @@
-import React, { useState } from "react";
-import {
-  Card,
-  CardBody,
-  Heading,
-  Box,
-  Text,
-  Badge,
-  Tag,
-  Flex,
-  Spacer,
-  TagLabel,
-  TagLeftIcon,
-  Avatar,
-  Link,
-  Wrap,
-  SimpleGrid,
-  FormControl,
-  FormLabel,
-  Input,
-  FormErrorMessage,
-  Switch,
-  Menu,
-  MenuButton,
-  MenuList,
-  Button,
-  MenuItem,
-  useMenuItem,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { LinkIcon } from "@chakra-ui/icons";
+import React from "react";
+import { CardBody, Box, Flex, Spacer, Wrap } from "@chakra-ui/react";
 import { MemberInfo, ProjectInfoLeadView } from "../types";
 import { ProjectInfo } from "@prisma/client";
-import ScrollContainer from "react-indiana-drag-scroll";
-import Image from "next/image";
 import { ImageInfo, LinkTag, TechTag } from "../types";
 import ProjectSideButtons from "./ProjectSideButtons";
-import { mockData } from "../utils/mockData";
 import { Controller, useForm } from "react-hook-form";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import TechTagCustomizer from "./TechTagCustomizer";
-import DragAndDrop from "./DragAndDrop";
-import LinkTagCustomizer from "./LinkTagCustomizer";
-import { colorShade, hexToRgbA } from "../utils/colorHelpers";
-import * as DOMPurify from "dompurify";
-import FileUploader from "./FileUploader";
-import SectionLabel from "./ProjectEditor/SectionLabel";
-import Section from "./ProjectEditor/Section";
 import { Edit } from "./ProjectEditor/Edit/_index";
 import { View } from "./ProjectEditor/Preview/_index";
-import PresetMenu, {
-  CustomLinkTag,
-  CustomTechTag,
-  PresetLinkTags,
-  PresetTechTags,
-} from "./ProjectEditor/PresetMenu";
+import Section from "./ProjectEditor/Section";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -86,8 +41,7 @@ const ProjectEditor = ({
       title: project.title,
       description: project.description,
       links: project.links as LinkTag[],
-      stack: project.stack as TechTag[], // this should be an array
-      // stack: project.stack,
+      stack: project.stack as TechTag[],
       imageUrls: project.imageUrls as ImageInfo[],
       recruiting: project.recruiting,
       recruitingFor: project.recruitingFor,
@@ -124,87 +78,6 @@ const ProjectEditor = ({
     content: formState.defaultValues.description,
   });
 
-  // react-dnd
-  const reorder = (list: TechTag[] | LinkTag[], startIndex: number, endIndex: number) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
-  };
-
-  const onDragEnd = (type: "stack" | "links", result: any) => {
-    const items = getValues()?.[type];
-    if (!result.destination) {
-      return;
-    }
-    switch (type) {
-      case "stack":
-        setValue(
-          "stack",
-          reorder(items as TechTag[], result.source.index, result.destination.index)
-        );
-        break;
-      case "links":
-        setValue(
-          "links",
-          reorder(items as LinkTag[], result.source.index, result.destination.index)
-        );
-        break;
-    }
-  };
-
-  const removeTag = (type: "stack" | "links", index: number) => {
-    const items = getValues()?.[type];
-    switch (type) {
-      case "stack":
-        (items as TechTag[]).splice(index, 1);
-        setValue("stack", items);
-        setTechSearch("");
-        break;
-      case "links":
-        (items as LinkTag[]).splice(index, 1);
-        setValue("links", items);
-        setLinkSearch("");
-        break;
-    }
-  };
-
-  const addTag = (type: "stack" | "links", itemToAdd: TechTag | LinkTag) => {
-    const items = getValues()?.[type];
-    switch (type) {
-      case "stack":
-        console.log(items);
-        (items as TechTag[]).push(itemToAdd as TechTag);
-        setValue("stack", items);
-        setTechSearch("");
-        break;
-      case "links":
-        (items as LinkTag[]).push(itemToAdd as LinkTag);
-        setValue("links", items);
-        setLinkSearch("");
-        break;
-    }
-    console.log(getValues()?.[type]);
-  };
-
-  const [techSearch, setTechSearch] = useState("");
-  const [linkSearch, setLinkSearch] = useState("");
-  const [linkColor, setLinkColor] = useState("blackAlpha");
-
-  const {
-    isOpen: isTechCustomizerOpen,
-    onOpen: onTechCustomizerOpen,
-    onClose: onTechCustomizerClose,
-  } = useDisclosure();
-  const techCustomizerRef = React.useRef(null);
-
-  const {
-    isOpen: isLinkCustomizerOpen,
-    onOpen: onLinkCustomizerOpen,
-    onClose: onLinkCustomizerClose,
-  } = useDisclosure();
-  const linkCustomizerRef = React.useRef(null);
-
   return (
     <CardBody>
       <Flex>
@@ -229,7 +102,6 @@ const ProjectEditor = ({
                 }
               />
             </Section>
-
             <Section
               label="Recruiting"
               isPreview={isPreview}
@@ -250,7 +122,6 @@ const ProjectEditor = ({
               />
             </Section>
           </Wrap>
-
           <Section
             label="Recruiting For"
             isPreview={isPreview}
@@ -266,7 +137,6 @@ const ProjectEditor = ({
               }
             />
           </Section>
-
           <Section
             label="Description"
             isPreview={isPreview}
@@ -284,7 +154,6 @@ const ProjectEditor = ({
               }
             />
           </Section>
-
           <Section
             label="Stack"
             isPreview={isPreview}
@@ -306,7 +175,6 @@ const ProjectEditor = ({
               }
             />
           </Section>
-
           <Section
             label="Links"
             isPreview={isPreview}
@@ -333,14 +201,12 @@ const ProjectEditor = ({
         <ProjectSideButtons
           id={id}
           project={project}
-          members={members}
           onEditor={onEditor}
           onPreview={onPreview}
           isEditing
           isPreview={isPreview}
         />
       </Flex>
-
       <Section
         label="Images"
         isPreview={isPreview}
@@ -359,7 +225,6 @@ const ProjectEditor = ({
           }
         />
       </Section>
-
       <Section
         label="Project Members"
         isPreview={isPreview}

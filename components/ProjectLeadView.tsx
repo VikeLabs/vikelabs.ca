@@ -84,7 +84,6 @@ const ProjectLeadView = ({
         <ProjectSideButtons
           id={id}
           project={project}
-          members={members}
           onEditor={onEditor}
           onPreview={onPreview}
           isPreview={isPreview}

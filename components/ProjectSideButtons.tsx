@@ -19,12 +19,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React from "react";
-import { MemberInfo, ProjectInfoLeadView } from "../types";
+import { ProjectInfoLeadView } from "../types";
 
 const ProjectSideButtons = ({
   id,
   project,
-  members,
   onEditor,
   onPreview,
   isEditing = false,
@@ -32,7 +31,6 @@ const ProjectSideButtons = ({
 }: {
   id: number;
   project: ProjectInfoLeadView;
-  members: MemberInfo[];
   onEditor?: () => void;
   onPreview?: () => void;
   isEditing?: boolean;

@@ -61,7 +61,6 @@ const Project = ({
           <ProjectSideButtons
             id={id}
             project={project}
-            members={members}
             onEditor={onEditor}
             onPreview={onPreview}
             isPreview
