@@ -39,6 +39,7 @@ export type MemberInfo = {
   imageUrl?: string;
   github?: string;
   discord?: string;
+  isCredited: boolean;
 };
 
 export type GetLoggedInUserResponse = {

@@ -68,6 +68,8 @@ const ImageCustomizer = ({
         setImagePreviewURL("");
         onClose();
       }}
+      isCentered
+      preserveScrollBarGap
     >
       <ModalOverlay />
       <ModalContent>

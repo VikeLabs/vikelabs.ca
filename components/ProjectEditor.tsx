@@ -88,7 +88,7 @@ const ProjectEditor = ({
     extensions: [StarterKit, Underline, Subscript, Superscript],
     editorProps: {
       attributes: {
-        class: "py-2.5 px-4 rounded-md mr-4 border",
+        class: "py-2.5 px-4 rounded-md mr-4 border desc",
       },
     },
     onUpdate: ({ editor }) => {
@@ -308,7 +308,7 @@ const ProjectEditor = ({
             isPreview ? (
               <View.Members value={value ? (value as MemberInfo[]) : []} />
             ) : (
-              <Edit.Members />
+              <Edit.Members value={value ? (value as MemberInfo[]) : []} />
             )
           }
         />

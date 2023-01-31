@@ -3,23 +3,29 @@ import React from "react";
 import { MemberInfo } from "../../../types";
 
 const Members = ({ value }: { value: MemberInfo[] }) => {
+  console.log(value);
   return (
     <SimpleGrid pt="2" spacing={4} templateColumns="repeat(auto-fill, minmax(200px, 1fr))">
-      {value.map((value: MemberInfo) => (
-        // TODO: values does not have users where isCredited is false
-        // TODO: Need to change backend to return info to the lead about values
-        // TODO: We only need the isCredited for public project view endpoint
-        <Card size="sm" key={value.id}>
-          <CardBody>
-            <Flex>
-              <Avatar src={value.imageUrl} name={value.displayName ?? value.username} />
-              <Box ml="3">
-                <Text fontWeight="bold">{value.displayName ?? value.username}</Text>
-                <Text fontSize="sm">Member</Text>
-              </Box>
-            </Flex>
-          </CardBody>
-        </Card>
+      {value.map((member: MemberInfo, index: number) => (
+        <>
+          {member.isCredited && (
+            <Card size="sm" key={`${member.id}/${index}`}>
+              <CardBody>
+                <Flex>
+                  <Avatar src={member.imageUrl} name={member.displayName ?? member.username} />
+                  <Box ml="2.5">
+                    <Text fontWeight="600" p="0" m="0">
+                      {member.displayName ?? member.username}
+                    </Text>
+                    <Text fontSize="sm" p="0" m="0">
+                      Member
+                    </Text>
+                  </Box>
+                </Flex>
+              </CardBody>
+            </Card>
+          )}
+        </>
       ))}
     </SimpleGrid>
   );

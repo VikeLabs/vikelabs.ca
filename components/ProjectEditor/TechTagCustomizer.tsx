@@ -50,6 +50,8 @@ const TechTagCustomizer = ({
         setLabel("");
         onClose();
       }}
+      isCentered
+      preserveScrollBarGap
     >
       <ModalOverlay />
       <ModalContent>

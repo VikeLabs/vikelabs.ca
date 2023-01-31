@@ -37,22 +37,21 @@ export async function getProjectMembers(id: number) {
     .members();
   const memberInfos: MemberInfo[] = [];
   for (const member of members) {
-    if (member.isCredited) {
-      const memberInfo = await prisma.user.findUnique({
-        where: {
-          id: member.memberId,
-        },
-      });
-      const { id, username, displayName, imageUrl, github, discord } = memberInfo;
-      memberInfos.push({
-        id,
-        username,
-        displayName,
-        imageUrl,
-        github,
-        discord,
-      });
-    }
+    const memberInfo = await prisma.user.findUnique({
+      where: {
+        id: member.memberId,
+      },
+    });
+    const { id, username, displayName, imageUrl, github, discord } = memberInfo;
+    memberInfos.push({
+      id,
+      username,
+      displayName,
+      imageUrl,
+      github,
+      discord,
+      isCredited: member.isCredited,
+    });
   }
   return memberInfos;
 }

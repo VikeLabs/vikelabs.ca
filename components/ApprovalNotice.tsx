@@ -52,7 +52,7 @@ const ApprovalNotice = ({
             </button>
           )}
 
-          <HStack spacing="3">
+          <HStack pt="3" spacing="3">
             <Button>Save Draft</Button>
             {fieldsThatRequireApproval.length === 0 ? (
               <Button colorScheme="teal" onClick={onSubmit}>

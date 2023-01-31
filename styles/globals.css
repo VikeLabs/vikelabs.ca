@@ -16,7 +16,7 @@ body {
   height: 100%;
 }
 
-p:not(:last-child) {
+.desc p:not(:last-child) {
   margin-bottom: 0.5rem;
 }
 

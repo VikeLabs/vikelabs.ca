@@ -64,6 +64,8 @@ const LinkTagCustomizer = ({
         setColor("");
         onClose();
       }}
+      isCentered
+      preserveScrollBarGap
     >
       <ModalOverlay />
       <ModalContent>

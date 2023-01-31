@@ -87,6 +87,7 @@ const Lead = () => {
 
   const live = project.data?.live;
   const draft = project.data?.draft;
+  const members = project.data?.members;
 
   // Mock data
   const mockMembers: MemberInfo[] = [
@@ -121,7 +122,7 @@ const Lead = () => {
               {live && (
                 <Box>
                   <ProjectHeader heading="Live Info" text="This info is public on the website" />
-                  <ProjectCard id={project.data?.id} project={live} members={mockMembers} />
+                  <ProjectCard id={project.data?.id} project={live} members={members} />
                 </Box>
               )}
               {draft && (
@@ -130,7 +131,7 @@ const Lead = () => {
                     heading="Draft Info"
                     text="This info is pending approval from the admins"
                   />
-                  <ProjectCard id={project.data?.id} project={draft} members={mockMembers} />
+                  <ProjectCard id={project.data?.id} project={draft} members={members} />
                 </Box>
               )}
             </Stack>
