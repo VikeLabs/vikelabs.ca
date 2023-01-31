@@ -47,6 +47,8 @@ import * as DOMPurify from "dompurify";
 import FileUploader from "./FileUploader";
 import SectionLabel from "./ProjectEditor/SectionLabel";
 import Section from "./ProjectEditor/Section";
+import { Edit } from "./ProjectEditor/Edit";
+import { View } from "./ProjectEditor/Preview";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -228,26 +230,26 @@ const ProjectEditor = ({
               isPreview={isPreview}
               error={[!!formState.errors.title, "Title is required"]}
               noPt
+              noHeading
             >
               <Controller
                 control={control}
                 name="title"
                 render={({ field: { onChange, value } }) =>
                   isPreview ? (
-                    <Heading as="h3" size="lg">
-                      {value}
-                    </Heading>
+                    <View.Title value={value} />
                   ) : (
-                    <Input type="title" value={value} onChange={onChange} minWidth={300} />
+                    <Edit.Title value={value} onChange={onChange} />
                   )
                 }
               />
             </Section>
             <Section
-              label="Title"
+              label="Recruiting"
               isPreview={isPreview}
               error={[!!formState.errors.recruiting, "Recruiting is required"]}
               noPt
+              noHeading
             >
               <Controller
                 control={control}

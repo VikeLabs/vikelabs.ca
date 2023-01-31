@@ -8,17 +8,19 @@ const Section = ({
   children,
   error = [],
   noPt = false,
+  noHeading = false,
 }: {
   label: string;
   isPreview: boolean;
   children: React.ReactNode;
   error?: [boolean, string] | []; // isError, errorMessage
   noPt?: boolean;
+  noHeading?: boolean;
 }) => {
   return (
     <Box pt={noPt ? 0 : 2}>
       <FormControl isInvalid={error.length === 2 ? error[0] : false} width="auto">
-        <SectionLabel label={label} isPreview={isPreview} />
+        <SectionLabel label={label} isPreview={isPreview} noHeading={noHeading} />
         {error.length === 2 && <FormErrorMessage>{error[1]}</FormErrorMessage>}
         <Box pb="2">{children}</Box>
       </FormControl>
