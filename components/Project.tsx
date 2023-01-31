@@ -104,7 +104,7 @@ const Project = ({
                 key={index}
                 className="mr-2 flex-shrink-0 overflow-hidden rounded bg-placeholder-light dark:bg-placeholder-dark"
               >
-                <Image loading="eager" src={image.url} height={400} width={400} alt={image.aria} />
+                <Image loading="eager" src={image.url} height={400} width={400} alt={image.label} />
               </div>
             ))}
           </ScrollContainer>

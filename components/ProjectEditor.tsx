@@ -234,6 +234,7 @@ const ProjectEditor = ({
           onPreview={onPreview}
           isEditing
           isPreview={isPreview}
+          isDirty={formState.isDirty}
         />
       </Flex>
       <Section

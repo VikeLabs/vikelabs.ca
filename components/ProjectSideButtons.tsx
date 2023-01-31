@@ -8,11 +8,14 @@ import {
 } from "@chakra-ui/icons";
 import {
   Box,
+  Button,
   IconButton,
   Popover,
+  PopoverArrow,
   PopoverBody,
   PopoverCloseButton,
   PopoverContent,
+  PopoverHeader,
   PopoverTrigger,
   Portal,
   Text,
@@ -28,6 +31,7 @@ const ProjectSideButtons = ({
   onPreview,
   isEditing = false,
   isPreview = false,
+  isDirty = false,
 }: {
   id: number;
   project: ProjectInfoLeadView;
@@ -35,21 +39,48 @@ const ProjectSideButtons = ({
   onPreview?: () => void;
   isEditing?: boolean;
   isPreview?: boolean;
+  isDirty?: boolean;
 }) => {
   return (
     <Box>
       <VStack>
         {isEditing ? (
           <>
-            <IconButton
-              aria-label={`Edit ${project.title}`}
-              colorScheme={isEditing ? "red" : "gray"}
-              icon={isEditing ? <CloseIcon /> : <EditIcon />}
-              onClick={() => {
-                if (isPreview) onPreview();
-                onEditor();
-              }}
-            />
+            {isDirty ? (
+              <Popover placement="left-start">
+                <PopoverTrigger>
+                  <IconButton aria-label={"Exit editor"} colorScheme={"red"} icon={<CloseIcon />} />
+                </PopoverTrigger>
+                <Portal>
+                  <PopoverContent>
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverBody>
+                      <Text>Your unsaved changes will be lost.</Text>
+                      <Button
+                        colorScheme="red"
+                        onClick={() => {
+                          if (isPreview) onPreview();
+                          onEditor();
+                        }}
+                      >
+                        Exit without saving
+                      </Button>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Portal>
+              </Popover>
+            ) : (
+              <IconButton
+                aria-label={"Exit editor"}
+                colorScheme={"red"}
+                icon={<CloseIcon />}
+                onClick={() => {
+                  if (isPreview) onPreview();
+                  onEditor();
+                }}
+              />
+            )}
             <IconButton
               aria-label={isPreview ? "Exit preview" : `View ${project.title}`}
               colorScheme={isPreview ? "teal" : "gray"}

@@ -153,14 +153,13 @@ export const DraggableImages = ({
             {...provided.dragHandleProps}
             spacing={1}
           >
-            {image.isPending && (
-              <Box position="relative" zIndex="2" w="full">
-                <Box position="absolute" left="0" bottom="0" bgColor="teal">
-                  <Text>NEW</Text>
-                </Box>
-              </Box>
-            )}
-            <Image alt={image.label} src={image.url} w={100} h={100} />
+            <Image
+              alt={image.label}
+              src={image.url}
+              w={0}
+              h={0}
+              style={{ width: "auto", height: "80px" }}
+            />
             <IconButton
               ml="1"
               size="1xs"
