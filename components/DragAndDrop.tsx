@@ -2,6 +2,7 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { Box, HStack, IconButton, Tag, Wrap } from "@chakra-ui/react";
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import ScrollContainer from "react-indiana-drag-scroll";
 import { LinkTag, TechTag } from "../types";
 import { colorShade, hexToRgbA } from "../utils/colorHelpers";
 
@@ -108,22 +109,27 @@ const DragAndDrop = ({
     }
   };
 
+  // TODO: Scrolling is buggy
   return (
     <Box pt={pt}>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="droppable" direction={direction}>
-          {(provided) => (
-            <>
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                <Wrap p={0} m={0} spacing={3}>
-                  <DragContent />
-                </Wrap>
-              </div>
-              <span style={{ position: "absolute" }}>{provided.placeholder}</span>
-            </>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <ScrollContainer className="list mb-1 flex overflow-auto" hideScrollbars={false}>
+        <div className="flex-shrink-0 mx-4 overflow-hidden rounded bg-placeholder-light">
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="droppable" direction={direction}>
+              {(provided) => (
+                <>
+                  <div ref={provided.innerRef} {...provided.droppableProps}>
+                    <Wrap p={0} m={0} spacing={3} pr={48}>
+                      <DragContent />
+                    </Wrap>
+                  </div>
+                  <span style={{ position: "absolute" }}>{provided.placeholder}</span>
+                </>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </div>
+      </ScrollContainer>
     </Box>
   );
 };

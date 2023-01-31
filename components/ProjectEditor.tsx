@@ -44,6 +44,7 @@ import DragAndDrop from "./DragAndDrop";
 import LinkTagCustomizer from "./LinkTagCustomizer";
 import { colorShade, hexToRgbA } from "../utils/colorHelpers";
 import * as DOMPurify from "dompurify";
+import FileUploader from "./FileUploader";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -510,44 +511,63 @@ const ProjectEditor = ({
           isPreview={isPreview}
         />
       </Flex>
-      {/* TODO: NEXT */}
+
       <Box pt="5">
-        <Heading>Images</Heading>
-        <div>
-          <ScrollContainer className="list mt-4 mb-1 flex overflow-auto" hideScrollbars={false}>
-            {mockData.images.map((image: ImageInfo, index: number) => (
-              <div
-                key={index}
-                className="mr-2 flex-shrink-0 overflow-hidden rounded bg-placeholder-light dark:bg-placeholder-dark"
-              >
-                {/* Should set height to 400 and calculate width based off height of image */}
-                <Image loading="eager" src={image.url} height={400} width={400} alt={image.aria} />
-              </div>
-            ))}
-          </ScrollContainer>
-        </div>
+        {isPreview ? <Heading>Images</Heading> : <FormLabel>Images</FormLabel>}
+        {!isPreview ? (
+          <div>
+            <Button onClick={() => console.log("should open FileCustomizerModal")}>Add New</Button>
+            <FileUploader />
+            <div>TODO: Image reorder/previewer</div>
+          </div>
+        ) : (
+          <div>
+            <ScrollContainer className="list mt-4 mb-1 flex overflow-auto" hideScrollbars={false}>
+              {mockData.images.map((image: ImageInfo, index: number) => (
+                <div
+                  key={index}
+                  className="mr-2 flex-shrink-0 overflow-hidden rounded bg-placeholder-light dark:bg-placeholder-dark"
+                >
+                  {/* Should set height to 400 and calculate width based off height of image */}
+                  <Image
+                    loading="eager"
+                    src={image.url}
+                    height={400}
+                    width={400}
+                    alt={image.aria}
+                  />
+                </div>
+              ))}
+            </ScrollContainer>
+          </div>
+        )}
       </Box>
+
       <Box pt="5">
-        <Heading>Project Members</Heading>
-        <SimpleGrid pt="2" spacing={4} templateColumns="repeat(auto-fill, minmax(200px, 1fr))">
-          {}
-          {members.map((member: MemberInfo) => (
-            // TODO: members does not have users where isCredited is false
-            // TODO: Need to change backend to return info to the lead about members
-            // TODO: We only need the isCredited for public project view endpoint
-            <Card size="sm" key={member.id}>
-              <CardBody>
-                <Flex>
-                  <Avatar src={member.imageUrl} name={member.displayName ?? member.username} />
-                  <Box ml="3">
-                    <Text fontWeight="bold">{member.displayName ?? member.username}</Text>
-                    <Text fontSize="sm">Member</Text>
-                  </Box>
-                </Flex>
-              </CardBody>
-            </Card>
-          ))}
-        </SimpleGrid>
+        {isPreview ? <Heading>Team Members</Heading> : <FormLabel>Team Members</FormLabel>}
+        {!isPreview ? (
+          <div>TODO</div>
+        ) : (
+          <SimpleGrid pt="2" spacing={4} templateColumns="repeat(auto-fill, minmax(200px, 1fr))">
+            {}
+            {members.map((member: MemberInfo) => (
+              // TODO: members does not have users where isCredited is false
+              // TODO: Need to change backend to return info to the lead about members
+              // TODO: We only need the isCredited for public project view endpoint
+              <Card size="sm" key={member.id}>
+                <CardBody>
+                  <Flex>
+                    <Avatar src={member.imageUrl} name={member.displayName ?? member.username} />
+                    <Box ml="3">
+                      <Text fontWeight="bold">{member.displayName ?? member.username}</Text>
+                      <Text fontSize="sm">Member</Text>
+                    </Box>
+                  </Flex>
+                </CardBody>
+              </Card>
+            ))}
+          </SimpleGrid>
+        )}
       </Box>
     </CardBody>
   );

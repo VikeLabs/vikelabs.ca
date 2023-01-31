@@ -47,10 +47,12 @@
     "react-beautiful-dnd": "^13.1.1",
     "react-colorful": "^5.6.1",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.42.1",
     "react-icons": "^4.4.0",
-    "react-indiana-drag-scroll": "^2.2.0"
+    "react-indiana-drag-scroll": "^2.2.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^9.3.0",
