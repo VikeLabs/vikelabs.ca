@@ -3,8 +3,8 @@ import { Box, HStack, IconButton, Tag, Wrap } from "@chakra-ui/react";
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ScrollContainer from "react-indiana-drag-scroll";
-import { LinkTag, TechTag } from "../types";
-import { colorShade, hexToRgbA } from "../utils/colorHelpers";
+import { LinkTag, TechTag } from "../../types";
+import { colorShade, hexToRgbA } from "../../utils/colorHelpers";
 
 export const DraggableTechTags = ({
   items,

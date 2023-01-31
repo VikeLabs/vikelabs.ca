@@ -12,8 +12,8 @@ import {
 import React from "react";
 import { LinkTag, TechTag } from "../../types";
 import { mockData } from "../../utils/mockData";
-import LinkTagCustomizer from "../LinkTagCustomizer";
-import TechTagCustomizer from "../TechTagCustomizer";
+import LinkTagCustomizer from "./LinkTagCustomizer";
+import TechTagCustomizer from "./TechTagCustomizer";
 
 const navigationKeys = ["ArrowUp", "ArrowDown", "Escape"];
 

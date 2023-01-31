@@ -2,7 +2,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { UseFormGetValues } from "react-hook-form";
 import { TechTag } from "../../../types";
-import DragAndDrop, { DraggableTechTags } from "../../DragAndDrop";
+import DragAndDrop, { DraggableTechTags } from "../DragAndDrop";
 import { ProjectEditorForm } from "../../ProjectEditor";
 import PresetMenu, { CustomTechTag, PresetTechTags } from "../PresetMenu";
 

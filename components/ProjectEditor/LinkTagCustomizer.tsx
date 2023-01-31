@@ -15,8 +15,8 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import { LinkTag } from "../types";
-import { colorShade, hexToRgbA } from "../utils/colorHelpers";
+import { LinkTag } from "../../types";
+import { colorShade, hexToRgbA } from "../../utils/colorHelpers";
 
 const LinkTagCustomizer = ({
   label: tagLabel,

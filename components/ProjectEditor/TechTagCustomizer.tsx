@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import { TechTag } from "../types";
+import { TechTag } from "../../types";
 
 const TechTagCustomizer = ({
   label: techLabel,

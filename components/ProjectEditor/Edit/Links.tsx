@@ -2,7 +2,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { UseFormGetValues } from "react-hook-form";
 import { LinkTag } from "../../../types";
-import DragAndDrop, { DraggableLinkTags } from "../../DragAndDrop";
+import DragAndDrop, { DraggableLinkTags } from "../DragAndDrop";
 import { ProjectEditorForm } from "../../ProjectEditor";
 import PresetMenu, { CustomLinkTag, PresetLinkTags } from "../PresetMenu";
 
