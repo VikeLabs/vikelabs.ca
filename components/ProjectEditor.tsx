@@ -88,7 +88,7 @@ const ProjectEditor = ({
       links: project.links as LinkTag[],
       stack: project.stack as TechTag[], // this should be an array
       // stack: project.stack,
-      imageUrls: project.imageUrls,
+      imageUrls: project.imageUrls as ImageInfo[],
       recruiting: project.recruiting,
       recruitingFor: project.recruitingFor,
       members,
@@ -252,6 +252,22 @@ const ProjectEditor = ({
           </Wrap>
 
           <Section
+            label="Recruiting For"
+            isPreview={isPreview}
+            error={[!!formState.errors.recruiting, "Recruiting For is required"]}
+            noPt
+            noHeading
+          >
+            <Controller
+              control={control}
+              name="recruitingFor"
+              render={({ field: {} }) =>
+                isPreview ? <View.RecruitingFor /> : <Edit.RecruitingFor />
+              }
+            />
+          </Section>
+
+          <Section
             label="Description"
             isPreview={isPreview}
             error={[!!formState.errors.description, "Description is required"]}
@@ -331,33 +347,17 @@ const ProjectEditor = ({
         error={[!!formState.errors.imageUrls, "Images are required"]}
         noPt
       >
-        {!isPreview ? (
-          <div>
-            <Button onClick={() => console.log("should open FileCustomizerModal")}>Add New</Button>
-            <FileUploader />
-            <div>TODO: Image reorder/previewer</div>
-          </div>
-        ) : (
-          <div>
-            <ScrollContainer className="list mt-4 mb-1 flex overflow-auto" hideScrollbars={false}>
-              {mockData.images.map((image: ImageInfo, index: number) => (
-                <div
-                  key={index}
-                  className="mr-2 flex-shrink-0 overflow-hidden rounded bg-placeholder-light dark:bg-placeholder-dark"
-                >
-                  {/* Should set height to 400 and calculate width based off height of image */}
-                  <Image
-                    loading="eager"
-                    src={image.url}
-                    height={400}
-                    width={400}
-                    alt={image.aria}
-                  />
-                </div>
-              ))}
-            </ScrollContainer>
-          </div>
-        )}
+        <Controller
+          control={control}
+          name="imageUrls"
+          render={({ field: { value } }) =>
+            isPreview ? (
+              <View.Images value={value ? (value as ImageInfo[]) : []} />
+            ) : (
+              <Edit.Images />
+            )
+          }
+        />
       </Section>
 
       <Section
@@ -366,29 +366,17 @@ const ProjectEditor = ({
         error={[!!formState.errors.members, "Project Members are required"]}
         noPt
       >
-        {!isPreview ? (
-          <div>TODO</div>
-        ) : (
-          <SimpleGrid pt="2" spacing={4} templateColumns="repeat(auto-fill, minmax(200px, 1fr))">
-            {}
-            {members.map((member: MemberInfo) => (
-              // TODO: members does not have users where isCredited is false
-              // TODO: Need to change backend to return info to the lead about members
-              // TODO: We only need the isCredited for public project view endpoint
-              <Card size="sm" key={member.id}>
-                <CardBody>
-                  <Flex>
-                    <Avatar src={member.imageUrl} name={member.displayName ?? member.username} />
-                    <Box ml="3">
-                      <Text fontWeight="bold">{member.displayName ?? member.username}</Text>
-                      <Text fontSize="sm">Member</Text>
-                    </Box>
-                  </Flex>
-                </CardBody>
-              </Card>
-            ))}
-          </SimpleGrid>
-        )}
+        <Controller
+          control={control}
+          name="members"
+          render={({ field: { value } }) =>
+            isPreview ? (
+              <View.Members value={value ? (value as MemberInfo[]) : []} />
+            ) : (
+              <Edit.Members />
+            )
+          }
+        />
       </Section>
     </CardBody>
   );

@@ -75,9 +75,18 @@ const mockData = {
     },
   ],
   images: [
-    { aria: "grey cat", url: "https://placekitten.com/400/400" },
-    { aria: "grey cat", url: "https://placekitten.com/500/400" },
-    { aria: "grey cat", url: "https://placekitten.com/400/400" },
+    {
+      aria: "courseup-home",
+      url: "https://mvhzkbtvqchhjmqkqokr.supabase.co/storage/v1/object/public/projects/3/courseup-home.jpg",
+    },
+    {
+      aria: "courseup-timetable",
+      url: "https://mvhzkbtvqchhjmqkqokr.supabase.co/storage/v1/object/public/projects/3/courseup-timetable.jpg",
+    },
+    {
+      aria: "courseup-viewer",
+      url: "https://mvhzkbtvqchhjmqkqokr.supabase.co/storage/v1/object/public/projects/3/courseup-viewer.jpg",
+    },
   ],
 };
 
