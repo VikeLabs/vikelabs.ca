@@ -27,14 +27,14 @@ const Section = ({
     return <></>;
   }
   return (
-    <Box pt={disabled || noPt ? 0 : 2}>
+    <Box pt={disabled || noPt || (noHeading && isPreview) ? 0 : 2}>
       <FormControl
         height={disabled && isPreview && 0}
         isInvalid={error.length === 2 ? error[0] : false}
         width="auto"
       >
         <SectionLabel label={label} isPreview={isPreview} noHeading={disabled || noHeading} />
-        {error.length === 2 && <FormErrorMessage>{error[1]}</FormErrorMessage>}
+        {error.length === 2 && <FormErrorMessage pb="2">{error[1]}</FormErrorMessage>}
         <Box pb={disabled || noPb ? 0 : 2}>{children}</Box>
       </FormControl>
     </Box>

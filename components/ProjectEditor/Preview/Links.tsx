@@ -11,7 +11,7 @@ const Links = ({ value }: { value: LinkTag[] }) => {
         <Link href={item.url} key={index} lineHeight={1} isExternal>
           <Tag
             key={index}
-            size="sm"
+            size="md"
             variant="subtle"
             borderRadius="sm"
             colorScheme={item.color.includes("#") ? undefined : item.color}

@@ -81,7 +81,7 @@ const Images = ({
         onSubmit={(image: ImageInfo) => addImage(image)}
         onClose={onClose}
       />
-      <DragAndDrop pt={3} onDragEnd={(result: any) => onDragEnd(result)} direction="horizontal">
+      <DragAndDrop pt={3} onDragEnd={(result: any) => onDragEnd(result)}>
         <DraggableImages
           items={imagePreviewInfo}
           onRemoveItem={(index: number) => removeImage(index)}

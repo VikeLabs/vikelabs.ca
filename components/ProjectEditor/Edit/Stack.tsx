@@ -61,7 +61,7 @@ const Stack = ({
         />
         <PresetTechTags search={search} onClick={(item: TechTag) => addTag(item)} />
       </PresetMenu>
-      <DragAndDrop pt={3} onDragEnd={(result: any) => onDragEnd(result)} direction="horizontal">
+      <DragAndDrop pt={3} onDragEnd={(result: any) => onDragEnd(result)}>
         <DraggableTechTags items={value} onRemoveItem={(index: number) => removeTag(index)} />
       </DragAndDrop>
     </>

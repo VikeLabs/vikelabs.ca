@@ -49,7 +49,7 @@ const RecruitingFor = ({
     <>
       {isInput ? (
         <HStack>
-          <Input onChange={(e) => setInput(e.target.value)} value={input} />
+          <Input onChange={(e) => setInput(e.target.value)} value={input} w={300} />
           <Button
             onClick={() => {
               addPosition(input);
@@ -59,11 +59,19 @@ const RecruitingFor = ({
           >
             Add
           </Button>
+          <Button
+            onClick={() => {
+              setInput("");
+              setIsInput(false);
+            }}
+          >
+            Cancel
+          </Button>
         </HStack>
       ) : (
         <Button onClick={() => setIsInput(true)}>Add New</Button>
       )}{" "}
-      <DragAndDrop pt={3} onDragEnd={(result: any) => onDragEnd(result)} direction="horizontal">
+      <DragAndDrop pt={3} onDragEnd={(result: any) => onDragEnd(result)}>
         <DraggableRecruitingPositions
           items={value}
           onRemoveItem={(index: number) => removePosition(index)}

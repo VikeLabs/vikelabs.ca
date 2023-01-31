@@ -8,7 +8,7 @@ const Stack = ({ value }: { value: TechTag[] }) => {
       {value.map((item: TechTag, index) => (
         <Tag
           key={index}
-          size="sm"
+          size="md"
           variant="solid"
           borderRadius="sm"
           colorScheme={item.color.includes("#") ? undefined : item.color}

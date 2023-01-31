@@ -53,10 +53,8 @@ const ProjectSideButtons = ({
                 </PopoverTrigger>
                 <Portal>
                   <PopoverContent>
-                    <PopoverArrow />
-                    <PopoverCloseButton />
                     <PopoverBody>
-                      <Text>Your unsaved changes will be lost.</Text>
+                      <Text pb="1">Your unsaved changes will be lost.</Text>
                       <Button
                         colorScheme="red"
                         onClick={() => {

@@ -26,6 +26,7 @@ export const deepDirtyChecker = (
     if (field.deepCheck) {
       if (Array.isArray(defaultVal) && Array.isArray(currentVal)) {
         if (field.orderMatters) {
+          console.log(field.controlName, JSON.stringify(defaultVal) !== JSON.stringify(currentVal));
           if (JSON.stringify(defaultVal) !== JSON.stringify(currentVal)) {
             fieldsDirty.push(field.label);
           }

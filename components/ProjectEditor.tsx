@@ -1,5 +1,14 @@
 import React from "react";
-import { CardBody, Box, Flex, Spacer, Wrap, Button, HStack } from "@chakra-ui/react";
+import {
+  CardBody,
+  Box,
+  Flex,
+  Spacer,
+  Wrap,
+  Button,
+  HStack,
+  FormErrorMessage,
+} from "@chakra-ui/react";
 import { MemberInfo, ProjectInfoLeadView } from "../types";
 import { ProjectInfo } from "@prisma/client";
 import { ImageInfo, LinkTag, TechTag } from "../types";
@@ -54,6 +63,7 @@ const ProjectEditor = ({
         members,
       },
     });
+  watch("recruitingFor"); // for form dirtying purposes
   const watchRecruiting = watch("recruiting");
   const watchStack = watch("stack");
   const watchLinks = watch("links");
@@ -62,7 +72,6 @@ const ProjectEditor = ({
 
   const onSubmit = (data: ProjectEditorForm) => {
     const descriptionHtml = editor.getHTML();
-    console.log(descriptionHtml);
     console.log("Form submitted: ", data);
 
     // TODO: Find files in project.imageUrls that are not in data.imageUrls, and delete from Supabase storage
@@ -97,11 +106,41 @@ const ProjectEditor = ({
     content: formState.defaultValues.description,
   });
 
+  const isDirty =
+    deepDirtyChecker(
+      [
+        { label: "Title", controlName: "title", deepCheck: false },
+        {
+          label: "Description",
+          controlName: "description",
+          deepCheck: true,
+          orderMatters: true,
+        },
+        {
+          label: "Open Positions",
+          controlName: "recruitingFor",
+          deepCheck: true,
+          orderMatters: true,
+        },
+        { label: "Stack", controlName: "stack", deepCheck: true, orderMatters: true },
+        { label: "Links", controlName: "links", deepCheck: true, orderMatters: true },
+        { label: "Images", controlName: "imageUrls", deepCheck: true, orderMatters: true },
+        {
+          label: "Team Members",
+          controlName: "members",
+          deepCheck: true,
+          orderMatters: true,
+        },
+      ],
+      formState,
+      getValues
+    ).length > 0;
+
   return (
     <CardBody>
       <Flex>
         <Box width="100%" mr="5">
-          <Wrap align="center" m="-1" p="1" spacing="2">
+          <Wrap align="center" m="-1" p="1" spacing="4">
             <Section
               label="Title"
               isPreview={isPreview}
@@ -174,11 +213,17 @@ const ProjectEditor = ({
             label="Description"
             isPreview={isPreview}
             error={[!!formState.errors.description, "Description is required"]}
+            noHeading
           >
             <Controller
               control={control}
               name="description"
-              rules={{ required: true }}
+              rules={{
+                required: true,
+                validate: {
+                  descriptionNotEmpty: (value) => value !== "<p></p>",
+                },
+              }}
               render={({ field: {} }) =>
                 isPreview ? (
                   <View.Description value={editor.getHTML()} />
@@ -241,36 +286,7 @@ const ProjectEditor = ({
           onPreview={onPreview}
           isEditing
           isPreview={isPreview}
-          isDirty={
-            deepDirtyChecker(
-              [
-                { label: "Title", controlName: "title", deepCheck: false },
-                {
-                  label: "Description",
-                  controlName: "description",
-                  deepCheck: true,
-                  orderMatters: true,
-                },
-                {
-                  label: "Open Positions",
-                  controlName: "recruitingFor",
-                  deepCheck: true,
-                  orderMatters: true,
-                },
-                { label: "Stack", controlName: "stack", deepCheck: true, orderMatters: true },
-                { label: "Links", controlName: "links", deepCheck: true, orderMatters: true },
-                { label: "Images", controlName: "imageUrls", deepCheck: true, orderMatters: true },
-                {
-                  label: "Team Members",
-                  controlName: "members",
-                  deepCheck: true,
-                  orderMatters: true,
-                },
-              ],
-              formState,
-              getValues
-            ).length > 0
-          }
+          isDirty={isDirty}
         />
       </Flex>
       <Section
@@ -313,23 +329,33 @@ const ProjectEditor = ({
           }
         />
       </Section>
-      {/* TODO: This is not correctly identifying changes to RecruitingFor, Stack, Links, Images */}
-      <ApprovalNotice
-        isEditing={true}
-        fieldNames={[
-          { label: "Title", controlName: "title" },
-          { label: "Description", controlName: "description", deepCheck: true },
-          { label: "Open Positions", controlName: "recruitingFor", deepCheck: true },
-          { label: "Stack", controlName: "stack", deepCheck: true },
-          { label: "Links", controlName: "links", deepCheck: true },
-          { label: "Images", controlName: "imageUrls", deepCheck: true },
-          // TODO: Need to add "label" to Members array for ApprovalNotice
-          // { label: "Members", controlName: "members", deepCheck: true },
+      <Section
+        label=""
+        isPreview={isPreview}
+        error={[
+          Object.keys(formState.errors).length > 0,
+          "Your changes have some errors. Fix them before continuing.",
         ]}
-        getValues={getValues}
-        formState={formState}
-        onSubmit={handleSubmit(onSubmit)}
-      />
+        disabled={(watchMembers ? (watchMembers as MemberInfo[]) : []).length === 0}
+        noHeading
+      >
+        <ApprovalNotice
+          isEditing={true}
+          fieldNames={[
+            { label: "Title", controlName: "title" },
+            { label: "Description", controlName: "description", deepCheck: true },
+            { label: "Open Positions", controlName: "recruitingFor", deepCheck: true },
+            { label: "Stack", controlName: "stack", deepCheck: true },
+            { label: "Links", controlName: "links", deepCheck: true },
+            { label: "Images", controlName: "imageUrls", deepCheck: true },
+            // TODO: Need to add "label" to Members array for ApprovalNotice
+            // { label: "Members", controlName: "members", deepCheck: true },
+          ]}
+          getValues={getValues}
+          formState={formState}
+          onSubmit={handleSubmit(onSubmit)}
+        />
+      </Section>
     </CardBody>
   );
 };

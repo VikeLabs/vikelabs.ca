@@ -39,7 +39,7 @@ const ApprovalNotice = ({
   switch (isEditing) {
     case true:
       return (
-        <Box pt="3">
+        <Box>
           {fieldsThatRequireApproval.length !== 0 && (
             <Text>
               Since you edited {formatList(fieldsThatRequireApproval)}, your changes must be

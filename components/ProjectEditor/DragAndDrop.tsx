@@ -1,5 +1,17 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Box, HStack, IconButton, Image, Tag, Wrap } from "@chakra-ui/react";
+import {
+  Box,
+  Card,
+  CardBody,
+  Center,
+  HStack,
+  IconButton,
+  Image,
+  Tag,
+  Text,
+  VStack,
+  Wrap,
+} from "@chakra-ui/react";
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ScrollContainer from "react-indiana-drag-scroll";
@@ -22,17 +34,8 @@ export const DraggableRecruitingPositions = ({
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             spacing={1}
+            pb="2"
           >
-            <Tag
-              size="sm"
-              variant="subtle"
-              borderRadius="sm"
-              colorScheme="blackAlpha"
-              cursor="grab"
-              height="auto"
-            >
-              {position}
-            </Tag>
             <IconButton
               ml="1"
               size="1xs"
@@ -41,6 +44,16 @@ export const DraggableRecruitingPositions = ({
               onClick={() => onRemoveItem(index)}
               variant="ghost"
             />
+            <Tag
+              size="md"
+              variant="subtle"
+              borderRadius="sm"
+              colorScheme="blackAlpha"
+              cursor="grab"
+              height="auto"
+            >
+              {position}
+            </Tag>
           </HStack>
         )}
       </Draggable>
@@ -64,9 +77,18 @@ export const DraggableTechTags = ({
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             spacing={1}
+            pb="2"
           >
+            <IconButton
+              ml="1"
+              size="1xs"
+              aria-label="delete tech tag"
+              icon={<DeleteIcon />}
+              onClick={() => onRemoveItem(index)}
+              variant="ghost"
+            />
             <Tag
-              size="sm"
+              size="md"
               variant="solid"
               borderRadius="sm"
               colorScheme={tech.color.includes("#") ? undefined : tech.color}
@@ -76,14 +98,6 @@ export const DraggableTechTags = ({
             >
               {tech.label}
             </Tag>
-            <IconButton
-              ml="1"
-              size="1xs"
-              aria-label="delete tech tag"
-              icon={<DeleteIcon />}
-              onClick={() => onRemoveItem(index)}
-              variant="ghost"
-            />
           </HStack>
         )}
       </Draggable>
@@ -107,9 +121,18 @@ export const DraggableLinkTags = ({
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             spacing={1}
+            pb="2"
           >
+            <IconButton
+              ml="1"
+              size="1xs"
+              aria-label="delete link tag"
+              icon={<DeleteIcon />}
+              onClick={() => onRemoveItem(index)}
+              variant="ghost"
+            />
             <Tag
-              size="sm"
+              size="md"
               variant="subtle"
               borderRadius="sm"
               colorScheme={link.color.includes("#") ? undefined : link.color}
@@ -120,14 +143,6 @@ export const DraggableLinkTags = ({
             >
               {link.label}
             </Tag>
-            <IconButton
-              ml="1"
-              size="1xs"
-              aria-label="delete link tag"
-              icon={<DeleteIcon />}
-              onClick={() => onRemoveItem(index)}
-              variant="ghost"
-            />
           </HStack>
         )}
       </Draggable>
@@ -152,14 +167,8 @@ export const DraggableImages = ({
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             spacing={1}
+            pb="2"
           >
-            <Image
-              alt={image.label}
-              src={image.url}
-              w={0}
-              h={0}
-              style={{ width: "auto", height: "80px" }}
-            />
             <IconButton
               ml="1"
               size="1xs"
@@ -168,6 +177,27 @@ export const DraggableImages = ({
               onClick={() => onRemoveItem(index)}
               variant="ghost"
             />
+            <Card
+              direction={{ base: "column", sm: "row" }}
+              overflow="hidden"
+              variant="outline"
+              w="full"
+            >
+              <VStack alignItems="flex-start" justifyContent="center" spacing="0">
+                <Image
+                  alt={image.label}
+                  src={image.url}
+                  w={0}
+                  h={0}
+                  style={{ width: "auto", height: "108px" }}
+                />
+                <Text px="1" position="absolute" bottom="0" w="full" bgColor="rgb(255,255,255,0.8)">
+                  <Center h="full" justifyContent="flex-start" fontSize="sm">
+                    {image.label}
+                  </Center>
+                </Text>
+              </VStack>
+            </Card>
           </HStack>
         )}
       </Draggable>
@@ -179,34 +209,26 @@ const DragAndDrop = ({
   pt,
   onDragEnd,
   children,
-  direction = "horizontal",
 }: {
   pt: number;
   onDragEnd: (result: any) => void;
   children: React.ReactNode;
-  direction: string;
 }) => {
   // TODO: Scrolling is buggy
   return (
     <Box pt={pt}>
-      <ScrollContainer className="list flex" hideScrollbars={false}>
-        <div className="flex-shrink-0 overflow-hidden rounded bg-placeholder-light">
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="droppable" direction={direction}>
-              {(provided) => (
-                <>
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    <Wrap p={0} m={0} spacing={3} pr={direction === "horizontal" && 48}>
-                      {children}
-                    </Wrap>
-                  </div>
-                  <span style={{ position: "absolute" }}>{provided.placeholder}</span>
-                </>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </div>
-      </ScrollContainer>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="droppable" direction="vertical">
+          {(provided) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              <VStack spacing="0" align="flex-start">
+                {children}
+                {provided.placeholder}
+              </VStack>
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </Box>
   );
 };

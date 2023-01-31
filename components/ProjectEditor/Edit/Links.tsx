@@ -76,7 +76,7 @@ const Links = ({
           }}
         />
       </PresetMenu>
-      <DragAndDrop pt={3} onDragEnd={(result: any) => onDragEnd(result)} direction="horizontal">
+      <DragAndDrop pt={3} onDragEnd={(result: any) => onDragEnd(result)}>
         <DraggableLinkTags items={value} onRemoveItem={(index: number) => removeTag(index)} />
       </DragAndDrop>
     </>
