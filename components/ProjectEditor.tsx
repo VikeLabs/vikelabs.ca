@@ -47,8 +47,8 @@ import * as DOMPurify from "dompurify";
 import FileUploader from "./FileUploader";
 import SectionLabel from "./ProjectEditor/SectionLabel";
 import Section from "./ProjectEditor/Section";
-import { Edit } from "./ProjectEditor/Edit";
-import { View } from "./ProjectEditor/Preview";
+import { Edit } from "./ProjectEditor/Edit/_index";
+import { View } from "./ProjectEditor/Preview/_index";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -274,11 +274,9 @@ const ProjectEditor = ({
               name="description"
               render={({ field: { onChange, value } }) =>
                 isPreview ? (
-                  <div
-                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(editor?.getHTML()) }}
-                  />
+                  <View.Description value={value} />
                 ) : (
-                  <EditorContent editor={editor} value={value} onChange={onChange} />
+                  <Edit.Description editor={editor} value={value} onChange={onChange} />
                 )
               }
             />
