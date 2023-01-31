@@ -10,6 +10,9 @@ import StarterKit from "@tiptap/starter-kit";
 import { Edit } from "./ProjectEditor/Edit/_index";
 import { View } from "./ProjectEditor/Preview/_index";
 import Section from "./ProjectEditor/Section";
+import Underline from "@tiptap/extension-underline";
+import Subscript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -78,7 +81,7 @@ const ProjectEditor = ({
   };
 
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, Underline, Subscript, Superscript],
     editorProps: {
       attributes: {
         class: "py-2.5 px-4 rounded-md mr-4 border",
@@ -169,11 +172,11 @@ const ProjectEditor = ({
               control={control}
               name="description"
               rules={{ required: true }}
-              render={({ field: { onChange, value } }) =>
+              render={({ field: {} }) =>
                 isPreview ? (
-                  <View.Description value={value} />
+                  <View.Description value={editor.getHTML()} />
                 ) : (
-                  <Edit.Description editor={editor} value={value} onChange={onChange} />
+                  <Edit.Description editor={editor} />
                 )
               }
             />
