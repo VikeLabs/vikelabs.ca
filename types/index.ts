@@ -1,6 +1,9 @@
-import { ProjectInfo } from "@prisma/client";
+import { ProjectInfo, User } from "@prisma/client";
 
 export type UserEditorForm = Omit<GetLoggedInUserResponse, "id" | "role">;
+
+export type PublicUser = Omit<User, "vId" | "firstName" | "lastName" | "role">;
+export type UserSearchResult = Omit<PublicUser, "github" | "discord">;
 
 export type ImageInfo = {
   label: string;
@@ -38,7 +41,7 @@ export type MemberInfo = {
   imageUrl?: string;
   github?: string;
   discord?: string;
-  isCredited: boolean;
+  isCredited?: boolean;
   role?: string;
 };
 

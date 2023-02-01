@@ -8,12 +8,18 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UseFormGetValues } from "react-hook-form";
-import { MemberInfo } from "../../../types";
+import { useLoggedInUser } from "../../../hooks/useLoggedInUser";
+import { useUserSearch } from "../../../hooks/useUserSearch";
+import { MemberInfo, UserSearchResult } from "../../../types";
+import { useAuthContext } from "../../AuthContextProvider";
 import { ProjectEditorForm } from "../../ProjectEditor";
 import DragAndDrop, { DraggableMember } from "../DragAndDrop";
 import MemberCustomizer from "../MemberCustomizer";
+import PresetMenu, { MemberSelect, SearchMenu, UserSelect } from "../PresetMenu";
+import { DebounceInput } from "react-debounce-input";
+import Loading from "../../Loading";
 
 const Members = ({
   value,
@@ -30,6 +36,11 @@ const Members = ({
   const [selectedMember, setSelectedMember] = useState<{ index: number; data: MemberInfo }>(
     undefined
   );
+
+  const { user } = useAuthContext();
+  const [search, setSearch] = useState("");
+
+  const userSearch = useUserSearch(search, user?.token);
 
   const reorder = (list: MemberInfo[], startIndex: number, endIndex: number) => {
     const result = Array.from(list);
@@ -65,7 +76,7 @@ const Members = ({
   };
 
   return (
-    <SimpleGrid pt="2" spacing={4} templateColumns="repeat(auto-fill, minmax(250px, 1fr))">
+    <>
       <MemberCustomizer
         member={selectedMember}
         finalRef={finalRef}
@@ -76,7 +87,12 @@ const Members = ({
           onClose();
         }}
       />
-      <DragAndDrop pt={3} onDragEnd={onDragEnd}>
+      <SearchMenu setSearch={setSearch}>
+        {/* {userSearch.isLoading && <Loading />} */}
+        {!userSearch.data?.length && !userSearch.isLoading && <div>no matching users</div>}
+        <UserSelect data={userSearch.data} onClick={(user: UserSearchResult) => addMember(user)} />
+      </SearchMenu>
+      <DragAndDrop pt={2} onDragEnd={onDragEnd}>
         <DraggableMember
           items={value}
           onOpen={(index: number, data: MemberInfo) => {
@@ -84,10 +100,9 @@ const Members = ({
             onOpen();
           }}
           onRemoveItem={(index: number) => removeMember(index)}
-          onUpdateItem={(index: number, item: MemberInfo) => updateMember(index, item)}
         />
       </DragAndDrop>
-    </SimpleGrid>
+    </>
   );
 };
 

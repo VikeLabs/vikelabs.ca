@@ -7,10 +7,12 @@ import {
   MenuItem,
   MenuList,
   Tag,
+  Text,
   useMenuItem,
 } from "@chakra-ui/react";
 import React from "react";
-import { LinkTag, TechTag } from "../../types";
+import { DebounceInput } from "react-debounce-input";
+import { LinkTag, TechTag, UserSearchResult } from "../../types";
 import { mockData } from "../../utils/mockData";
 import LinkTagCustomizer from "./LinkTagCustomizer";
 import TechTagCustomizer from "./TechTagCustomizer";
@@ -154,6 +156,54 @@ export const PresetLinkTags = ({
     })}
   </>
 );
+
+export const UserSelect = ({
+  data,
+  onClick,
+}: {
+  data: UserSearchResult[];
+  onClick: (user: UserSearchResult) => void;
+}) => {
+  // TODO: Query specific users, debounce
+  return (
+    <>
+      {data?.map((searchResult: UserSearchResult, index: number) => (
+        <MenuItem key={index} onClick={() => onClick(searchResult)}>
+          <div key={index}>
+            <Text>
+              {searchResult.displayName}
+              {searchResult.displayName && " "}@{searchResult.username}
+            </Text>
+          </div>
+        </MenuItem>
+      ))}
+    </>
+  );
+};
+
+export const SearchMenu = ({
+  setSearch,
+  children,
+}: {
+  setSearch: (value: string) => void;
+  children: React.ReactNode;
+}) => {
+  return (
+    <Menu placement="right-start">
+      <MenuButton as={Button}>Add New</MenuButton>
+      <MenuList p="2">
+        <Input
+          // w={300}
+          as={DebounceInput}
+          minLength={2}
+          debounceTimeout={300}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        {children}
+      </MenuList>
+    </Menu>
+  );
+};
 
 const PresetMenu = ({
   search,
