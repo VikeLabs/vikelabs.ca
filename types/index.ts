@@ -4,7 +4,6 @@ export type UserEditorForm = Omit<GetLoggedInUserResponse, "id" | "role">;
 
 export type ImageInfo = {
   label: string;
-  fileName: string;
   file?: any;
   url?: string;
   isPending?: boolean;
@@ -40,6 +39,7 @@ export type MemberInfo = {
   github?: string;
   discord?: string;
   isCredited: boolean;
+  role?: string;
 };
 
 export type GetLoggedInUserResponse = {

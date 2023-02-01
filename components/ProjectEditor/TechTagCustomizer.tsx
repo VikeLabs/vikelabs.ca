@@ -90,7 +90,7 @@ const TechTagCustomizer = ({
                   onSubmit({ label, color });
                   onClose();
                 }}
-                isDisabled={!techLabel.length}
+                isDisabled={!label.length}
                 width="100%"
               >
                 Add Technology

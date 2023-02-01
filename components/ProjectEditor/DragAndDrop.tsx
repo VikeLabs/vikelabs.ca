@@ -1,22 +1,29 @@
 import { DeleteIcon } from "@chakra-ui/icons";
 import {
+  Avatar,
+  AvatarGroup,
   Box,
+  Button,
   Card,
   CardBody,
   Center,
+  Flex,
   HStack,
   IconButton,
   Image,
+  Input,
   Tag,
   Text,
+  useDisclosure,
   VStack,
   Wrap,
 } from "@chakra-ui/react";
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ScrollContainer from "react-indiana-drag-scroll";
-import { ImageInfo, LinkTag, TechTag } from "../../types";
+import { ImageInfo, LinkTag, MemberInfo, TechTag } from "../../types";
 import { colorShade, hexToRgbA } from "../../utils/colorHelpers";
+import MemberCustomizer from "./MemberCustomizer";
 
 export const DraggableRecruitingPositions = ({
   items,
@@ -204,6 +211,65 @@ export const DraggableImages = ({
     ))}
   </>
 );
+
+export const DraggableMember = ({
+  items,
+  onOpen,
+  onRemoveItem,
+}: {
+  items: MemberInfo[];
+  onOpen: (index: number, data: MemberInfo) => void;
+  onRemoveItem: (index: number) => void;
+}) => {
+  return (
+    <Box>
+      {(!!items.length ? (items as MemberInfo[]) : []).map((member: MemberInfo, index: number) => (
+        <Draggable key={`${member.id}/${index}`} draggableId={String(index)} index={index}>
+          {(provided) => (
+            <HStack
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              spacing={1}
+              pb="2"
+            >
+              <IconButton
+                ml="1"
+                size="1xs"
+                aria-label="delete image"
+                icon={<DeleteIcon />}
+                onClick={() => onRemoveItem(index)}
+                variant="ghost"
+              />
+              <Card
+                size="sm"
+                key={`${member.id}/${index}`}
+                variant={member.isCredited ? "solid" : "filled"}
+                opacity={member.isCredited ? 1 : 0.5}
+                w={200}
+              >
+                <CardBody>
+                  <Flex>
+                    <Avatar src={member.imageUrl} name={member.displayName ?? member.username} />
+                    <Box ml="2.5" w="full">
+                      <Text fontWeight="600" p="0" m="0" noOfLines={1}>
+                        {member.displayName ?? member.username}
+                      </Text>
+                      <Text fontSize="sm" p="0" m="0" noOfLines={1}>
+                        {member.role ?? "Member"}
+                      </Text>
+                    </Box>
+                  </Flex>
+                </CardBody>
+              </Card>
+              <Button onClick={() => onOpen(index, member)}>Edit</Button>
+            </HStack>
+          )}
+        </Draggable>
+      ))}
+    </Box>
+  );
+};
 
 const DragAndDrop = ({
   pt,

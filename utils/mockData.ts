@@ -76,16 +76,32 @@ const mockData = {
   ],
   images: [
     {
-      aria: "courseup-home",
+      id: "hd7212duhj",
+      label: "CourseUp Home Page",
       url: "https://mvhzkbtvqchhjmqkqokr.supabase.co/storage/v1/object/public/projects/3/courseup-home.jpg",
     },
     {
-      aria: "courseup-timetable",
+      id: "aisuhdfajskd",
+      label: "TimeTable View",
       url: "https://mvhzkbtvqchhjmqkqokr.supabase.co/storage/v1/object/public/projects/3/courseup-timetable.jpg",
     },
     {
-      aria: "courseup-viewer",
+      id: "1982uqwiahsj",
+      label: "Class Search SENG265",
       url: "https://mvhzkbtvqchhjmqkqokr.supabase.co/storage/v1/object/public/projects/3/courseup-viewer.jpg",
+    },
+  ],
+  recruitingFor: ["FrontEnd Developer", "BackEnd Developer", "Pizza Eater"],
+  members: [
+    {
+      id: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
+      isCredited: true,
+      role: "Front End Developer",
+    },
+    {
+      id: "0706feb7-1924-4ca6-9359-f8e634656803",
+      isCredited: "true",
+      role: "Back End Developer",
     },
   ],
 };

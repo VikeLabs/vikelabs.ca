@@ -55,7 +55,6 @@ const Images = ({
     // create the previews
     const mappedImagePreviewInfo: ImageInfo[] = value.map((image: ImageInfo) => ({
       label: image.label,
-      fileName: image.fileName,
       file: image.file,
       url: image.url ?? URL.createObjectURL(image.file),
       isPending: image.url ? false : true,

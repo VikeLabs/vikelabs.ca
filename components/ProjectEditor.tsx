@@ -93,6 +93,7 @@ const ProjectEditor = ({
     // });
   };
 
+  console.log(getValues().members);
   const editor = useEditor({
     extensions: [StarterKit, Underline, Subscript, Superscript],
     editorProps: {
@@ -136,6 +137,12 @@ const ProjectEditor = ({
       getValues
     ).length > 0;
 
+  // TODO for members:
+  // TODO on member add: create new ProjectHasMembers where Member ID and Project ID (int) is stored (Separate from Draft/Live)
+  // TODO on member add: update members JsonArray on ProjectInfo
+  // TODO on member add: allow team lead to reorder and enable / credit users
+  // TODO: mutual agreement to credit user on team project page is required for them to appear publicly
+  // TODO: new members are default disabled from the team list
   return (
     <CardBody>
       <Flex>
@@ -324,7 +331,11 @@ const ProjectEditor = ({
             isPreview ? (
               <View.Members value={value ? (value as MemberInfo[]) : []} />
             ) : (
-              <Edit.Members value={value ? (value as MemberInfo[]) : []} />
+              <Edit.Members
+                value={value ? (value as MemberInfo[]) : []}
+                getValues={getValues}
+                setMembers={(items: MemberInfo[]) => setValue("members", items)}
+              />
             )
           }
         />

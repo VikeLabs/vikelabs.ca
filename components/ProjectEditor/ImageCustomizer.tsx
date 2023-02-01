@@ -103,16 +103,15 @@ const ImageCustomizer = ({
               <Button
                 colorScheme="blue"
                 onClick={() => {
+                  onSubmit({
+                    label: imageCaption,
+                    file: imageFile,
+                    isPending: true,
+                  });
                   setImageFile(undefined);
                   setImageName("");
                   setImageCaption("");
                   setImagePreviewURL("");
-                  onSubmit({
-                    label: imageCaption,
-                    fileName: imageName,
-                    file: imageFile,
-                    isPending: true,
-                  });
                   onClose();
                 }}
                 isDisabled={!imageFile || !imageCaption.length || !imageName.length}

@@ -39,20 +39,22 @@ model Project {
 }
 
 model ProjectInfo {
-  id             String    @id @default(cuid())
-  projectAsDraft Project?  @relation("draft")
-  projectAsLive  Project?  @relation("live")
-  title          String
-  description    String // very long HTML string
-  links          Json
-  stack          Json
-  imageUrls      Json
-  recruiting     Boolean
-  recruitingFor  Json
-  updatedBy      String // username
-  updatedAt      DateTime  @default(now())
-  approvedBy     String? // if this is empty then it didnt get / need approval
-  approvedAt     DateTime? // same as above
+  id              String    @id @default(cuid())
+  projectAsDraft  Project?  @relation("draft")
+  projectAsLive   Project?  @relation("live")
+  title           String
+  description     String // very long HTML string
+  links           Json
+  stack           Json
+  imageUrls       Json
+  recruiting      Boolean
+  recruitingFor   Json
+  members         Json
+  updatedBy       String // username
+  updatedAt       DateTime  @default(now())
+  approvedBy      String? // if this is empty then it didnt get / need approval
+  approvedAt      DateTime? // same as above
+  requireApproval Boolean   @default(true)
 }
 
 // Users and Projects are Many-to-Many, so we need a relation table (JOIN / pivot table)
@@ -61,7 +63,8 @@ model ProjectHasMembers {
   projectId  Int
   member     User    @relation(fields: [memberId], references: [id])
   memberId   String
-  isCredited Boolean @default(false)
+  isCredited Boolean @default(false) // Set by team lead 
+  role       String?
 
   // role   String @default("")
   // assignedAt    DateTime     @default(now())

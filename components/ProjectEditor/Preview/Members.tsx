@@ -17,7 +17,7 @@ const Members = ({ value }: { value: MemberInfo[] }) => {
                       {member.displayName ?? member.username}
                     </Text>
                     <Text fontSize="sm" p="0" m="0" noOfLines={1}>
-                      Member
+                      {member.role ?? "Member"}
                     </Text>
                   </Box>
                 </Flex>
