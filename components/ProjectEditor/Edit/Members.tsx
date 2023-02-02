@@ -1,25 +1,13 @@
-import {
-  Avatar,
-  Box,
-  Card,
-  CardBody,
-  Flex,
-  SimpleGrid,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { useDisclosure } from "@chakra-ui/react";
+import React, { useState } from "react";
 import { UseFormGetValues } from "react-hook-form";
-import { useLoggedInUser } from "../../../hooks/useLoggedInUser";
 import { useUserSearch } from "../../../hooks/useUserSearch";
 import { MemberInfo, UserSearchResult } from "../../../types";
 import { useAuthContext } from "../../AuthContextProvider";
 import { ProjectEditorForm } from "../../ProjectEditor";
 import DragAndDrop, { DraggableMember } from "../DragAndDrop";
 import MemberCustomizer from "../MemberCustomizer";
-import PresetMenu, { MemberSelect, SearchMenu, UserSelect } from "../PresetMenu";
-import { DebounceInput } from "react-debounce-input";
-import Loading from "../../Loading";
+import { SearchMenu, UserSelect } from "../PresetMenu";
 
 const Members = ({
   value,

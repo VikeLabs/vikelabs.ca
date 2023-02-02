@@ -6,8 +6,6 @@ import {
   CardBody,
   Center,
   Flex,
-  Heading,
-  Image,
   Input,
   Modal,
   ModalBody,
@@ -21,9 +19,8 @@ import {
   Text,
   Wrap,
 } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useState } from "react";
-import { ImageInfo, MemberInfo } from "../../types";
-import FileUploader from "../FileUploader";
+import React, { useEffect, useState } from "react";
+import { MemberInfo } from "../../types";
 
 const MemberCustomizer = ({
   member,

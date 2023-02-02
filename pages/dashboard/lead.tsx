@@ -89,25 +89,6 @@ const Lead = () => {
   const draft = project.data?.draft;
   const members = project.data?.members;
 
-  // Mock data
-  const mockMembers: MemberInfo[] = [
-    {
-      id: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
-      username: "robchendev",
-      displayName: "Robert Chen",
-      imageUrl: "https://avatars.githubusercontent.com/u/66714443?v=4s",
-      github: "robchendev",
-      discord: "chend#1234",
-    },
-    { id: "128728912746712892", username: "someguy123" },
-    { id: "128728912746712893", username: "someguy123" },
-    { id: "128728912746712894", username: "someguy123" },
-    { id: "128728912746712895", username: "someguy123" },
-    { id: "128728912746712896", username: "someguy123" },
-  ];
-
-  // TODO: Need to get ProjectHasMembers' role property sorted out
-
   return (
     <DashboardWrapper title="Team Lead">
       {project.isLoading && <Loading />}

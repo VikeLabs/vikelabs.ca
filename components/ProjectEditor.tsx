@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  CardBody,
-  Box,
-  Flex,
-  Spacer,
-  Wrap,
-  Button,
-  HStack,
-  FormErrorMessage,
-} from "@chakra-ui/react";
+import { CardBody, Box, Flex, Spacer, Wrap } from "@chakra-ui/react";
 import { MemberInfo, ProjectInfoLeadView } from "../types";
 import { ProjectInfo } from "@prisma/client";
 import { ImageInfo, LinkTag, TechTag } from "../types";
@@ -71,7 +62,6 @@ const ProjectEditor = ({
   const watchMembers = watch("members");
 
   const onSubmit = (data: ProjectEditorForm) => {
-    const descriptionHtml = editor.getHTML();
     console.log("Form submitted: ", data);
 
     // TODO: Find files in project.imageUrls that are not in data.imageUrls, and delete from Supabase storage

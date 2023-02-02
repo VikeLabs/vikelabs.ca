@@ -1,7 +1,6 @@
 import { DeleteIcon } from "@chakra-ui/icons";
 import {
   Avatar,
-  AvatarGroup,
   Box,
   Button,
   Card,
@@ -11,19 +10,14 @@ import {
   HStack,
   IconButton,
   Image,
-  Input,
   Tag,
   Text,
-  useDisclosure,
   VStack,
-  Wrap,
 } from "@chakra-ui/react";
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import ScrollContainer from "react-indiana-drag-scroll";
 import { ImageInfo, LinkTag, MemberInfo, TechTag } from "../../types";
 import { colorShade, hexToRgbA } from "../../utils/colorHelpers";
-import MemberCustomizer from "./MemberCustomizer";
 
 export const DraggableRecruitingPositions = ({
   items,
