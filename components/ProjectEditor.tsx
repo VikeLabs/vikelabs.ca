@@ -16,9 +16,10 @@ import ApprovalNotice from "../components/ApprovalNotice";
 import { deepDirtyChecker } from "../utils/needApproval";
 import { useProjectUpdateMutation } from "../hooks/useProjectUpdateMutation";
 import { useAuthContext } from "./AuthContextProvider";
-import Loading from "./Loading";
 import { Prisma } from "@prisma/client";
 import { useImagePreviews } from "../hooks/useImagePreview";
+import { config } from "../config/config";
+import Processing from "./ProjectEditor/Processing";
 
 const ProjectEditor = ({
   id,
@@ -44,33 +45,42 @@ const ProjectEditor = ({
         description: project.description,
         stack: project.stack,
         links: project.links,
-        imageUrls: project.imageUrls, // TODO: Should separate this type into two types
+        imageUrls: project.imageUrls,
         members,
       },
     });
-
   watch("recruitingFor"); // for form dirtying purposes
   const watchRecruiting = watch("recruiting");
   const watchStack = watch("stack");
   const watchLinks = watch("links");
   const watchImages = watch("imageUrls");
   const watchMembers = watch("members");
-
   const { user, dispatch } = useAuthContext();
   const [imagesToAddCount, setImagesToAddCount] = useState(0);
   const [imagesAddedCount, setImageAddingIndex] = useState(0);
-
   const projectUpdate = useProjectUpdateMutation(
     id,
     user?.token,
     setImagesToAddCount,
     setImageAddingIndex
   );
-
   const imagePreviews = useImagePreviews(watchImages as (string | File)[], id);
-
+  const editor = useEditor({
+    extensions: [StarterKit, Underline, Subscript, Superscript],
+    editorProps: {
+      attributes: {
+        class: "py-2.5 px-4 rounded-md mr-4 border desc",
+      },
+    },
+    onUpdate: ({ editor }) => {
+      setValue("description", editor.getHTML());
+    },
+    content: formState.defaultValues.description,
+  });
+  const isDirty =
+    deepDirtyChecker(config.deepDirtyChecker.isDirty, formState, getValues).length > 0;
   const onSubmit = (data: ProjectEditorForm) => {
-    const imageUrlsToDelete: string[] = []; // path to image, eg. 1/courseup-timeline.jpg
+    const imageUrlsToDelete: string[] = [];
     const imageFilesToAdd: File[] = [];
     for (const image of data.imageUrls as (string | File)[]) {
       if (typeof image !== "string") {
@@ -82,21 +92,16 @@ const ProjectEditor = ({
         imageUrlsToDelete.push(imageUrl);
       }
     }
-    // eslint-disable-next-line
     const { imageUrls: imageData, ...rest } = data;
     const imageUrls = (imageData as ImageInfo[]).map((image: ImageInfo) =>
       typeof image === "string" ? image : image.name.toLowerCase().replaceAll(" ", "_")
     );
-    console.log("Image URLs", imageUrls);
     const projectUpdateData: ProjectUpdateData = {
       ...rest,
       imageUrls,
       imageFilesToAdd,
       imageUrlsToDelete,
     };
-
-    console.log("to add", imageFilesToAdd, "to delete", imageUrlsToDelete);
-
     projectUpdate.mutate(projectUpdateData, {
       onSuccess: (response) => {
         if (response.ok) {
@@ -112,49 +117,6 @@ const ProjectEditor = ({
     });
   };
 
-  const editor = useEditor({
-    extensions: [StarterKit, Underline, Subscript, Superscript],
-    editorProps: {
-      attributes: {
-        class: "py-2.5 px-4 rounded-md mr-4 border desc",
-      },
-    },
-    onUpdate: ({ editor }) => {
-      setValue("description", editor.getHTML());
-    },
-    content: formState.defaultValues.description,
-  });
-
-  const isDirty =
-    deepDirtyChecker(
-      [
-        { label: "Title", controlName: "title", deepCheck: false },
-        {
-          label: "Description",
-          controlName: "description",
-          deepCheck: true,
-          orderMatters: true,
-        },
-        {
-          label: "Open Positions",
-          controlName: "recruitingFor",
-          deepCheck: true,
-          orderMatters: true,
-        },
-        { label: "Stack", controlName: "stack", deepCheck: true, orderMatters: true },
-        { label: "Links", controlName: "links", deepCheck: true, orderMatters: true },
-        { label: "Images", controlName: "imageUrls", deepCheck: true, orderMatters: true },
-        {
-          label: "Team Members",
-          controlName: "members",
-          deepCheck: true,
-          orderMatters: true,
-        },
-      ],
-      formState,
-      getValues
-    ).length > 0;
-
   return (
     <CardBody>
       <Flex>
@@ -163,7 +125,7 @@ const ProjectEditor = ({
             <Section
               label="Title"
               isPreview={isPreview}
-              error={[!!formState.errors.title, "Title is required"]}
+              error={[!!formState.errors.title, config.formError.title]}
               noPt
               noHeading
             >
@@ -197,10 +159,7 @@ const ProjectEditor = ({
           <Section
             label="Open Positions"
             isPreview={isPreview}
-            error={[
-              !!formState.errors.recruitingFor,
-              "This is required since you set your 'Recruiting?' switch to on.",
-            ]}
+            error={[!!formState.errors.recruitingFor, config.formError.recruiting]}
             noHeading
             hidden={!watchRecruiting}
           >
@@ -231,7 +190,7 @@ const ProjectEditor = ({
           <Section
             label="Description"
             isPreview={isPreview}
-            error={[!!formState.errors.description, "Description is required"]}
+            error={[!!formState.errors.description, config.formError.description]}
             noHeading
           >
             <Controller
@@ -311,7 +270,7 @@ const ProjectEditor = ({
       <Section
         label="Images"
         isPreview={isPreview}
-        error={[!!formState.errors.imageUrls, "Images are required"]}
+        error={[!!formState.errors.imageUrls, config.formError.images]}
         disabled={(watchImages ? (watchImages as unknown as ImageInfo[]) : []).length === 0}
       >
         <Controller
@@ -335,7 +294,7 @@ const ProjectEditor = ({
       <Section
         label="Project Members"
         isPreview={isPreview}
-        error={[!!formState.errors.members, "Project Members are required"]}
+        error={[!!formState.errors.members, config.formError.members]}
         disabled={(watchMembers ? (watchMembers as MemberInfo[]) : []).length === 0}
       >
         <Controller
@@ -357,34 +316,16 @@ const ProjectEditor = ({
       <Section
         label=""
         isPreview={isPreview}
-        error={[
-          Object.keys(formState.errors).length > 0,
-          "Your changes have some errors. Fix them before continuing.",
-        ]}
+        error={[Object.keys(formState.errors).length > 0, config.formError.submit]}
         disabled={(watchMembers ? (watchMembers as MemberInfo[]) : []).length === 0}
         noHeading
       >
         {projectUpdate.isLoading ? (
-          <div>
-            <Loading />
-            <div>
-              Processing {imagesAddedCount}/{imagesToAddCount} - should show something while sending
-              backend request
-            </div>
-          </div>
+          <Processing imagesToAddCount={imagesToAddCount} imagesAddedCount={imagesAddedCount} />
         ) : (
           <ApprovalNotice
             isEditing={true}
-            fieldNames={[
-              { label: "Title", controlName: "title" },
-              { label: "Description", controlName: "description", deepCheck: true },
-              { label: "Open Positions", controlName: "recruitingFor", deepCheck: true },
-              { label: "Stack", controlName: "stack", deepCheck: true },
-              { label: "Links", controlName: "links", deepCheck: true },
-              { label: "Images", controlName: "imageUrls", deepCheck: true },
-              // TODO: Need to add "label" to Members array for ApprovalNotice
-              // { label: "Members", controlName: "members", deepCheck: true },
-            ]}
+            fieldNames={config.deepDirtyChecker.needsApproval}
             getValues={getValues}
             formState={formState}
             onSubmit={handleSubmit(onSubmit)}

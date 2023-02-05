@@ -17,6 +17,7 @@ import {
   PopoverTrigger,
   Portal,
   Text,
+  Tooltip,
   VStack,
 } from "@chakra-ui/react";
 import React from "react";
@@ -61,15 +62,17 @@ const ProjectSideButtons = ({
                 </Portal>
               </Popover>
             ) : (
-              <IconButton
-                aria-label={"Exit editor"}
-                colorScheme={"red"}
-                icon={<CloseIcon />}
-                onClick={() => {
-                  if (isPreview) onPreview();
-                  onEditor();
-                }}
-              />
+              <Tooltip label="Exit editor" placement="left" bg="gray.200" color="currentColor">
+                <IconButton
+                  aria-label={"Exit editor"}
+                  colorScheme={"red"}
+                  icon={<CloseIcon />}
+                  onClick={() => {
+                    if (isPreview) onPreview();
+                    onEditor();
+                  }}
+                />
+              </Tooltip>
             )}
             <IconButton
               aria-label={isPreview ? "Exit preview" : `View ${project.title}`}
@@ -80,11 +83,13 @@ const ProjectSideButtons = ({
           </>
         ) : (
           <>
-            <IconButton
-              aria-label={`Edit ${project.title}`}
-              icon={<EditIcon />}
-              onClick={onEditor}
-            />
+            <Tooltip label="Edit" placement="left" bg="gray.200" color="currentColor">
+              <IconButton
+                aria-label={`Edit ${project.title}`}
+                icon={<EditIcon />}
+                onClick={onEditor}
+              />
+            </Tooltip>
             <IconButton
               aria-label={`Visit project page for ${project.title}`}
               colorScheme="gray"

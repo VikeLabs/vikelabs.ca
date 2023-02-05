@@ -46,6 +46,7 @@ const userEndpoint = async (
       res.status(401).json({ message: "URL parameter of user ID does not match user ID" });
       return;
     }
+
     let user: User;
     switch (req.method) {
       case "GET":
