@@ -33,10 +33,14 @@ const ProjectCard = ({
   id,
   project,
   members,
+  hasDraft = false,
+  isDraft = false,
 }: {
   id: number;
   project: ProjectInfoLeadView;
   members: MemberInfo[];
+  hasDraft?: boolean;
+  isDraft?: boolean;
 }) => {
   const [isPreview, setPreview] = useState(false);
   const [isEditing, setEditing] = useState(false);
@@ -57,27 +61,16 @@ const ProjectCard = ({
           isPreview={isPreview}
         />
       ) : (
-        <>
-          {isPreview ? (
-            <Project
-              id={id}
-              project={project}
-              members={members}
-              onEditor={() => setEditing(true)}
-              onPreview={() => setPreview(false)}
-              isPreview={isPreview}
-            />
-          ) : (
-            <ProjectLeadView
-              id={id}
-              project={project}
-              members={members}
-              onEditor={() => setEditing(true)}
-              onPreview={() => setPreview(true)}
-              isPreview={isPreview}
-            />
-          )}
-        </>
+        <ProjectLeadView
+          id={id}
+          project={project}
+          members={members}
+          onEditor={() => setEditing(true)}
+          onPreview={() => setPreview(true)}
+          isPreview={isPreview}
+          hasDraft={hasDraft}
+          isDraft={isDraft}
+        />
       )}
     </Card>
   );
@@ -106,7 +99,12 @@ const Lead = () => {
               {live && (
                 <Box>
                   <ProjectHeader heading="Live Info" text="This info is public on the website" />
-                  <ProjectCard id={project.data?.id} project={live} members={members} />
+                  <ProjectCard
+                    id={project.data?.id}
+                    project={live}
+                    members={members}
+                    hasDraft={!!draft}
+                  />
                 </Box>
               )}
               {draft && (
@@ -115,7 +113,7 @@ const Lead = () => {
                     heading="Draft Info"
                     text="This info is pending approval from the admins"
                   />
-                  <ProjectCard id={project.data?.id} project={draft} members={members} />
+                  <ProjectCard id={project.data?.id} project={draft} members={members} isDraft />
                 </Box>
               )}
             </Stack>

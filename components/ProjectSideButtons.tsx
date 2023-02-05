@@ -31,6 +31,8 @@ const ProjectSideButtons = ({
   isEditing = false,
   isPreview = false,
   isDirty = false,
+  hasDraft,
+  isDraft,
 }: {
   id: number;
   project: ProjectInfoLeadView;
@@ -39,6 +41,8 @@ const ProjectSideButtons = ({
   isEditing?: boolean;
   isPreview?: boolean;
   isDirty?: boolean;
+  hasDraft: boolean;
+  isDraft: boolean;
 }) => {
   return (
     <Box>
@@ -74,31 +78,51 @@ const ProjectSideButtons = ({
                 />
               </Tooltip>
             )}
-            <IconButton
-              aria-label={isPreview ? "Exit preview" : `View ${project.title}`}
-              colorScheme={isPreview ? "teal" : "gray"}
-              icon={isPreview ? <ViewOffIcon /> : <ViewIcon />}
-              onClick={onPreview}
-            />
+            <Tooltip
+              label={isPreview ? "Hide preview" : "Show preview"}
+              placement="left"
+              bg="gray.200"
+              color="currentColor"
+            >
+              <IconButton
+                aria-label={isPreview ? "Exit preview" : `View ${project.title}`}
+                colorScheme={isPreview ? "teal" : "gray"}
+                icon={isPreview ? <ViewOffIcon /> : <ViewIcon />}
+                onClick={onPreview}
+              />
+            </Tooltip>
           </>
         ) : (
           <>
-            <Tooltip label="Edit" placement="left" bg="gray.200" color="currentColor">
+            <Tooltip
+              label={hasDraft ? "Cannot edit when draft exists" : "Edit project info"}
+              placement="left"
+              bg="gray.200"
+              color="currentColor"
+            >
               <IconButton
                 aria-label={`Edit ${project.title}`}
                 icon={<EditIcon />}
                 onClick={onEditor}
+                isDisabled={hasDraft}
               />
             </Tooltip>
-            <IconButton
-              aria-label={`Visit project page for ${project.title}`}
-              colorScheme="gray"
-              icon={<ExternalLinkIcon />}
-              onClick={() => console.log("TODO: Navigate to project page via the project id", id)}
-            />
+            <Tooltip
+              label={isDraft ? "No project page available for drafts" : "Open project page"}
+              placement="left"
+              bg="gray.200"
+              color="currentColor"
+            >
+              <IconButton
+                aria-label={`Visit project page for ${project.title}`}
+                colorScheme="gray"
+                icon={<ExternalLinkIcon />}
+                onClick={() => console.log("TODO: Navigate to project page via the project id", id)}
+                isDisabled={isDraft}
+              />
+            </Tooltip>
           </>
         )}
-
         <Popover placement="left-end">
           <PopoverTrigger>
             <IconButton aria-label={`${project.title} Metadata`} icon={<InfoOutlineIcon />} />

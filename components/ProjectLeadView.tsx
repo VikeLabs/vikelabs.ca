@@ -29,6 +29,8 @@ const ProjectLeadView = ({
   onEditor,
   onPreview,
   isPreview = false,
+  hasDraft,
+  isDraft,
 }: {
   id: number;
   project: ProjectInfoLeadView;
@@ -36,6 +38,8 @@ const ProjectLeadView = ({
   onEditor: () => void;
   onPreview: () => void;
   isPreview?: boolean;
+  hasDraft: boolean;
+  isDraft: boolean;
 }) => {
   const excerpt = project.description.replaceAll("<p>", "").replaceAll("</p>", " ");
   return (
@@ -96,6 +100,8 @@ const ProjectLeadView = ({
           onEditor={onEditor}
           onPreview={onPreview}
           isPreview={isPreview}
+          hasDraft={hasDraft}
+          isDraft={isDraft}
         />
       </Flex>
     </CardBody>
