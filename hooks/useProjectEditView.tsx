@@ -5,7 +5,7 @@ export function useProjectEditView(leadId: string, token: string) {
   return useQuery<GetProjectEditViewResponse>({
     queryKey: ["project", leadId],
     queryFn: async () => {
-      const response = await fetch(`/api/projects/lead/${leadId}`, {
+      const response = await fetch(`/api/project/lead/${leadId}`, {
         method: "GET",
         headers: {
           // "Content-Type": "application/json",

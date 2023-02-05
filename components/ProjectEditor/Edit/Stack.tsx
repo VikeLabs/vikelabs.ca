@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { UseFormGetValues } from "react-hook-form";
 import { TechTag } from "../../../types";
 import DragAndDrop, { DraggableTechTags } from "../DragAndDrop";
-import { ProjectEditorForm } from "../../ProjectEditor";
+import { ProjectEditorForm } from "../../../types/index";
 import PresetMenu, { CustomTechTag, PresetTechTags } from "../PresetMenu";
 
 const Stack = ({

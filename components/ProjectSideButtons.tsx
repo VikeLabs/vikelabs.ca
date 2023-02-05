@@ -53,13 +53,7 @@ const ProjectSideButtons = ({
                   <PopoverContent>
                     <PopoverBody>
                       <Text pb="1">Your unsaved changes will be lost.</Text>
-                      <Button
-                        colorScheme="red"
-                        onClick={() => {
-                          if (isPreview) onPreview();
-                          onEditor();
-                        }}
-                      >
+                      <Button colorScheme="red" onClick={() => onEditor()}>
                         Exit without saving
                       </Button>
                     </PopoverBody>

@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { CardBody, Box, Flex, Spacer, Wrap } from "@chakra-ui/react";
-import { MemberInfo, ProjectInfoLeadView } from "../types";
-import { ProjectInfo } from "@prisma/client";
+import { MemberInfo, ProjectEditorForm, ProjectInfoLeadView, ProjectUpdateData } from "../types";
 import { ImageInfo, LinkTag, TechTag } from "../types";
 import ProjectSideButtons from "./ProjectSideButtons";
 import { Controller, useForm } from "react-hook-form";
@@ -15,13 +14,11 @@ import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import ApprovalNotice from "../components/ApprovalNotice";
 import { deepDirtyChecker } from "../utils/needApproval";
-
-export type ProjectEditorForm = Omit<
-  ProjectInfo,
-  "id" | "updatedBy" | "updatedAt" | "approvedBy" | "approvedAt"
-> & {
-  members: MemberInfo[];
-};
+import { useProjectUpdateMutation } from "../hooks/useProjectUpdateMutation";
+import { useAuthContext } from "./AuthContextProvider";
+import Loading from "./Loading";
+import { Prisma } from "@prisma/client";
+import { useImagePreviews } from "../hooks/useImagePreview";
 
 const ProjectEditor = ({
   id,
@@ -38,22 +35,20 @@ const ProjectEditor = ({
   onPreview?: () => void;
   isPreview?: boolean;
 }) => {
-  // TODO: When modified, disable the editor button. previewer now uses the edited project values
-  // TODO: If the user edits, it should replace the current draft if it hasnt been approved
-  // const [projectInfo, setProjectInfo] = useState(project);
   const { formState, control, handleSubmit, watch, getValues, setValue } =
     useForm<ProjectEditorForm>({
       defaultValues: {
         title: project.title,
         recruiting: project.recruiting,
-        recruitingFor: project.recruitingFor as string[],
+        recruitingFor: project.recruitingFor,
         description: project.description,
-        stack: project.stack as TechTag[],
-        links: project.links as LinkTag[],
-        imageUrls: project.imageUrls as ImageInfo[],
+        stack: project.stack,
+        links: project.links,
+        imageUrls: project.imageUrls, // TODO: Should separate this type into two types
         members,
       },
     });
+
   watch("recruitingFor"); // for form dirtying purposes
   const watchRecruiting = watch("recruiting");
   const watchStack = watch("stack");
@@ -61,29 +56,62 @@ const ProjectEditor = ({
   const watchImages = watch("imageUrls");
   const watchMembers = watch("members");
 
+  const { user, dispatch } = useAuthContext();
+  const [imagesToAddCount, setImagesToAddCount] = useState(0);
+  const [imagesAddedCount, setImageAddingIndex] = useState(0);
+
+  const projectUpdate = useProjectUpdateMutation(
+    id,
+    user?.token,
+    setImagesToAddCount,
+    setImageAddingIndex
+  );
+
+  const imagePreviews = useImagePreviews(watchImages as (string | File)[], id);
+
   const onSubmit = (data: ProjectEditorForm) => {
-    console.log("Form submitted: ", data);
+    const imageUrlsToDelete: string[] = []; // path to image, eg. 1/courseup-timeline.jpg
+    const imageFilesToAdd: File[] = [];
+    for (const image of data.imageUrls as (string | File)[]) {
+      if (typeof image !== "string") {
+        imageFilesToAdd.push(image);
+      }
+    }
+    for (const imageUrl of formState.defaultValues.imageUrls as string[]) {
+      if (!(data.imageUrls as (string | File)[]).includes(imageUrl)) {
+        imageUrlsToDelete.push(imageUrl);
+      }
+    }
+    // eslint-disable-next-line
+    const { imageUrls: imageData, ...rest } = data;
+    const imageUrls = (imageData as ImageInfo[]).map((image: ImageInfo) =>
+      typeof image === "string" ? image : image.name.toLowerCase().replaceAll(" ", "_")
+    );
+    console.log("Image URLs", imageUrls);
+    const projectUpdateData: ProjectUpdateData = {
+      ...rest,
+      imageUrls,
+      imageFilesToAdd,
+      imageUrlsToDelete,
+    };
 
-    // TODO: Find files in project.imageUrls that are not in data.imageUrls, and delete from Supabase storage
-    // TODO: Find files in data.imageUrls that are not in project.imageUrls, and upload to Supabase storage
+    console.log("to add", imageFilesToAdd, "to delete", imageUrlsToDelete);
 
-    // TODO: Check if need approval
-    // editUserMutation.mutate(data, {
-    //   onSuccess: (response) => {
-    //     if (response.ok) {
-    //       console.log("editUserMutation succeeded!");
-    //       setIsEditing(false);
-    //     } else {
-    //       console.log("editUserMutation failed!");
-    //       if (response.status === 401) {
-    //         dispatch({ type: "logout" });
-    //       }
-    //     }
-    //   },
-    // });
+    projectUpdate.mutate(projectUpdateData, {
+      onSuccess: (response) => {
+        if (response.ok) {
+          console.log("projectUpdate mutation succeeded!");
+          onEditor();
+        } else {
+          console.log("projectUpdate mutation failed!");
+          if (response.status === 401) {
+            dispatch({ type: "logout" });
+          }
+        }
+      },
+    });
   };
 
-  console.log(getValues().members);
   const editor = useEditor({
     extensions: [StarterKit, Underline, Subscript, Superscript],
     editorProps: {
@@ -127,12 +155,6 @@ const ProjectEditor = ({
       getValues
     ).length > 0;
 
-  // TODO for members:
-  // TODO on member add: create new ProjectHasMembers where Member ID and Project ID (int) is stored (Separate from Draft/Live)
-  // TODO on member add: update members JsonArray on ProjectInfo
-  // TODO on member add: allow team lead to reorder and enable / credit users
-  // TODO: mutual agreement to credit user on team project page is required for them to appear publicly
-  // TODO: new members are default disabled from the team list
   return (
     <CardBody>
       <Flex>
@@ -290,19 +312,21 @@ const ProjectEditor = ({
         label="Images"
         isPreview={isPreview}
         error={[!!formState.errors.imageUrls, "Images are required"]}
-        disabled={(watchImages ? (watchImages as ImageInfo[]) : []).length === 0}
+        disabled={(watchImages ? (watchImages as unknown as ImageInfo[]) : []).length === 0}
       >
         <Controller
           control={control}
           name="imageUrls"
-          render={({ field: { value } }) =>
+          render={() =>
             isPreview ? (
-              <View.Images value={value ? (value as ImageInfo[]) : []} />
+              <View.Images value={imagePreviews.data ?? []} />
             ) : (
               <Edit.Images
-                value={value ? (value as ImageInfo[]) : []}
+                value={imagePreviews.data ?? []}
                 getValues={getValues}
-                setImages={(items: ImageInfo[]) => setValue("imageUrls", items)}
+                setImages={(items: ImageInfo[]) =>
+                  setValue("imageUrls", items as unknown as Prisma.JsonValue)
+                }
               />
             )
           }
@@ -340,22 +364,32 @@ const ProjectEditor = ({
         disabled={(watchMembers ? (watchMembers as MemberInfo[]) : []).length === 0}
         noHeading
       >
-        <ApprovalNotice
-          isEditing={true}
-          fieldNames={[
-            { label: "Title", controlName: "title" },
-            { label: "Description", controlName: "description", deepCheck: true },
-            { label: "Open Positions", controlName: "recruitingFor", deepCheck: true },
-            { label: "Stack", controlName: "stack", deepCheck: true },
-            { label: "Links", controlName: "links", deepCheck: true },
-            { label: "Images", controlName: "imageUrls", deepCheck: true },
-            // TODO: Need to add "label" to Members array for ApprovalNotice
-            // { label: "Members", controlName: "members", deepCheck: true },
-          ]}
-          getValues={getValues}
-          formState={formState}
-          onSubmit={handleSubmit(onSubmit)}
-        />
+        {projectUpdate.isLoading ? (
+          <div>
+            <Loading />
+            <div>
+              Processing {imagesAddedCount}/{imagesToAddCount} - should show something while sending
+              backend request
+            </div>
+          </div>
+        ) : (
+          <ApprovalNotice
+            isEditing={true}
+            fieldNames={[
+              { label: "Title", controlName: "title" },
+              { label: "Description", controlName: "description", deepCheck: true },
+              { label: "Open Positions", controlName: "recruitingFor", deepCheck: true },
+              { label: "Stack", controlName: "stack", deepCheck: true },
+              { label: "Links", controlName: "links", deepCheck: true },
+              { label: "Images", controlName: "imageUrls", deepCheck: true },
+              // TODO: Need to add "label" to Members array for ApprovalNotice
+              // { label: "Members", controlName: "members", deepCheck: true },
+            ]}
+            getValues={getValues}
+            formState={formState}
+            onSubmit={handleSubmit(onSubmit)}
+          />
+        )}
       </Section>
     </CardBody>
   );

@@ -5,6 +5,14 @@ generator client {
   provider = "prisma-client-js"
 }
 
+/// Always after the prisma-client-js generator
+generator json {
+  provider = "prisma-json-types-generator"
+  // namespace = "PrismaJson"
+  // clientOutput = "<finds it automatically>"
+  // (./ -> relative to schema, or an importable path to require() it)
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("NEXT_PUBLIC_DATABASE_URL")
@@ -35,7 +43,7 @@ model Project {
   draft   ProjectInfo         @relation("draft", fields: [draftId], references: [id])
   liveId  String              @unique
   live    ProjectInfo         @relation("live", fields: [liveId], references: [id])
-  // order priority?
+  // TODO: order
 }
 
 model ProjectInfo {
@@ -49,11 +57,11 @@ model ProjectInfo {
   imageUrls       Json
   recruiting      Boolean
   recruitingFor   Json
-  members         Json
+  members         Json // Order of all members, [{id, role}]
   updatedBy       String // username
   updatedAt       DateTime  @default(now())
-  approvedBy      String? // if this is empty then it didnt get / need approval
-  approvedAt      DateTime? // same as above
+  approvedBy      String?
+  approvedAt      DateTime?
   requireApproval Boolean   @default(true)
 }
 
@@ -63,8 +71,8 @@ model ProjectHasMembers {
   projectId  Int
   member     User    @relation(fields: [memberId], references: [id])
   memberId   String
-  isCredited Boolean @default(false) // Set by team lead 
-  role       String?
+  isCredited Boolean @default(false)
+  // role       String?
 
   // role   String @default("")
   // assignedAt    DateTime     @default(now())

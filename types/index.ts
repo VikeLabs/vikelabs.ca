@@ -1,15 +1,34 @@
 import { ProjectInfo, User } from "@prisma/client";
 
+export type ProjectEditorForm = Omit<
+  ProjectInfo,
+  "id" | "updatedBy" | "updatedAt" | "approvedBy" | "approvedAt"
+> & {
+  members: MemberInfo[];
+};
+
+export type ProjectUpdateDataNoImages = Omit<
+  ProjectUpdateData,
+  "imageUrlsToDelete" | "imageFilesToAdd"
+>;
+
+export type ProjectUpdateData = ProjectEditorForm & {
+  imageUrlsToDelete: string[];
+  imageFilesToAdd: File[];
+};
+
+export type ImageToDelete = { id: string; url: string };
+export type ImageToAdd = { label: string; file: File };
+
 export type UserEditorForm = Omit<GetLoggedInUserResponse, "id" | "role">;
 
 export type PublicUser = Omit<User, "vId" | "firstName" | "lastName" | "role">;
 export type UserSearchResult = Omit<PublicUser, "github" | "discord">;
 
 export type ImageInfo = {
-  label: string;
-  file?: any;
+  file?: File;
   url?: string;
-  isPending?: boolean;
+  name?: string;
 };
 
 export type TechTag = {

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { UseFormGetValues } from "react-hook-form";
 import { LinkTag } from "../../../types";
 import DragAndDrop, { DraggableLinkTags } from "../DragAndDrop";
-import { ProjectEditorForm } from "../../ProjectEditor";
+import { ProjectEditorForm } from "../../../types/index";
 import PresetMenu, { CustomLinkTag, PresetLinkTags } from "../PresetMenu";
 
 const Links = ({

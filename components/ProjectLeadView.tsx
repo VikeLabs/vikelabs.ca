@@ -20,6 +20,7 @@ import { MemberInfo, ProjectInfoLeadView } from "../types";
 import { LinkTag, TechTag } from "../types";
 import ProjectSideButtons from "./ProjectSideButtons";
 import { mockData } from "../utils/mockData";
+import { colorShade, hexToRgbA } from "../utils/colorHelpers";
 
 const ProjectLeadView = ({
   id,
@@ -58,7 +59,8 @@ const ProjectLeadView = ({
                   size="sm"
                   variant="solid"
                   borderRadius="sm"
-                  colorScheme={tech.color}
+                  colorScheme={tech.color.includes("#") ? undefined : tech.color}
+                  bgColor={tech.color.includes("#") ? tech.color : undefined}
                 >
                   {tech.label}
                 </Tag>
@@ -67,7 +69,14 @@ const ProjectLeadView = ({
             {(!!(project.links as LinkTag[]).length ? (project.links as LinkTag[]) : []).map(
               (link: LinkTag, index) => (
                 <Link href={link.url} key={index} lineHeight={1} isExternal>
-                  <Tag size="sm" variant="subtle" borderRadius="sm" colorScheme={link.color}>
+                  <Tag
+                    size="sm"
+                    variant="subtle"
+                    borderRadius="sm"
+                    colorScheme={link.color.includes("#") ? undefined : link.color}
+                    bgColor={link.color.includes("#") ? hexToRgbA(link.color, 0.3) : undefined}
+                    textColor={link.color.includes("#") ? colorShade(link.color, -100) : undefined}
+                  >
                     <TagLeftIcon boxSize={2.5} as={LinkIcon} />
                     <TagLabel ml={-1}>{link.label}</TagLabel>
                   </Tag>

@@ -161,7 +161,7 @@ export const DraggableImages = ({
 }) => (
   <>
     {(!!items.length ? (items as ImageInfo[]) : []).map((image: ImageInfo, index: number) => (
-      <Draggable key={`${image.label}/${index}`} draggableId={String(index)} index={index}>
+      <Draggable key={`${image.url}/${index}`} draggableId={String(index)} index={index}>
         {(provided) => (
           <HStack
             ref={provided.innerRef}
@@ -186,16 +186,21 @@ export const DraggableImages = ({
             >
               <VStack alignItems="flex-start" justifyContent="center" spacing="0">
                 <Image
-                  alt={image.label}
+                  alt={image.name}
                   src={image.url}
                   w={0}
                   h={0}
                   style={{ width: "auto", height: "108px" }}
                 />
-                <Text px="1" position="absolute" bottom="0" w="full" bgColor="rgb(255,255,255,0.8)">
-                  <Center h="full" justifyContent="flex-start" fontSize="sm">
-                    {image.label}
-                  </Center>
+                <Text
+                  px="1"
+                  position="absolute"
+                  bottom="0"
+                  w="full"
+                  bgColor="rgb(255,255,255,0.8)"
+                  noOfLines={1}
+                >
+                  {image.name}
                 </Text>
               </VStack>
             </Card>

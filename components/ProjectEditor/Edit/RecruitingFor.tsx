@@ -1,7 +1,7 @@
 import { Button, HStack, Input } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { UseFormGetValues } from "react-hook-form";
-import { ProjectEditorForm } from "../../ProjectEditor";
+import { ProjectEditorForm } from "../../../types/index";
 import DragAndDrop, { DraggableRecruitingPositions } from "../DragAndDrop";
 
 const RecruitingFor = ({

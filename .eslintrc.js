@@ -17,6 +17,7 @@ module.exports = {
   rules: {
     "react/no-unescaped-entities": 0,
     "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/no-namespace": "off",
     semi: "off",
     quotes: [
       2,

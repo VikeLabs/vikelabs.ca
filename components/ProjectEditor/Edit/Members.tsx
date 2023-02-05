@@ -4,7 +4,7 @@ import { UseFormGetValues } from "react-hook-form";
 import { useUserSearch } from "../../../hooks/useUserSearch";
 import { MemberInfo, UserSearchResult } from "../../../types";
 import { useAuthContext } from "../../AuthContextProvider";
-import { ProjectEditorForm } from "../../ProjectEditor";
+import { ProjectEditorForm } from "../../../types/index";
 import DragAndDrop, { DraggableMember } from "../DragAndDrop";
 import MemberCustomizer from "../MemberCustomizer";
 import { SearchMenu, UserSelect } from "../PresetMenu";

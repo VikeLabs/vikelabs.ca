@@ -49,7 +49,10 @@ const ProjectCard = ({
           id={id}
           project={project}
           members={members}
-          onEditor={() => setEditing(false)}
+          onEditor={() => {
+            setEditing(false);
+            setPreview(false);
+          }}
           onPreview={() => setPreview(!isPreview)}
           isPreview={isPreview}
         />

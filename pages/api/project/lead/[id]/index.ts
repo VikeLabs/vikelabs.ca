@@ -100,7 +100,7 @@ const userEndpoint = async (
     // validate user is the team lead for the project
     const project = await getProjectFromLeadId(userFromToken.id);
     if (!project) {
-      res.status(401).json({ message: "User is not this project's team lead" });
+      res.status(401).json({ message: "Team lead does not have any projects" });
       return;
     }
 

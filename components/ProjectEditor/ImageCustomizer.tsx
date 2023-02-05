@@ -24,12 +24,10 @@ const ImageCustomizer = ({
 }: {
   finalRef: React.RefObject<{ focus(options?: FocusOptions): void }>;
   isOpen: boolean;
-  onSubmit: (image: ImageInfo) => void;
+  onSubmit: (image: File) => void;
   onClose: () => void;
 }) => {
   const [imageFile, setImageFile] = useState<File>(undefined);
-  const [imageName, setImageName] = useState("");
-  const [imageCaption, setImageCaption] = useState("");
   const [imagePreviewURL, setImagePreviewURL] = useState("");
 
   useEffect(() => {
@@ -52,7 +50,6 @@ const ImageCustomizer = ({
     // setImageName(acceptedFiles.name.replaceAll(" ", "_"))
 
     setImageFile(acceptedFiles[0]);
-    setImageName(acceptedFiles[0].path);
 
     // TODO: Check for errors
   }, []);
@@ -63,8 +60,6 @@ const ImageCustomizer = ({
       isOpen={isOpen}
       onClose={() => {
         setImageFile(undefined);
-        setImageCaption("");
-        setImageName("");
         setImagePreviewURL("");
         onClose();
       }}
@@ -79,7 +74,7 @@ const ImageCustomizer = ({
           <SimpleGrid spacing={6} columns={2}>
             {imageFile ? (
               <Image
-                alt={imageCaption.length ? imageCaption : "caption missing"}
+                alt={imageFile?.name?.toLowerCase()?.replaceAll(" ", "_") ?? "temporary image"}
                 src={imagePreviewURL}
               />
             ) : (
@@ -87,34 +82,19 @@ const ImageCustomizer = ({
             )}
             <Wrap>
               <Input
-                value={imageName}
-                onChange={(e) => setImageName(e.target.value)}
-                placeholder="image_name.jpg"
-                isDisabled={!imageFile}
+                value={imageFile?.name?.toLowerCase()?.replaceAll(" ", "_") ?? "temporary image"}
+                isDisabled
               />
-              <Input
-                value={imageCaption}
-                onChange={(e) => setImageCaption(e.target.value)}
-                placeholder="Image Alt Text"
-                isDisabled={!imageFile}
-              />
-              <Spacer />
               <Spacer />
               <Button
                 colorScheme="blue"
                 onClick={() => {
-                  onSubmit({
-                    label: imageCaption,
-                    file: imageFile,
-                    isPending: true,
-                  });
+                  onSubmit(imageFile);
                   setImageFile(undefined);
-                  setImageName("");
-                  setImageCaption("");
                   setImagePreviewURL("");
                   onClose();
                 }}
-                isDisabled={!imageFile || !imageCaption.length || !imageName.length}
+                isDisabled={!imageFile}
                 width="100%"
               >
                 Add Image
