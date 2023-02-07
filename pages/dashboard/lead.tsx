@@ -14,7 +14,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { MemberInfo, ProjectInfoLeadView } from "../../types";
-import Project from "../../components/Project";
 import ProjectLeadView from "../../components/ProjectLeadView";
 import ProjectEditor from "../../components/ProjectEditor";
 

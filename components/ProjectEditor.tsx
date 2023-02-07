@@ -109,6 +109,7 @@ const ProjectEditor = ({
           onEditor();
         } else {
           console.log("projectUpdate mutation failed!");
+          // TODO: toast error
           if (response.status === 401) {
             dispatch({ type: "logout" });
           }

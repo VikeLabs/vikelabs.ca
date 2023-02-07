@@ -37,9 +37,7 @@ export function useProjectUpdateMutation(
         console.log("compressedFile instanceof Blob", compressedFile instanceof Blob); // true
         console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
 
-        // TODO: Set policies so that only team leads that have leadership over project ID of ${id} can use upload/delete
-
-        const { data, error } = await supabase.storage
+        const { error } = await supabase.storage
           .from("projects")
           .upload(
             `${id}/${compressedFile.name.toLowerCase().replaceAll(" ", "_")}`,
@@ -50,19 +48,13 @@ export function useProjectUpdateMutation(
               contentType: compressedWebp.type,
             }
           );
-        if (data) {
-          // console.log(data);
-        } else {
-          // TODO: Show toast for these errors (ex duplicate image exists)
-          console.error(error);
+        if (error) {
+          throw Error(error.message);
         }
       } catch (error) {
-        // TODO: Show toast for these errors
-        console.log(error);
+        throw Error(error);
       }
     }
-
-    // TODO: Set policies so that only team leads that have leadership over project ID of ${id} can use upload/delete
 
     // Delete images
     const imageUrls: string[] = imageUrlsToDelete.map(

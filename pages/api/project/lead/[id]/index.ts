@@ -109,7 +109,7 @@ const userEndpoint = async (
         res.status(200).json({
           id: project.id,
           live: await getProjectInfo(project.liveId),
-          draft: await getProjectInfo(project.draftId),
+          draft: project.draftId ? await getProjectInfo(project.draftId) : null,
           members: await getProjectMembers(project.id),
         });
         break;
