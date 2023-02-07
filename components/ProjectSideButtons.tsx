@@ -31,8 +31,8 @@ const ProjectSideButtons = ({
   isEditing = false,
   isPreview = false,
   isDirty = false,
-  hasDraft,
-  isDraft,
+  hasDraft = false,
+  isDraft = false,
 }: {
   id: number;
   project: ProjectInfoLeadView;
@@ -41,8 +41,8 @@ const ProjectSideButtons = ({
   isEditing?: boolean;
   isPreview?: boolean;
   isDirty?: boolean;
-  hasDraft: boolean;
-  isDraft: boolean;
+  hasDraft?: boolean;
+  isDraft?: boolean;
 }) => {
   return (
     <Box>
