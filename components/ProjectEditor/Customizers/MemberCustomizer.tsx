@@ -20,7 +20,7 @@ import {
   Wrap,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { MemberInfo } from "../../types";
+import { MemberInfo } from "../../../types";
 
 const MemberCustomizer = ({
   member,

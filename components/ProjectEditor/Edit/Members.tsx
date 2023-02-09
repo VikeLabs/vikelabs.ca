@@ -6,7 +6,7 @@ import { MemberInfo, UserSearchResult } from "../../../types";
 import { useAuthContext } from "../../AuthContextProvider";
 import { ProjectEditorForm } from "../../../types/index";
 import DragAndDrop, { DraggableMember } from "../DragAndDrop";
-import MemberCustomizer from "../MemberCustomizer";
+import MemberCustomizer from "../Customizers/MemberCustomizer";
 import { SearchMenu, UserSelect } from "../PresetMenu";
 
 const Members = ({

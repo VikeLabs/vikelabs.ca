@@ -14,8 +14,8 @@ import React from "react";
 import { DebounceInput } from "react-debounce-input";
 import { LinkTag, TechTag, UserSearchResult } from "../../types";
 import { mockData } from "../../utils/mockData";
-import LinkTagCustomizer from "./LinkTagCustomizer";
-import TechTagCustomizer from "./TechTagCustomizer";
+import LinkTagCustomizer from "./Customizers/LinkTagCustomizer";
+import TechTagCustomizer from "./Customizers/TechTagCustomizer";
 
 const navigationKeys = ["ArrowUp", "ArrowDown", "Escape"];
 

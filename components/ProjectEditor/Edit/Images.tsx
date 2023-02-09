@@ -4,7 +4,7 @@ import { UseFormGetValues } from "react-hook-form";
 import { ImageInfo } from "../../../types";
 import { ProjectEditorForm } from "../../../types/index";
 import DragAndDrop, { DraggableImages } from "../DragAndDrop";
-import ImageCustomizer from "../ImageCustomizer";
+import ImageCustomizer from "../Customizers/ImageCustomizer";
 
 const Images = ({
   value,

@@ -23,5 +23,6 @@ export function useUserSearch(search: string, token: string) {
       }
       return await response.json();
     },
+    retry: 3,
   });
 }

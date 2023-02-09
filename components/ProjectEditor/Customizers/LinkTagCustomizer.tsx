@@ -15,30 +15,42 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import { TechTag } from "../../types";
+import { LinkTag } from "../../../types";
+import { colorShade, hexToRgbA } from "../../../utils/colorHelpers";
 
-const TechTagCustomizer = ({
-  label: techLabel,
+const LinkTagCustomizer = ({
+  label: tagLabel,
+  colorScheme,
+  url: tagUrl,
   finalRef,
   isOpen,
   onSubmit,
   onClose,
 }: {
   label: string;
+  colorScheme: string;
+  url: string;
   finalRef: React.RefObject<{ focus(options?: FocusOptions): void }>;
   isOpen: boolean;
-  onSubmit: (tech: TechTag) => void;
+  onSubmit: (tech: LinkTag) => void;
   onClose: () => void;
 }) => {
   const [label, setLabel] = useState("");
-  const [color, setColor] = useState("#333333");
+  const [url, setUrl] = useState("");
+  const [color, setColor] = useState("");
 
-  // Reset label everytime the modal mounts
-  // Doing what the eslint error suggestions put it into an infinite loop, so ignoring it
+  // Reset everytime the modal mounts
+  // Doing what the eslint editor suggests will run an infinite loop, so disabling it
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
+    if (url === "" && isOpen) {
+      setUrl(tagUrl);
+    }
     if (label === "" && isOpen) {
-      setLabel(techLabel);
+      setLabel(tagLabel);
+    }
+    if (color === "" && isOpen && !colorScheme) {
+      setColor("#333333");
     }
   });
 
@@ -48,6 +60,8 @@ const TechTagCustomizer = ({
       isOpen={isOpen}
       onClose={() => {
         setLabel("");
+        setUrl("");
+        setColor("");
         onClose();
       }}
       isCentered
@@ -55,7 +69,7 @@ const TechTagCustomizer = ({
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Technology Customizer</ModalHeader>
+        <ModalHeader>Link Customizer</ModalHeader>
         <ModalCloseButton mt={1.5} />
         <ModalBody pb={6}>
           <SimpleGrid spacing={6} columns={2}>
@@ -64,7 +78,12 @@ const TechTagCustomizer = ({
               <Input
                 value={label}
                 onChange={(e) => setLabel(e.target.value)}
-                placeholder="Language / Tools"
+                placeholder="Link Label"
+              />
+              <Input
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder="https://example.com"
               />
               <Input
                 value={color}
@@ -78,7 +97,14 @@ const TechTagCustomizer = ({
               />
               <Spacer />
               <Center width="100%" height="auto">
-                <Tag size="sm" variant="solid" borderRadius="sm" bgColor={color}>
+                <Tag
+                  size="sm"
+                  variant="subtle"
+                  borderRadius="sm"
+                  colorScheme={colorScheme}
+                  bgColor={!color ? undefined : hexToRgbA(color, 0.3)}
+                  textColor={!color ? undefined : colorShade(color, -100)}
+                >
                   {label}
                 </Tag>
               </Center>
@@ -87,13 +113,15 @@ const TechTagCustomizer = ({
                 colorScheme="blue"
                 onClick={() => {
                   setLabel("");
-                  onSubmit({ label, color });
+                  setUrl("");
+                  setColor("");
+                  onSubmit({ label, color: color ? color : colorScheme, url });
                   onClose();
                 }}
-                isDisabled={!label.length}
+                isDisabled={!label.length || !url.length}
                 width="100%"
               >
-                Add Technology
+                Add Link
               </Button>
             </Wrap>
           </SimpleGrid>
@@ -103,4 +131,4 @@ const TechTagCustomizer = ({
   );
 };
 
-export default TechTagCustomizer;
+export default LinkTagCustomizer;
