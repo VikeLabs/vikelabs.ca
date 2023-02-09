@@ -1,4 +1,4 @@
-import { ProjectInfo, User } from "@prisma/client";
+import { Project, ProjectInfo, User } from "@prisma/client";
 
 export type ProjectEditorForm = Omit<
   ProjectInfo,
@@ -13,6 +13,10 @@ export type ProjectUpdateDataNoImages = Omit<
 >;
 
 export type ProjectUpdateData = ProjectEditorForm & {
+  id: string;
+  isDraft: boolean;
+  needApproval: boolean;
+  defaultImages: string[];
   imageUrlsToDelete: string[];
   imageFilesToAdd: File[];
 };

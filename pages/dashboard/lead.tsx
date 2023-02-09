@@ -58,6 +58,7 @@ const ProjectCard = ({
           }}
           onPreview={() => setPreview(!isPreview)}
           isPreview={isPreview}
+          isDraft={isDraft}
         />
       ) : (
         <ProjectLeadView

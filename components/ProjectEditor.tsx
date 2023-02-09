@@ -28,6 +28,7 @@ const ProjectEditor = ({
   onEditor,
   onPreview,
   isPreview = false,
+  isDraft,
 }: {
   id: number;
   project: ProjectInfoLeadView;
@@ -35,6 +36,7 @@ const ProjectEditor = ({
   onEditor?: () => void;
   onPreview?: () => void;
   isPreview?: boolean;
+  isDraft: boolean;
 }) => {
   const { formState, control, handleSubmit, watch, getValues, setValue } =
     useForm<ProjectEditorForm>({
@@ -64,7 +66,7 @@ const ProjectEditor = ({
     setImagesToAddCount,
     setImageAddingIndex
   );
-  const imagePreviews = useImagePreviews(watchImages as (string | File)[], id);
+  const imagePreviews = useImagePreviews(watchImages as (string | File)[], id, isDraft);
   const editor = useEditor({
     extensions: [StarterKit, Underline, Subscript, Superscript],
     editorProps: {
@@ -80,6 +82,8 @@ const ProjectEditor = ({
   const isDirty =
     deepDirtyChecker(config.deepDirtyChecker.isDirty, formState, getValues).length > 0;
   const onSubmit = (data: ProjectEditorForm) => {
+    const needApproval =
+      deepDirtyChecker(config.deepDirtyChecker.needsApproval, formState, getValues).length > 0;
     const imageUrlsToDelete: string[] = [];
     const imageFilesToAdd: File[] = [];
     for (const image of data.imageUrls as (string | File)[]) {
@@ -97,6 +101,10 @@ const ProjectEditor = ({
       typeof image === "string" ? image : image.name.toLowerCase().replaceAll(" ", "_")
     );
     const projectUpdateData: ProjectUpdateData = {
+      id: project.id,
+      isDraft,
+      needApproval,
+      defaultImages: project.imageUrls as string[],
       ...rest,
       imageUrls,
       imageFilesToAdd,
@@ -284,9 +292,7 @@ const ProjectEditor = ({
               <Edit.Images
                 value={imagePreviews.data ?? []}
                 getValues={getValues}
-                setImages={(items: ImageInfo[]) =>
-                  setValue("imageUrls", items as unknown as Prisma.JsonValue)
-                }
+                setImages={(items: ImageInfo[]) => setValue("imageUrls", items as Prisma.JsonValue)}
               />
             )
           }

@@ -57,7 +57,7 @@ export const deepDirtyChecker = (
 export const deepDirtyCheckerServerside = (
   fields: Omit<FieldDirtyChecker, "label">[],
   originalValues: ProjectInfo,
-  currentValues: ProjectUpdateDataNoImages
+  currentValues: Omit<ProjectUpdateDataNoImages, "id">
 ) => {
   const fieldsDirty: string[] = [];
   for (const field of fields) {

@@ -104,7 +104,7 @@ const ProjectSideButtons = ({
                 aria-label={`Edit ${project.title}`}
                 icon={<EditIcon />}
                 onClick={onEditor}
-                isDisabled={hasDraft}
+                // isDisabled={hasDraft} // TODO: uncomment later
               />
             </Tooltip>
             <Tooltip

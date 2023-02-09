@@ -41,7 +41,7 @@ export async function getProjectFromLeadId(id: string) {
 
 async function createProjectInfo(
   id: number,
-  projectInfo: ProjectUpdateDataNoImages,
+  projectInfo: Omit<ProjectUpdateDataNoImages, "id">,
   userId: string,
   needApproval: boolean
 ) {
@@ -76,8 +76,40 @@ async function createProjectInfo(
   return { savedAsType: needApproval ? "draft" : "live", createdProjectInfo };
 }
 
-async function updateProjectDraftInfo(id: string, projectInfo: ProjectUpdateDataNoImages) {
-  return;
+async function isDraft(projectInfo: ProjectUpdateDataNoImages) {
+  const projectDraftVersion = await prisma.project.findUnique({
+    where: {
+      draftId: projectInfo.id,
+    },
+  });
+  if (projectDraftVersion) {
+    return true;
+  }
+  return false;
+}
+
+async function updateProjectDraftInfo(projectInfo: ProjectUpdateDataNoImages, userId: string) {
+  const data: Omit<ProjectInfo, "id" | "updatedAt"> = {
+    title: projectInfo.title,
+    description: projectInfo.description,
+    links: projectInfo.links,
+    stack: projectInfo.stack,
+    imageUrls: projectInfo.imageUrls,
+    recruiting: projectInfo.recruiting,
+    recruitingFor: projectInfo.recruitingFor,
+    members: projectInfo.members,
+    updatedBy: userId,
+    approvedBy: undefined,
+    approvedAt: undefined,
+    requireApproval: undefined, // This is undefined so it wont update
+  };
+  const updatedProjectDraft = await prisma.projectInfo.update({
+    where: {
+      id: projectInfo.id,
+    },
+    data,
+  });
+  return updatedProjectDraft;
 }
 
 export async function getProjectInfo(id: string) {
@@ -142,8 +174,32 @@ const projectUpdateEndpoint = async (
     switch (req.method) {
       case "POST":
         // This only handles when user edits and submits a change for live version
-        const data: ProjectEditorForm = JSON.parse(req.body);
+        const data: ProjectUpdateData = JSON.parse(req.body);
 
+        // We pass in isDraft in req.body, but we verify this for security.
+        // If a lead makes a request with isDraft on a live project version, it can overwrite the live version changes.
+        // So we check this here, log if this ever happens, and save to draft version as normal.
+        // TODO: Create an admin "audit log" where they check suspicious activity such as this case.
+        const isProjectDraft = await isDraft(data);
+        if (isProjectDraft !== data.isDraft) {
+          console.error(
+            "Tampering with isDraft is detected, this could've been done in an attempt to overwrite the live version.",
+            "The discrepancy was handled, but please take caution with this user.",
+            userFromToken,
+            data
+          );
+        }
+        if (isProjectDraft) {
+          const updateProjectDraftInfoFeedback = await updateProjectDraftInfo(
+            data,
+            userFromToken.id
+          );
+          res.status(200).json({
+            message: "Project draft updated!",
+            updateProjectDraftInfoFeedback,
+          });
+          break;
+        }
         const needApproval = deepDirtyCheckerServerside(
           [
             { controlName: "title" },

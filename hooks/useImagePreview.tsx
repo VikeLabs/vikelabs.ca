@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { config } from "../config/config";
 import { ImageInfo } from "../types";
 
-export function useImagePreviews(value: (string | File)[], id: number) {
+export function useImagePreviews(value: (string | File)[], id: number, isDraft: boolean) {
   return useQuery<ImageInfo[]>({
     queryKey: [value, id, "projectImages"],
     queryFn: async () => {
@@ -14,7 +14,7 @@ export function useImagePreviews(value: (string | File)[], id: number) {
         file: typeof image === "string" ? undefined : image,
         url:
           typeof image === "string"
-            ? `${config.buckets.projects}/${id}/${image}`
+            ? `${config.buckets.projects}/${id}/${isDraft ? "draft" : "live"}/${image}`
             : URL.createObjectURL(image),
         name: typeof image === "string" ? image : image.name?.toLowerCase()?.replaceAll(" ", "_"),
       }));

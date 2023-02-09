@@ -51,7 +51,7 @@ model ProjectInfo {
   recruitingFor   Json
   members         Json // Order of all members, [{id, role}]
   updatedBy       String // username
-  updatedAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
   approvedBy      String?
   approvedAt      DateTime?
   requireApproval Boolean   @default(true)
