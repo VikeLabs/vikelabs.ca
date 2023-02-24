@@ -12,6 +12,7 @@ async function main() {
       imageUrl: "https://avatars.githubusercontent.com/u/66714443?v=4",
       username: "robchendev",
       displayName: "Robert Chen",
+      isCredited: true,
       role: Role.admin,
     },
   });
@@ -26,6 +27,7 @@ async function main() {
       firstName: "Glenn",
       lastName: "Quagmire",
       imageUrl: "https://i.pinimg.com/originals/aa/e8/92/aae892d46777024facfb01dabe88fd86.jpg",
+      isCredited: false,
       role: Role.member,
     },
   });
@@ -38,20 +40,20 @@ async function main() {
       title: "Vikelabs.ca",
       description: "<p>Live description</p>",
       recruiting: false,
-      recruitingFor: JSON.stringify(["FrontEnd Developer", "BackEnd Developer", "Pizza Eater"]),
-      stack: JSON.stringify([
+      recruitingFor: ["FrontEnd Developer", "BackEnd Developer", "Pizza Eater"],
+      stack: [
         { color: "blue", label: "TypeScript" },
         { color: "cyan", label: "React" },
         { color: "teal", label: "Go" },
         { color: "orange", label: "Python" },
-      ]),
-      links: JSON.stringify([
+      ],
+      links: [
         { url: "https://github.com/VikeLabs/vikelabs.ca", color: "purple", label: "GitHub" },
         { url: "https://github.com/VikeLabs/vikelabs.ca", color: "green", label: "Android" },
         { url: "https://github.com/VikeLabs/vikelabs.ca", color: "blue", label: "iOS" },
-      ]),
-      imageUrls: JSON.stringify(["courseup-timetable.jpg", "courseup-viewer.jpg"]),
-      members: JSON.stringify([
+      ],
+      imageUrls: ["courseup-timetable.jpg", "courseup-viewer.jpg"],
+      members: [
         {
           id: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
           role: "Front End Developer",
@@ -62,7 +64,7 @@ async function main() {
           role: "Back End Developer",
           isCredited: false,
         },
-      ]),
+      ],
       updatedBy: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
       updatedAt: new Date(),
       managedBy: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
@@ -79,31 +81,29 @@ async function main() {
       title: "Vikelabs.ca",
       description: "<p>Draft description</p>",
       recruiting: true,
-      recruitingFor: JSON.stringify(["FrontEnd Developer", "BackEnd Developer", "Pizza Eater"]),
-      stack: JSON.stringify([
+      recruitingFor: ["FrontEnd Developer", "BackEnd Developer", "Pizza Eater"],
+      stack: [
         { color: "blue", label: "TypeScript" },
         { color: "cyan", label: "React" },
         { color: "teal", label: "Go" },
         { color: "orange", label: "Python" },
-      ]),
-      links: JSON.stringify([
+      ],
+      links: [
         { url: "https://github.com/VikeLabs/vikelabs.ca", color: "purple", label: "GitHub" },
         { url: "https://github.com/VikeLabs/vikelabs.ca", color: "green", label: "Android" },
         { url: "https://github.com/VikeLabs/vikelabs.ca", color: "blue", label: "iOS" },
-      ]),
-      imageUrls: JSON.stringify(["courseup-timetable.jpg", "courseup-viewer.jpg", "2.png"]),
-      members: JSON.stringify([
+      ],
+      imageUrls: ["courseup-timetable.jpg", "courseup-viewer.jpg", "2.png"],
+      members: [
         {
           id: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
           role: "Front End Developer",
-          isCredited: true,
         },
         {
           id: "0706feb7-1924-4ca6-9359-f8e634656803",
           role: "Back End Developer",
-          isCredited: false,
         },
-      ]),
+      ],
       updatedBy: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
       updatedAt: new Date(),
       managedBy: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
@@ -127,7 +127,6 @@ async function main() {
     create: {
       projectId: 1,
       leadId: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
-      isCredited: true,
     },
   });
   // const vikelabsCaMemberRobert = await prisma.projectHasMembers.upsert({
@@ -136,7 +135,6 @@ async function main() {
   //   create: {
   //     projectId: 1,
   //     memberId: "0706feb7-1924-4ca6-9359-f8e634656803",
-  //     isCredited: false,
   //   },
   // });
   // const vikelabsCaMemberGlenn = await prisma.projectHasMembers.upsert({
@@ -145,7 +143,6 @@ async function main() {
   //   create: {
   //     projectId: 1,
   //     memberId: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
-  //     isCredited: true,
   //   },
   // });
   console.log({ robert, glenn, vikelabsCa, vikelabsCaHasLead, vikelabsCaLive, vikelabsCaDraft });

@@ -4,8 +4,10 @@ export type ProjectEditorForm = Omit<
   ProjectInfo,
   "id" | "updatedBy" | "updatedAt" | "approvedBy" | "approvedAt"
 > & {
-  members: MemberInfo[];
+  members: ProjectMemberInfo[] | MemberInfo[];
 };
+
+export type ProjectMemberInfo = { id: string; role: string };
 
 export type ProjectUpdateDataNoImages = Omit<
   ProjectUpdateData,

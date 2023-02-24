@@ -42,6 +42,8 @@ const ProjectLeadView = ({
   isDraft: boolean;
 }) => {
   const excerpt = project.description.replaceAll("<p>", "").replaceAll("</p>", " ");
+  console.log(project.stack, typeof project.stack);
+
   return (
     <CardBody>
       <Flex>

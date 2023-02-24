@@ -42,7 +42,7 @@ export async function getProjectMembers(id: number) {
         id: member.memberId,
       },
     });
-    const { id, username, displayName, imageUrl, github, discord } = memberInfo;
+    const { id, username, displayName, imageUrl, github, discord, isCredited } = memberInfo;
     memberInfos.push({
       id,
       username,
@@ -50,7 +50,7 @@ export async function getProjectMembers(id: number) {
       imageUrl,
       github,
       discord,
-      isCredited: member.isCredited,
+      isCredited,
     });
   }
   return memberInfos;
@@ -64,7 +64,7 @@ export async function getProjectInfo(id: string) {
   });
   // remove approvedBy info for team lead
   // eslint-disable-next-line
-  const { approvedBy, ...projectEdit } = project;
+  const { managedBy, ...projectEdit } = project;
   return projectEdit;
 }
 

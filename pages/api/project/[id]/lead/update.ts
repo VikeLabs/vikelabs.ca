@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient, Project, ProjectInfo } from "@prisma/client";
+import { PrismaClient, Project, ProjectInfo, Status } from "@prisma/client";
 import {
   ErrorMessage,
   GetProjectEditViewResponse,
@@ -45,8 +45,9 @@ async function createProjectInfo(
   userId: string,
   needApproval: boolean
 ) {
-  const data: Omit<ProjectInfo, "id" | "updatedAt"> = {
+  const data: Omit<ProjectInfo, "id" | "updatedAt" | "managedBy" | "managedAt" | "managerMemo"> = {
     title: projectInfo.title,
+    status: Status.saved, // TODO: fix this, I put this here randomly for testing
     description: projectInfo.description,
     links: projectInfo.links,
     stack: projectInfo.stack,
@@ -55,9 +56,6 @@ async function createProjectInfo(
     recruitingFor: projectInfo.recruitingFor,
     members: projectInfo.members,
     updatedBy: userId,
-    approvedBy: undefined,
-    approvedAt: undefined,
-    requireApproval: needApproval,
   };
 
   const createdProjectInfo = await prisma.projectInfo.create({
@@ -89,7 +87,8 @@ async function isDraft(projectInfo: ProjectUpdateDataNoImages) {
 }
 
 async function updateProjectDraftInfo(projectInfo: ProjectUpdateDataNoImages, userId: string) {
-  const data: Omit<ProjectInfo, "id" | "updatedAt"> = {
+  const data: Omit<ProjectInfo, "id" | "updatedAt" | "managedBy" | "managedAt" | "managerMemo"> = {
+    status: Status.submitted,
     title: projectInfo.title,
     description: projectInfo.description,
     links: projectInfo.links,
@@ -99,9 +98,6 @@ async function updateProjectDraftInfo(projectInfo: ProjectUpdateDataNoImages, us
     recruitingFor: projectInfo.recruitingFor,
     members: projectInfo.members,
     updatedBy: userId,
-    approvedBy: undefined,
-    approvedAt: undefined,
-    requireApproval: undefined, // This is undefined so it wont update
   };
   const updatedProjectDraft = await prisma.projectInfo.update({
     where: {
@@ -190,6 +186,25 @@ const projectUpdateEndpoint = async (
           );
         }
         if (isProjectDraft) {
+          switch (data.status) {
+            case Status.approved:
+              // TODO: check if approval is needed
+              break;
+            case Status.rejected:
+              // TODO: this case shouldnt be reached here since it's set by admins
+              break;
+            case Status.saved:
+              // TODO: check if approval is needed
+              break;
+            case Status.savedReview:
+              // TODO: bypass checking since it's not needed
+              break;
+            case Status.submitted:
+              // TODO: bypass checking since it's not needed
+              break;
+            default:
+              console.error(`${data.status} is not handled!`);
+          }
           const updateProjectDraftInfoFeedback = await updateProjectDraftInfo(
             data,
             userFromToken.id
