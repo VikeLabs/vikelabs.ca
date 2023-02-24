@@ -1,44 +1,128 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuthContext } from "../../components/AuthContextProvider";
 import DashboardWrapper from "../../components/DashboardWrapper";
+import Loading from "../../components/Loading";
+import { useProjectEditView } from "../../hooks/useProjectEditView";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Heading,
+  Stack,
+  Box,
+  StackDivider,
+  Text,
+} from "@chakra-ui/react";
+import { MemberInfo, ProjectInfoLeadView } from "../../types";
+import ProjectLeadView from "../../components/ProjectLeadView";
+import ProjectEditor from "../../components/ProjectEditor";
 
-const lead = () => {
+const ProjectHeader = ({ heading, text }: { heading: string; text: string }) => (
+  <>
+    <Heading size="xs" textTransform="uppercase">
+      {heading}
+    </Heading>
+    <Text py="2" fontSize="sm">
+      {text}
+    </Text>
+  </>
+);
+
+const ProjectCard = ({
+  id,
+  project,
+  members,
+  hasDraft = false,
+  isDraft = false,
+}: {
+  id: number;
+  project: ProjectInfoLeadView;
+  members: MemberInfo[];
+  hasDraft?: boolean;
+  isDraft?: boolean;
+}) => {
+  const [isPreview, setPreview] = useState(false);
+  const [isEditing, setEditing] = useState(false);
+
+  // TODO: order of these conditions need to be changed later
+  return (
+    <Card>
+      {isEditing ? (
+        <ProjectEditor
+          id={id}
+          project={project}
+          members={members}
+          onEditor={() => {
+            setEditing(false);
+            setPreview(false);
+          }}
+          onPreview={() => setPreview(!isPreview)}
+          isPreview={isPreview}
+          isDraft={isDraft}
+        />
+      ) : (
+        <ProjectLeadView
+          id={id}
+          project={project}
+          members={members}
+          onEditor={() => setEditing(true)}
+          onPreview={() => setPreview(true)}
+          isPreview={isPreview}
+          hasDraft={hasDraft}
+          isDraft={isDraft}
+        />
+      )}
+    </Card>
+  );
+};
+
+// TODO: If a draft exists, grey out the live data controls
+const Lead = () => {
+  const { user } = useAuthContext();
+  const project = useProjectEditView(user?.id, user?.token);
+
+  const live = project.data?.live;
+  const draft = project.data?.draft;
+  const members = project.data?.members;
+
   return (
     <DashboardWrapper title="Team Lead">
-      <div>
-        Your projects:
-        {/* Link is /dashboard/teams/teamName */}
-        {/* Each project has two edit buttons:
-              1. Edit project details
-              2. Edit project team members (based on the members existing in DB)
-        */}
-        <div>CourseUp</div>
-        <div>Vikelabs.ca</div>
-        <h2>Edit Project</h2>
-        <li>Title</li>
-        <li>Description</li>
-        <li>
-          Stack / Technologies - There's a preset list of technologies and colors, but the user can
-          add a custom technology + color
-        </li>
-        <li>Repository link</li>
-        <li>Deployment links</li>
-        <li>Screenshots</li>
-        <li>
-          Team members - choose from a list of users in vikelabs that are registered on the site -
-          can choose whether to show pfp or not - add by github, with their preferred name and
-          github username
-        </li>
-        <p>They can also see the info</p>
-        <li>Order in /projects page</li>
-        <li>Preview of what the project preview on /projects page looks like</li>
-        <p>
-          In this page, users can see preview of their project page and enable editing for each
-          section on the same page. There's also a "submit for approval" button to alert admins of
-          approval request and a "Save Draft" button to simply save.
-        </p>
-      </div>
+      {project.isLoading && <Loading />}
+      {project.data && (
+        <Card>
+          <CardHeader>
+            <Heading size="md">Projects</Heading>
+          </CardHeader>
+          <CardBody>
+            <Stack divider={<StackDivider />} spacing="4">
+              {/* Consider refactoring */}
+              {live && (
+                <Box>
+                  <ProjectHeader heading="Live Info" text="This info is public on the website" />
+                  <ProjectCard
+                    id={project.data?.id}
+                    project={live}
+                    members={members}
+                    hasDraft={!!draft}
+                  />
+                </Box>
+              )}
+              {draft && (
+                <Box>
+                  <ProjectHeader
+                    heading="Draft Info"
+                    text="This info is pending approval from the admins"
+                  />
+                  <ProjectCard id={project.data?.id} project={draft} members={members} isDraft />
+                </Box>
+              )}
+            </Stack>
+          </CardBody>
+        </Card>
+      )}
+      {project.isError && <div>Error loading project info for user id: {user?.id}</div>}
     </DashboardWrapper>
   );
 };
 
-export default lead;
+export default Lead;

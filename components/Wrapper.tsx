@@ -10,7 +10,7 @@ const Wrapper = ({
 }) => {
   return (
     <div>
-      <header className="p-4 mx-auto md:w-10/12 fixed md:relative md:flex md:justify-between md:items-center md:text-center">
+      <header className="p-4 mx-auto md:w-8/12 fixed md:relative md:flex md:justify-between md:items-center md:text-center">
         VikeLabs
         <NavigationBar />
       </header>

@@ -19,6 +19,7 @@ const LogInOutButton = () => {
   // TODO: https://supabase.com/docs/guides/auth/overview#redirect-urls-and-wildcards
   const getURL = () => {
     let url =
+      // TODO: Need to set staging and production urls here
       process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
       process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
       "http://localhost:3001";

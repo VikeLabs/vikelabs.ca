@@ -1,16 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* All the !important in here can be removed after chakra ui removal */
 
+html {
+  overflow-y: scroll;
+}
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Open Sans', sans-serif !important;
+  font-family: "Open Sans", sans-serif !important;
   height: 100%;
+}
+
+.desc p:not(:last-child) {
+  margin-bottom: 0.5rem;
 }
 
 h2 {
@@ -39,7 +46,6 @@ a {
 
 /* variables */
 :root {
-
   /* sizes */
   --maxWidth: 1200px;
   --xs: 4px;
@@ -54,7 +60,7 @@ a {
   /* colors */
   --black: #272727;
   --blue: #5865f2;
-  --yellow: #FED766;
-  --red: #E84855;
+  --yellow: #fed766;
+  --red: #e84855;
   --white: #fff;
 }

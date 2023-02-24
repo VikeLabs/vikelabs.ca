@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, User } from "@prisma/client";
-import { ErrorMessage, GetLoggedInUserResponse, LoggedInUserEditForm } from "../../../../types";
+import { ErrorMessage, GetLoggedInUserResponse } from "../../../../types";
 import { supabase } from "../../../../supabase-client";
 
 const prisma = new PrismaClient();
@@ -15,7 +15,7 @@ export async function getUser(id: string) {
   return user;
 }
 
-export async function updateUser(id: string, data: LoggedInUserEditForm) {
+export async function updateUser(id: string, data: User) {
   const user = await prisma.user.update({
     where: {
       id,
@@ -25,7 +25,7 @@ export async function updateUser(id: string, data: LoggedInUserEditForm) {
   return user;
 }
 
-const editUser = async (
+const userEndpoint = async (
   req: NextApiRequest,
   res: NextApiResponse<GetLoggedInUserResponse | ErrorMessage>
   // res: NextApiResponse
@@ -46,6 +46,7 @@ const editUser = async (
       res.status(401).json({ message: "URL parameter of user ID does not match user ID" });
       return;
     }
+
     let user: User;
     switch (req.method) {
       case "GET":
@@ -66,4 +67,4 @@ const editUser = async (
   }
 };
 
-export default editUser;
+export default userEndpoint;

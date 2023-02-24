@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 import ApprovalNotice from "../../components/ApprovalNotice";
 import { useAuthContext } from "../../components/AuthContextProvider";
 import DashboardWrapper from "../../components/DashboardWrapper";
-import { Editable, Label, UserEditorForm } from "../../components/FormHelpers";
+import { Editable, Label } from "../../components/FormHelpers";
 import InfoHeader from "../../components/InfoHeader";
 import Loading from "../../components/Loading";
 import { useEditUserMutation } from "../../hooks/useEditUserMutation";
 import { useLoggedInUser } from "../../hooks/useLoggedInUser";
-import { LoggedInUserEditForm } from "../../types";
+import { UserEditorForm } from "../../types";
 
 const Divider = () => <div className="w-full h-px bg-black my-4"></div>;
 
@@ -17,7 +17,7 @@ const Member = () => {
   const loggedInUser = useLoggedInUser(user?.id, user?.token);
   const editUserMutation = useEditUserMutation(user?.id, user?.token);
   const [isEditing, setIsEditing] = useState(false);
-  const { formState, handleSubmit, control, reset } = useForm<UserEditorForm>({
+  const { formState, handleSubmit, control, getValues, reset } = useForm<UserEditorForm>({
     defaultValues: {
       vId: "",
       username: "",
@@ -36,7 +36,7 @@ const Member = () => {
     }
   }, [loggedInUser.data, reset, user]);
 
-  const onSubmit = (data: LoggedInUserEditForm) => {
+  const onSubmit = (data: UserEditorForm) => {
     editUserMutation.mutate(data, {
       onSuccess: (response) => {
         if (response.ok) {
@@ -94,6 +94,12 @@ const Member = () => {
               placeholder="johnSmithCantCode"
             />
           </div>
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <Label text="Club Id" />
+              <p>{loggedInUser.data.id}</p>
+            </div>
+          </div>
 
           <Divider />
 
@@ -124,10 +130,6 @@ const Member = () => {
               controlName="vId"
               placeholder="01234567"
             />
-            <div>
-              <Label text="Club Id" />
-              <p>{loggedInUser.data.id}</p>
-            </div>
           </div>
           <ApprovalNotice
             isEditing={isEditing}
@@ -137,6 +139,7 @@ const Member = () => {
               { label: "Profile Picture", controlName: "imageUrl" },
               { label: "Github Username", controlName: "github" },
             ]}
+            getValues={getValues}
             formState={formState}
             onEdit={() => setIsEditing(true)}
             onCancel={() => {

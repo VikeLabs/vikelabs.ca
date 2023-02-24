@@ -5,6 +5,7 @@ import { useAuthContext } from "./AuthContextProvider";
 import BlogDashboard from "./BlogDashboard";
 import Container from "./Container";
 import CreateAccountCard from "./CreateAccountCard";
+import Loading from "./Loading";
 import { NavigationButton } from "./Navigation";
 import Wrapper from "./Wrapper";
 
@@ -13,11 +14,13 @@ const DashboardView = ({
   allowed,
   title,
   role,
+  isLoading,
 }: {
   children: React.ReactNode;
   allowed: boolean;
   title: string;
   role: string;
+  isLoading: boolean;
 }) => {
   switch (allowed) {
     case true:
@@ -46,7 +49,7 @@ const DashboardView = ({
     case false:
       return (
         <Container>
-          <div className="bg-slate-100 p-4">unauthorized</div>
+          {isLoading ? <Loading /> : <div className="bg-slate-100 p-4">unauthorized</div>}
         </Container>
       );
   }
@@ -76,7 +79,12 @@ const DashboardWrapper = ({ children, title }: { children: React.ReactNode; titl
       {!loggedInUser.isLoading && user && !loggedInUser.data ? (
         <CreateAccountCard />
       ) : (
-        <DashboardView allowed={allowed} title={title} role={loggedInUser.data?.role}>
+        <DashboardView
+          allowed={allowed}
+          title={title}
+          role={loggedInUser.data?.role}
+          isLoading={loggedInUser.isLoading}
+        >
           {children}
         </DashboardView>
       )}
