@@ -1,9 +1,8 @@
-import { SupabaseAuthClient } from "@supabase/supabase-js/dist/module/lib/SupabaseAuthClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import imageCompression from "browser-image-compression";
-import { blobToWebP, srcToWebP } from "webp-converter-browser";
+import { blobToWebP } from "webp-converter-browser";
 import { supabase } from "../supabase-client";
-import { ImageInfo, ProjectUpdateData } from "../types";
+import { ProjectUpdateData } from "../types";
 
 // import { CreateUserRequest } from "../types";
 interface FileObject {
@@ -134,7 +133,10 @@ export function useProjectUpdateMutation(
       },
     });
     queryClient.invalidateQueries(["project", "projectImages"]);
-    queryClient.removeQueries({ queryKey: ["project", "projectImages"], exact: true });
+    queryClient.removeQueries({
+      queryKey: ["project", "projectImages"],
+      exact: true,
+    });
     return response;
   });
 }

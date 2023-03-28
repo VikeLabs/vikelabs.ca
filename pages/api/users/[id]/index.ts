@@ -50,11 +50,11 @@ const userEndpoint = async (
     let user: User;
     switch (req.method) {
       case "GET":
-        user = await getUser(req.query.id as string);
+        user = await getUser(req.query.id);
         res.status(200).json(user);
         break;
       case "POST":
-        user = await updateUser(req.query.id as string, JSON.parse(req.body));
+        user = await updateUser(req.query.id, JSON.parse(req.body));
         res.status(200).json(user);
         break;
       default:

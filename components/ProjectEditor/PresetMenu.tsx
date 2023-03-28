@@ -218,7 +218,11 @@ const PresetMenu = ({
     <Menu placement="right-start">
       <MenuButton as={Button}>Add New</MenuButton>
       <MenuList>
-        <MenuInput type="title" onChange={(e) => setSearch(e.target.value)} value={search} />
+        <MenuInput
+          type="title"
+          onChange={(e: any) => setSearch(e.target.value as string)}
+          value={search}
+        />
         {children}
       </MenuList>
     </Menu>

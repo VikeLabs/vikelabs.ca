@@ -25,7 +25,6 @@ import { colorShade, hexToRgbA } from "../utils/colorHelpers";
 const ProjectLeadView = ({
   id,
   project,
-  members,
   onEditor,
   onPreview,
   isPreview = false,
@@ -58,7 +57,7 @@ const ProjectLeadView = ({
             ))}
           </AvatarGroup>
           <Wrap pt="2">
-            {(!!(project.stack as TechTag[]).length ? (project.stack as TechTag[]) : []).map(
+            {((project.stack as TechTag[]).length ? (project.stack as TechTag[]) : []).map(
               (tech: TechTag, index) => (
                 <Tag
                   key={index}
@@ -72,7 +71,7 @@ const ProjectLeadView = ({
                 </Tag>
               )
             )}
-            {(!!(project.links as LinkTag[]).length ? (project.links as LinkTag[]) : []).map(
+            {((project.links as LinkTag[]).length ? (project.links as LinkTag[]) : []).map(
               (link: LinkTag, index) => (
                 <Link href={link.url} key={index} lineHeight={1} isExternal>
                   <Tag

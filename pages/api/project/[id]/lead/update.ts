@@ -1,17 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient, Project, ProjectInfo, Status } from "@prisma/client";
-import {
-  ErrorMessage,
-  GetProjectEditViewResponse,
-  ImageToAdd,
-  ImageToDelete,
-  MemberInfo,
-  ProjectEditorForm,
-  ProjectUpdateData,
-  ProjectUpdateDataNoImages,
-} from "../../../../../types";
+import { PrismaClient, ProjectInfo, Status } from "@prisma/client";
+import { ErrorMessage, ProjectUpdateData, ProjectUpdateDataNoImages } from "../../../../../types";
 import { supabase } from "../../../../../supabase-client";
-import { deepDirtyChecker, deepDirtyCheckerServerside } from "../../../../../utils/needApproval";
+import { deepDirtyCheckerServerside } from "../../../../../utils/needApproval";
 
 const prisma = new PrismaClient();
 const usage = "POST /api/project/[id]/lead/update";
@@ -131,9 +122,9 @@ const projectUpdateEndpoint = async (
     const projectId = Number(req.query.id);
 
     if (isNaN(Number(projectId))) {
-      res
-        .status(400)
-        .json({ message: `Project ID is not a number. Received type '${typeof projectId}'` });
+      res.status(400).json({
+        message: `Project ID is not a number. Received type '${typeof projectId}'`,
+      });
     }
 
     // validate token was given by supabase
@@ -167,16 +158,24 @@ const projectUpdateEndpoint = async (
       return;
     }
 
+    // TODO: ...let's refactor these cases into their own functions
+    let data: ProjectUpdateData;
+    let isProjectDraft: boolean;
+    let needApproval: string[];
+    let updateProjectInfoFeedback: {
+      savedAsType: string;
+      createdProjectInfo: ProjectInfo;
+    };
     switch (req.method) {
       case "POST":
         // This only handles when user edits and submits a change for live version
-        const data: ProjectUpdateData = JSON.parse(req.body);
+        data = JSON.parse(req.body);
 
         // We pass in isDraft in req.body, but we verify this for security.
         // If a lead makes a request with isDraft on a live project version, it can overwrite the live version changes.
         // So we check this here, log if this ever happens, and save to draft version as normal.
         // TODO: Create an admin "audit log" where they check suspicious activity such as this case.
-        const isProjectDraft = await isDraft(data);
+        isProjectDraft = await isDraft(data);
         if (isProjectDraft !== data.isDraft) {
           console.error(
             "Tampering with isDraft is detected, this could've been done in an attempt to overwrite the live version.",
@@ -202,8 +201,6 @@ const projectUpdateEndpoint = async (
             case Status.submitted:
               // TODO: bypass checking since it's not needed
               break;
-            default:
-              console.error(`${data.status} is not handled!`);
           }
           const updateProjectDraftInfoFeedback = await updateProjectDraftInfo(
             data,
@@ -215,7 +212,7 @@ const projectUpdateEndpoint = async (
           });
           break;
         }
-        const needApproval = deepDirtyCheckerServerside(
+        needApproval = deepDirtyCheckerServerside(
           [
             { controlName: "title" },
             { controlName: "description", deepCheck: true },
@@ -227,7 +224,7 @@ const projectUpdateEndpoint = async (
           await getProjectInfo(project.liveId),
           data
         );
-        const updateProjectInfoFeedback = await createProjectInfo(
+        updateProjectInfoFeedback = await createProjectInfo(
           projectId,
           data,
           userFromToken.id,

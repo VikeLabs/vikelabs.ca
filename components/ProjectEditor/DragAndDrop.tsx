@@ -5,7 +5,6 @@ import {
   Button,
   Card,
   CardBody,
-  Center,
   Flex,
   HStack,
   IconButton,
@@ -27,7 +26,7 @@ export const DraggableRecruitingPositions = ({
   onRemoveItem: (index: number) => void;
 }) => (
   <>
-    {(!!items.length ? (items as string[]) : []).map((position: string, index: number) => (
+    {(items.length ? items : []).map((position: string, index: number) => (
       <Draggable key={`${position}/${index}`} draggableId={String(index)} index={index}>
         {(provided) => (
           <HStack
@@ -70,7 +69,7 @@ export const DraggableTechTags = ({
   onRemoveItem: (index: number) => void;
 }) => (
   <>
-    {(!!items.length ? (items as TechTag[]) : []).map((tech: TechTag, index: number) => (
+    {(items.length ? items : []).map((tech: TechTag, index: number) => (
       <Draggable key={`${tech.label}/${index}`} draggableId={String(index)} index={index}>
         {(provided) => (
           <HStack
@@ -114,7 +113,7 @@ export const DraggableLinkTags = ({
   onRemoveItem: (index: number) => void;
 }) => (
   <>
-    {(!!items.length ? (items as LinkTag[]) : []).map((link: LinkTag, index: number) => (
+    {(items.length ? (items as LinkTag[]) : []).map((link: LinkTag, index: number) => (
       <Draggable key={`${link.label}/${index}`} draggableId={String(index)} index={index}>
         {(provided) => (
           <HStack
@@ -160,7 +159,7 @@ export const DraggableImages = ({
   onRemoveItem: (index: number) => void;
 }) => (
   <>
-    {(!!items.length ? (items as ImageInfo[]) : []).map((image: ImageInfo, index: number) => (
+    {(items.length ? items : []).map((image: ImageInfo, index: number) => (
       <Draggable key={`${image.url}/${index}`} draggableId={String(index)} index={index}>
         {(provided) => (
           <HStack
@@ -222,7 +221,7 @@ export const DraggableMember = ({
 }) => {
   return (
     <Box>
-      {(!!items.length ? (items as MemberInfo[]) : []).map((member: MemberInfo, index: number) => (
+      {(items.length ? items : []).map((member: MemberInfo, index: number) => (
         <Draggable key={`${member.id}/${index}`} draggableId={String(index)} index={index}>
           {(provided) => (
             <HStack

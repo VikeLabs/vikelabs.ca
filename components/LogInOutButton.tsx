@@ -10,10 +10,14 @@ const LogInOutButton = () => {
   const { user, dispatch } = useAuthContext();
   function logOut() {
     /* sign the user out */
-    auth.signOut().then(() => {
-      dispatch({ type: "logout" });
-      router.push("/");
-    });
+    auth
+      .signOut()
+      .then(() => {
+        dispatch({ type: "logout" });
+        // eslint-disable-next-line
+        router.push("/");
+      })
+      .catch((err) => console.log(err));
   }
 
   // TODO: https://supabase.com/docs/guides/auth/overview#redirect-urls-and-wildcards
@@ -32,21 +36,25 @@ const LogInOutButton = () => {
 
   // The actual signin part
   const logInDiscord = () => {
-    auth.signInWithOAuth({
-      provider: "discord",
-      options: {
-        redirectTo: `${getURL()}/dashboard`,
-      },
-    });
+    auth
+      .signInWithOAuth({
+        provider: "discord",
+        options: {
+          redirectTo: `${getURL()}/dashboard`,
+        },
+      })
+      .catch((err) => console.log(err));
   };
 
   const logInGithub = () => {
-    auth.signInWithOAuth({
-      provider: "github",
-      options: {
-        redirectTo: `${getURL()}/dashboard`,
-      },
-    });
+    auth
+      .signInWithOAuth({
+        provider: "github",
+        options: {
+          redirectTo: `${getURL()}/dashboard`,
+        },
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -65,13 +73,15 @@ const LogInOutButton = () => {
       };
       return userSession;
     };
-    getUser().then((userSession) => {
-      if (userSession.user.token) {
-        dispatch({ type: "login", payload: userSession.user });
-      } else {
-        dispatch({ type: "logout" });
-      }
-    });
+    getUser()
+      .then((userSession) => {
+        if (userSession.user.token) {
+          dispatch({ type: "login", payload: userSession.user });
+        } else {
+          dispatch({ type: "logout" });
+        }
+      })
+      .catch((err) => console.error(err));
     // eslint-disable-next-line
   }, []);
 

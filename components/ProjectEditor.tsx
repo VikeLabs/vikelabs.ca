@@ -211,7 +211,7 @@ const ProjectEditor = ({
                   descriptionNotEmpty: (value) => value !== "<p></p>",
                 },
               }}
-              render={({ field: {} }) =>
+              render={() =>
                 isPreview ? (
                   <View.Description value={editor.getHTML()} />
                 ) : (
