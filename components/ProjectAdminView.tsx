@@ -166,15 +166,15 @@ const ProjectAdminView = ({
                     placeholder="Give feedback (mandatory for reject)"
                     onChange={onChange}
                   />
-                  <Button colorScheme="green" onSubmit={handleSubmit(onApprove)}>
-                    Approve
-                  </Button>
                   <Button
                     colorScheme="red"
                     onSubmit={handleSubmit(onReject)}
                     isDisabled={value?.length === 0}
                   >
                     Reject
+                  </Button>
+                  <Button colorScheme="green" onSubmit={handleSubmit(onApprove)}>
+                    Approve
                   </Button>
                 </>
               )}

@@ -27,8 +27,6 @@ const projectDraftsEndpoint = async (
   // res: NextApiResponse
 ) => {
   try {
-    console.log("TOKEN", req.headers.authorization);
-
     const dataFromToken = await supabase.auth.getUser(req.headers.authorization);
     const userFromToken = dataFromToken.data.user;
 

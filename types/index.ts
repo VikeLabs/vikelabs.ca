@@ -31,6 +31,13 @@ export type UserEditorForm = Omit<GetLoggedInUserResponse, "id" | "role">;
 export type PublicUser = Omit<User, "vId" | "firstName" | "lastName" | "role">;
 export type UserSearchResult = Omit<PublicUser, "github" | "discord">;
 
+export type AdminReviewRequest = {
+  feedback?: string;
+  approved: boolean;
+  projectId: number;
+  draftId: string;
+};
+
 export type ImageInfo = {
   file?: File;
   url?: string;

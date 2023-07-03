@@ -15,17 +15,9 @@ const ProjectAdminCard = ({
   masterRecord: Project;
   project: ProjectInfo;
 }) => {
-  const [isPreview, setPreview] = useState(false);
-
-  // TODO: order of these conditions need to be changed later
   return (
     <Card>
-      <ProjectAdminView
-        masterRecord={masterRecord}
-        project={project}
-        onPreview={() => setPreview(true)}
-        isPreview={isPreview}
-      />
+      <ProjectAdminView masterRecord={masterRecord} project={project} />
     </Card>
   );
 };
