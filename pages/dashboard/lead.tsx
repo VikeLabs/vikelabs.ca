@@ -31,7 +31,7 @@ const ProjectHeader = ({ heading, text }: { heading: string; text: string }) => 
 const ProjectCard = ({
   id,
   project,
-  members,
+  members, // TODO: should be obsolete
   hasDraft = false,
   isDraft = false,
 }: {
@@ -47,11 +47,11 @@ const ProjectCard = ({
   // TODO: order of these conditions need to be changed later
   return (
     <Card>
-      {isEditing ? (
+      {isEditing && !hasDraft ? (
         <ProjectEditor
           id={id}
           project={project}
-          members={members}
+          members={project.members as MemberInfo[]}
           onEditor={() => {
             setEditing(false);
             setPreview(false);
@@ -64,7 +64,7 @@ const ProjectCard = ({
         <ProjectLeadView
           id={id}
           project={project}
-          members={members}
+          members={project.members as MemberInfo[]}
           onEditor={() => setEditing(true)}
           onPreview={() => setPreview(true)}
           isPreview={isPreview}
@@ -111,7 +111,7 @@ const Lead = () => {
                 <Box>
                   <ProjectHeader
                     heading="Draft Info"
-                    text="This info is pending approval from the admins"
+                    text="This info is pending approval from the admins, any edits you make will overwrite the previous draft."
                   />
                   <ProjectCard id={project.data?.id} project={draft} members={members} isDraft />
                 </Box>

@@ -314,7 +314,9 @@ const ProjectEditor = ({
               <Edit.Members
                 value={value ? (value as MemberInfo[]) : []}
                 getValues={getValues}
-                setMembers={(items: MemberInfo[]) => setValue("members", items)}
+                setMembers={(items: MemberInfo[]) => {
+                  setValue("members", items);
+                }}
               />
             )
           }

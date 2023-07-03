@@ -34,22 +34,25 @@ export function useProjectUpdateMutation(
       sortBy: { column: "name", order: "asc" }, // already sorted
     });
 
+    const supaImageUrlList = supaImageList.map((fileObject: FileObject) => fileObject.name);
+    const dataImageUrlsList = projectData.imageUrls as string[];
+    const difference = dataImageUrlsList.filter((imageUrl) => !supaImageUrlList.includes(imageUrl));
+
     // If isDraft is FALSE this is a new draft, so sync images.
     // There may be existing files in /draft, so this check is necessary.
     if (!data.isDraft) {
-      const supaImageUrlList = supaImageList.map((fileObject: FileObject) => fileObject.name);
-      const dataImageUrlsList = projectData.imageUrls as string[];
+      // synchronize image directories
       const placeholderIndex = supaImageUrlList.indexOf(".emptyFolderPlaceholder");
       if (placeholderIndex >= 0) {
         supaImageUrlList.splice(placeholderIndex, 1);
       }
-      const difference = dataImageUrlsList.filter(
-        (imageUrl) => !supaImageUrlList.includes(imageUrl)
-      );
       for (let i = 0; i < difference.length; i++) {
         if (!defaultImages.includes(difference[i])) {
           continue;
         }
+        console.log(difference[i]);
+
+        // TODO: Fix resource not found error
         const { error } = await supabase.storage
           .from("projects")
           .copy(`${id}/live/${difference[i]}`, `${id}/draft/${difference[i]}`);
@@ -57,18 +60,21 @@ export function useProjectUpdateMutation(
           throw Error(error.message);
         }
       }
+    }
 
-      // Now check if there are extra images leftover that shouldn't be stored
-      const { data: supaImageList2 } = await supabase.storage.from("projects").list(`${id}/draft`, {
-        limit: 20,
-        offset: 0,
-        sortBy: { column: "name", order: "asc" }, // already sorted
-      });
-      const supaImageUrlList2 = supaImageList2.map((fileObject: FileObject) => fileObject.name);
-      const difference2 = supaImageUrlList2.filter(
-        (imageUrl) => !dataImageUrlsList.includes(imageUrl)
-      );
-      const imagesToPurge = difference2.map((imageUrl: string) => `${id}/draft/${imageUrl}`);
+    // Now check if there are extra images leftover that shouldn't be stored
+    const { data: supaImageList2 } = await supabase.storage.from("projects").list(`${id}/draft`, {
+      limit: 20,
+      offset: 0,
+      sortBy: { column: "name", order: "asc" }, // already sorted
+    });
+    const supaImageUrlList2 = supaImageList2.map((fileObject: FileObject) => fileObject.name);
+    const difference2 = supaImageUrlList2.filter(
+      (imageUrl) => !dataImageUrlsList.includes(imageUrl)
+    );
+    const imagesToPurge = difference2.map((imageUrl: string) => `${id}/draft/${imageUrl}`);
+    console.log("images to purge:", imagesToPurge);
+    if (imagesToPurge.length > 0) {
       const { error } = await supabase.storage.from("projects").remove(imagesToPurge);
       if (error) {
         throw Error(error.message);
@@ -96,6 +102,7 @@ export function useProjectUpdateMutation(
         console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
 
         // Images should NEVER be added to /live/ without approval from admins
+        // TODO: This currently saves the compressed WEBP file as JPG. Fix this.
         const { error } = await supabase.storage
           .from("projects")
           .upload(

@@ -21,6 +21,7 @@ export function useUserSearch(search: string, token: string) {
         console.error("Error!", response.statusText);
         throw new Error(response.statusText);
       }
+      // eslint-disable-next-line
       return await response.json();
     },
     retry: 3,
