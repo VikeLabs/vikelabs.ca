@@ -9,12 +9,14 @@ export const Editable = ({
   label,
   controlName,
   control,
+  rules,
   isEditing,
   placeholder,
 }: {
   label: string;
-  controlName: keyof UserEditorForm;
-  control: Control<UserEditorForm, any>;
+  controlName: string;
+  control: Control<any, any>;
+  rules?: any;
   isEditing: boolean;
   placeholder?: string;
 }) => (
@@ -23,6 +25,7 @@ export const Editable = ({
     <Controller
       control={control}
       name={controlName}
+      rules={rules}
       render={({ field: { onChange, value } }) => (
         <input
           className="block w-full py-2 px-3 rounded-md border-solid border-black border-2 disabled:p-0 disabled:border-none"
