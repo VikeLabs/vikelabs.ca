@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { CardBody, Heading, Box, Text, Badge, Flex, Spacer, Wrap, Input } from "@chakra-ui/react";
-import { LinkTag, MemberInfo, ProjectInfoLeadView, TechTag } from "../types";
+import { AdminReviewRequest, LinkTag, MemberInfo, ProjectInfoLeadView, TechTag } from "../types";
 import { format } from "date-fns";
 
 import {
@@ -29,6 +29,8 @@ import { Project } from "@prisma/client";
 import { Controller, useForm } from "react-hook-form";
 import { Editable } from "./FormHelpers";
 import { config } from "../config/config";
+import { useProjectModerateMutation } from "../hooks/useProjectModerateMutation";
+import { useAuthContext } from "./AuthContextProvider";
 
 const ProjectSideButtons = ({
   project,
@@ -100,11 +102,43 @@ const ProjectAdminView = ({
       feedback: "",
     },
   });
-  const onApprove = () => {
-    console.log("TODO APPROVE");
+  const { user } = useAuthContext();
+  const projectModerateMutation = useProjectModerateMutation(user?.token);
+
+  const onApprove = (data: { feedback: string }) => {
+    console.log("approving");
+    const payload: AdminReviewRequest = {
+      feedback: data.feedback.length ? data.feedback : undefined,
+      approved: true,
+      projectId: masterRecord.id,
+      draftId: project.id,
+    };
+    projectModerateMutation.mutate(payload, {
+      onSuccess: (response) => {
+        if (response.ok) {
+          console.log("projectUpdateMutation (approve) succeeded!");
+        } else {
+          console.log("projectUpdateMutation (approve) failed!");
+        }
+      },
+    });
   };
-  const onReject = () => {
-    console.log("TODO REJECT");
+  const onReject = (data: { feedback: string }) => {
+    const payload: AdminReviewRequest = {
+      feedback: data.feedback.length ? data.feedback : undefined,
+      approved: false,
+      projectId: masterRecord.id,
+      draftId: project.id,
+    };
+    projectModerateMutation.mutate(payload, {
+      onSuccess: (response) => {
+        if (response.ok) {
+          console.log("projectUpdateMutation (reject) succeeded!");
+        } else {
+          console.log("projectUpdateMutation (reject) failed!");
+        }
+      },
+    });
   };
 
   return (
@@ -153,7 +187,10 @@ const ProjectAdminView = ({
             />
           </Section>
           <Section label="Project Members">
-            <View.Members value={project.members ? (project.members as MemberInfo[]) : []} />
+            <View.Members
+              value={project.members ? (project.members as MemberInfo[]) : []}
+              isReview
+            />
           </Section>
           <Section label="Admin Panel" isPreview={isPreview}>
             <Controller
@@ -168,12 +205,12 @@ const ProjectAdminView = ({
                   />
                   <Button
                     colorScheme="red"
-                    onSubmit={handleSubmit(onReject)}
+                    onClick={handleSubmit(onReject)}
                     isDisabled={value?.length === 0}
                   >
                     Reject
                   </Button>
-                  <Button colorScheme="green" onSubmit={handleSubmit(onApprove)}>
+                  <Button colorScheme="green" onClick={handleSubmit(onApprove)}>
                     Approve
                   </Button>
                 </>

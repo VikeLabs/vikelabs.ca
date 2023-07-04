@@ -32,6 +32,7 @@ const Admin = () => {
       {(projects.isLoading || projectMasterRecord.isLoading) && <Loading />}
       {projects.data && projectMasterRecord.data && (
         <div>
+          <div>Projects requesting approval</div>
           {projects.data.map((project: ProjectInfo) => {
             const masterRecord = projectMasterRecord.data.find((p) => p.draftId === project.id);
             return (
@@ -42,8 +43,6 @@ const Admin = () => {
           })}
         </div>
       )}
-
-      <div>Approve changes</div>
       <div>Manage banners (temporary sections on home page)</div>
     </DashboardWrapper>
   );

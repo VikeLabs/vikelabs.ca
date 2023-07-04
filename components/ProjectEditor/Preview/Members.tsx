@@ -2,12 +2,12 @@ import { Avatar, Box, Card, CardBody, Flex, SimpleGrid, Text } from "@chakra-ui/
 import React from "react";
 import { MemberInfo } from "../../../types";
 
-const Members = ({ value }: { value: MemberInfo[] }) => {
+const Members = ({ value, isReview = false }: { value: MemberInfo[]; isReview?: boolean }) => {
   return (
     <SimpleGrid pt="2" spacing={4} templateColumns="repeat(auto-fill, minmax(250px, 1fr))">
       {value.map((member: MemberInfo, index: number) => (
         <>
-          {member.isCredited && (
+          {(member.isCredited || isReview) && (
             <Card size="sm" key={`${member.id}/${index}`}>
               <CardBody>
                 <Flex>
