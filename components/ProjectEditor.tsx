@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CardBody, Box, Flex, Spacer, Wrap } from "@chakra-ui/react";
+import { CardBody, Box, Flex, Spacer, Wrap, Text } from "@chakra-ui/react";
 import { MemberInfo, ProjectEditorForm, ProjectInfoLeadView, ProjectUpdateData } from "../types";
 import { ImageInfo, LinkTag, TechTag } from "../types";
 import ProjectSideButtons from "./ProjectSideButtons";
@@ -132,7 +132,21 @@ const ProjectEditor = ({
     <CardBody>
       <Flex>
         <Box width="100%" mr="5">
-          <div>FEEDBACK GOES HERE IF EXISTS: {project.feedback}</div>
+          {project.feedback && (
+            <Box
+              mb="4"
+              px="4"
+              py="3"
+              borderRadius="5"
+              backgroundColor={project.status === "rejected" ? "red.200" : "white"}
+            >
+              <Text fontWeight="600">Your submitted changes were rejected</Text>
+              <Text>
+                Reason: <span>{project.feedback}</span>
+              </Text>
+            </Box>
+          )}
+
           <Wrap align="center" m="-1" p="1" spacing="4">
             <Section
               label="Title"

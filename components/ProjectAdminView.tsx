@@ -138,29 +138,35 @@ const ProjectAdminView = ({
           <Flex>
             <Box width="100%" mr="5">
               <Wrap align="center" m="-1" p="1" spacing="4">
-                <Section label="Title" noPt noHeading>
+                <Section label="Title" noPt isPreview noHeading>
                   <View.Title value={project.title} />
                 </Section>
                 <View.Recruiting value={project.recruiting} />
               </Wrap>
 
-              <Section label={`Open Positions${!project.recruiting && " (Disabled)"}`} noHeading>
+              <Section
+                label={`Open Positions${!project.recruiting && " (Disabled)"}`}
+                isPreview
+                noHeading
+              >
                 <View.RecruitingFor
                   value={project.recruitingFor ? (project.recruitingFor as string[]) : []}
                 />
               </Section>
-              <Section label="Description" noHeading>
+              <Section label="Description" isPreview noHeading>
                 <View.Description value={project.description} />
               </Section>
               <Section
                 label="Stack"
                 noPb={(project.stack ? (project.stack as TechTag[]) : []).length === 0}
+                isPreview
               >
                 <View.Stack value={project.stack ? (project.stack as TechTag[]) : []} />
               </Section>
               <Section
                 label="Links"
                 noPb={(project.links ? (project.links as LinkTag[]) : []).length === 0}
+                isPreview
               >
                 <View.Links value={project.links ? (project.links as LinkTag[]) : []} />
               </Section>
@@ -168,7 +174,7 @@ const ProjectAdminView = ({
             <Spacer />
             <ProjectSideButtons project={project} onPreview={onPreview} isPreview={isPreview} />
           </Flex>
-          <Section label="Images" disabled={(project.imageUrls as string[]).length === 0}>
+          <Section label="Images" disabled={(project.imageUrls as string[]).length === 0} isPreview>
             <View.Images
               value={(project.imageUrls as string[]).map((imageUrl: string) => ({
                 // TODO: Put this long url somewhere else
@@ -176,13 +182,13 @@ const ProjectAdminView = ({
               }))}
             />
           </Section>
-          <Section label="Project Members">
+          <Section label="Project Members" isPreview>
             <View.Members
               value={project.members ? (project.members as MemberInfo[]) : []}
               isReview
             />
           </Section>
-          <Section label="Admin Panel" isPreview={isPreview}>
+          <Section label="Admin Panel" isPreview>
             <Text>Submitted: {format(new Date(project.updatedAt), "MMM Io, yyyy, h:mmaaa")}</Text>
             <Text noOfLines={1}>Description of changes: {project.memo}</Text>
             <Controller
