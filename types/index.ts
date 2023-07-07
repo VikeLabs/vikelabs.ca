@@ -1,5 +1,9 @@
 import { Project, ProjectInfo, User } from "@prisma/client";
 
+export type ProjectLiveView = Pick<Project, "id" | "order"> & {
+  projectInfo: ProjectInfo;
+};
+
 export type ProjectEditorForm = Omit<
   ProjectInfo,
   "id" | "updatedBy" | "updatedAt" | "approvedBy" | "approvedAt"

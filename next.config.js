@@ -4,7 +4,11 @@
 const nextConfig = {
   /* config options here */
   images: {
-    domains: ["cdn.discordapp.com", "placekitten.com"],
+    domains: [
+      "cdn.discordapp.com",
+      "placekitten.com",
+      "mvhzkbtvqchhjmqkqokr.supabase.co",
+    ],
   },
 };
 
