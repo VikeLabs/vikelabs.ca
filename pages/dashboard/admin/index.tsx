@@ -1,12 +1,12 @@
-import { Card } from "@chakra-ui/react";
+import { Button, Card } from "@chakra-ui/react";
 import { Project, ProjectInfo } from "@prisma/client";
 import React from "react";
-import { useAuthContext } from "../../components/AuthContextProvider";
-import DashboardWrapper from "../../components/DashboardWrapper";
-import Loading from "../../components/Loading";
-import ProjectAdminView from "../../components/ProjectAdminView";
-import { useProjectDrafts } from "../../hooks/useProjectDrafts";
-import { useProjectMasterRecord } from "../../hooks/useProjectMasterRecord";
+import { useAuthContext } from "../../../components/AuthContextProvider";
+import DashboardWrapper from "../../../components/DashboardWrapper";
+import Loading from "../../../components/Loading";
+import ProjectAdminView from "../../../components/ProjectAdminView";
+import { useProjectDrafts } from "../../../hooks/useProjectDrafts";
+import { useProjectMasterRecord } from "../../../hooks/useProjectMasterRecord";
 
 const ProjectAdminCard = ({
   masterRecord,
@@ -41,6 +41,13 @@ const Admin = () => {
               </div>
             );
           })}
+          <div>Project page display order</div>
+          {projectMasterRecord.data
+            .sort((a, b) => (a.order > b.order ? 1 : -1))
+            .map((project: Project) => {
+              return <div key={project.id}>{project.order}</div>;
+            })}
+          <Button colorScheme="teal">Submit order sort</Button>
         </div>
       )}
       <div>Manage banners (temporary sections on home page)</div>
