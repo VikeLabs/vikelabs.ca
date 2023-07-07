@@ -1,6 +1,6 @@
 import { Card } from "@chakra-ui/react";
 import { Project, ProjectInfo } from "@prisma/client";
-import React, { useState } from "react";
+import React from "react";
 import { useAuthContext } from "../../components/AuthContextProvider";
 import DashboardWrapper from "../../components/DashboardWrapper";
 import Loading from "../../components/Loading";

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Project, ProjectInfo } from "@prisma/client";
-import { ErrorMessage, ProjectUpdateData } from "../../../../types/index";
+import { ErrorMessage } from "../../../../types/index";
 import { supabase } from "../../../../supabase-client";
 import { AdminReviewRequest } from "../../../../types";
 
@@ -8,24 +8,15 @@ const prisma = new PrismaClient();
 const usage = "POST /api/project/moderate/update";
 
 async function deleteProjectVersionFolder(projectId: number, folderName: "draft" | "live") {
-  console.log("5");
-
   // Get all files in the old folder
   const { data, error } = await supabase.storage
     .from("projects")
     .list(`${projectId}/${folderName}/`);
   if (error) throw error;
 
-  console.log("6");
-  console.log("DATA", data);
-
   // Once a folder is emptied, supabase auto deletes it
   for (const file of data) {
-    console.log("7");
-
     const pathToDelete = `${projectId}/${folderName}/${file.name}`;
-    console.log("FILENAME", pathToDelete);
-
     const deleteResponse = await supabase.storage.from("projects").remove([pathToDelete]);
     if (deleteResponse.error) throw deleteResponse.error;
   }
@@ -34,25 +25,18 @@ async function deleteProjectVersionFolder(projectId: number, folderName: "draft"
 // Fix the function params to be the same as deleteProjectVersionFolder
 async function duplicateProjectFolder(folderNameOld: string, folderNameNew: string) {
   // Get all files in the old folder
-  console.log("8");
   const { data, error } = await supabase.storage.from("projects").list(folderNameOld);
   if (error) throw error;
 
   // For each file, copy to new location and delete the old one
   for (const file of data) {
     // Copy to new location
-    console.log("9");
-
     const oldPath = folderNameOld + file.name;
     const newPath = oldPath.replace(folderNameOld, folderNameNew);
-    console.log("OLD PATH: ", oldPath);
-    console.log("NEW PATH: ", newPath);
     const copyResponse = await supabase.storage.from("projects").copy(oldPath, newPath);
     if (copyResponse.error) throw copyResponse.error;
   }
 }
-
-// Usage
 
 async function getUserRole(id: string) {
   const user = await prisma.user.findUnique({
@@ -70,7 +54,7 @@ async function approveProject(result: AdminReviewRequest) {
     },
     data: {
       status: "approved",
-      managerMemo: result.feedback,
+      feedback: result.feedback,
     },
   });
 
@@ -84,28 +68,19 @@ async function approveProject(result: AdminReviewRequest) {
     },
   });
 
-  // Due to how supabase does not have folder renaming api,
-  // we have to use this janky terribleness, may need optimization
+  // Supabase does not have dir renaming api, so we need this horror
   // https://github.com/supabase/storage-api/issues/207
-
-  console.log("1");
 
   // Delete live folder
   await deleteProjectVersionFolder(result.projectId, "live").catch(console.error);
-
-  console.log("2");
 
   // Rename draft folder to live
   await duplicateProjectFolder(`${result.projectId}/draft/`, `${result.projectId}/live/`).catch(
     console.error
   );
 
-  console.log("3");
-
   // Delete draft folder
   await deleteProjectVersionFolder(result.projectId, "draft").catch(console.error);
-
-  console.log("4");
 
   return { projectDraft, projectMasterRecord };
 }
@@ -117,9 +92,10 @@ async function rejectProject(result: AdminReviewRequest) {
     },
     data: {
       status: "rejected",
-      managerMemo: result.feedback,
+      feedback: result.feedback,
     },
   });
+
   return { projectDraft, projectMasterRecord: undefined };
 }
 

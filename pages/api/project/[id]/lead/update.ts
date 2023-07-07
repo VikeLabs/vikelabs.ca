@@ -88,7 +88,7 @@ async function updateProjectDraftInfo(
   userId: string,
   status: "submitted" | "saved"
 ) {
-  const data: Omit<ProjectInfo, "id" | "updatedAt" | "managedBy" | "managedAt" | "managerMemo"> = {
+  const data: Omit<ProjectInfo, "id" | "updatedAt" | "managedBy" | "managedAt"> = {
     status,
     title: projectInfo.title,
     description: projectInfo.description,
@@ -98,6 +98,8 @@ async function updateProjectDraftInfo(
     recruiting: projectInfo.recruiting,
     recruitingFor: projectInfo.recruitingFor,
     members: projectInfo.members,
+    memo: projectInfo.memo,
+    feedback: null,
     updatedBy: userId,
   };
   const updatedProjectDraft = await prisma.projectInfo.update({

@@ -49,6 +49,7 @@ const ProjectEditor = ({
         links: project.links,
         imageUrls: project.imageUrls,
         members,
+        memo: isDraft ? project.memo : "",
       },
     });
   watch("recruitingFor"); // for form dirtying purposes
@@ -57,6 +58,7 @@ const ProjectEditor = ({
   const watchLinks = watch("links");
   const watchImages = watch("imageUrls");
   const watchMembers = watch("members");
+  const watchMemo = watch("memo");
   const { user, dispatch } = useAuthContext();
   const [imagesToAddCount, setImagesToAddCount] = useState(0);
   const [imagesAddedCount, setImageAddingIndex] = useState(0);
@@ -130,6 +132,7 @@ const ProjectEditor = ({
     <CardBody>
       <Flex>
         <Box width="100%" mr="5">
+          <div>FEEDBACK GOES HERE IF EXISTS: {project.feedback}</div>
           <Wrap align="center" m="-1" p="1" spacing="4">
             <Section
               label="Title"
@@ -323,6 +326,26 @@ const ProjectEditor = ({
         />
       </Section>
       <Section
+        label="Describe the changes made"
+        isPreview={isPreview}
+        error={[!!formState.errors.title, config.formError.title]}
+        noPt
+        noHeading
+      >
+        <Controller
+          control={control}
+          name="memo"
+          rules={{ required: true }}
+          render={({ field: { onChange, value } }) =>
+            isPreview ? (
+              <View.Memo value={value} />
+            ) : (
+              <Edit.Memo value={value} onChange={onChange} />
+            )
+          }
+        />
+      </Section>
+      <Section
         label=""
         isPreview={isPreview}
         error={[Object.keys(formState.errors).length > 0, config.formError.submit]}
@@ -336,6 +359,7 @@ const ProjectEditor = ({
             isEditing={true}
             fieldNames={config.deepDirtyChecker.needsApproval}
             getValues={getValues}
+            disabled={!watchMemo?.length}
             formState={formState}
             onSubmit={handleSubmit(onSubmit)}
           />

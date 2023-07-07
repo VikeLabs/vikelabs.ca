@@ -65,7 +65,7 @@ export async function getProjectInfo(id: string) {
   // remove approvedBy info for team lead
   // eslint-disable-next-line
   const { managedBy, ...projectEdit } = project;
-  return projectEdit;
+  return { managedBy, ...projectEdit };
 }
 
 const userEndpoint = async (

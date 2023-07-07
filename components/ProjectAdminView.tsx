@@ -3,14 +3,7 @@ import { CardBody, Heading, Box, Text, Badge, Flex, Spacer, Wrap, Input } from "
 import { AdminReviewRequest, LinkTag, MemberInfo, ProjectInfoLeadView, TechTag } from "../types";
 import { format } from "date-fns";
 
-import {
-  CloseIcon,
-  EditIcon,
-  ExternalLinkIcon,
-  InfoOutlineIcon,
-  ViewIcon,
-  ViewOffIcon,
-} from "@chakra-ui/icons";
+import { InfoOutlineIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
   Button,
   IconButton,
@@ -27,8 +20,6 @@ import { View } from "./ProjectEditor/Preview/_index";
 import Section from "./ProjectEditor/Section";
 import { Project } from "@prisma/client";
 import { Controller, useForm } from "react-hook-form";
-import { Editable } from "./FormHelpers";
-import { config } from "../config/config";
 import { useProjectModerateMutation } from "../hooks/useProjectModerateMutation";
 import { useAuthContext } from "./AuthContextProvider";
 
@@ -106,7 +97,6 @@ const ProjectAdminView = ({
   const projectModerateMutation = useProjectModerateMutation(user?.token);
 
   const onApprove = (data: { feedback: string }) => {
-    console.log("approving");
     const payload: AdminReviewRequest = {
       feedback: data.feedback.length ? data.feedback : undefined,
       approved: true,
@@ -193,6 +183,8 @@ const ProjectAdminView = ({
             />
           </Section>
           <Section label="Admin Panel" isPreview={isPreview}>
+            <Text>Submitted: {format(new Date(project.updatedAt), "MMM Io, yyyy, h:mmaaa")}</Text>
+            <Text noOfLines={1}>Description of changes: {project.memo}</Text>
             <Controller
               control={control}
               name="feedback"
@@ -227,6 +219,7 @@ const ProjectAdminView = ({
                 {project.recruiting && <Badge colorScheme="cyan">recruiting</Badge>}
               </Wrap>
               <Text>Submitted: {format(new Date(project.updatedAt), "MMM Io, yyyy, h:mmaaa")}</Text>
+              <Text noOfLines={1}>Description of changes: {project.memo}</Text>
             </Box>
             <Spacer />
             <ProjectSideButtons project={project} onPreview={onPreview} isPreview={isPreview} />

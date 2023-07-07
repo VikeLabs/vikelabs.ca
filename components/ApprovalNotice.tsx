@@ -22,6 +22,7 @@ const ApprovalNotice = ({
   fieldNames,
   getValues,
   formState,
+  disabled = false,
   onEdit,
   onCancel,
   onSubmit,
@@ -30,6 +31,7 @@ const ApprovalNotice = ({
   fieldNames: FieldDirtyChecker[];
   getValues: UseFormGetValues<any>;
   formState: FormState<any>;
+  disabled?: boolean;
   onEdit?: () => void;
   onCancel?: () => void;
   onSubmit: () => void;
@@ -48,7 +50,7 @@ const ApprovalNotice = ({
           )}
           <HStack pt="3" spacing="3">
             {/* <Button>Save Draft</Button> */}
-            <Button colorScheme="teal" onClick={onSubmit}>
+            <Button colorScheme="teal" onClick={onSubmit} isDisabled={disabled}>
               Submit for Approval
             </Button>
           </HStack>

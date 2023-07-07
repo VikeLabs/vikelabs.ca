@@ -48,9 +48,21 @@ async function main() {
         { color: "orange", label: "Python" },
       ],
       links: [
-        { url: "https://github.com/VikeLabs/vikelabs.ca", color: "purple", label: "GitHub" },
-        { url: "https://github.com/VikeLabs/vikelabs.ca", color: "green", label: "Android" },
-        { url: "https://github.com/VikeLabs/vikelabs.ca", color: "blue", label: "iOS" },
+        {
+          url: "https://github.com/VikeLabs/vikelabs.ca",
+          color: "purple",
+          label: "GitHub",
+        },
+        {
+          url: "https://github.com/VikeLabs/vikelabs.ca",
+          color: "green",
+          label: "Android",
+        },
+        {
+          url: "https://github.com/VikeLabs/vikelabs.ca",
+          color: "blue",
+          label: "iOS",
+        },
       ],
       imageUrls: ["courseup-timetable.jpg", "courseup-viewer.jpg"],
       members: [
@@ -69,7 +81,8 @@ async function main() {
       updatedAt: new Date(),
       managedBy: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
       managedAt: new Date(),
-      managerMemo: null,
+      memo: null,
+      feedback: null,
     },
   });
   const vikelabsCaDraft = await prisma.projectInfo.upsert({
@@ -89,9 +102,21 @@ async function main() {
         { color: "orange", label: "Python" },
       ],
       links: [
-        { url: "https://github.com/VikeLabs/vikelabs.ca", color: "purple", label: "GitHub" },
-        { url: "https://github.com/VikeLabs/vikelabs.ca", color: "green", label: "Android" },
-        { url: "https://github.com/VikeLabs/vikelabs.ca", color: "blue", label: "iOS" },
+        {
+          url: "https://github.com/VikeLabs/vikelabs.ca",
+          color: "purple",
+          label: "GitHub",
+        },
+        {
+          url: "https://github.com/VikeLabs/vikelabs.ca",
+          color: "green",
+          label: "Android",
+        },
+        {
+          url: "https://github.com/VikeLabs/vikelabs.ca",
+          color: "blue",
+          label: "iOS",
+        },
       ],
       imageUrls: ["courseup-timetable.jpg", "courseup-viewer.jpg", "2.png"],
       members: [
@@ -108,7 +133,8 @@ async function main() {
       updatedAt: new Date(),
       managedBy: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
       managedAt: new Date(),
-      managerMemo: null,
+      memo: null,
+      feedback: null,
     },
   });
   const vikelabsCa = await prisma.project.upsert({
@@ -145,7 +171,14 @@ async function main() {
   //     memberId: "551f0f28-5d6a-43ee-96d8-6b51e92b9e64",
   //   },
   // });
-  console.log({ robert, glenn, vikelabsCa, vikelabsCaHasLead, vikelabsCaLive, vikelabsCaDraft });
+  console.log({
+    robert,
+    glenn,
+    vikelabsCa,
+    vikelabsCaHasLead,
+    vikelabsCaLive,
+    vikelabsCaDraft,
+  });
 }
 main()
   .then(async () => {
