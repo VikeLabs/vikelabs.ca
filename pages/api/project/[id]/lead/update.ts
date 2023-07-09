@@ -12,8 +12,6 @@ import {
 
 const usage = "POST /api/project/[id]/lead/update";
 
-// TODO: refactor commonly used functions
-
 // TODO: Create req types
 const projectUpdateEndpoint = async (
   req: NextApiRequest,

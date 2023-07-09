@@ -1,5 +1,5 @@
 import { PrismaClient, ProjectInfo } from "@prisma/client";
-import { ProjectUpdateDataNoImages } from "../../types";
+import { MemberInfo, ProjectUpdateDataNoImages } from "../../types";
 
 const prisma = new PrismaClient();
 
@@ -99,4 +99,33 @@ export async function isProjectDraft(id: string) {
     return true;
   }
   return false;
+}
+
+export async function getProjectMembers(id: number) {
+  const members = await prisma.project
+    .findUnique({
+      where: {
+        id,
+      },
+    })
+    .members();
+  const memberInfos: MemberInfo[] = [];
+  for (const member of members) {
+    const memberInfo = await prisma.user.findUnique({
+      where: {
+        id: member.memberId,
+      },
+    });
+    const { id, username, displayName, imageUrl, github, discord, isCredited } = memberInfo;
+    memberInfos.push({
+      id,
+      username,
+      displayName,
+      imageUrl,
+      github,
+      discord,
+      isCredited,
+    });
+  }
+  return memberInfos;
 }
