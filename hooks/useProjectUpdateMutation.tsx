@@ -139,11 +139,12 @@ export function useProjectUpdateMutation(
         Authorization: token,
       },
     });
-    queryClient.invalidateQueries(["project", "projectImages"]);
-    queryClient.removeQueries({
-      queryKey: ["project", "projectImages"],
-      exact: true,
-    });
+    queryClient.invalidateQueries(["project"]);
+    queryClient.invalidateQueries(["projectImages"]);
+    // queryClient.removeQueries({
+    //   queryKey: ["project", "projectImages"],
+    //   exact: true,
+    // });
     return response;
   });
 }

@@ -22,6 +22,7 @@ import { Project } from "@prisma/client";
 import { Controller, useForm } from "react-hook-form";
 import { useProjectModerateMutation } from "../hooks/useProjectModerateMutation";
 import { useAuthContext } from "./AuthContextProvider";
+import { config } from "../config/config";
 
 const ProjectSideButtons = ({
   project,
@@ -180,7 +181,7 @@ const ProjectAdminView = ({
             <View.Images
               value={(project.imageUrls as string[]).map((imageUrl: string) => ({
                 // TODO: Put this long url somewhere else
-                url: `https://mvhzkbtvqchhjmqkqokr.supabase.co/storage/v1/object/public/projects/${masterRecord.id}/draft/${imageUrl}`,
+                url: `${config.buckets.projects}/${masterRecord.id}/draft/${imageUrl}`,
               }))}
             />
           </Section>
