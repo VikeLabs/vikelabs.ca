@@ -1,4 +1,4 @@
-import { PrismaClient, ProjectInfo } from "@prisma/client";
+import { PrismaClient, Project, ProjectInfo } from "@prisma/client";
 import { supabase } from "../../supabase-client";
 import { AdminReviewRequest, MemberInfo, ProjectUpdateDataNoImages } from "../../types";
 
@@ -28,6 +28,24 @@ export async function getProjectInfo(id: string) {
     },
   });
   return project;
+}
+
+export async function getApprovedProjectsFiltered() {
+  const projectMasterRecord = await prisma.project.findMany({});
+  const approvedProjects = await prisma.projectInfo.findMany({
+    where: {
+      status: "approved",
+    },
+  });
+  // Filter out items from approvedProjects whose ids are included in each projectMasterRecord's liveId
+  const approvedProjectsFiltered = projectMasterRecord
+    .sort((a, b) => (a.order > b.order ? 1 : -1))
+    .map((pmr: Project) => ({
+      id: pmr.id,
+      order: pmr.order,
+      projectInfo: approvedProjects.find((project: ProjectInfo) => project.id === pmr.liveId),
+    }));
+  return approvedProjectsFiltered;
 }
 
 export async function getProjectInfoDrafts() {
