@@ -1,29 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import { ErrorMessage, GetLoggedInUserResponse } from "../../../../types";
 import { supabase } from "../../../../supabase-client";
+import { getUser, updateUser } from "../../../../utils/api/user";
 
-const prisma = new PrismaClient();
 const usage = "GET or POST /api/users/[id]";
-
-export async function getUser(id: string) {
-  const user = await prisma.user.findUnique({
-    where: {
-      id,
-    },
-  });
-  return user;
-}
-
-export async function updateUser(id: string, data: User) {
-  const user = await prisma.user.update({
-    where: {
-      id,
-    },
-    data,
-  });
-  return user;
-}
 
 const userEndpoint = async (
   req: NextApiRequest,
