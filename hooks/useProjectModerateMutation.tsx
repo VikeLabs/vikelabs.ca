@@ -12,7 +12,8 @@ export function useProjectModerateMutation(token: string) {
         Authorization: token,
       },
     });
-    queryClient.invalidateQueries(["project", "draftProjects", "allProjects"]);
+    queryClient.invalidateQueries(["draftProjects"]);
+    queryClient.invalidateQueries(["allProjects"]);
     return response;
   });
 }

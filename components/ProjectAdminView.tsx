@@ -107,6 +107,7 @@ const ProjectAdminView = ({
       onSuccess: (response) => {
         if (response.ok) {
           console.log("projectUpdateMutation (approve) succeeded!");
+          setIsPreview(false);
         } else {
           console.log("projectUpdateMutation (approve) failed!");
         }
@@ -124,6 +125,7 @@ const ProjectAdminView = ({
       onSuccess: (response) => {
         if (response.ok) {
           console.log("projectUpdateMutation (reject) succeeded!");
+          setIsPreview(false);
         } else {
           console.log("projectUpdateMutation (reject) failed!");
         }

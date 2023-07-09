@@ -8,20 +8,6 @@ import ProjectAdminView from "../../../components/ProjectAdminView";
 import { useProjectDrafts } from "../../../hooks/useProjectDrafts";
 import { useProjectMasterRecord } from "../../../hooks/useProjectMasterRecord";
 
-const ProjectAdminCard = ({
-  masterRecord,
-  project,
-}: {
-  masterRecord: Project;
-  project: ProjectInfo;
-}) => {
-  return (
-    <Card>
-      <ProjectAdminView masterRecord={masterRecord} project={project} />
-    </Card>
-  );
-};
-
 const Admin = () => {
   const { user } = useAuthContext();
   const projects = useProjectDrafts(user?.token);
@@ -36,9 +22,9 @@ const Admin = () => {
           {projects.data.map((project: ProjectInfo) => {
             const masterRecord = projectMasterRecord.data.find((p) => p.draftId === project.id);
             return (
-              <div key={project.id}>
-                <ProjectAdminCard masterRecord={masterRecord} project={project} />
-              </div>
+              <Card key={project.id}>
+                <ProjectAdminView masterRecord={masterRecord} project={project} />
+              </Card>
             );
           })}
           <div>Project page display order</div>

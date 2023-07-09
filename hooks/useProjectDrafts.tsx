@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function useProjectDrafts(token: string) {
   return useQuery<ProjectInfo[]>({
-    queryKey: ["draftProjects", token],
+    queryKey: ["draftProjects"],
     queryFn: async () => {
       const response = await fetch("/api/project/drafts", {
         method: "GET",

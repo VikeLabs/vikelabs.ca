@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function useProjectMasterRecord(token: string) {
   return useQuery<Project[]>({
-    queryKey: ["allProjects", token],
+    queryKey: ["allProjects"],
     queryFn: async () => {
       const response = await fetch("/api/project/all", {
         method: "GET",
