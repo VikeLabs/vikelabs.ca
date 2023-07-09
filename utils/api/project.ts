@@ -30,6 +30,15 @@ export async function getProjectInfo(id: string) {
   return project;
 }
 
+export async function getProjectInfoDrafts() {
+  const projects = await prisma.projectInfo.findMany({
+    where: {
+      status: "submitted",
+    },
+  });
+  return projects;
+}
+
 export async function createProjectInfo(
   id: number,
   projectInfo: Omit<ProjectUpdateDataNoImages, "id">,

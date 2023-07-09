@@ -1,28 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient, ProjectInfo } from "@prisma/client";
-import { ErrorMessage, ProjectUpdateData } from "../../../types/index";
+import { ProjectInfo } from "@prisma/client";
+import { ErrorMessage } from "../../../types/index";
 import { supabase } from "../../../supabase-client";
+import { getProjectInfoDrafts } from "../../../utils/api/project";
+import { getUserRole } from "../../../utils/api/user";
 
-const prisma = new PrismaClient();
 const usage = "GET /api/project/drafts";
-
-async function getUserRole(id: string) {
-  const user = await prisma.user.findUnique({
-    where: {
-      id,
-    },
-  });
-  return user.role;
-}
-
-async function getDraftProjects() {
-  const projects = await prisma.projectInfo.findMany({
-    where: {
-      status: "submitted",
-    },
-  });
-  return projects;
-}
 
 // TODO: Create req types
 const projectDraftsEndpoint = async (
@@ -51,8 +34,13 @@ const projectDraftsEndpoint = async (
     let data: ProjectInfo[];
     switch (req.method) {
       case "GET":
-        data = await getDraftProjects();
+        data = await getProjectInfoDrafts();
         res.status(200).json(data);
+        break;
+      default:
+        res.status(405).json({
+          message: `Usage: ${usage}, you used ${req.method}`,
+        });
     }
   } catch (e) {
     res.status(500).json({ message: e.message });
