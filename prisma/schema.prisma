@@ -72,7 +72,8 @@ model ProjectInfo {
   updatedAt     DateTime? @updatedAt
   managedBy     String?
   managedAt     DateTime?
-  managerMemo   String?
+  memo          String?
+  feedback      String?
 
   projectAsDraft Project? @relation("draft")
   projectAsLive  Project? @relation("live")

@@ -3,7 +3,7 @@ import { GetProjectEditViewResponse } from "../types";
 
 export function useProjectEditView(leadId: string, token: string) {
   return useQuery<GetProjectEditViewResponse>({
-    queryKey: ["project", leadId],
+    queryKey: ["project", "projectImages", leadId],
     queryFn: async () => {
       const response = await fetch(`/api/project/lead/${leadId}`, {
         method: "GET",
@@ -16,6 +16,7 @@ export function useProjectEditView(leadId: string, token: string) {
         console.error("Error!", response.statusText);
         throw new Error(response.statusText);
       }
+      //eslint-disable-next-line
       return await response.json();
     },
     retry: 3,

@@ -6,6 +6,7 @@ import Stack from "./Stack";
 import Links from "./Links";
 import Images from "./Images";
 import Members from "./Members";
+import Memo from "./Memo";
 
 export const View = {
   Title,
@@ -16,4 +17,5 @@ export const View = {
   Links,
   Images,
   Members,
+  Memo,
 };

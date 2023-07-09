@@ -4,9 +4,9 @@ import SectionLabel from "./SectionLabel";
 
 const Section = ({
   label,
-  isPreview,
   children,
   error = [],
+  isPreview = false,
   noPt = false,
   noPb = false,
   noHeading = false,
@@ -14,9 +14,9 @@ const Section = ({
   hidden = false,
 }: {
   label: string;
-  isPreview: boolean;
   children: React.ReactNode;
   error?: [boolean, string] | []; // isError, errorMessage
+  isPreview?: boolean;
   noPt?: boolean;
   noPb?: boolean;
   noHeading?: boolean;

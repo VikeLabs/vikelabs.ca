@@ -31,13 +31,11 @@ const ProjectHeader = ({ heading, text }: { heading: string; text: string }) => 
 const ProjectCard = ({
   id,
   project,
-  members,
   hasDraft = false,
   isDraft = false,
 }: {
   id: number;
   project: ProjectInfoLeadView;
-  members: MemberInfo[];
   hasDraft?: boolean;
   isDraft?: boolean;
 }) => {
@@ -47,11 +45,11 @@ const ProjectCard = ({
   // TODO: order of these conditions need to be changed later
   return (
     <Card>
-      {isEditing ? (
+      {isEditing && !hasDraft ? (
         <ProjectEditor
           id={id}
           project={project}
-          members={members}
+          members={project.members as MemberInfo[]}
           onEditor={() => {
             setEditing(false);
             setPreview(false);
@@ -64,7 +62,7 @@ const ProjectCard = ({
         <ProjectLeadView
           id={id}
           project={project}
-          members={members}
+          members={project.members as MemberInfo[]}
           onEditor={() => setEditing(true)}
           onPreview={() => setPreview(true)}
           isPreview={isPreview}
@@ -76,14 +74,11 @@ const ProjectCard = ({
   );
 };
 
-// TODO: If a draft exists, grey out the live data controls
 const Lead = () => {
   const { user } = useAuthContext();
   const project = useProjectEditView(user?.id, user?.token);
-
   const live = project.data?.live;
   const draft = project.data?.draft;
-  const members = project.data?.members;
 
   return (
     <DashboardWrapper title="Team Lead">
@@ -95,32 +90,28 @@ const Lead = () => {
           </CardHeader>
           <CardBody>
             <Stack divider={<StackDivider />} spacing="4">
-              {/* Consider refactoring */}
               {live && (
                 <Box>
                   <ProjectHeader heading="Live Info" text="This info is public on the website" />
-                  <ProjectCard
-                    id={project.data?.id}
-                    project={live}
-                    members={members}
-                    hasDraft={!!draft}
-                  />
+                  <ProjectCard id={project.data?.id} project={live} hasDraft={!!draft} />
                 </Box>
               )}
               {draft && (
                 <Box>
                   <ProjectHeader
                     heading="Draft Info"
-                    text="This info is pending approval from the admins"
+                    text="This info is pending approval from the admins, any edits you make will overwrite the previous draft."
                   />
-                  <ProjectCard id={project.data?.id} project={draft} members={members} isDraft />
+                  <ProjectCard id={project.data?.id} project={draft} isDraft />
                 </Box>
               )}
             </Stack>
           </CardBody>
         </Card>
       )}
-      {project.isError && <div>Error loading project info for user id: {user?.id}</div>}
+      {project.isError && !project.data && (
+        <div>Error loading project info for user id: {user?.id}</div>
+      )}
     </DashboardWrapper>
   );
 };

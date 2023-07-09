@@ -1,44 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient, User } from "@prisma/client";
-import { CreateUserRequest, ErrorMessage, GetLoggedInUserResponse } from "../../../types";
+import { User } from "@prisma/client";
+import { ErrorMessage, GetLoggedInUserResponse } from "../../../types";
 import { supabase } from "../../../supabase-client";
+import { createNewUser, getUserIfExist } from "../../../utils/api/user";
 
-const prisma = new PrismaClient();
 const usage = "POST /api/users/[id]";
-
-export async function getUserIfExist(id: string) {
-  try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id,
-      },
-    });
-    return user;
-  } catch (e) {
-    // user does not exist
-    return undefined;
-  }
-}
-
-// TODO: Please dont use any
-export async function createNewUser(id: string, userFromInput: CreateUserRequest) {
-  const data: User = {
-    id,
-    vId: userFromInput.vId,
-    username: userFromInput.username,
-    displayName: userFromInput.displayName,
-    firstName: userFromInput.firstName,
-    lastName: userFromInput.lastName,
-    github: userFromInput.github,
-    discord: userFromInput.discord,
-    imageUrl: userFromInput.imageUrl,
-    role: "member",
-  };
-  const createdUser = await prisma.user.create({
-    data,
-  });
-  return createdUser;
-}
 
 const createUser = async (
   req: NextApiRequest,
@@ -59,14 +25,17 @@ const createUser = async (
     // user must not already have an account
     const checkUserExists = await getUserIfExist(userFromToken.id);
     if (checkUserExists) {
-      res.status(500).json({ message: "An account with the same ID as the user already exists." });
+      res.status(500).json({
+        message: "An account with the same ID as the user already exists.",
+      });
       return;
     }
 
     let user: User;
+    let userFromInput: any;
     switch (req.method) {
       case "POST":
-        const userFromInput = JSON.parse(req.body);
+        userFromInput = JSON.parse(req.body);
         user = await createNewUser(userFromToken.id, userFromInput);
         res.status(200).json(user);
         break;

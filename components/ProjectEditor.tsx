@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CardBody, Box, Flex, Spacer, Wrap } from "@chakra-ui/react";
+import { CardBody, Box, Flex, Spacer, Wrap, Text } from "@chakra-ui/react";
 import { MemberInfo, ProjectEditorForm, ProjectInfoLeadView, ProjectUpdateData } from "../types";
 import { ImageInfo, LinkTag, TechTag } from "../types";
 import ProjectSideButtons from "./ProjectSideButtons";
@@ -49,6 +49,7 @@ const ProjectEditor = ({
         links: project.links,
         imageUrls: project.imageUrls,
         members,
+        memo: isDraft ? project.memo : "",
       },
     });
   watch("recruitingFor"); // for form dirtying purposes
@@ -57,6 +58,7 @@ const ProjectEditor = ({
   const watchLinks = watch("links");
   const watchImages = watch("imageUrls");
   const watchMembers = watch("members");
+  const watchMemo = watch("memo");
   const { user, dispatch } = useAuthContext();
   const [imagesToAddCount, setImagesToAddCount] = useState(0);
   const [imagesAddedCount, setImageAddingIndex] = useState(0);
@@ -130,6 +132,21 @@ const ProjectEditor = ({
     <CardBody>
       <Flex>
         <Box width="100%" mr="5">
+          {project.feedback && (
+            <Box
+              mb="4"
+              px="4"
+              py="3"
+              borderRadius="5"
+              backgroundColor={project.status === "rejected" ? "red.200" : "white"}
+            >
+              <Text fontWeight="600">Your submitted changes were rejected</Text>
+              <Text>
+                Reason: <span>{project.feedback}</span>
+              </Text>
+            </Box>
+          )}
+
           <Wrap align="center" m="-1" p="1" spacing="4">
             <Section
               label="Title"
@@ -211,7 +228,7 @@ const ProjectEditor = ({
                   descriptionNotEmpty: (value) => value !== "<p></p>",
                 },
               }}
-              render={({ field: {} }) =>
+              render={() =>
                 isPreview ? (
                   <View.Description value={editor.getHTML()} />
                 ) : (
@@ -314,8 +331,30 @@ const ProjectEditor = ({
               <Edit.Members
                 value={value ? (value as MemberInfo[]) : []}
                 getValues={getValues}
-                setMembers={(items: MemberInfo[]) => setValue("members", items)}
+                setMembers={(items: MemberInfo[]) => {
+                  setValue("members", items);
+                }}
               />
+            )
+          }
+        />
+      </Section>
+      <Section
+        label="Describe the changes made"
+        isPreview={isPreview}
+        error={[!!formState.errors.title, config.formError.title]}
+        noPt
+        noHeading
+      >
+        <Controller
+          control={control}
+          name="memo"
+          rules={{ required: true }}
+          render={({ field: { onChange, value } }) =>
+            isPreview ? (
+              <View.Memo value={value} />
+            ) : (
+              <Edit.Memo value={value} onChange={onChange} />
             )
           }
         />
@@ -334,6 +373,7 @@ const ProjectEditor = ({
             isEditing={true}
             fieldNames={config.deepDirtyChecker.needsApproval}
             getValues={getValues}
+            disabled={!watchMemo?.length}
             formState={formState}
             onSubmit={handleSubmit(onSubmit)}
           />

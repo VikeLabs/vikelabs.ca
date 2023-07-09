@@ -25,7 +25,6 @@ import { colorShade, hexToRgbA } from "../utils/colorHelpers";
 const ProjectLeadView = ({
   id,
   project,
-  members,
   onEditor,
   onPreview,
   isPreview = false,
@@ -45,9 +44,19 @@ const ProjectLeadView = ({
   console.log(project.stack, typeof project.stack);
 
   return (
-    <CardBody>
+    <CardBody
+      borderWidth={project.status === "rejected" ? 3 : 0}
+      borderRadius={6}
+      borderColor="red.400"
+      padding={project.status === "rejected" ? "13px" : "4"}
+    >
       <Flex>
         <Box pr="2">
+          {project.status === "rejected" && (
+            <Wrap align="center" pb={2}>
+              <Badge colorScheme="red">changes rejected</Badge>
+            </Wrap>
+          )}
           <Wrap align="center">
             <Heading size="xs">{project.title}</Heading>
             {project.recruiting && <Badge colorScheme="cyan">recruiting</Badge>}
@@ -58,7 +67,7 @@ const ProjectLeadView = ({
             ))}
           </AvatarGroup>
           <Wrap pt="2">
-            {(!!(project.stack as TechTag[]).length ? (project.stack as TechTag[]) : []).map(
+            {((project.stack as TechTag[]).length ? (project.stack as TechTag[]) : []).map(
               (tech: TechTag, index) => (
                 <Tag
                   key={index}
@@ -72,7 +81,7 @@ const ProjectLeadView = ({
                 </Tag>
               )
             )}
-            {(!!(project.links as LinkTag[]).length ? (project.links as LinkTag[]) : []).map(
+            {((project.links as LinkTag[]).length ? (project.links as LinkTag[]) : []).map(
               (link: LinkTag, index) => (
                 <Link href={link.url} key={index} lineHeight={1} isExternal>
                   <Tag

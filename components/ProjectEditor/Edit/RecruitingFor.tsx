@@ -40,7 +40,7 @@ const RecruitingFor = ({
 
   const addPosition = (itemToAdd: string) => {
     const items = getValues().recruitingFor as string[];
-    (items as string[]).push(itemToAdd as string);
+    items.push(itemToAdd);
     setPositions(items);
     setInput("");
   };

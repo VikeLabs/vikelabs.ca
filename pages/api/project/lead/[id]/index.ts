@@ -1,72 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-import { ErrorMessage, GetProjectEditViewResponse, MemberInfo } from "../../../../../types";
+import { ErrorMessage, GetProjectEditViewResponse } from "../../../../../types";
 import { supabase } from "../../../../../supabase-client";
+import { getUserRole } from "../../../../../utils/api/user";
+import {
+  getProjectFromLeadId,
+  getProjectInfo,
+  getProjectMembers,
+} from "../../../../../utils/api/project";
 
-const prisma = new PrismaClient();
 const usage = "GET /api/project/[id]";
-
-export async function getProjectFromLeadId(id: string) {
-  const userIsLeadFor = await prisma.user
-    .findUnique({
-      where: {
-        id,
-      },
-    })
-    .isLeadFor()
-    .project();
-  return userIsLeadFor;
-}
-
-export async function getUserRole(id: string) {
-  const user = await prisma.user.findUnique({
-    where: {
-      id,
-    },
-  });
-  return user.role;
-}
-
-export async function getProjectMembers(id: number) {
-  const members = await prisma.project
-    .findUnique({
-      where: {
-        id,
-      },
-    })
-    .members();
-  const memberInfos: MemberInfo[] = [];
-  for (const member of members) {
-    const memberInfo = await prisma.user.findUnique({
-      where: {
-        id: member.memberId,
-      },
-    });
-    const { id, username, displayName, imageUrl, github, discord, isCredited } = memberInfo;
-    memberInfos.push({
-      id,
-      username,
-      displayName,
-      imageUrl,
-      github,
-      discord,
-      isCredited,
-    });
-  }
-  return memberInfos;
-}
-
-export async function getProjectInfo(id: string) {
-  const project = await prisma.projectInfo.findUnique({
-    where: {
-      id,
-    },
-  });
-  // remove approvedBy info for team lead
-  // eslint-disable-next-line
-  const { managedBy, ...projectEdit } = project;
-  return projectEdit;
-}
 
 const userEndpoint = async (
   req: NextApiRequest,

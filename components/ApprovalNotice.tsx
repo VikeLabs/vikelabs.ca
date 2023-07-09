@@ -19,50 +19,34 @@ const formatList = (elements: string[]): ReactNode =>
 
 const ApprovalNotice = ({
   isEditing,
-  fieldNames,
-  getValues,
-  formState,
+  disabled = false,
   onEdit,
   onCancel,
   onSubmit,
 }: {
   isEditing: boolean;
-  fieldNames: FieldDirtyChecker[];
-  getValues: UseFormGetValues<any>;
-  formState: FormState<any>;
+  disabled?: boolean;
   onEdit?: () => void;
   onCancel?: () => void;
   onSubmit: () => void;
 }) => {
-  const fieldsThatRequireApproval = deepDirtyChecker(fieldNames, formState, getValues);
+  // const fieldsThatRequireApproval = deepDirtyChecker(fieldNames, formState, getValues);
 
   switch (isEditing) {
     case true:
       return (
         <Box>
-          {fieldsThatRequireApproval.length !== 0 && (
-            <Text>
-              Since you edited {formatList(fieldsThatRequireApproval)}, your changes must be
-              approved before they can go public.
-            </Text>
-          )}
+          <Text>Your changes must be approved before they can go public.</Text>
           {onCancel && (
             <button className="p-4 bg-red-400" onClick={onCancel}>
               Cancel Editing (Move this to side buttons)
             </button>
           )}
-
           <HStack pt="3" spacing="3">
-            <Button>Save Draft</Button>
-            {fieldsThatRequireApproval.length === 0 ? (
-              <Button colorScheme="teal" onClick={onSubmit}>
-                Publish Changes
-              </Button>
-            ) : (
-              <Button colorScheme="teal" onClick={onSubmit}>
-                Submit for Approval
-              </Button>
-            )}
+            {/* <Button>Save Draft</Button> */}
+            <Button colorScheme="teal" onClick={onSubmit} isDisabled={disabled}>
+              Submit for Approval
+            </Button>
           </HStack>
         </Box>
       );

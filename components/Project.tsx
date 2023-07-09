@@ -53,7 +53,9 @@ const Project = ({
           <Heading pt="5">Description</Heading>
           <Box
             pt={2}
-            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(project.description) }}
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(project.description),
+            }}
           />
         </Box>
         <Spacer />
@@ -70,7 +72,7 @@ const Project = ({
       <Box pt="5">
         <Heading>Stack</Heading>
         <Wrap pt="2">
-          {(!!(project.stack as TechTag[]).length ? (project.stack as TechTag[]) : []).map(
+          {((project.stack as TechTag[]).length ? (project.stack as TechTag[]) : []).map(
             (tech: TechTag, index) => (
               <Tag key={index} size="sm" variant="solid" borderRadius="sm" colorScheme={tech.color}>
                 {tech.label}
@@ -82,7 +84,7 @@ const Project = ({
       <Box pt="5">
         <Heading>Links</Heading>
         <Wrap pt="2">
-          {(!!(project.links as LinkTag[]).length ? (project.links as LinkTag[]) : []).map(
+          {((project.links as LinkTag[]).length ? (project.links as LinkTag[]) : []).map(
             (link: LinkTag, index) => (
               <Link href={link.url} key={index} lineHeight={1} isExternal>
                 <Tag size="sm" variant="subtle" borderRadius="sm" colorScheme={link.color}>

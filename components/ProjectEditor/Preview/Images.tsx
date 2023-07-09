@@ -14,7 +14,7 @@ const Images = ({ value }: { value: ImageInfo[] }) => {
           <Image
             loading="eager"
             src={image.url}
-            alt={image.name}
+            alt={image.name ?? image.url}
             height={0}
             width={0}
             style={{ width: "auto", height: "400px" }}

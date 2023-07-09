@@ -13,7 +13,6 @@ import {
   Wrap,
 } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
-import { ImageInfo } from "../../../types";
 import FileUploader from "../../FileUploader";
 
 const ImageCustomizer = ({
