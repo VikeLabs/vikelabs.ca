@@ -4,6 +4,11 @@ import { AdminReviewRequest, MemberInfo, ProjectUpdateDataNoImages } from "../..
 
 const prisma = new PrismaClient();
 
+export async function getAllProjects() {
+  const projects = await prisma.project.findMany({});
+  return projects;
+}
+
 export async function getProjectFromLeadId(id: string) {
   const userIsLeadFor = await prisma.user
     .findUnique({
