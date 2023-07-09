@@ -1,4 +1,5 @@
 import { PrismaClient, User } from "@prisma/client";
+import { UserSearchResult } from "../../types";
 
 const prisma = new PrismaClient();
 
@@ -28,4 +29,23 @@ export async function updateUser(id: string, data: User) {
     data,
   });
   return user;
+}
+
+export async function getSearchUsers(search: string) {
+  const userSearchResults: UserSearchResult[] = await prisma.user.findMany({
+    where: {
+      OR: [
+        { username: { contains: search, mode: "insensitive" } },
+        { displayName: { contains: search, mode: "insensitive" } },
+      ],
+    },
+    select: {
+      id: true,
+      username: true,
+      displayName: true,
+      imageUrl: true,
+      isCredited: true,
+    },
+  });
+  return userSearchResults;
 }
