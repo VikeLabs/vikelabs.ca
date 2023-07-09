@@ -1,5 +1,5 @@
 import { PrismaClient, User } from "@prisma/client";
-import { UserSearchResult } from "../../types";
+import { CreateUserRequest, UserSearchResult } from "../../types";
 
 const prisma = new PrismaClient();
 
@@ -48,4 +48,38 @@ export async function getSearchUsers(search: string) {
     },
   });
   return userSearchResults;
+}
+
+export async function getUserIfExist(id: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    return user;
+  } catch (e) {
+    // user does not exist
+    return undefined;
+  }
+}
+
+export async function createNewUser(id: string, userFromInput: CreateUserRequest) {
+  const data: User = {
+    id,
+    vId: userFromInput.vId,
+    username: userFromInput.username,
+    displayName: userFromInput.displayName,
+    firstName: userFromInput.firstName,
+    lastName: userFromInput.lastName,
+    github: userFromInput.github,
+    discord: userFromInput.discord,
+    imageUrl: userFromInput.imageUrl,
+    isCredited: false,
+    role: "member",
+  };
+  const createdUser = await prisma.user.create({
+    data,
+  });
+  return createdUser;
 }
