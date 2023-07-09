@@ -19,18 +19,12 @@ const formatList = (elements: string[]): ReactNode =>
 
 const ApprovalNotice = ({
   isEditing,
-  fieldNames,
-  getValues,
-  formState,
   disabled = false,
   onEdit,
   onCancel,
   onSubmit,
 }: {
   isEditing: boolean;
-  fieldNames: FieldDirtyChecker[];
-  getValues: UseFormGetValues<any>;
-  formState: FormState<any>;
   disabled?: boolean;
   onEdit?: () => void;
   onCancel?: () => void;

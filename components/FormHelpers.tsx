@@ -1,5 +1,4 @@
 import { Control, Controller } from "react-hook-form";
-import { UserEditorForm } from "../types";
 
 export const Label = ({ text }: { text: string }) => (
   <label className="block mb-1 font-semibold">{text}</label>
