@@ -1,5 +1,4 @@
 import { Box, Text } from "@chakra-ui/react";
-import Image from "next/image";
 import React from "react";
 import Loading from "../components/Loading";
 import ProjectPreview from "../components/ProjectPreview";

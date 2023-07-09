@@ -5,7 +5,6 @@ import "../styles/globals.css";
 import "@fontsource/kanit";
 import "@fontsource/raleway/700.css";
 import { AuthContextProvider } from "../components/AuthContextProvider";
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
