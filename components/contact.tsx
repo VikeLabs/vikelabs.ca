@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/layout";
 import { Button, IconButton } from "@chakra-ui/button";
-import { Heading } from "@chakra-ui/react";
+import { Heading, useMediaQuery } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/icon";
 import { GoMarkGithub } from "react-icons/go";
 import { GrInstagram, GrLinkedin, GrYoutube } from "react-icons/gr";
@@ -33,15 +33,18 @@ const instagram = "vikelabs";
 const youtube = "https://www.youtube.com/channel/UCKAAXo4bqb034PZYR6ZhpQw";
 
 export const Contact = () => {
+  const [isSmall] = useMediaQuery("(max-width: 600px)");
   return (
     <Box my="8">
       <Heading>Contact Us</Heading>
       <Flex align="center" justify="space-between">
         <Box>
-          <Text my="2">
-            Looking for your next great co-op? Have feedback about the website?
-            Interested in sponsoring the club? Let us know!
-          </Text>
+          {!isSmall && (
+            <Text my="2">
+              Looking for your next great co-op? Have feedback about the
+              website? Interested in sponsoring the club? Let us know!
+            </Text>
+          )}
           <Box>
             <IconButton
               // make the button a link

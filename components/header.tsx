@@ -20,6 +20,10 @@ const menuItems: MenuItem[] = [
     title: "About",
     to: "/about",
   },
+  {
+    title: "Kick Off 2023",
+    to: "/kickoff",
+  },
   // {
   //   title: "Blog",
   //   to: "/blog",
@@ -44,15 +48,25 @@ const CloseIcon = () => <Icon as={MdClose} title="close icon" boxSize="2rem" />;
 
 const MenuBar = ({ items }: { items: MenuItem[] }) => (
   <Flex as="nav" direction={["column", "row", null]} align="center">
-    {items.map(({ title, to }) => (
-      <Link href={to} key={title}>
-        <a>
-          <Box key={title} m="2">
-            <Text fontFamily="Raleway">{title}</Text>
-          </Box>
-        </a>
-      </Link>
-    ))}
+    {items.map(({ title, to }) =>
+      to === "/kickoff" ? (
+        <Link href={to} key={title}>
+          <a>
+            <Box key={title} m="2" bg="#e8d095" p={2} borderRadius="md">
+              <Text fontFamily="Raleway">{title}</Text>
+            </Box>
+          </a>
+        </Link>
+      ) : (
+        <Link href={to} key={title}>
+          <a>
+            <Box key={title} m="2">
+              <Text fontFamily="Raleway">{title}</Text>
+            </Box>
+          </a>
+        </Link>
+      )
+    )}
   </Flex>
 );
 
