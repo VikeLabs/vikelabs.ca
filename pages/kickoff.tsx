@@ -88,7 +88,7 @@ export const KickOffModal = () => {
                 September 18th @ 6:30 PM
               </Heading>
               <Heading color="#e8d095" fontSize="3xl">
-                Location TBA
+                Location: <a href="https://discord.gg/Km8dSv5qWs" target="_blank" style={{ textDecoration: 'underline' }}>Discord</a>
               </Heading>
             </Box>
           </Flex>
@@ -138,7 +138,8 @@ export const KickOff: NextPage = () => {
               </Heading>
               <Box my={4}>
                 <Heading color="white">September 18th @ 6:30 PM</Heading>
-                <Heading color="white">Location TBA</Heading>
+                <Heading color="white">
+                Location: <a href="https://discord.gg/Km8dSv5qWs" target="_blank" style={{ textDecoration: 'underline' }}>Discord</a></Heading>
               </Box>
               {/* <Text
                 fontSize={["2em", "3em", "3em"]}
