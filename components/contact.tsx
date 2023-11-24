@@ -4,7 +4,7 @@ import { Heading, useMediaQuery } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/icon";
 import { GoMarkGithub } from "react-icons/go";
 import { GrInstagram, GrLinkedin, GrYoutube } from "react-icons/gr";
-import { SiDiscord } from "react-icons/si";
+import { SiDiscord, SiGoogledrive } from "react-icons/si";
 
 export const GitHubIcon = (
   <Icon as={GoMarkGithub} color="black" title="GitHub logo" boxSize="2rem" />
@@ -12,6 +12,15 @@ export const GitHubIcon = (
 
 export const DiscordIcon = (
   <Icon as={SiDiscord} color="white" title="Discord logo" boxSize="1.5rem" />
+);
+
+export const GoogleIcon = (
+  <Icon
+    as={SiGoogledrive}
+    color="white"
+    title="Discord logo"
+    boxSize="1.5rem"
+  />
 );
 
 const LinkedInIcon = (

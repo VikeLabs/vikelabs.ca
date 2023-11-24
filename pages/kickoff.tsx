@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { NextPage } from "next";
 import Image from "next/image";
-import { Contact, DiscordIcon } from "../components/contact";
+import { Contact, DiscordIcon, GoogleIcon } from "../components/contact";
 import { Metadata } from "../components/metadata";
 import { BaseLayout } from "../layouts/base";
 
@@ -29,6 +29,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 export const discordInvite = "https://discord.gg/Znse6XaVNu";
+export const signUpForm = "https://forms.gle/5NtaUrKvfxzRvvUy6";
 
 export const KickOffModal = () => {
   const { isOpen, onClose } = useDisclosure({
@@ -46,7 +47,7 @@ export const KickOffModal = () => {
       <ModalOverlay />
       <ModalContent bg="#28282A">
         <ModalHeader color="white" fontSize="5xl">
-          VikeLabs AGM 
+          VikeLabs AGM
         </ModalHeader>
         <ModalCloseButton color="white" />
         <ModalBody>
@@ -140,9 +141,9 @@ export const KickOff: NextPage = () => {
               <Box my={4}>
                 <Heading color="white">December 5th @ 6:30 PM</Heading>
                 <Heading color="white">
-                Location: ECS 116
-                 {/* <a href="https://discord.gg/jrCzA49n?event=1153433953303265291" target="_blank" style={{ textDecoration: 'underline' }}>Discord</a> */}
-                 </Heading>
+                  Location: ECS 116
+                  {/* <a href="https://discord.gg/jrCzA49n?event=1153433953303265291" target="_blank" style={{ textDecoration: 'underline' }}>Discord</a> */}
+                </Heading>
               </Box>
               {/* <Text
                 fontSize={["2em", "3em", "3em"]}
@@ -151,6 +152,16 @@ export const KickOff: NextPage = () => {
               >
                 Connect; Learn; Build;
               </Text> */}
+              <Box>
+                <Button
+                  variant="black"
+                  leftIcon={GoogleIcon}
+                  as="a"
+                  href={signUpForm}
+                >
+                  Sign Up Here!
+                </Button>
+              </Box>
               <Box>
                 <Button
                   variant="black"
