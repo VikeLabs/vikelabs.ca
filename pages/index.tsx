@@ -14,6 +14,7 @@ import { Metadata } from "../components/metadata";
 import { Button, ButtonGroup } from "@chakra-ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 import { NextPage } from "next";
 import vikeLabsPhoto from "../public/vikelabs.jpg";
 
@@ -27,6 +28,10 @@ const build =
 export const Index: NextPage = () => {
   return (
     <Layout>
+      <Script
+        src="https://analytics.eu.umami.is/script.js"
+        data-website-id="f1ec35c0-1910-4ef4-8558-53b9871ac849"
+      ></Script>
       <Metadata title="Home" />
       <Box bgGradient="linear(to-l, #9bd4d2, #ffc6e3)">
         <Container maxW="container.xl">
@@ -51,7 +56,9 @@ export const Index: NextPage = () => {
               </Text>
               <ButtonGroup>
                 <Link href="/about" passHref>
-                  <Button as="a" colorScheme="blue">Learn More</Button>
+                  <Button as="a" colorScheme="blue">
+                    Learn More
+                  </Button>
                 </Link>
 
                 <Button
