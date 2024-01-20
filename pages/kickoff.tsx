@@ -47,7 +47,7 @@ export const KickOffModal = () => {
       <ModalOverlay />
       <ModalContent bg="#28282A">
         <ModalHeader color="white" fontSize="5xl">
-          VikeLabs AGM
+          VikeLabs Kick Off
         </ModalHeader>
         <ModalCloseButton color="white" />
         <ModalBody>
@@ -86,10 +86,10 @@ export const KickOffModal = () => {
           <Flex w="full" justifyContent="end" my={6} gap={5} textAlign="right">
             <Box>
               <Heading color="#e8d095" fontSize="3xl">
-                December 5th @ 6:30 PM
+                January 25th @ 6:00 PM
               </Heading>
               <Heading color="#e8d095" fontSize="3xl">
-                Location: ECS 116
+                Location: BWC B150
                 {/* <a href="https://discord.gg/jrCzA49n?event=1153433953303265291" target="_blank" style={{ textDecoration: 'underline' }}>Discord</a> */}
               </Heading>
             </Box>
@@ -115,7 +115,7 @@ export const KickOff: NextPage = () => {
   return (
     <BaseLayout>
       <Metadata
-        title="VikeLabs Annual General Meeting"
+        title="VikeLabs Kick Off"
         description="Learn more about VikeLabs, it's mission and it's members."
       />
       <Box bgGradient="linear(to-l, #9bd4d2, #ffc6e3)">
@@ -128,7 +128,7 @@ export const KickOff: NextPage = () => {
                 color="gray.700"
                 lineHeight={[1, 1, 1.15]}
               >
-                VikeLabs Annual General Meeting
+                VikeLabs Kick Off
               </Heading>
               <Heading
                 as="h2"
@@ -136,12 +136,12 @@ export const KickOff: NextPage = () => {
                 color="gray.700"
                 lineHeight={[1, 1, 1.15]}
               >
-                Fall 2023
+                Spring 2024
               </Heading>
               <Box my={4}>
-                <Heading color="white">December 5th @ 6:30 PM</Heading>
+                <Heading color="white">January 25th @ 6:00 PM</Heading>
                 <Heading color="white">
-                  Location: ECS 116
+                  Location: BWC B150
                   {/* <a href="https://discord.gg/jrCzA49n?event=1153433953303265291" target="_blank" style={{ textDecoration: 'underline' }}>Discord</a> */}
                 </Heading>
               </Box>
@@ -152,16 +152,6 @@ export const KickOff: NextPage = () => {
               >
                 Connect; Learn; Build;
               </Text> */}
-              <Box>
-                <Button
-                  variant="black"
-                  leftIcon={GoogleIcon}
-                  as="a"
-                  href={signUpForm}
-                >
-                  Sign Up Here!
-                </Button>
-              </Box>
               <Box>
                 <Button
                   variant="black"
