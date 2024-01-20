@@ -21,7 +21,7 @@ const menuItems: MenuItem[] = [
     to: "/about",
   },
   {
-    title: "Kick Off 2023",
+    title: "Kick Off 2024",
     to: "/kickoff",
   },
   // {
