@@ -31,85 +31,85 @@ import { useRouter } from "next/router";
 export const discordInvite = "https://discord.gg/Znse6XaVNu";
 export const signUpForm = "https://forms.gle/5NtaUrKvfxzRvvUy6";
 
-export const KickOffModal = () => {
-  const { isOpen, onClose } = useDisclosure({
-    defaultIsOpen: true,
-  });
+// export const KickOffModal = () => {
+//   const { isOpen, onClose } = useDisclosure({
+//     defaultIsOpen: true,
+//   });
 
-  const { pathname } = useRouter();
-  const path = pathname.split("/")[1];
-  if (path === "kickoff") {
-    return null;
-  }
+//   const { pathname } = useRouter();
+//   const path = pathname.split("/")[1];
+//   if (path === "kickoff") {
+//     return null;
+//   }
 
-  return (
-    <Modal isOpen={isOpen} onClose={onClose} size="2xl">
-      <ModalOverlay />
-      <ModalContent bg="#28282A">
-        <ModalHeader color="white" fontSize="5xl">
-          VikeLabs Kick Off
-        </ModalHeader>
-        <ModalCloseButton color="white" />
-        <ModalBody>
-          <Flex
-            w="full"
-            justifyContent="space-between"
-            gap={5}
-            flexDirection={["column", "row"]}
-          >
-            <Heading fontSize="3xl" color="white">
-              <Heading as="span" color="#e8d095" fontSize="3xl">
-                Connect
-              </Heading>{" "}
-              with coders;
-              <br />
-              <Heading as="span" color="#e8d095" fontSize="3xl">
-                Learn
-              </Heading>{" "}
-              new skills;
-              <br />
-              <Heading as="span" color="#e8d095" fontSize="3xl">
-                Build
-              </Heading>{" "}
-              something awesome;
-            </Heading>
-            <Box>
-              <Image
-                alt="Gold VikeLabs logo"
-                placeholder="blur"
-                height="100%"
-                width="120%"
-                src={vikelabsLogo}
-              />
-            </Box>
-          </Flex>
-          <Flex w="full" justifyContent="end" my={6} gap={5} textAlign="right">
-            <Box>
-              <Heading color="#e8d095" fontSize="3xl">
-                January 25th @ 6:00 PM
-              </Heading>
-              <Heading color="#e8d095" fontSize="3xl">
-                Location: BWC B150
-                {/* <a href="https://discord.gg/jrCzA49n?event=1153433953303265291" target="_blank" style={{ textDecoration: 'underline' }}>Discord</a> */}
-              </Heading>
-            </Box>
-          </Flex>
-        </ModalBody>
+//   return (
+//     <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+//       <ModalOverlay />
+//       <ModalContent bg="#28282A">
+//         <ModalHeader color="white" fontSize="5xl">
+//           VikeLabs Kick Off
+//         </ModalHeader>
+//         <ModalCloseButton color="white" />
+//         <ModalBody>
+//           <Flex
+//             w="full"
+//             justifyContent="space-between"
+//             gap={5}
+//             flexDirection={["column", "row"]}
+//           >
+//             <Heading fontSize="3xl" color="white">
+//               <Heading as="span" color="#e8d095" fontSize="3xl">
+//                 Connect
+//               </Heading>{" "}
+//               with coders;
+//               <br />
+//               <Heading as="span" color="#e8d095" fontSize="3xl">
+//                 Learn
+//               </Heading>{" "}
+//               new skills;
+//               <br />
+//               <Heading as="span" color="#e8d095" fontSize="3xl">
+//                 Build
+//               </Heading>{" "}
+//               something awesome;
+//             </Heading>
+//             <Box>
+//               <Image
+//                 alt="Gold VikeLabs logo"
+//                 placeholder="blur"
+//                 height="100%"
+//                 width="120%"
+//                 src={vikelabsLogo}
+//               />
+//             </Box>
+//           </Flex>
+//           <Flex w="full" justifyContent="end" my={6} gap={5} textAlign="right">
+//             <Box>
+//               <Heading color="#e8d095" fontSize="3xl">
+//                 January 25th @ 6:00 PM
+//               </Heading>
+//               <Heading color="#e8d095" fontSize="3xl">
+//                 Location: BWC B150
+//                 {/* <a href="https://discord.gg/jrCzA49n?event=1153433953303265291" target="_blank" style={{ textDecoration: 'underline' }}>Discord</a> */}
+//               </Heading>
+//             </Box>
+//           </Flex>
+//     </ModalBody>
 
-        <ModalFooter>
-          <ButtonGroup isAttached>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button colorScheme="orange" as="a" href="/kickoff">
-              Learn more
-            </Button>
-          </ButtonGroup>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
-};
+//         <ModalFooter>
+//           <ButtonGroup isAttached>
+//             <Button colorScheme="blue" mr={3} onClick={onClose}>
+//               Close
+//             </Button>
+//             <Button colorScheme="orange" as="a" href="/kickoff">
+//               Learn more
+//             </Button>
+//           </ButtonGroup>
+//         </ModalFooter>
+//       </ModalContent>
+//     </Modal>
+//   );
+// };
 
 export const KickOff: NextPage = () => {
   return (

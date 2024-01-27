@@ -20,10 +20,10 @@ const menuItems: MenuItem[] = [
     title: "About",
     to: "/about",
   },
-  {
-    title: "Kick Off 2024",
-    to: "/kickoff",
-  },
+  //{
+  //  title: "Kick Off 2024",
+  //  to: "/kickoff",
+  //},
   // {
   //   title: "Blog",
   //   to: "/blog",
