@@ -17,6 +17,10 @@ const menuItems: MenuItem[] = [
     to: "/",
   },
   {
+    title: "Workshops",
+    to: "/calendar",
+  },
+  {
     title: "About",
     to: "/about",
   },
