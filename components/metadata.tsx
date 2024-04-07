@@ -13,7 +13,7 @@ export const Metadata = ({ title, description, image }: MetadataProps) => {
 
   return (
     <Head>
-      <title>{title} | VikeLabs</title>
+      <title>VikeLabs</title>
       <meta name="description" content={description ?? defaultDescription} />
       {/* TODO */}
       <meta name="image" content={image ?? defaultImage} />

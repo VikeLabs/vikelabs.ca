@@ -20,6 +20,10 @@ const menuItems: MenuItem[] = [
     title: "About",
     to: "/about",
   },
+  {
+    title: "Hackathon",
+    to: "/hackathon",
+  },
   //{
   //  title: "Kick Off 2024",
   //  to: "/kickoff",
