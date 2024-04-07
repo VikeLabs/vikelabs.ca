@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Container } from "@chakra-ui/react";
-import { TimelineItem } from "./timelineItem";
+import { TimelineItem } from "./timelineitem";
 
 interface Event {
   id: number;
