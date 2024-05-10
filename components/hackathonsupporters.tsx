@@ -25,14 +25,14 @@ export const Supporters = () => {
             width={180}
           />
         </Center> */}
-        <Center>
+        {/* <Center>
           <Image
             src={gsdc}
             alt="UVic Google Student Developer Club"
             height={100}
             width={100}
           />
-        </Center>
+        </Center> */}
         <Center>
           <Image
             src={ieee}
