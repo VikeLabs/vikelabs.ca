@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Contact } from "../components/contact";
 import { BaseLayout } from "../layouts/base";
 
-import kickoff2021 from "../public/hackathon.jpg";
+import kickoff2021 from "../public/kickoff2021.jpg";
 import { Faq } from "../components/hackathonfaq";
 import { Supporters } from "../components/hackathonsupporters";
 import { Timeline } from "../components/timeline";
