@@ -1,5 +1,7 @@
 import ieee from "../public/ieee.jpeg";
 import gsdc from "../public/gsdc.png";
+import ess from "../public/ess.png";
+import uvss from "../public/uvss.png";
 import redbull from "../public/redbull.png";
 import { Box, Center, Flex, Heading } from "@chakra-ui/react";
 import Image from "next/image";
@@ -17,14 +19,14 @@ export const Supporters = () => {
             width={100}
           />
         </Center> */}
-        {/* <Center>
+        <Center>
           <Image
             src={uvss}
             alt="University of Victoria Student Society"
-            height={100}
-            width={180}
+            height={55}
+            width={100}
           />
-        </Center> */}
+        </Center>
         {/* <Center>
           <Image
             src={gsdc}
@@ -33,6 +35,14 @@ export const Supporters = () => {
             width={100}
           />
         </Center> */}
+        <Center>
+          <Image
+            src={ess}
+            alt="University of Victoria Engineering Student Society"
+            height={100}
+            width={100}
+          />
+        </Center>
         <Center>
           <Image
             src={ieee}
