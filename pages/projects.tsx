@@ -60,9 +60,9 @@ const projects = [
   },
   {
     id: 4,
-    fields: { slug: "/lockers" },
+    fields: { slug: "/locker-registration" },
     frontmatter: {
-      title: "Lockers",
+      title: "ESS Locker Registration",
       description: "A website for registration and management of lockers, designed with mobile-first functionality.",
       status: "Staging",
       tech: ["Svelte", "TypeScript", "PostgreSQL", "Docker"],
