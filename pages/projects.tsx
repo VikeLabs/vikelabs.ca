@@ -21,7 +21,7 @@ const getStatusColor = (status) => {
 const projects = [
   {
     id: 1,
-    fields: { slug: "/courseup" },
+    fields: { slug: "https://github.com/VikeLabs/courseup" },
     frontmatter: {
       title: "CourseUp",
       description: "A website built to simplify the experience of searching courses and building timetables for the University of Victoria (UVic).",
@@ -34,7 +34,7 @@ const projects = [
   },
   {
     id: 2,
-    fields: { slug: "/coopme" },
+    fields: { slug: "https://github.com/VikeLabs/coopme" },
     frontmatter: {
       title: "CoopMe",
       description: "A website built to simplify the experience of searching for co-op placements for students in British Columbia.",
@@ -47,7 +47,7 @@ const projects = [
   },
   {
     id: 3,
-    fields: { slug: "/scholarship-finder" },
+    fields: { slug: "https://github.com/VikeLabs/scholar-u" },
     frontmatter: {
       title: "Scholarship Finder",
       description: "A web application that allows users to search for scholarships based on various filters such as type of scholarship, faculty, and gender.",
@@ -60,7 +60,7 @@ const projects = [
   },
   {
     id: 4,
-    fields: { slug: "/locker-registration" },
+    fields: { slug: "https://github.com/VikeLabs/ecss-locker-registration" },
     frontmatter: {
       title: "ESS Locker Registration",
       description: "A website for registration and management of lockers, designed with mobile-first functionality.",
@@ -73,7 +73,7 @@ const projects = [
   },
   {
     id: 5,
-    fields: { slug: "/uvic-course-scraper" },
+    fields: { slug: "https://github.com/VikeLabs/uvic-course-scraper" },
     frontmatter: {
       title: "UVic Course Scraper",
       description: "A Node.js library that parses information from UVic course calendars and schedules, using Cheerio for HTML parsing.",
@@ -86,7 +86,7 @@ const projects = [
   },
   {
     id: 6,
-    fields: { slug: "/vikeeats" },
+    fields: { slug: "https://github.com/VikeLabs/VikeEats" },
     frontmatter: {
       title: "VikeEats",
       description: "A map web application for tracking food establishments on campus, showing food offerings and dietary warnings.",
@@ -144,7 +144,7 @@ export default function Component() {
                     bgGradient="linear(to-r, blue.400, purple.500)"
                   />
                   <Heading as="h2" size="lg" mb={3}>
-                    <Link href={`/projects${p.fields.slug}`} color="blue.600" _hover={{ color: 'blue.800', textDecoration: "underline" }}>
+                    <Link href={`${p.fields.slug}`} color="blue.600" _hover={{ color: 'blue.800', textDecoration: "underline" }}>
                       {p.frontmatter.title}
                     </Link>
                   </Heading>
