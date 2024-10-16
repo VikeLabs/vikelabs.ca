@@ -45,7 +45,7 @@ export const About: NextPage = () => {
               display={["none", "none", "flex"]}
             >
               <Image
-                alt="three VikeLabs members"
+                alt="Three VikeLabs members"
                 placeholder="blur"
                 height={450}
                 width={600}
