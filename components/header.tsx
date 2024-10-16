@@ -20,22 +20,22 @@ const menuItems: MenuItem[] = [
     title: "About",
     to: "/about",
   },
-  {
-    title: "Hackathon",
-    to: "/hackathon",
-  },
-  //{
-  //  title: "Kick Off 2024",
-  //  to: "/kickoff",
-  //},
+  // {
+  //   title: "Hackathon",
+  //   to: "/hackathon",
+  // },
+  // {
+  //   title: "Kick Off 2024",
+  //   to: "/kickoff",
+  // },
   // {
   //   title: "Blog",
   //   to: "/blog",
   // },
-  // {
-  //   title: "Projects",
-  //   to: "/projects",
-  // },
+  {
+    title: "Projects",
+    to: "/projects",
+  },
 ];
 
 const Logo = () => (
