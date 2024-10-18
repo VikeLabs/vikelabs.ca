@@ -102,7 +102,7 @@ const projects = [
     fields: { slug: "https://github.com/VikeLabs/study-sprints" },
     frontmatter: {
       title: "Study Sprints",
-      description: "An app for better time management for study sprints using 25-65 minute intervals and tracking past times.",
+      description: "A browser extension using the Pomodoro technique to encourage good study habits, studying in 26-65 minute intervals and tracking past habits.",
       status: "Active",
       tech: ["JavaScript", "Next.js", "CSS", "HTML"],
       meetingTime: "Undecided",
