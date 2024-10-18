@@ -63,7 +63,7 @@ const projects = [
     fields: { slug: "https://github.com/VikeLabs/ecss-locker-registration" },
     frontmatter: {
       title: "ESS Locker Registration",
-      description: "A website for registration and management of lockers, designed with mobile-first functionality.",
+      description: "A website for registration and management of lockers, designed with mobile-first functionality. Now maintained by the UVic ECSS.",
       status: "Maintained",
       tech: ["Svelte", "TypeScript", "PostgreSQL", "Docker"],
       meetingTime: "Undecided",
