@@ -7,14 +7,14 @@ const getStatusColor = (status) => {
   switch (status) {
     case "Active":
       return "green";
-    case "Development":
+    case "Maintained":
       return "blue";
-    case "Staged":
+    case "Complete":
       return "purple";
-    case "In Progress":
-      return "orange";
-    default:
+    case "Inactive":
       return "gray";
+    default:
+      return "yellow";
   }
 };
 
@@ -64,7 +64,7 @@ const projects = [
     frontmatter: {
       title: "ESS Locker Registration",
       description: "A website for registration and management of lockers, designed with mobile-first functionality.",
-      status: "Staging",
+      status: "Maintained",
       tech: ["Svelte", "TypeScript", "PostgreSQL", "Docker"],
       meetingTime: "Undecided",
       lastUpdate: "Spring 2024",
@@ -77,7 +77,7 @@ const projects = [
     frontmatter: {
       title: "UVic Course Scraper",
       description: "A Node.js library that parses information from UVic course calendars and schedules, using Cheerio for HTML parsing.",
-      status: "Active",
+      status: "Maintained",
       tech: ["Node.js", "Cheerio", "TypeScript"],
       meetingTime: "Undecided",
       lastUpdate: "Fall 2023",
@@ -96,6 +96,32 @@ const projects = [
       lastUpdate: "Summer 2024",
       term: "Summer 2024"
     }
+  },
+  {
+    id: 7,
+    fields: { slug: "https://github.com/VikeLabs/study-sprints" },
+    frontmatter: {
+      title: "Study Sprints",
+      description: "An app for better time management for study sprints using 25-65 minute intervals and tracking past times.",
+      status: "Active",
+      tech: ["JavaScript", "Next.js", "CSS", "HTML"],
+      meetingTime: "Undecided",
+      lastUpdate: "Spring 2024",
+      term: "Spring 2024"
+    }
+  },
+  {
+    id: 8,
+    fields: { slug: "https://github.com/VikeLabs/StudySpaceFinder" },
+    frontmatter: {
+      title: "Study Space Finder",
+      description: "An application to find study spaces at the University of Victoria (UVic).",
+      status: "Inactive",
+      tech: ["TypeScript", "React", "Python", "SQLite"],
+      meetingTime: "Undecided",
+      lastUpdate: "Fall 2023",
+      term: "Fall 2023"
+    }
   }
 ];
 
@@ -112,6 +138,9 @@ export default function Component() {
               Projects are the heart and soul of VikeLabs. Here you'll find the
               various projects our members are currently working on and previous
               projects we've taken on.
+            </Text>
+            <Text fontSize="md" color="gray.600" mt={2}>
+              Note: Meeting times shown are for Fall 2024. Times may change in future terms.
             </Text>
           </Flex>
         </Container>
