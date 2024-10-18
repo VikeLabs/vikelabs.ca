@@ -115,7 +115,7 @@ const projects = [
     fields: { slug: "https://github.com/VikeLabs/StudySpaceFinder" },
     frontmatter: {
       title: "Study Space Finder",
-      description: "An application to find study spaces at the University of Victoria (UVic).",
+      description: "An application to find study spaces at the University of Victoria (UVic). Information is based on the class schedule gathered by UVic Course Scraper, and does not include room bookings by clubs or external groups.",
       status: "Inactive",
       tech: ["TypeScript", "React", "Python", "SQLite"],
       meetingTime: "Undecided",
