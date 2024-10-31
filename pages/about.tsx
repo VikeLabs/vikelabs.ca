@@ -34,7 +34,9 @@ export const About: NextPage = () => {
                 VIKELABS
               </Heading>
               <Text fontSize="1em" color="gray.700" my="5">
-                We are a community of student developers, designers, and entrepreneurs who are passionate about building software solutions for UVic students
+                We are a community of student developers, designers, and entrepreneurs
+                who are passionate about building software solutions for students at
+                University of Victoria
               </Text>
             </Flex>
             <Flex
