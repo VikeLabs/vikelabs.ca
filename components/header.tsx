@@ -1,45 +1,34 @@
-import { Box, Center, Container, Flex, Heading, Text } from "@chakra-ui/layout";
-
-import { IconButton } from "@chakra-ui/react";
-import { Collapse } from "@chakra-ui/react";
+import { Box, Center, Container, Divider, Flex, Heading, Text } from "@chakra-ui/layout";
+import { IconButton, Collapse } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
-import { Divider } from "@chakra-ui/layout";
 import { Icon } from "@chakra-ui/icon";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdClose } from "react-icons/md";
+import vikelabs from "../public/vikelabs-trans.png";
+import Image from "next/image";
 import Link from "next/link";
 
 type MenuItem = { title: string; to: string };
 
 const menuItems: MenuItem[] = [
-  {
-    title: "Home",
-    to: "/",
-  },
-  {
-    title: "About",
-    to: "/about",
-  },
-  // {
-  //   title: "Hackathon",
-  //   to: "/hackathon",
-  // },
-  // {
-  //   title: "Kick Off 2024",
-  //   to: "/kickoff",
-  // },
-  // {
-  //   title: "Blog",
-  //   to: "/blog",
-  // },
-  {
-    title: "Projects",
-    to: "/projects",
-  },
-];
+  { title: "Home", to: "/" },
+  { title: "About", to: "/about" },
+  // { title: "Hackathon", to: "/hackathon" },
+  // { title: "Kick Off 2024", to: "/kickoff" },
+  // { title: "Blog", to: "/blog" },
+  { title: "Projects", to: "/projects" },
+]
 
 const Logo = () => (
-  <Heading fontFamily="Raleway" fontWeight="extrabold">
+  <Heading fontFamily="Raleway" fontWeight="extrabold" display="flex" alignItems="center" gap={4}>
+    <Image
+      alt="Three VikeLabs members"
+      placeholder="blur"
+      height={45}
+      width={45}
+      src={vikelabs}
+      style={{}}
+    />
     VIKELABS
   </Heading>
 );
@@ -55,7 +44,7 @@ const MenuBar = ({ items }: { items: MenuItem[] }) => (
     {items.map(({ title, to }) =>
       to === "/kickoff" ? (
         <Link href={to} key={title}>
-          <a>
+          <a href={to}>
             <Box key={title} m="2" bg="#e8d095" p={2} borderRadius="md">
               <Text fontFamily="Raleway">{title}</Text>
             </Box>
@@ -63,7 +52,7 @@ const MenuBar = ({ items }: { items: MenuItem[] }) => (
         </Link>
       ) : (
         <Link href={to} key={title}>
-          <a>
+          <a href={to}>
             <Box key={title} m="2">
               <Text fontFamily="Raleway">{title}</Text>
             </Box>
@@ -99,7 +88,7 @@ export const Header = () => {
       <Container maxW="container.xl" my="2">
         <Flex align="center" justify="space-between">
           <Link href="/">
-            <a>
+            <a href="/">
               <Logo />
             </a>
           </Link>

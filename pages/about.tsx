@@ -1,14 +1,14 @@
-import { SimpleGrid } from "@chakra-ui/layout";
 import { Box, Flex, Grid, Container, Heading, Text } from "@chakra-ui/react";
+import { Supporters } from "../components/supporters";
+import kickoff2021 from "../public/kickoff2021.jpg";
+import { Metadata } from "../components/metadata";
+import { Contact } from "../components/contact";
+import { SimpleGrid } from "@chakra-ui/layout";
+import { BaseLayout } from "../layouts/base";
+import { Faq } from "../components/faq";
 import { NextPage } from "next";
 import Image from "next/image";
-import { Contact } from "../components/contact";
-import { Metadata } from "../components/metadata";
-import { BaseLayout } from "../layouts/base";
 
-import kickoff2021 from "../public/kickoff2021.jpg";
-import { Faq } from "../components/faq";
-import { Supporters } from "../components/supporters";
 
 export const About: NextPage = () => {
   return (
@@ -34,9 +34,7 @@ export const About: NextPage = () => {
                 VIKELABS
               </Heading>
               <Text fontSize="1em" color="gray.700" my="5">
-                We are a community of student developers, designers, and
-                entrepreneurs who are passionate about building the future of
-                the software.
+                We are a community of student developers, designers, and entrepreneurs who are passionate about building software solutions for UVic students
               </Text>
             </Flex>
             <Flex
@@ -78,7 +76,7 @@ export const About: NextPage = () => {
         <Container maxW="container.xl">
           <SimpleGrid columns={[1, 1, 2]} spacing={10}>
             <Heading color="white">
-              We're part of the UVic Engineering Student Society
+              We're part of the UVic Engineering and Computer Science Students' Society
             </Heading>
             <Text color="white">
               We get funding from the UVic Engineering Student Society to

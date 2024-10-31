@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Heading, Text, Link, SimpleGrid, VStack, Tag, HStack } from "@chakra-ui/react"
+import { Box, Container, Flex, Heading, Text, Link, SimpleGrid, Tag } from "@chakra-ui/react"
 import { Contact } from "../components/contact"
 import { BaseLayout } from "../layouts/base"
 import { Metadata } from "../components/metadata"
@@ -128,7 +128,7 @@ const projects = [
 export default function Component() {
   return (
     <BaseLayout>
-      <Box py="12" bgGradient="linear(to-l, #9bd4d2, #92b8ff)">
+      <Box py="12" bgGradient="linear(to-l, #9bd4d2, #ffc6e3)">
         <Container maxW="container.xl">
           <Flex direction="column" align="flex-start" color="gray.800">
             <Heading as="h1" size="3xl" mb={4} fontWeight="bold">
