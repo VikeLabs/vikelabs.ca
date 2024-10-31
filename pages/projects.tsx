@@ -27,7 +27,7 @@ const projects = [
       description: "A website built to simplify the experience of searching courses and building timetables for the University of Victoria (UVic).",
       status: "Active",
       tech: ["TypeScript", "React", "Firebase"],
-      meetingTime: "Fridays at 6-7pm",
+      meetingTime: "Waiting for updates",
       lastUpdate: "Fall 2023",
       term: "Fall 2023"
     }
@@ -66,7 +66,7 @@ const projects = [
       description: "A website for registration and management of lockers, designed with mobile-first functionality. Now maintained by the UVic ECSS.",
       status: "Maintained",
       tech: ["Svelte", "TypeScript", "PostgreSQL", "Docker"],
-      meetingTime: "Undecided",
+      meetingTime: "No Meetings Planned",
       lastUpdate: "Spring 2024",
       term: "Spring 2024"
     }
@@ -79,7 +79,7 @@ const projects = [
       description: "A Node.js library that parses information from UVic course calendars and schedules, using Cheerio for HTML parsing.",
       status: "Maintained",
       tech: ["Node.js", "Cheerio", "TypeScript"],
-      meetingTime: "Undecided",
+      meetingTime: "No Meetings Planned",
       lastUpdate: "Fall 2023",
       term: "Fall 2023"
     }
@@ -92,7 +92,7 @@ const projects = [
       description: "A map web application for tracking food establishments on campus, showing food offerings and dietary warnings.",
       status: "Active",
       tech: ["React", "Flask", "SQLite", "Beautiful Soup"],
-      meetingTime: "Undecided",
+      meetingTime: "Tuesdays @ 2:30pm",
       lastUpdate: "Summer 2024",
       term: "Summer 2024"
     }
@@ -103,9 +103,9 @@ const projects = [
     frontmatter: {
       title: "Study Sprints",
       description: "A browser extension using the Pomodoro technique to encourage good study habits, studying in 26-65 minute intervals and tracking past habits.",
-      status: "Active",
+      status: "Inactive",
       tech: ["JavaScript", "Next.js", "CSS", "HTML"],
-      meetingTime: "Undecided",
+      meetingTime: "No Meetings Planned",
       lastUpdate: "Spring 2024",
       term: "Spring 2024"
     }
@@ -118,7 +118,7 @@ const projects = [
       description: "An application to find study spaces at the University of Victoria (UVic). Information is based on the class schedule gathered by UVic Course Scraper, and does not include room bookings by clubs or external groups.",
       status: "Inactive",
       tech: ["TypeScript", "React", "Python", "SQLite"],
-      meetingTime: "Undecided",
+      meetingTime: "No Meetings Planned",
       lastUpdate: "Fall 2023",
       term: "Fall 2023"
     }
