@@ -27,7 +27,7 @@ const projects = [
     frontmatter: {
       title: "CourseUp",
       description: "A website built to simplify the experience of searching courses and building timetables for the University of Victoria (UVic).",
-      status: "Undecided",
+      status: "Inactive",
       tech: ["TypeScript", "React", "Firebase"],
       meetingTime: "No Meetings Planned",
       lastUpdate: "Fall 2023",
