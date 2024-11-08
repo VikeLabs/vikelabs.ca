@@ -94,7 +94,7 @@ const projects = [
       description: "A map web application for tracking food establishments on campus, showing food offerings and dietary warnings.",
       status: "Active",
       tech: ["React", "Flask", "SQLite", "Beautiful Soup"],
-      meetingTime: "Tuesdays @ 2:30pm",
+      meetingTime: "Tuesdays at 2:30pm",
       lastUpdate: "Summer 2024",
       term: "Summer 2024"
     }
