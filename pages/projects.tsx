@@ -12,7 +12,9 @@ const getStatusColor = (status) => {
     case "Complete":
       return "purple";
     case "Inactive":
-      return "gray";
+      return "red";
+    case "Undecided":
+      return "orange";
     default:
       return "yellow";
   }
@@ -25,9 +27,9 @@ const projects = [
     frontmatter: {
       title: "CourseUp",
       description: "A website built to simplify the experience of searching courses and building timetables for the University of Victoria (UVic).",
-      status: "Active",
+      status: "Undecided",
       tech: ["TypeScript", "React", "Firebase"],
-      meetingTime: "Waiting for updates",
+      meetingTime: "No Meetings Planned",
       lastUpdate: "Fall 2023",
       term: "Fall 2023"
     }
@@ -53,7 +55,7 @@ const projects = [
       description: "A web application that allows users to search for scholarships based on various filters such as type of scholarship, faculty, and gender.",
       status: "Active",
       tech: ["React", "Node.js", "MongoDB"],
-      meetingTime: "Undecided",
+      meetingTime: "No Meetings Planned",
       lastUpdate: "Fall 2023",
       term: "Fall 2023"
     }
@@ -183,8 +185,8 @@ export default function Component() {
                   </Text>
                   <Text fontWeight="medium" mb={3}>
                     Project Meeting Time:{' '}
-                    {p.frontmatter.meetingTime === 'Undecided' ? (
-                      <Tag colorScheme="yellow">Undecided</Tag>
+                    {p.frontmatter.meetingTime === 'No Meetings Planned' ? (
+                      <Tag colorScheme="blue">No Meetings Planned</Tag>
                     ) : (
                       <Tag colorScheme="green">{p.frontmatter.meetingTime}</Tag>
                     )}
