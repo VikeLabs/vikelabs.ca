@@ -78,10 +78,10 @@ export const About: NextPage = () => {
         <Container maxW="container.xl">
           <SimpleGrid columns={[1, 1, 2]} spacing={10}>
             <Heading color="white">
-              We're part of the UVic Engineering and Computer Science Students' Society
+              We're part of the UVic Engineering & Computer Science Students' Society
             </Heading>
             <Text color="white">
-              We get funding from the UVic Engineering Student Society to
+              We get funding from the UVic Engineering & Computer Science Students' Society to
               support our projects and events. Each year, we also get access to
               the Cinkant grant, which is a grant for special projects.
             </Text>
