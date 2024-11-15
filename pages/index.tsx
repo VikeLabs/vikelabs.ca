@@ -50,9 +50,10 @@ export const Index: NextPage = () => {
                 Connect; Learn; Build;
               </Heading>
               <Text fontSize="1em" color="gray.700" my="5">
-                We are a community of student developers, designers, and
-                entrepreneurs who are passionate about building the future of
-                the software.
+                VikeLabs is a collective of students who learn to build, deploy,
+                and test software apps. We are a community of student developers,
+                designers, and entrepreneurs who are passionate about designing
+                software solutions for students and the UVic campus community.
               </Text>
               <ButtonGroup>
                 <Link href="/about" passHref>
