@@ -1,9 +1,21 @@
-import { Box, Center, Container, Divider, Flex, Heading, Text } from "@chakra-ui/layout";
-import { IconButton, Collapse } from "@chakra-ui/react";
-import { useDisclosure } from "@chakra-ui/hooks";
-import { Icon } from "@chakra-ui/icon";
+// header.tsx
+import {
+  Box,
+  Center,
+  Container,
+  Divider,
+  Flex,
+  Heading,
+  Text,
+  IconButton,
+  Collapse,
+  useColorMode,
+  useDisclosure,
+  Icon,
+} from "@chakra-ui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdClose } from "react-icons/md";
+import { FaSun, FaMoon } from "react-icons/fa"; // Import sun and moon icons
 import vikelabs from "../public/vikelabs-trans.png";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,10 +29,16 @@ const menuItems: MenuItem[] = [
   // { title: "Kick Off 2024", to: "/kickoff" },
   // { title: "Blog", to: "/blog" },
   { title: "Projects", to: "/projects" },
-]
+];
 
 const Logo = () => (
-  <Heading fontFamily="Raleway" fontWeight="extrabold" display="flex" alignItems="center" gap={4}>
+  <Heading
+    fontFamily="Raleway"
+    fontWeight="extrabold"
+    display="flex"
+    alignItems="center"
+    gap={4}
+  >
     <Image
       alt="Three VikeLabs members"
       placeholder="blur"
@@ -37,29 +55,21 @@ const MenuIcon = () => (
   <Icon as={GiHamburgerMenu} title="menu icon" boxSize="2rem" />
 );
 
-const CloseIcon = () => <Icon as={MdClose} title="close icon" boxSize="2rem" />;
+const CloseIcon = () => (
+  <Icon as={MdClose} title="close icon" boxSize="2rem" />
+);
 
 const MenuBar = ({ items }: { items: MenuItem[] }) => (
   <Flex as="nav" direction={["column", "row", null]} align="center">
-    {items.map(({ title, to }) =>
-      to === "/kickoff" ? (
-        <Link href={to} key={title}>
-          <a href={to}>
-            <Box key={title} m="2" bg="#e8d095" p={2} borderRadius="md">
-              <Text fontFamily="Raleway">{title}</Text>
-            </Box>
-          </a>
-        </Link>
-      ) : (
-        <Link href={to} key={title}>
-          <a href={to}>
-            <Box key={title} m="2">
-              <Text fontFamily="Raleway">{title}</Text>
-            </Box>
-          </a>
-        </Link>
-      )
-    )}
+    {items.map(({ title, to }) => (
+      <Link href={to} key={title}>
+        <a href={to}>
+          <Box key={title} m="2">
+            <Text fontFamily="Raleway">{title}</Text>
+          </Box>
+        </a>
+      </Link>
+    ))}
   </Flex>
 );
 
@@ -70,6 +80,7 @@ const NofiticationBar = () => (
         <a
           href="https://discord.gg/gRK5XZ5r?event=1022675053009178717"
           target={"_blank"}
+          rel="noopener noreferrer"
         >
           <Text fontWeight="extrabold" color="white">
             Kick-off event is happening Sept, 28th, 2022 at 6pm. RSVP now!
@@ -82,6 +93,7 @@ const NofiticationBar = () => (
 
 export const Header = () => {
   const { isOpen, onToggle } = useDisclosure();
+  const { colorMode, toggleColorMode } = useColorMode(); // Use useColorMode hook
 
   return (
     <Box as="header">
@@ -92,18 +104,38 @@ export const Header = () => {
               <Logo />
             </a>
           </Link>
-          <Box display={["none", "block"]}>
-            <MenuBar items={menuItems} />
-          </Box>
-          <Box display={["block", "none"]}>
+          <Flex align="center">
+            {/* Desktop Menu */}
+            <Box display={["none", "block"]}>
+              <MenuBar items={menuItems} />
+            </Box>
+
+            {/* Toggle Color Mode Button */}
             <IconButton
-              size="sm"
-              aria-label="open/close menu"
+              aria-label="Toggle color mode"
               variant="ghost"
-              onClick={onToggle}
-              icon={isOpen ? <CloseIcon /> : <MenuIcon />}
+              onClick={toggleColorMode}
+              icon={
+                colorMode === "light" ? (
+                  <Icon as={FaMoon} />
+                ) : (
+                  <Icon as={FaSun} />
+                )
+              }
+              ml="2"
             />
-          </Box>
+
+            {/* Mobile Menu Icon */}
+            <Box display={["block", "none"]}>
+              <IconButton
+                size="sm"
+                aria-label="open/close menu"
+                variant="ghost"
+                onClick={onToggle}
+                icon={isOpen ? <CloseIcon /> : <MenuIcon />}
+              />
+            </Box>
+          </Flex>
         </Flex>
         <Collapse in={isOpen} animateOpacity>
           <Box p="1" mt="4" display={["block", "none"]}>
