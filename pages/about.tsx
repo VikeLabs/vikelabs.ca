@@ -1,4 +1,13 @@
-import { Box, Flex, Grid, Container, Heading, Text } from "@chakra-ui/react";
+// about.tsx
+import {
+  Box,
+  Flex,
+  Grid,
+  Container,
+  Heading,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { Supporters } from "../components/supporters";
 import kickoff2021 from "../public/kickoff2021.jpg";
 import { Metadata } from "../components/metadata";
@@ -9,13 +18,18 @@ import { Faq } from "../components/faq";
 import { NextPage } from "next";
 import Image from "next/image";
 
-
 export const About: NextPage = () => {
+  // Use color mode values
+  const headingColor = useColorModeValue("gray.700", "gray.200");
+  const textColor = useColorModeValue("gray.700", "gray.300");
+  const bgColor1 = useColorModeValue("#108091", "#1A365D");
+  const bgColor2 = useColorModeValue("#f28022", "#5C2D91");
+
   return (
     <BaseLayout>
       <Metadata
         title="About"
-        description="Learn more about VikeLabs, it's mission and it's members."
+        description="Learn more about VikeLabs, its mission, and its members."
       />
       <Box>
         <Container maxW="container.xl">
@@ -28,15 +42,15 @@ export const About: NextPage = () => {
               <Heading
                 as="h1"
                 fontSize={["4em", "5em", "6em"]}
-                color="gray.700"
+                color={headingColor}
                 lineHeight={[1, 1, 1.15]}
               >
                 VIKELABS
               </Heading>
-              <Text fontSize="1em" color="gray.700" my="5">
-                We are a community of student developers, designers, and entrepreneurs
-                who are passionate about building software solutions for students at
-                University of Victoria
+              <Text fontSize="1em" color={textColor} my="5">
+                We are a community of student developers, designers, and
+                entrepreneurs who are passionate about building software
+                solutions for students at the University of Victoria.
               </Text>
             </Flex>
             <Flex
@@ -59,31 +73,33 @@ export const About: NextPage = () => {
         </Container>
       </Box>
 
-      <Box py="10" bg="#108091" my="5">
+      <Box py="10" bg={bgColor1} my="5">
         <Container maxW="container.xl">
           <SimpleGrid columns={[1, 1, 2]} spacing={10}>
             <Heading color="white">
               We're part of the University of Victoria Students' Society
             </Heading>
             <Text color="white">
-              We get funding from the UVSS to run our events and workshop each
+              We get funding from the UVSS to run our events and workshops each
               semester. We also get access to the UVSS's resources like rooms
-              and equipment. Special project grants are also available to
-              through the UVSS.
+              and equipment. Special project grants are also available through
+              the UVSS.
             </Text>
           </SimpleGrid>
         </Container>
       </Box>
-      <Box py="10" bg="#f28022" my="5">
+      <Box py="10" bg={bgColor2} my="5">
         <Container maxW="container.xl">
           <SimpleGrid columns={[1, 1, 2]} spacing={10}>
             <Heading color="white">
-              We're part of the UVic Engineering & Computer Science Students' Society
+              We're part of the UVic Engineering & Computer Science Students'
+              Society
             </Heading>
             <Text color="white">
-              We get funding from the UVic Engineering & Computer Science Students' Society to
-              support our projects and events. Each year, we also get access to
-              the Cinkant grant, which is a grant for special projects.
+              We get funding from the UVic Engineering & Computer Science
+              Students' Society to support our projects and events. Each year,
+              we also get access to the Cinkant grant, which is a grant for
+              special projects.
             </Text>
           </SimpleGrid>
         </Container>

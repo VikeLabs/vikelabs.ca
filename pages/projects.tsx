@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Heading, Text, Link, SimpleGrid, Tag } from "@chakra-ui/react"
+import { Box, Container, Flex, Heading, Text, Link, SimpleGrid, Tag, useColorModeValue } from "@chakra-ui/react"
 import { Contact } from "../components/contact"
 import { BaseLayout } from "../layouts/base"
 import { Metadata } from "../components/metadata"
@@ -128,11 +128,19 @@ const projects = [
 ];
 
 export default function Component() {
+  const boxBg = useColorModeValue("white", "gray.700");
+  const boxShadow = useColorModeValue("lg", "dark-lg");
+  const textColor = useColorModeValue("gray.800", "gray.200");
+  const linkColor = useColorModeValue("blue.600", "blue.300");
+  const linkHoverColor = useColorModeValue("blue.800", "blue.500");
+  const descriptionColor = useColorModeValue("gray.600", "gray.400");
+  const gradientColor = useColorModeValue("linear(to-l, #9bd4d2, #ffc6e3)", "linear(to-l, #9bafd9, #103783)");
+
   return (
     <BaseLayout>
-      <Box py="12" bgGradient="linear(to-l, #9bd4d2, #ffc6e3)">
+      <Box py="12" bgGradient={gradientColor}>
         <Container maxW="container.xl">
-          <Flex direction="column" align="flex-start" color="gray.800">
+          <Flex direction="column" align="flex-start" color={textColor}>
             <Heading as="h1" size="3xl" mb={4} fontWeight="bold">
               Projects
             </Heading>
@@ -141,7 +149,7 @@ export default function Component() {
               various projects our members are currently working on and previous
               projects we've taken on.
             </Text>
-            <Text fontSize="md" color="gray.600" mt={2}>
+            <Text fontSize="md" color={descriptionColor} mt={2}>
               Note: Meeting times shown are for Fall 2024. Times may change in future terms.
             </Text>
           </Flex>
@@ -159,8 +167,8 @@ export default function Component() {
                   borderWidth={1}
                   borderRadius="lg"
                   p={6}
-                  boxShadow="lg"
-                  bg="white"
+                  boxShadow={boxShadow}
+                  bg={boxBg}
                   transition="all 0.3s"
                   _hover={{ transform: 'translateY(-4px)', boxShadow: 'xl' }}
                   position="relative"
@@ -175,15 +183,15 @@ export default function Component() {
                     bgGradient="linear(to-r, blue.400, purple.500)"
                   />
                   <Heading as="h2" size="lg" mb={3}>
-                    <Link href={`${p.fields.slug}`} color="blue.600" _hover={{ color: 'blue.800', textDecoration: "underline" }}>
+                    <Link href={`${p.fields.slug}`} color={linkColor} _hover={{ color: linkHoverColor, textDecoration: "underline" }}>
                       {p.frontmatter.title}
                     </Link>
                   </Heading>
-                  <Text fontSize="md" mb={4} color="gray.600">{p.frontmatter.description}</Text>
-                  <Text fontWeight="medium" mb={2}>
+                  <Text fontSize="md" mb={4} color={descriptionColor}>{p.frontmatter.description}</Text>
+                  <Text fontWeight="medium" mb={2} color={textColor}>
                     Status: <Tag colorScheme={getStatusColor(p.frontmatter.status)}>{p.frontmatter.status}</Tag>
                   </Text>
-                  <Text fontWeight="medium" mb={3}>
+                  <Text fontWeight="medium" mb={3} color={textColor}>
                     Project Meeting Time:{' '}
                     {p.frontmatter.meetingTime === 'No Meetings Planned' ? (
                       <Tag colorScheme="blue">No Meetings Planned</Tag>
@@ -191,7 +199,7 @@ export default function Component() {
                       <Tag colorScheme="green">{p.frontmatter.meetingTime}</Tag>
                     )}
                   </Text>
-                  <Text fontWeight="medium" mb={3}>
+                  <Text fontWeight="medium" mb={3} color={textColor}>
                     Last Major Update: <Tag colorScheme="purple">{p.frontmatter.lastUpdate}</Tag>
                   </Text>
                   <Flex wrap="wrap" gap={2} mt={4}>

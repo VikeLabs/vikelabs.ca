@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, useColorModeValue } from "@chakra-ui/react";
 import {
   Center,
   Container,
@@ -26,6 +26,7 @@ const build =
   "Build projects and applications that you can add to your portfolio and resume. ";
 
 export const Index: NextPage = () => {
+  const sectionBg = useColorModeValue("gray.100", "gray.700");
   return (
     <Layout>
       <Script
@@ -33,7 +34,12 @@ export const Index: NextPage = () => {
         data-website-id="f1ec35c0-1910-4ef4-8558-53b9871ac849"
       ></Script>
       <Metadata title="Home" />
-      <Box bgGradient="linear(to-l, #9bd4d2, #ffc6e3)">
+      <Box
+        bgGradient={useColorModeValue(
+          "linear(to-l, #9bd4d2, #ffc6e3)", // Light mode gradient
+          "linear(to-l, #9bafd9, #103783)"  // Dark mode gradient
+        )}
+      >
         <Container maxW="container.xl">
           <Grid
             templateColumns={[null, "repeat(1, 1fr)", "repeat(2, 1fr)"]}
@@ -44,12 +50,12 @@ export const Index: NextPage = () => {
               <Heading
                 as="h1"
                 fontSize={["4em", "5em", "6em"]}
-                color="gray.700"
+                color={useColorModeValue("gray.700", "gray.200")}
                 lineHeight={[1, 1, 1.15]}
               >
                 Connect; Learn; Build;
               </Heading>
-              <Text fontSize="1em" color="gray.700" my="5">
+              <Text fontSize="1em" color={useColorModeValue("gray.700", "gray.200")} my="5">
                 VikeLabs is a collective of students who learn to build, deploy,
                 and test software apps. We are a community of student developers,
                 designers, and entrepreneurs who are passionate about designing
@@ -57,7 +63,7 @@ export const Index: NextPage = () => {
               </Text>
               <ButtonGroup>
                 <Link href="/about" passHref>
-                  <Button as="a" colorScheme="blue">
+                  <Button as="a" bg="blue.500" color="white" _hover={{ bg: "blue.600" }}>
                     Learn More
                   </Button>
                 </Link>
@@ -67,6 +73,7 @@ export const Index: NextPage = () => {
                   leftIcon={DiscordIcon}
                   as="a"
                   href={discordInvite}
+                  _hover={{ bg: "gray.700", color: "white" }}
                 >
                   Join Our Discord!
                 </Button>
@@ -91,7 +98,7 @@ export const Index: NextPage = () => {
           </Grid>
         </Container>
       </Box>
-      <Box as="section" py="7" bg="gray.100">
+      <Box as="section" py="7" bg={sectionBg}>
         <Container maxW="container.xl">
           <Center my="2">
             <Heading as="h2" size="2xl" my="4">
@@ -111,13 +118,18 @@ export const Index: NextPage = () => {
           </Box>
           <SimpleGrid columns={[1, 1, 3]} spacing={10} my="6">
             {[
-              { title: "Connect", body: connect },
-              { title: "Learn", body: learn },
-              { title: "Build", body: build },
+              { title: "Connect", body: connect, color: "sectionBg" },
+              { title: "Learn", body: learn, color: "sectionBg" },
+              { title: "Build", body: build, color: "sectionBg" },
             ].map((item) => (
-              <Box bg="white" borderRadius="xl" p="5" key={item.title}>
+              <Box
+                bg={useColorModeValue("white", "gray.800")}
+                borderRadius="xl"
+                p="5"
+                key={item.title}
+              >
                 <Center>
-                  <Heading as="h3" size="xl" color="blue.700" my="3">
+                  <Heading as="h3" size="xl" color={item.color} my="3">
                     {item.title}
                   </Heading>
                 </Center>

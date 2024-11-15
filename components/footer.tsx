@@ -2,7 +2,7 @@ import { Box, Container, Heading, Link, Text } from "@chakra-ui/layout";
 
 export const Footer = () => {
   return (
-    <Box as="footer" my="2" bg="#005393cc" py="2">
+    <Box as="footer" my="0" bg="#005393cc" py="2">
       <Container maxW="container.xl">
         <Box>
           <Box>
