@@ -17,6 +17,7 @@ import Image from "next/image";
 import Script from "next/script";
 import { NextPage } from "next";
 import vikeLabsPhoto from "../public/vikelabs.jpg";
+import { FaDiscord } from "react-icons/fa";
 
 const connect =
   "Network with like-minded, passionate other students and professionals within the industry. We're active in on Discord and GitHub.";
@@ -27,6 +28,11 @@ const build =
 
 export const Index: NextPage = () => {
   const sectionBg = useColorModeValue("gray.100", "gray.700");
+  const discordIconColor = useColorModeValue("white", "black");
+  const discordButtonBg = useColorModeValue("black", "gray.200");
+  const discordButtonHoverBg = useColorModeValue("gray.800", "gray.300");
+  const discordButtonTextColor = useColorModeValue("white", "black");
+
   return (
     <Layout>
       <Script
@@ -69,11 +75,12 @@ export const Index: NextPage = () => {
                 </Link>
 
                 <Button
-                  variant="black"
-                  leftIcon={DiscordIcon}
+                  bg={discordButtonBg}
+                  color={discordButtonTextColor}
+                  leftIcon={<FaDiscord color={discordIconColor} />}
                   as="a"
                   href={discordInvite}
-                  _hover={{ bg: "gray.700", color: "white" }}
+                  _hover={{ bg: discordButtonHoverBg }}
                 >
                   Join Our Discord!
                 </Button>
@@ -141,7 +148,14 @@ export const Index: NextPage = () => {
       </Box>
       <Box as="section" py="2">
         <Container maxW="container.xl">
-          <Contact />
+          <Contact
+            discordButtonProps={{
+              bg: discordButtonBg,
+              color: discordButtonTextColor,
+              leftIcon: <FaDiscord color={discordIconColor} />,
+              _hover: { bg: discordButtonHoverBg },
+            }}
+          />
         </Container>
       </Box>
     </Layout>

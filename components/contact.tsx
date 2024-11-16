@@ -41,9 +41,21 @@ const linkedin = "vikelabs";
 const instagram = "vikelabs";
 const youtube = "https://www.youtube.com/channel/UCKAAXo4bqb034PZYR6ZhpQw";
 
-export const Contact = () => {
+interface ContactProps {
+  discordButtonProps?: {
+    bg: string;
+    color: string;
+    leftIcon: JSX.Element;
+    _hover: { bg: string };
+  };
+}
+
+export const Contact: React.FC<ContactProps> = ({ discordButtonProps }) => {
   const { colorMode } = useColorMode();
   const iconColor = colorMode === "light" ? "black" : "white";
+  const buttonBg = colorMode === "light" ? "blue.500" : "blue.300";
+  const buttonColor = colorMode === "light" ? "white" : "black";
+  const buttonHoverBg = colorMode === "light" ? "blue.600" : "blue.400";
   const [isSmall] = useMediaQuery("(max-width: 600px)");
   return (
     <Box my="8">
@@ -101,11 +113,10 @@ export const Contact = () => {
         </Box>
         <Box>
           <Button
-            variant="black"
-            leftIcon={<Icon as={SiDiscord} color={iconColor} boxSize="1.5rem" />}
-            as="a"
-            href={discordInvite}
-            _hover={{ bg: "gray.700", color: "white" }}
+            bg={buttonBg}
+            color={buttonColor}
+            _hover={{ bg: buttonHoverBg }}
+            {...discordButtonProps}
           >
             Join Our Discord!
           </Button>
