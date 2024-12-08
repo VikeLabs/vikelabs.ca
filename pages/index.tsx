@@ -120,8 +120,8 @@ export const Index: NextPage = () => {
               team, who will setup a Discord channel and GitHub project. 
               Projects can get new members by presenting at the Kick Off event, 
               posting on Discord, and new members reaching out to the project 
-              lead. Active projects our listed on the VikeLabs website's 
-              <a href={"/projects"}>Project page</a> 
+              lead. Active projects our listed on the VikeLabs website's
+              <a href={"/projects"}> Project page </a>
               and updated once at the beginning of every term.
             </Text>
           </Box>
