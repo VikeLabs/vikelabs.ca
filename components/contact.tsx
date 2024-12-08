@@ -2,6 +2,7 @@ import { Box, Flex, Text } from "@chakra-ui/layout";
 import { Button, IconButton } from "@chakra-ui/button";
 import { Heading, useMediaQuery, useColorMode } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/icon";
+import { MdEmail } from "react-icons/md";
 import { GoMarkGithub } from "react-icons/go";
 import { GrInstagram, GrLinkedin, GrYoutube } from "react-icons/gr";
 import { SiDiscord, SiGoogledrive } from "react-icons/si";
@@ -40,6 +41,7 @@ const github = "vikelabs";
 const linkedin = "vikelabs";
 const instagram = "vikelabs";
 const youtube = "https://www.youtube.com/channel/UCKAAXo4bqb034PZYR6ZhpQw";
+const email = "vikelabs@gmail.com";
 
 interface ContactProps {
   discordButtonProps?: {
@@ -69,6 +71,16 @@ export const Contact: React.FC<ContactProps> = ({ discordButtonProps }) => {
             </Text>
           )}
           <Box>
+            <IconButton
+              as={"a"}
+              href={`mailto:${email}`}
+              target="_blank"
+              icon={<Icon as={MdEmail} color={iconColor} boxSize="2rem" />}
+              isRound
+              aria-label="vikelabs email"
+              variant="unstyled"
+              mr="2"
+            />
             <IconButton
               as={"a"}
               href={`https://github.com/${github}`}
