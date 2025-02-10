@@ -150,7 +150,7 @@ export default function Component() {
               projects we've taken on.
             </Text>
             <Text fontSize="md" color={descriptionColor} mt={2}>
-              Note: Meeting times shown are for Fall 2024. Times may change in future terms.
+              Note: Meeting times shown are for Spring 2025. Times may change in future terms.
             </Text>
           </Flex>
         </Container>
