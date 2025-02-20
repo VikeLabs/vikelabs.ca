@@ -42,7 +42,7 @@ const projects = [
       description: "A website built to simplify the experience of searching for co-op placements for students in British Columbia.",
       status: "Active",
       tech: ["Next.js", "TypeScript", "Tailwind", "Prisma", "PostgreSQL"],
-      meetingTime: "Tuesdays at 4:30-5:30 PM",
+      meetingTime: "No Meetings Planned",
       lastUpdate: "Spring 2024",
       term: "Spring 2024"
     }
@@ -94,7 +94,7 @@ const projects = [
       description: "A map web application for tracking food establishments on campus, showing food offerings and dietary warnings.",
       status: "Active",
       tech: ["React", "Flask", "SQLite", "Beautiful Soup"],
-      meetingTime: "Tuesdays at 2:30pm",
+      meetingTime: "Fridays at 4:15pm",
       lastUpdate: "Summer 2024",
       term: "Summer 2024"
     }
@@ -150,7 +150,7 @@ export default function Component() {
               projects we've taken on.
             </Text>
             <Text fontSize="md" color={descriptionColor} mt={2}>
-              Note: Meeting times shown are for Fall 2024. Times may change in future terms.
+              Note: Meeting times shown are for Spring 2025. Times may change in future terms.
             </Text>
           </Flex>
         </Container>
