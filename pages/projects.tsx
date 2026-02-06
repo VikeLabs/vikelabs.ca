@@ -21,26 +21,52 @@ const getStatusColor = (status) => {
 };
 
 const projects = [
-  {
+   {
     id: 1,
-    fields: { slug: "https://github.com/VikeLabs/courseup" },
+    fields: { slug: "https://github.com/VikeLabs/MAXIFY" },
     frontmatter: {
-      title: "CourseUp",
-      description: "A website built to simplify the experience of searching courses and building timetables for the University of Victoria (UVic).",
-      status: "Inactive",
-      tech: ["TypeScript", "React", "Firebase"],
-      meetingTime: "No Meetings Planned",
-      lastUpdate: "Fall 2023",
-      term: "Fall 2023"
+      title: "Maxify",
+      description: "An app that integrates with Spotify to dynamically adapt music to user's context like location and activity (sports, running, cycling).",
+      status: "Active",
+      tech: ["React Native", "Node.js"],
+      meetingTime: "Weekly Meetings",
+      lastUpdate: "Spring 2026",
+      term: "Spring 2026"
     }
   },
   {
     id: 2,
+    fields: { slug: "https://github.com/VikeLabs/VikeSesh" },
+    frontmatter: {
+      title: "VikeSesh",
+      description: "A campus-focused app to help students connect and study together. Discover events, study groups, and resources on campus.",
+      status: "Active",
+      tech:  ["React", "Node.js", "MongoDB"],
+      meetingTime: "Weekly Meetings",
+      lastUpdate: "Spring 2026",
+      term: "Spring 2026"
+    }
+  },
+  {
+    id: 3,
+    fields: { slug: "https://github.com/VikeLabs/VikeEats" },
+    frontmatter: {
+      title: "VikeEats",
+      description: "A map web application for tracking food establishments on campus, showing food offerings and dietary warnings.",
+      status: "Active",
+      tech: ["React", "Flask", "SQLite", "Beautiful Soup"],
+      meetingTime: "Weekly Meetings",
+      lastUpdate: "Fall 2025",
+      term: "Summer 2024"
+    }
+  },
+  {
+    id: 4,
     fields: { slug: "https://github.com/VikeLabs/coopme" },
     frontmatter: {
       title: "CoopMe",
       description: "A website built to simplify the experience of searching for co-op placements for students in British Columbia.",
-      status: "Active",
+      status: "Inactive",
       tech: ["Next.js", "TypeScript", "Tailwind", "Prisma", "PostgreSQL"],
       meetingTime: "No Meetings Planned",
       lastUpdate: "Spring 2024",
@@ -48,20 +74,7 @@ const projects = [
     }
   },
   {
-    id: 3,
-    fields: { slug: "https://github.com/VikeLabs/scholar-u" },
-    frontmatter: {
-      title: "Scholarship Finder",
-      description: "A web application that allows users to search for scholarships based on various filters such as type of scholarship, faculty, and gender.",
-      status: "Active",
-      tech: ["React", "Node.js", "MongoDB"],
-      meetingTime: "No Meetings Planned",
-      lastUpdate: "Fall 2023",
-      term: "Fall 2023"
-    }
-  },
-  {
-    id: 4,
+    id: 5,
     fields: { slug: "https://github.com/VikeLabs/ecss-locker-registration" },
     frontmatter: {
       title: "ESS Locker Registration",
@@ -74,46 +87,47 @@ const projects = [
     }
   },
   {
-    id: 5,
-    fields: { slug: "https://github.com/VikeLabs/uvic-course-scraper" },
+    id: 6,
+    fields: { slug: "https://github.com/VikeLabs/courseup" },
     frontmatter: {
-      title: "UVic Course Scraper",
-      description: "A Node.js library that parses information from UVic course calendars and schedules, using Cheerio for HTML parsing.",
-      status: "Maintained",
-      tech: ["Node.js", "Cheerio", "TypeScript"],
+      title: "CourseUp",
+      description: "A website built to simplify the experience of searching courses and building timetables for the University of Victoria (UVic).",
+      status: "Inactive",
+      tech: ["TypeScript", "React", "Firebase"],
       meetingTime: "No Meetings Planned",
       lastUpdate: "Fall 2023",
       term: "Fall 2023"
     }
   },
   {
-    id: 6,
-    fields: { slug: "https://github.com/VikeLabs/VikeEats" },
-    frontmatter: {
-      title: "VikeEats",
-      description: "A map web application for tracking food establishments on campus, showing food offerings and dietary warnings.",
-      status: "Active",
-      tech: ["React", "Flask", "SQLite", "Beautiful Soup"],
-      meetingTime: "Fridays at 4:15pm",
-      lastUpdate: "Summer 2024",
-      term: "Summer 2024"
-    }
-  },
-  {
     id: 7,
-    fields: { slug: "https://github.com/VikeLabs/study-sprints" },
+    fields: { slug: "https://github.com/VikeLabs/scholar-u" },
     frontmatter: {
-      title: "Study Sprints",
-      description: "A browser extension using the Pomodoro technique to encourage good study habits, studying in 26-65 minute intervals and tracking past habits.",
+      title: "Scholarship Finder",
+      description: "A web application that allows users to search for scholarships based on various filters such as type of scholarship, faculty, and gender.",
       status: "Inactive",
-      tech: ["JavaScript", "Next.js", "CSS", "HTML"],
+      tech: ["React", "Node.js", "MongoDB"],
       meetingTime: "No Meetings Planned",
-      lastUpdate: "Spring 2024",
-      term: "Spring 2024"
+      lastUpdate: "Fall 2023",
+      term: "Fall 2023"
     }
   },
   {
     id: 8,
+    fields: { slug: "https://github.com/VikeLabs/uvic-course-scraper" },
+    frontmatter: {
+      title: "UVic Course Scraper",
+      description: "A Node.js library that parses information from UVic course calendars and schedules, using Cheerio for HTML parsing.",
+      status: "Inactive",
+      tech: ["Node.js", "Cheerio", "TypeScript"],
+      meetingTime: "No Meetings Planned",
+      lastUpdate: "Fall 2023",
+      term: "Fall 2023"
+    }
+  },
+ 
+  {
+    id: 9,
     fields: { slug: "https://github.com/VikeLabs/StudySpaceFinder" },
     frontmatter: {
       title: "Study Space Finder",
